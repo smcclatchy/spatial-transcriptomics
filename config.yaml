@@ -14,7 +14,7 @@ carpentry: 'incubator'
 title: 'Spatial Transcriptomics' # FIXME
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: ~ 2023-09-25
+created: ~
 
 # Comma-separated list of keywords for the lesson
 keywords: 'software, data, lesson, The Carpentries, transcriptome, Visium, cancer' # FIXME
