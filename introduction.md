@@ -1,13 +1,14 @@
 ---
-title: Spatially Resolved Transcriptomics
+title: Spatially Resolved Transcriptomics in Life Sciences Research
 teaching:
 exercises:
 ---
 
 :::::: questions
- - How is spatial transcriptomics used in the life sciences?
- - How does the technology work?
+ - How are spatial transcriptomic technologies used in the life sciences?
+ - How do the technologies work?
  - What research questions or problems can spatial transcriptomics address?
+  - Which technology will we learn about in this lesson?
 ::::::
 
 :::::: objectives
