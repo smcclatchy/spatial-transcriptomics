@@ -6,35 +6,26 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- Which data will we explore in this course?
+- How was the study that generated the data designed?
+- What are some critical design elements for rigorous, reproducible spatial transcriptomics experiments?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Describe a spatial transcriptomics experiment.
+- Identify important elements for good experimental design.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## The data
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+## Study design
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
 
+## Important considerations for rigorous, reproducible spatial transcriptomics experiments
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
 Inline instructor notes can help inform instructors of timing challenges
@@ -95,7 +86,6 @@ Or you can use pandoc markdown for static figures with the following syntax:
 `![optional caption that appears below the figure](figure url){alt='alt text for
 accessibility purposes'}`
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
 
 ## Math
 

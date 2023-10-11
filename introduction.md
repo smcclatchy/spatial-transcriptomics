@@ -18,18 +18,30 @@ exercises:
 ::::::
 
 ## Spatial transcriptomics in biomedical research
-Investigating the arrangement of cells and tissues and its impact on function is 
-fundamental to life sciences research. Spatially resolved transcriptomic methods 
-provide positions of individual cells in a tissue and their transcriptomes. 
-Since cell type and spatial organization are linked to biological activity,  
-spatial information is critical for understanding cell and developmental 
-biology, neurobiology, cancer biology and beyond.  
-
+Investigating the three-dimensional arrangement of cells and tissues and its 
+impact on function is fundamental to life sciences research. Spatially resolved 
+transcriptomic methods map positions of individual cells in a tissue and their 
+expression in space, clarifying the physical relationships between cells. This
+spatial information positions cell-to-cell interactions within tissues, 
+delivering comprehensive gene expression profiling of tissues. Spatial 
+transcriptomics is used to shed light on questions in neurobiology, tumor 
+biology and more.  
 
 ## Spatial transcriptomics technologies
+Imaging-based technologies read transcriptomes with microscopy using in situ 
+sequencing or multiplexed fluorescence in situ hybridization (FISH).
+The kinds of biological questions that can be answered with imaging-based 
+methods are, for example, ............
 
+
+describe target coverage, spatial resolution and throughput for each method ....
 
 ## 10X Visium technology
+
+insert graphic here similar to
+`![Fig 1a in Larsson, et al, Nature Methods 18, 15-18, 2021](https://www.nature.com/articles/s41592-020-01038-7/figures/1){alt='alt text for
+accessibility purposes'}`
+
 
 :::::: keypoints
  - keypoint 1
