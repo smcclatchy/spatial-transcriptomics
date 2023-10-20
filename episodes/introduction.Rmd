@@ -29,7 +29,7 @@ more.
 
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies fall within two broad groups: imaging-based
-methods and sequencing based methods. 
+methods and sequencing-based methods. 
 Imaging-based technologies read transcriptomes with microscopy using in situ 
 sequencing or multiplexed fluorescence in situ hybridization (FISH).
 The kinds of biological questions that can be answered with imaging-based 
@@ -43,10 +43,8 @@ describe target coverage, spatial resolution and throughput for each method ....
 ## 10X Visium technology
 
 insert graphic here similar to
-`![Fig 1a in Larsson, et al, Nature Methods 18, 15-18, 2021](https://www.nature.com/articles/s41592-020-01038-7/figures/1){alt='alt text for
+`![a sequencing-based spatial transcriptomics method using printed spots on a slide](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='alt text for
 accessibility purposes'}`
-
-`[spatial transcriptomics technique]("./fig/Spatial_transcriptomics_ii.png")`
 
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii. png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
