@@ -1,135 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/01-introduction.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/01-introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/404.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/CODE_OF_CONDUCT.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/LICENSE.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/aio.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/apply-clustering-algorithms.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/apply-clustering-algorithms.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/apply-dimensionality-reduction-methods.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/apply-dimensionality-reduction-methods.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/apply-feature-selection-methods.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/apply-feature-selection-methods.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/apply-normalization-methods.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/data-and-study-design.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/data-and-study-design.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/data-preprocessing.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/deconvolve-cell-types-in-a-spot.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/deconvolve-cell-types-in-a-spot.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/differential-expression-testing.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/differential-expression-testing.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/images.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/images.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/index.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/index.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/01-introduction.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/01-introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/404.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/CODE_OF_CONDUCT.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/LICENSE.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/aio.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/apply-clustering-algorithms.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-clustering-algorithms.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/apply-dimensionality-reduction-methods.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-dimensionality-reduction-methods.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/apply-feature-selection-methods.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-feature-selection-methods.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/apply-normalization-methods.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-normalization-methods.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/data-and-study-design.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-and-study-design.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/data-preprocessing.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-preprocessing.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/deconvolve-cell-types-in-a-spot.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/deconvolve-cell-types-in-a-spot.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/differential-expression-testing.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/images.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/images.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/index.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/index.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/instructor-notes.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/instructor-notes.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/introduction.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/key-points.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/key-points.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/keypoints.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/keypoints.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/profiles.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/profiles.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/reference.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/reference.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor/remove-low-quality-spots.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/remove-low-quality-spots.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/instructor-notes.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor-notes.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/introduction.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/key-points.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/key-points.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/keypoints.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/keypoints.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/profiles.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/profiles.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/reference.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/reference.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-rmd/remove-low-quality-spots.html</loc>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/remove-low-quality-spots.html</loc>
   </url>
 </urlset>
