@@ -27,9 +27,9 @@ delivering comprehensive gene expression profiling within tissues. Spatial
 transcriptomics can shed light on questions in neuroscience, cancer biology and 
 more.  
 
-![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://commons.wikimedia.org/wiki/File:Notchccr.svg)
+![Signaling between adjacent cells. The Notch protein functions as a receptor for ligands that can activate or inhibit such receptors. Receptor-ligand interactions promote cell signaling and communication, often requiring close proximity between cells. ](https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg){alt='alt text for accessibility purposes'}
 
-<a href="https://commons.wikimedia.org/wiki/File:Notchccr.svg">Fred the Oyster</a> Public domain, via Wikimedia Commons
+<a href="https://commons.wikimedia.org/wiki/File:Notchccr.svg">Fred the Oyster</a> Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies fall within two broad groups: imaging-based
