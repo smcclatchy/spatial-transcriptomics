@@ -405,7 +405,7 @@ state, and cell and tissue function while clarifying the physical
 relationships between individual cells and cellular structures. A cell’s
 position sheds light on signals it receives through cell-to-cell
 interactions or from dissolved signaling molecules nearby. Spatial
-information positions cell signaling while delivering comprehensive gene
+information locates cell signaling while delivering comprehensive gene
 expression profiling within tissues.</p>
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg" alt="alt text for accessibility purposes" class="figure mx-auto d-block"><figcaption>Signaling between adjacent cells. The Notch protein
 functions as a receptor for ligands that activate or inhibit such
@@ -418,25 +418,47 @@ BY-SA 4.0 DEED</a></p>
 studies: the loss of spatial information when tissues are dissociated to
 release viable, intact cells. Spatial organization and structure
 determine function in most tissues and organs, so capturing spatial
-information is critical for understanding function in neuroscience,
-cancer biology, and developmental biology. Immunology is the only field
-that doesn’t require spatial information to determine structure and
-function because immune cells often circulate in liquid media like blood
-and lymph.</p>
-<p>Spatial transcriptomics can shed light on questions in neuroscience,
-cancer biology and more.</p>
+information is critical for understanding tissue function in
+neuroscience, cancer biology, developmental biology, and most other
+fields. Immunology is the only field that doesn’t depend on spatial
+information to determine structure and function because immune cells
+often circulate in liquid media like blood and lymph.</p>
 </section><section id="spatial-transcriptomics-technologies"><h2 class="section-heading">Spatial transcriptomics technologies<a class="anchor" aria-label="anchor" href="#spatial-transcriptomics-technologies"></a>
 </h2>
 <hr class="half-width">
-<p>Spatial transcriptomics technologies fall within two broad groups:
-imaging-based methods and sequencing-based methods. Imaging-based
-technologies read transcriptomes with microscopy using in situ
-sequencing or multiplexed fluorescence in situ hybridization (FISH). The
-kinds of biological questions that can be answered with imaging-based
-methods are, for example, …………</p>
-<p>Sequencing-based methods capture and sequence RNA in situ.</p>
-<p>describe target coverage, spatial resolution and throughput for each
-method ….</p>
+<p>Spatial transcriptomics technologies broadly fall within two groups:
+imaging-based and sequencing-based methods. Imaging-based technologies
+read transcriptomes in situ using microscopy. They identify mRNA species
+through hybridization with flourescent gene-specific probes as in
+fluorescence in situ hybridization (FISH). Current FISH methods employ
+multiple hybridization rounds, with risk of error for each transcript
+growing exponentially with each round. These methods are limited in the
+size of tissue that they can profile and can be time-consuming due to
+microscopic imaging.</p>
+<p>In situ sequencing amplifies and sequences mRNAs directly within a
+block or section of tissue. Probes profile one or two bases at a time
+using different fluorophores, eventually revealing the identity of the
+mRNA through imaging. In situ sequencing can accommodate larger tissue
+sections than can FISH, though FISH methods are more efficient at
+detecting mRNA. Like FISH, in situ sequencing requires considerable
+imaging time on a microscope.</p>
+<p>Sequencing-based methods capture, sequence, and use next-generation
+sequencing to count mRNA in situ while retaining positional information.
+This is distinct from in situ sequencing because next-generation
+sequencing is employed, not imaging. Sequencing-based methods retain
+spatial information through microdissection and microfluidics, or
+through ligation of mRNAs to arrays of barcoded probes. Microdissection
+techniques process tissue sections for transcriptomic profiling. The are
+useful for profiling transcriptomes as a first pass, but have limited
+spatial resolution and require many samples for sequencing. Array-based
+methods capture mRNA with spatially-barcoded probes and sequence them,
+or alternatively print the array onto tissue using microfluidic channels
+to produce a unique barcode at every position in the tissue.</p>
+<p>In this lesson we will use data from positionally barcoded arrays.
+The probes are not gene-specific; rather, they record position.
+Array-based methods use tissue frozen below the temperature at which RNA
+degrades, though some methods can use formalin-fixed tissues embedded in
+paraffin.</p>
 </section><section id="x-visium-technology"><h2 class="section-heading">10X Visium technology<a class="anchor" aria-label="anchor" href="#x-visium-technology"></a>
 </h2>
 <hr class="half-width">
@@ -542,7 +564,7 @@ transcriptomics experiments<a class="anchor" aria-label="anchor" href="#importan
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -573,7 +595,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -718,7 +740,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -749,7 +771,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -895,7 +917,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -926,7 +948,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1069,7 +1091,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1100,7 +1122,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1596,7 +1618,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1627,7 +1649,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1770,7 +1792,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1801,7 +1823,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
