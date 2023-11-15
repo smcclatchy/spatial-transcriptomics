@@ -42,13 +42,12 @@ often circulate in liquid media like blood and lymph.
 
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies broadly fall within two groups: 
-imaging-based and sequencing-based methods. Imaging-based technologies read 
-transcriptomes in situ using microscopy. They identify mRNA species through
-hybridization with flourescent gene-specific probes as in fluorescence in 
-situ hybridization (FISH). Current FISH methods employ multiple hybridization
-rounds, with risk of error for each transcript growing exponentially with each
-round. These methods are limited in the size of tissue that they can profile and
-can be time-consuming due to microscopic imaging. 
+imaging-based and sequencing-based methods. These technologies vary in ability 
+to profile entire transcriptomes, deliver single-cell resolution, and detect
+genes efficiently. Imaging-based technologies read transcriptomes in situ using microscopy. They identify mRNA species through hybridization with flourescent gene-specific probes as in fluorescence in situ hybridization (FISH). Current 
+FISH methods employ multiple hybridization rounds, with risk of error for each transcript growing exponentially with each round. These methods are limited in 
+the size of tissue that they can profile and can be time-consuming due to 
+microscopic imaging. 
 
 In situ sequencing amplifies and sequences mRNAs directly within a block 
 or section of tissue. Probes profile one or two bases at a time using different
@@ -66,18 +65,20 @@ transcriptomic profiling. The are useful for profiling transcriptomes as a first
 pass, but have limited spatial resolution and require many samples for 
 sequencing. Array-based methods capture mRNA with spatially-barcoded probes and
 sequence them, or alternatively print the array onto tissue using microfluidic
-channels to produce a unique barcode at every position in the tissue. 
+channels to produce a unique barcode at every position in the tissue. The probes 
+are not gene-specific; rather, they record position. Since they not 
+gene-specific, they can profile the entire transcriptome. Array-based methods can 
+profile larger tissue sections than can FISH or in situ sequencing and they 
+don't rely on microscopic imaging, which can be quite time consuming. Spatial
+resolution 
 
-In this lesson we will use data from positionally barcoded arrays. The probes are not gene-specific; rather, they record position.
-Array-based methods use tissue frozen below the temperature at which RNA 
-degrades, though some methods can use formalin-fixed tissues embedded in 
-paraffin. 
-
-## 10X Visium technology
+In this lesson we will use data from positionally barcoded arrays.  Array-based methods use tissue frozen below the temperature at which RNA degrades, though some methods can use formalin-fixed tissues embedded in paraffin. 
 
 ![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='alt text for
 accessibility purposes'}
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii. png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
+
+## 10X Genomics Visium technology
 
 :::::: keypoints
  - Spatial transcriptomics provides the location of individual cells relative to neighboring cells and cell structures.
