@@ -47,6 +47,7 @@ accessibility purposes'}
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii. png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 :::::: keypoints
- - keypoint 1
- - keypoint 2
+ - Spatial transcriptomics provides the location of individual cells relative to neighboring cells and cell structures.
+ - A cell's location is useful data for describing its phenotype, state, and cell and tissue function.
+ - Spatial transcriptomics addresses a key obstacle in single-cell studies: the loss of spatial information when tissues are dissociated.
 ::::::
