@@ -24,23 +24,25 @@ information about cell and tissue organization and function. Cell position and
 expression can describe a cell's phenotype, state, and cell and tissue function
 while clarifying the physical relationships between individual cells and 
 cellular structures. A cell's position sheds light on signals it receives 
-through cell-to-cell interactions or from dissolved signaling molecules nearby.  
-Spatial information positions cell-to-cell interactions within tissues while 
-delivering comprehensive gene expression profiling within tissues. 
+through cell-to-cell interactions or from dissolved signaling molecules nearby. 
+Spatial information positions cell signaling while delivering comprehensive gene expression profiling within tissues. 
 
 ![Signaling between adjacent cells. The Notch protein functions as a receptor for ligands that activate or inhibit such receptors. Receptor-ligand interactions ground cell signaling and communication, often requiring close proximity between cells. ](https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg){alt='alt text for accessibility purposes'}
 
 <a href="https://commons.wikimedia.org/wiki/File:Notchccr.svg">Fred the Oyster</a> Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
+Spatial transcriptomics addresses a key obstacle in single-cell studies: the 
+loss of spatial information when tissues are dissociated to release viable,
+intact cells. Spatial organization and structure determine function in most
+tissues and organs, so capturing spatial information is critical for 
+understanding function in neuroscience, cancer biology, and developmental 
+biology. Immunology is the only field that doesn't require spatial information
+to determine structure and function because immune cells often circulate in 
+liquid media like blood and lymph. 
+
 Spatial 
 transcriptomics can shed light on questions in neuroscience, cancer biology and 
 more.  
-
-
-
-Spatial transcriptomics addresses a key obstacle in single-cell studies: the 
-loss of spatial information when tissues are dissociated.
-
 
 
 
