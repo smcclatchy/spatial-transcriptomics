@@ -27,6 +27,10 @@ delivering comprehensive gene expression profiling within tissues. Spatial
 transcriptomics can shed light on questions in neuroscience, cancer biology and 
 more.  
 
+![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://commons.wikimedia.org/wiki/File:Notchccr.svg)
+
+<a href="https://commons.wikimedia.org/wiki/File:Notchccr.svg">Fred the Oyster</a> Public domain, via Wikimedia Commons
+
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies fall within two broad groups: imaging-based
 methods and sequencing-based methods. 
