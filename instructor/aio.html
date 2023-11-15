@@ -425,7 +425,9 @@ often circulate in liquid media like blood and lymph.</p>
 </h2>
 <hr class="half-width">
 <p>Spatial transcriptomics technologies broadly fall within two groups:
-imaging-based and sequencing-based methods. Imaging-based technologies
+imaging-based and sequencing-based methods. These technologies vary in
+ability to profile entire transcriptomes, deliver single-cell
+resolution, and detect genes efficiently. Imaging-based technologies
 read transcriptomes in situ using microscopy. They identify mRNA species
 through hybridization with flourescent gene-specific probes as in
 fluorescence in situ hybridization (FISH). Current FISH methods employ
@@ -451,21 +453,25 @@ useful for profiling transcriptomes as a first pass, but have limited
 spatial resolution and require many samples for sequencing. Array-based
 methods capture mRNA with spatially-barcoded probes and sequence them,
 or alternatively print the array onto tissue using microfluidic channels
-to produce a unique barcode at every position in the tissue.</p>
+to produce a unique barcode at every position in the tissue. The probes
+are not gene-specific; rather, they record position. Since they not
+gene-specific, they can profile the entire transcriptome. Array-based
+methods can profile larger tissue sections than can FISH or in situ
+sequencing and they don’t rely on microscopic imaging, which can be
+quite time consuming. Spatial resolution</p>
 <p>In this lesson we will use data from positionally barcoded arrays.
-The probes are not gene-specific; rather, they record position.
 Array-based methods use tissue frozen below the temperature at which RNA
 degrades, though some methods can use formalin-fixed tissues embedded in
 paraffin.</p>
-</section><section id="x-visium-technology"><h2 class="section-heading">10X Visium technology<a class="anchor" aria-label="anchor" href="#x-visium-technology"></a>
-</h2>
-<hr class="half-width">
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png" alt="alt text for accessibility purposes" class="figure"><a href="https://commons.wikimedia.org/wiki/User:Jasquatch" class="external-link">James
 Chell</a>,
 <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.%20png" class="external-link">Spatial
 transcriptomics ii</a>,
 <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license" class="external-link">CC
 BY-SA 4.0</a></p>
+</section><section id="x-genomics-visium-technology"><h2 class="section-heading">10X Genomics Visium technology<a class="anchor" aria-label="anchor" href="#x-genomics-visium-technology"></a>
+</h2>
+<hr class="half-width">
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -935,7 +941,7 @@ reinforce the objectives.</li>
   Instructor Note
   </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -969,7 +975,7 @@ View”</p>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1000,7 +1006,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1127,7 +1133,7 @@ reinforce the objectives.</li>
   Instructor Note
   </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1161,7 +1167,7 @@ View”</p>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1192,7 +1198,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1708,7 +1714,7 @@ reinforce the objectives.</li>
   Instructor Note
   </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1742,7 +1748,7 @@ View”</p>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1773,7 +1779,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
