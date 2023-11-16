@@ -402,37 +402,45 @@ spatial resolution.</p>
 using next-generation sequencing while retaining positional information.
 This is distinct from in situ sequencing because next-generation
 sequencing is employed, not imaging. Sequencing-based methods retain
-spatial information through microdissection and microfluidics, or
-through ligation of mRNAs to arrays of barcoded probes that record
-position. Microdissection techniques process tissue sections for
-transcriptomic profiling. They are useful for profiling transcriptomes
-as a first pass, but have limited spatial resolution and require many
-samples for sequencing. Array-based methods capture mRNA with
-spatially-barcoded probes and sequence them, or alternatively print the
-array onto tissue using microfluidic channels to produce a unique
+spatial information through laser- capture microdissection and
+microfluidics, or through ligation of mRNAs to arrays of barcoded probes
+that record position. Microdissection techniques process tissue sections
+for transcriptomic profiling. They are useful for profiling
+transcriptomes as a first pass, but have limited spatial resolution and
+require many samples for sequencing. Array-based methods capture mRNA
+with spatially-barcoded probes and sequence them, or alternatively print
+the array onto tissue using microfluidic channels to produce a unique
 barcode at every position in the tissue. The probes are not
 gene-specific; rather, they record position. Since they not
 gene-specific, they can profile the entire transcriptome. Array-based
 methods can profile larger tissue sections than can FISH or in situ
 sequencing and they don’t rely on microscopic imaging, which can be
 quite time consuming. Spatial resolution is lower, however.</p>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in file(file, "rt"): cannot open file 'data/tech-comparison.csv': No
-such file or directory</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in file(file, "rt"): cannot open the connection</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'tech' not found</code></pre>
-</div>
-<p>In this lesson we will use data from positionally barcoded arrays.
+<table class="table"><colgroup><col width="25%"><col width="15%"><col width="40%"><col width="20%"></colgroup><thead><tr class="header"><th>Technology</th>
+<th>Gene detection efficiency</th>
+<th align="center">Transcriptome-wide profiling</th>
+<th align="right">Spatial resolution</th>
+</tr></thead><tbody><tr class="odd"><td>FISH</td>
+<td>+</td>
+<td align="center">-</td>
+<td align="right">+</td>
+</tr><tr class="even"><td>In situ sequencing</td>
+<td></td>
+<td align="center"></td>
+<td align="right"></td>
+</tr><tr class="odd"><td>Microdissection</td>
+<td></td>
+<td align="center"></td>
+<td align="right">-</td>
+</tr><tr class="even"><td>Microfluidics</td>
+<td></td>
+<td align="center"></td>
+<td align="right"></td>
+</tr><tr class="odd"><td>Array-based</td>
+<td></td>
+<td align="center">+</td>
+<td align="right"></td>
+</tr></tbody></table><p>In this lesson we will use data from positionally barcoded arrays.
 Array-based methods use tissue frozen below the temperature at which RNA
 degrades, though some methods can use formalin-fixed tissues embedded in
 paraffin.</p>
