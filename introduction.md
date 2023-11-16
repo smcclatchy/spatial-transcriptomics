@@ -64,12 +64,11 @@ but delivers high spatial resolution.
 Sequencing-based methods capture, sequence, and count mRNA in situ using 
 next-generation sequencing while retaining positional information. This is 
 distinct from in situ sequencing because next-generation sequencing is employed, 
-not imaging. Sequencing-based methods retain spatial information through 
-microdissection and microfluidics, or through ligation of mRNAs to arrays of 
-barcoded probes that record position. Microdissection techniques process tissue 
-sections for transcriptomic profiling. They are useful for profiling 
-transcriptomes as a first pass, but have limited spatial resolution and require 
-many samples for sequencing. Array-based methods capture mRNA with 
+not imaging. Sequencing-based methods retain spatial information through laser-
+capture microdissection and microfluidics, or through ligation of mRNAs to 
+arrays of barcoded probes that record position. Microdissection techniques 
+process tissue sections for transcriptomic profiling. They are useful for profiling transcriptomes as a first pass, but have limited spatial resolution 
+and require many samples for sequencing. Array-based methods capture mRNA with 
 spatially-barcoded probes and sequence them, or alternatively print the array 
 onto tissue using microfluidic channels to produce a unique barcode at every 
 position in the tissue. The probes are not gene-specific; rather, they record 
@@ -79,18 +78,15 @@ FISH or in situ sequencing and they don't rely on microscopic imaging, which can
 be quite time consuming. Spatial resolution is lower, however.
 
 
-```{.warning}
-Warning in file(file, "rt"): cannot open file 'data/tech-comparison.csv': No
-such file or directory
-```
 
-```{.error}
-Error in file(file, "rt"): cannot open the connection
-```
+| Technology | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution |
+| ----------| ------    | :--------------:     | -------: |
+| FISH      | +         | -                    | +        |
+| In situ sequencing |       |        |    |
+| Microdissection |     |       |  -  |
+| Microfluidics |   |  |  |
+| Array-based |   | + |  |
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'tech' not found
-```
 In this lesson we will use data from positionally barcoded arrays.  Array-based methods use tissue frozen below the temperature at which RNA degrades, though some methods can use formalin-fixed tissues embedded in paraffin. 
 
 ![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='alt text for
