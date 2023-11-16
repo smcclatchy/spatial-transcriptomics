@@ -78,10 +78,10 @@ FISH or in situ sequencing and they don't rely on microscopic imaging, which can
 be quite time consuming. Spatial resolution is lower, however.
 
 | Technology | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution |
-| ------------------- | :------: | :------: | :------: |
+| ------------ | :------: | :------: | :------: |
 | FISH                | +        | -        | +        |
 | In situ sequencing  |          |          |          |
-| Microdissection     |          |          | -        |
+| Laser capture microdissection  |          |          | -        |
 | Microfluidics       |          |          |          |
 | Array-based         |          | +        |          |
 
