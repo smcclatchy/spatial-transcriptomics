@@ -77,15 +77,13 @@ transcriptome. Array-based methods can profile larger tissue sections than can
 FISH or in situ sequencing and they don't rely on microscopic imaging, which can 
 be quite time consuming. Spatial resolution is lower, however.
 
-
-
 | Technology | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution |
-| ----------| ------    | :--------------:     | -------: |
-| FISH      | +         | -                    | +        |
-| In situ sequencing |       |        |    |
-| Microdissection |     |       |  -  |
-| Microfluidics |   |  |  |
-| Array-based |   | + |  |
+| ------------------- | :------: | :------: | :------: |
+| FISH                | +        | -        | +        |
+| In situ sequencing  |          |          |          |
+| Microdissection     |          |          | -        |
+| Microfluidics       |          |          |          |
+| Array-based         |          | +        |          |
 
 In this lesson we will use data from positionally barcoded arrays.  Array-based methods use tissue frozen below the temperature at which RNA degrades, though some methods can use formalin-fixed tissues embedded in paraffin. 
 
