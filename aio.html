@@ -354,7 +354,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></p>
 <hr>
-<p> Last updated on 2023-11-15 | 
+<p> Last updated on 2023-11-16 | 
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -430,37 +430,43 @@ often circulate in liquid media like blood and lymph.</p>
 imaging-based and sequencing-based methods. These technologies vary in
 ability to profile entire transcriptomes, deliver single-cell
 resolution, and detect genes efficiently. Imaging-based technologies
-read transcriptomes in situ using microscopy. They identify mRNA species
-through hybridization with flourescent gene-specific probes as in
+read transcriptomes in situ using microscopy and feature single-cell or
+even single-molecule resolution. They identify mRNA species through
+hybridization with flourescent probes. These probes are gene-specific in
 fluorescence in situ hybridization (FISH). Current FISH methods employ
 multiple hybridization rounds, with risk of error for each transcript
-growing exponentially with each round. These methods are limited in the
+growing exponentially with each round. FISH methods are limited in the
 size of tissue that they can profile and can be time-consuming due to
-microscopic imaging.</p>
+microscopic imaging they require.</p>
 <p>In situ sequencing amplifies and sequences mRNAs directly within a
 block or section of tissue. Probes profile one or two bases at a time
 using different fluorophores, eventually revealing the identity of the
 mRNA through imaging. In situ sequencing can accommodate larger tissue
 sections than can FISH, though FISH methods are more efficient at
-detecting mRNA. Like FISH, in situ sequencing requires considerable
-imaging time on a microscope.</p>
-<p>Sequencing-based methods capture, sequence, and use next-generation
-sequencing to count mRNA in situ while retaining positional information.
+detecting mRNA of genes in the probe set. Like FISH, in situ sequencing
+requires considerable imaging time on a microscope but delivers high
+spatial resolution.</p>
+<p>Sequencing-based methods capture, sequence, and count mRNA in situ
+using next-generation sequencing while retaining positional information.
 This is distinct from in situ sequencing because next-generation
 sequencing is employed, not imaging. Sequencing-based methods retain
 spatial information through microdissection and microfluidics, or
-through ligation of mRNAs to arrays of barcoded probes. Microdissection
-techniques process tissue sections for transcriptomic profiling. The are
-useful for profiling transcriptomes as a first pass, but have limited
-spatial resolution and require many samples for sequencing. Array-based
-methods capture mRNA with spatially-barcoded probes and sequence them,
-or alternatively print the array onto tissue using microfluidic channels
-to produce a unique barcode at every position in the tissue. The probes
-are not gene-specific; rather, they record position. Since they not
+through ligation of mRNAs to arrays of barcoded probes that record
+position. Microdissection techniques process tissue sections for
+transcriptomic profiling. They are useful for profiling transcriptomes
+as a first pass, but have limited spatial resolution and require many
+samples for sequencing. Array-based methods capture mRNA with
+spatially-barcoded probes and sequence them, or alternatively print the
+array onto tissue using microfluidic channels to produce a unique
+barcode at every position in the tissue. The probes are not
+gene-specific; rather, they record position. Since they not
 gene-specific, they can profile the entire transcriptome. Array-based
 methods can profile larger tissue sections than can FISH or in situ
 sequencing and they don’t rely on microscopic imaging, which can be
-quite time consuming. Spatial resolution</p>
+quite time consuming. Spatial resolution is lower, however.</p>
+<p>Technology |Gene detection | Transcriptome-wide | Spatial |efficiency
+| profiling | resolution —————–|————————|———————-|————– FISH + - + In
+situ sequencing Microdissection - Microfluidics Array-based +</p>
 <p>In this lesson we will use data from positionally barcoded arrays.
 Array-based methods use tissue frozen below the temperature at which RNA
 degrades, though some methods can use formalin-fixed tissues embedded in
@@ -1271,7 +1277,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1302,7 +1308,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1449,7 +1455,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1480,7 +1486,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1798,7 +1804,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1829,7 +1835,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -2113,9 +2119,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
-  "dateCreated": "2023-11-15",
-  "dateModified": "2023-11-15",
-  "datePublished": "2023-11-15"
+  "dateCreated": "2023-11-16",
+  "dateModified": "2023-11-16",
+  "datePublished": "2023-11-16"
 }
 
   </script><script>
