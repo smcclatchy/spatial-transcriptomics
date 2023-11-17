@@ -19,13 +19,18 @@ exercises:
 
 ## Spatial transcriptomics in biomedical research
 Investigating the organization of cells and tissues is fundamental to life 
-sciences research. Spatially resolved transcriptomic methods map positions of individual cells in a tissue and measure their expression, delivering valuable
-information about cell and tissue organization and function. Cell position and
-expression can describe a cell's phenotype, state, and cell and tissue function
-while clarifying the physical relationships between individual cells and 
-cellular structures. A cell's position sheds light on signals it receives 
-through cell-to-cell interactions or from dissolved signaling molecules nearby. 
-Spatial information locates cell signaling while delivering comprehensive gene expression profiling within tissues. 
+sciences research. Tissues in different regions of an organ can possess diverse
+functions and cell types. Spatial patterns of gene expression determine how 
+genes are regulated within a tissue system and how those tissues and their 
+component cells function. Spatially resolved transcriptomic methods map 
+positions of individual cells in a tissue while simultaneously measuring their 
+expression, delivering valuable information about cell and tissue organization 
+and function. Cell position and expression can describe a cell's phenotype, 
+state, and cell and tissue function while clarifying the physical relationships 
+between individual cells and cellular structures. A cell's position sheds light 
+on signals it receives through cell-to-cell interactions or from signaling 
+molecules nearby. Spatial information locates cell signaling while delivering 
+comprehensive gene expression profiling within tissues. 
 
 ![Signaling between adjacent cells. The Notch protein functions as a receptor for ligands that activate or inhibit such receptors. Receptor-ligand interactions ground cell signaling and communication, often requiring close proximity between cells. ](https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg){alt='alt text for accessibility purposes'}
 
@@ -51,7 +56,9 @@ probes are gene-specific in fluorescence in situ hybridization (FISH). Current
 FISH methods employ multiple hybridization rounds, with risk of error for each 
 transcript growing exponentially with each round. FISH methods are limited in 
 the size of tissue that they can profile and can be time-consuming due to 
-microscopic imaging they require. 
+microscopic imaging they require. They also can only detect genes that are in
+the probe set employed. They have high spatial resolution though, even
+delivering single-molecule resolution in single-molecule FISH (smFISH).
 
 In situ sequencing amplifies and sequences mRNAs directly within a block 
 or section of tissue. Probes profile one or two bases at a time using different
@@ -65,25 +72,32 @@ Sequencing-based methods capture, sequence, and count mRNA in situ using
 next-generation sequencing while retaining positional information. This is 
 distinct from in situ sequencing because next-generation sequencing is employed, 
 not imaging. Sequencing-based methods retain spatial information through laser-
-capture microdissection and microfluidics, or through ligation of mRNAs to 
-arrays of barcoded probes that record position. Microdissection techniques 
-process tissue sections for transcriptomic profiling. They are useful for profiling transcriptomes as a first pass, but have limited spatial resolution 
-and require many samples for sequencing. Array-based methods capture mRNA with 
-spatially-barcoded probes and sequence them, or alternatively print the array 
-onto tissue using microfluidic channels to produce a unique barcode at every 
-position in the tissue. The probes are not gene-specific; rather, they record 
-position. Since they not gene-specific, they can profile the entire 
-transcriptome. Array-based methods can profile larger tissue sections than can 
+capture microdissection (LCM) and microfluidics, or through ligation of mRNAs to 
+arrays of barcoded probes that record position. LCM employs lasers to cut a 
+tissue slice or fuse tissue to a membrane followed by sequencing of individual
+cells. Since sequencing-based technologies use probes that record position 
+instead of using gene-specific probes, they can deliver transcriptome-wide 
+profiling. 
+LCM techniques process tissue sections and individual cells for transcriptomic 
+profiling by isolating regions of interest. They are useful for profiling 
+transcriptomes as a first pass and for identifying RNA isoforms, but their blunt 
+approach to capturing spatial expression data limits spatial resolution and 
+requires many samples for sequencing. Since they focus on regions of interest,
+it is often not possible to obtain a picture of spatial expression across a 
+whole tissue. Array-based methods capture mRNA with spatially-barcoded probes and sequence them, or alternatively print the array onto tissue using microfluidic channels to produce a unique barcode at every position in the tissue. Array-based methods can profile larger tissue sections than can 
 FISH or in situ sequencing and they don't rely on microscopic imaging, which can 
 be quite time consuming. Spatial resolution is lower, however.
 
-| Technology | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution |
-| ------------ | :------: | :------: | :------: |
-| FISH                | +        | -        | +        |
-| In situ sequencing  |          |          |          |
-| Laser capture microdissection  |          |          | -        |
-| Microfluidics       |          |          |          |
-| Array-based         |          | +        |          |
+| Technology | Gene detection efficiency | Transcriptome-wide profiling | 
+Spatial resolution | Tissue area |
+| ------------ | :------: | :------: | :------: | :------: |
+| FISH                | +        | -        | +        | -        |
+| In situ sequencing  | -        | -        | +        | +        |
+| LCM                 |          | +        | -        | -        |
+| Microfluidics       |          |          |          |          |
+| Array-based         | -        | +        | -        | +        |
+Table 1. Relative strengths and weaknesses of spatial transcriptomics
+technologies by general category.
 
 In this lesson we will use data from positionally barcoded arrays.  Array-based methods use tissue frozen below the temperature at which RNA degrades, though some methods can use formalin-fixed tissues embedded in paraffin. 
 
