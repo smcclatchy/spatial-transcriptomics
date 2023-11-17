@@ -304,7 +304,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Spatially Resolved Transcriptomics in Life Sciences Research</h1>
-        <p> Last updated on 2023-11-16 | 
+        <p> Last updated on 2023-11-17 | 
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -350,16 +350,20 @@ single-cell or bulk RNA sequencing technologies.</li>
 <section id="spatial-transcriptomics-in-biomedical-research"><h2 class="section-heading">Spatial transcriptomics in biomedical research<a class="anchor" aria-label="anchor" href="#spatial-transcriptomics-in-biomedical-research"></a>
 </h2>
 <hr class="half-width"><p>Investigating the organization of cells and tissues is fundamental to
-life sciences research. Spatially resolved transcriptomic methods map
-positions of individual cells in a tissue and measure their expression,
-delivering valuable information about cell and tissue organization and
-function. Cell position and expression can describe a cell’s phenotype,
-state, and cell and tissue function while clarifying the physical
-relationships between individual cells and cellular structures. A cell’s
-position sheds light on signals it receives through cell-to-cell
-interactions or from dissolved signaling molecules nearby. Spatial
-information locates cell signaling while delivering comprehensive gene
-expression profiling within tissues.</p>
+life sciences research. Tissues in different regions of an organ can
+possess diverse functions and cell types. Spatial patterns of gene
+expression determine how genes are regulated within a tissue system and
+how those tissues and their component cells function. Spatially resolved
+transcriptomic methods map positions of individual cells in a tissue
+while simultaneously measuring their expression, delivering valuable
+information about cell and tissue organization and function. Cell
+position and expression can describe a cell’s phenotype, state, and cell
+and tissue function while clarifying the physical relationships between
+individual cells and cellular structures. A cell’s position sheds light
+on signals it receives through cell-to-cell interactions or from
+signaling molecules nearby. Spatial information locates cell signaling
+while delivering comprehensive gene expression profiling within
+tissues.</p>
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg" alt="alt text for accessibility purposes" class="figure mx-auto d-block"><figcaption>Signaling between adjacent cells. The Notch protein
 functions as a receptor for ligands that activate or inhibit such
 receptors. Receptor-ligand interactions ground cell signaling and
@@ -389,7 +393,10 @@ fluorescence in situ hybridization (FISH). Current FISH methods employ
 multiple hybridization rounds, with risk of error for each transcript
 growing exponentially with each round. FISH methods are limited in the
 size of tissue that they can profile and can be time-consuming due to
-microscopic imaging they require.</p>
+microscopic imaging they require. They also can only detect genes that
+are in the probe set employed. They have high spatial resolution though,
+even delivering single-molecule resolution in single-molecule FISH
+(smFISH).</p>
 <p>In situ sequencing amplifies and sequences mRNAs directly within a
 block or section of tissue. Probes profile one or two bases at a time
 using different fluorophores, eventually revealing the identity of the
@@ -402,45 +409,61 @@ spatial resolution.</p>
 using next-generation sequencing while retaining positional information.
 This is distinct from in situ sequencing because next-generation
 sequencing is employed, not imaging. Sequencing-based methods retain
-spatial information through laser- capture microdissection and
+spatial information through laser- capture microdissection (LCM) and
 microfluidics, or through ligation of mRNAs to arrays of barcoded probes
-that record position. Microdissection techniques process tissue sections
-for transcriptomic profiling. They are useful for profiling
-transcriptomes as a first pass, but have limited spatial resolution and
-require many samples for sequencing. Array-based methods capture mRNA
-with spatially-barcoded probes and sequence them, or alternatively print
-the array onto tissue using microfluidic channels to produce a unique
-barcode at every position in the tissue. The probes are not
-gene-specific; rather, they record position. Since they not
-gene-specific, they can profile the entire transcriptome. Array-based
-methods can profile larger tissue sections than can FISH or in situ
-sequencing and they don’t rely on microscopic imaging, which can be
-quite time consuming. Spatial resolution is lower, however.</p>
-<table class="table"><colgroup><col width="33%"><col width="22%"><col width="22%"><col width="22%"></colgroup><thead><tr class="header"><th>Technology</th>
-<th align="center">Gene detection efficiency</th>
-<th align="center">Transcriptome-wide profiling</th>
-<th align="center">Spatial resolution</th>
+that record position. LCM employs lasers to cut a tissue slice or fuse
+tissue to a membrane followed by sequencing of individual cells. Since
+sequencing-based technologies use probes that record position instead of
+using gene-specific probes, they can deliver transcriptome-wide
+profiling. LCM techniques process tissue sections and individual cells
+for transcriptomic profiling by isolating regions of interest. They are
+useful for profiling transcriptomes as a first pass and for identifying
+RNA isoforms, but their blunt approach to capturing spatial expression
+data limits spatial resolution and requires many samples for sequencing.
+Since they focus on regions of interest, it is often not possible to
+obtain a picture of spatial expression across a whole tissue.
+Array-based methods capture mRNA with spatially-barcoded probes and
+sequence them, or alternatively print the array onto tissue using
+microfluidic channels to produce a unique barcode at every position in
+the tissue. Array-based methods can profile larger tissue sections than
+can FISH or in situ sequencing and they don’t rely on microscopic
+imaging, which can be quite time consuming. Spatial resolution is lower,
+however.</p>
+<div class="line-block">Technology | Gene detection efficiency |
+Transcriptome-wide profiling |</div>
+<table class="table"><thead><tr class="header"><th>Spatial resolution</th>
+<th align="center">Tissue area</th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
 </tr></thead><tbody><tr class="odd"><td>FISH</td>
 <td align="center">+</td>
 <td align="center">-</td>
 <td align="center">+</td>
+<td align="center">-</td>
 </tr><tr class="even"><td>In situ sequencing</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">+</td>
+</tr><tr class="odd"><td>LCM</td>
 <td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr><tr class="odd"><td>Laser capture microdissection</td>
-<td align="center"></td>
-<td align="center"></td>
+<td align="center">+</td>
+<td align="center">-</td>
 <td align="center">-</td>
 </tr><tr class="even"><td>Microfluidics</td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
+<td align="center"></td>
 </tr><tr class="odd"><td>Array-based</td>
-<td align="center"></td>
+<td align="center">-</td>
 <td align="center">+</td>
-<td align="center"></td>
-</tr></tbody></table><p>In this lesson we will use data from positionally barcoded arrays.
+<td align="center">-</td>
+<td align="center">+</td>
+</tr></tbody></table><p>Table 1. Relative strengths and weaknesses of spatial transcriptomics
+technologies by general category.</p>
+<p>In this lesson we will use data from positionally barcoded arrays.
 Array-based methods use tissue frozen below the temperature at which RNA
 degrades, though some methods can use formalin-fixed tissues embedded in
 paraffin.</p>
@@ -511,7 +534,7 @@ any links that you are not going to use.
         
         <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
         <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.14.1" class="external-link">sandpaper (0.14.1)</a>,
-        <a href="https://github.com/carpentries/pegboard/tree/0.7.1" class="external-link">pegboard (0.7.1)</a>,
+        <a href="https://github.com/carpentries/pegboard/tree/0.7.2" class="external-link">pegboard (0.7.2)</a>,
       and <a href="https://github.com/carpentries/varnish/tree/0.3.3" class="external-link">varnish (0.3.3)</a>.</p>
 			</div>
 		</footer></div> <!-- / div.container -->
@@ -532,9 +555,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/introduction.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/introduction.html",
-  "dateCreated": "2023-11-16",
-  "dateModified": "2023-11-16",
-  "datePublished": "2023-11-16"
+  "dateCreated": "2023-11-17",
+  "dateModified": "2023-11-17",
+  "datePublished": "2023-11-17"
 }
 
   </script><script>
