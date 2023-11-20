@@ -80,33 +80,40 @@ distinct from in situ sequencing because next-generation sequencing is employed,
 not imaging. The main advantage of sequenced-based methods is that they are 
 unbiased in capturing RNA because they don't rely on predefined probesets 
 targeting specific genes. Sequencing-based methods retain spatial information 
-through laser-capture microdissection (LCM) and microfluidics, or through 
-ligation of mRNAs to arrays of barcoded probes that record position. LCM employs 
-lasers to cut a tissue slice or fuse tissue to a membrane followed by sequencing 
-of individual cells. Microfluidics places a chip with multiple 
-barcode-containing channels onto a tissue section followed by a second chip with perpendicular channels and  a new set of barcodes. Since sequencing-based 
-technologies use probes that record position instead of using gene-specific 
-probes, they can deliver transcriptome-wide profiling. 
+through laser-capture microdissection (LCM), microfluidics, or through 
+ligation of mRNAs to arrays of barcoded probes that record position. Since 
+sequencing-based technologies use probes that record position instead of 
+gene-specific probes, they can deliver transcriptome-wide profiling. 
 
-LCM techniques process tissue sections and individual cells for transcriptomic 
-profiling by isolating regions of interest. They are useful for profiling 
-transcriptomes as a first pass and for identifying RNA isoforms, but their blunt 
-approach to capturing spatial expression data limits spatial resolution and 
-requires many samples for sequencing. Since they focus on regions of interest,
-it is often not possible to obtain a picture of spatial expression across a 
-whole tissue. Array-based methods capture mRNA with spatially-barcoded probes 
-and sequence them, or alternatively print the array onto tissue using 
-microfluidic channels to produce a unique barcode at every position in the 
-tissue. Array-based methods can profile larger tissue sections than can FISH or 
-in situ sequencing and they don't rely on microscopic imaging, which can be 
-quite time consuming. Spatial resolution is lower, however.
+LCM-based methods employ lasers to cut a tissue slice or fuse tissue to a 
+membrane followed by sequencing of individual cells. LCM techniques process 
+tissue sections and individual cells for transcriptomic profiling by isolating 
+regions of interest. They are useful for profiling transcriptomes as a first 
+pass and for identifying RNA isoforms, but their blunt approach to capturing 
+spatial expression data limits spatial resolution and requires many samples for 
+sequencing. Since they focus on regions of interest, it is often not possible to 
+obtain a picture of spatial expression across a whole tissue. Modern LCM-based
+approaches include Nanostring's GeoMx DSP and STRP-seq. LCM has long been used
+with FFPE tissues.
 
-| Technology | Gene detection efficiency | Transcriptome-wide profiling | 
-Spatial resolution | Tissue area |
+Microfluidics places a chip with multiple barcode-containing channels onto a 
+tissue section followed by a second chip with channels perpendicular to the 
+first. The barcodes are then ligated to each other to create an array of 
+unique barcodes on the tissue. This "deterministic barcoding" is employed in
+DBiT-seq. DBiT-seq can be used with FFPE tissues. This approach is helpful to
+avoid diffusion of mRNA away from capture areas, though a disadvantage is that
+cells often sit astride multiple capture areas.
+
+Other array-based methods capture mRNA with spatially-barcoded probes and 
+sequence them. They can profile larger tissue sections than can FISH or in situ 
+sequencing and they don't rely on microscopic imaging, which can be quite time 
+consuming. Spatial resolution is lower, however.
+
+| Technology | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution | Tissue area |
 | ------------ | :------: | :------: | :------: | :------: |
 | FISH                | +        | -        | +        | -        |
 | In situ sequencing  | -        | -        | +        | +        |
-| LCM                 |          | +        | -        | -        |
+| LCM-based           |          | +        | -        | -        |
 | Microfluidics       | -        | +        | -        | +        |
 | Array-based         | -        | +        | -        | +        |
 Table 1. Relative strengths and weaknesses of spatial transcriptomics
@@ -132,13 +139,7 @@ like to learn more about spatial transcriptomics technologies, please see the
 ## Discussion: Which technology is right for your research?
 
 1. Would an imaging-based or a sequencing-based solution be preferable for your
-research? Why?
-
-:::::::::::::::::::::::: solution 
-
-varying - refer to strengths and weaknesses of each category
-
-::::::::::::::::::::::::
+research? Why?  
 
 2. From the descriptions above, which technology do you think would best suit
 your research? Even if your institution does not offer service using a 
@@ -148,10 +149,11 @@ embedded in paraffin (FFPE)? Why is the technology best suited to your research?
 
 :::::::::::::::::::::::: solution 
 
-varying - describe best uses of different technologies and how they have been
-used in research to date
+varying - refer to strengths and weaknesses of each category, best uses of 
+different technologies and how they have been used in research to date
 
 ::::::::::::::::::::::::
+
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 In this lesson we will use data from positionally barcoded arrays.  
@@ -162,7 +164,7 @@ accessibility purposes'}
 
 ## 10X Genomics Visium technology
 In this lesson we will use data from an array-based method called Visium that is
-offered by 10X Genomics. Visium is an upgrade and commercializations of the 
+offered by 10X Genomics. Visium is an upgrade and commercialization of the 
 spatial transcriptomics method described in 2016 in 
 [Science, 353(6294)](https://doi.org/10.1126/science.aaf2403) 
 and illustrated in general in the figure above. In brief, thin tissue sections
