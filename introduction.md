@@ -29,9 +29,9 @@ information about cell phenotype, state and cell and tissue organization and
 function. Cell position  clarifies the physical relationships between individual 
 cells and cellular structures. When combined with cellular expression, cell
 position sheds light on signals a cell sends or receives through cell-to-cell 
-interactions or from signaling molecules nearby. Spatial information localizes 
-cell signaling while delivering comprehensive gene expression profiling within 
-tissues. 
+interactions or from soluble signaling molecules nearby. Spatial information 
+localizes cell signaling while delivering comprehensive gene expression 
+profiling within tissues. 
 
 ![Signaling between adjacent cells. The Notch protein functions as a receptor for ligands that activate or inhibit such receptors. Receptor-ligand interactions ground cell signaling and communication, often requiring close proximity between cells. ](https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg){alt='alt text for accessibility purposes'}
 
@@ -109,6 +109,17 @@ technologies by general category.
 Array-based methods use tissue frozen below the temperature at which RNA 
 degrades (fresh-frozen; FF), though some array-based methods like ... can use 
 formalin-fixed tissues embedded in paraffin (FFPE). 
+
+::::::::::::::::::::::::::::: callout
+
+The diversity in spatial transcriptomics technologies is enormous and rapidly
+developing. This introduction to the technologies is intended to help you 
+navigate a complex technological landscape so that you can learn more about
+existing technologies. It is not intended to be comprehensive. If you would
+like to learn more about spatial transcriptomics technologies, please see the
+list of references located <a href="./reference.html"><strong>here</strong></a>.
+
+:::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
