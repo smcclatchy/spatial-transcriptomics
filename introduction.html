@@ -305,7 +305,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Spatially Resolved Transcriptomics in Life Sciences Research</h1>
-        <p> Last updated on 2023-11-17 | 
+        <p> Last updated on 2023-11-20 | 
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -350,19 +350,19 @@ single-cell or bulk RNA sequencing technologies.</li>
 </h2>
 <hr class="half-width"><p>Investigating the organization of cells and tissues is fundamental to
 life sciences research. Tissues in different regions of an organ can
-possess diverse functions and cell types. Spatial patterns of gene
-expression determine how genes are regulated within a tissue system and
-how those tissues and their component cells function. Spatially resolved
-transcriptomic methods map positions of individual cells in a tissue
-while simultaneously measuring their expression, delivering valuable
-information about cell and tissue organization and function. Cell
-position and expression can describe a cell’s phenotype, state, and cell
-and tissue function while clarifying the physical relationships between
-individual cells and cellular structures. A cell’s position sheds light
-on signals it receives through cell-to-cell interactions or from
-signaling molecules nearby. Spatial information locates cell signaling
-while delivering comprehensive gene expression profiling within
-tissues.</p>
+possess diverse functions and cell types and are influenced by varying
+tissue microenvironments. Spatial patterns of gene expression determine
+how genes are regulated within a tissue system and how those tissues and
+their component cells function. Spatially resolved transcriptomic
+methods map positions of individual cells in a tissue while
+simultaneously measuring their expression, delivering valuable
+information about cell phenotype, state and cell and tissue organization
+and function. Cell position clarifies the physical relationships between
+individual cells and cellular structures. When combined with cellular
+expression, cell position sheds light on signals a cell sends or
+receives through cell-to-cell interactions or from signaling molecules
+nearby. Spatial information localizes cell signaling while delivering
+comprehensive gene expression profiling within tissues.</p>
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg" alt="alt text for accessibility purposes" class="figure mx-auto d-block"><figcaption>Signaling between adjacent cells. The Notch protein
 functions as a receptor for ligands that activate or inhibit such
 receptors. Receptor-ligand interactions ground cell signaling and
@@ -370,11 +370,11 @@ communication, often requiring close proximity between cells.</figcaption></figu
 the Oyster</a> Public domain, via Wikimedia Commons
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
-<p>Spatial transcriptomics addresses a key obstacle in single-cell
-studies: the loss of spatial information when tissues are dissociated to
-release viable, intact cells. Spatial organization and structure
-determine function in most tissues and organs, so capturing spatial
-information is critical for understanding tissue function in
+<p>Spatial transcriptomics addresses a key obstacle in single-cell and
+bulk RNA sequencing studies: the loss of spatial information when
+tissues are dissociated. Spatial organization and structure determine
+function in most tissues and organs, so capturing both spatial and
+expression information is critical for understanding tissue function in
 neuroscience, cancer biology, developmental biology, and most other
 fields. Immunology is the only field that doesn’t depend on spatial
 information to determine structure and function because immune cells
@@ -387,7 +387,7 @@ ability to profile entire transcriptomes, deliver single-cell
 resolution, and detect genes efficiently. Imaging-based technologies
 read transcriptomes in situ using microscopy and feature single-cell or
 even single-molecule resolution. They identify mRNA species through
-hybridization with flourescent probes. These probes are gene-specific in
+hybridization with fluorescent probes. These probes are gene-specific in
 fluorescence in situ hybridization (FISH). Current FISH methods employ
 multiple hybridization rounds, with risk of error for each transcript
 growing exponentially with each round. FISH methods are limited in the
@@ -411,11 +411,14 @@ sequencing is employed, not imaging. Sequencing-based methods retain
 spatial information through laser- capture microdissection (LCM) and
 microfluidics, or through ligation of mRNAs to arrays of barcoded probes
 that record position. LCM employs lasers to cut a tissue slice or fuse
-tissue to a membrane followed by sequencing of individual cells. Since
-sequencing-based technologies use probes that record position instead of
-using gene-specific probes, they can deliver transcriptome-wide
-profiling. LCM techniques process tissue sections and individual cells
-for transcriptomic profiling by isolating regions of interest. They are
+tissue to a membrane followed by sequencing of individual cells.
+Microfluidics places a chip with multiple barcode-containing channels
+onto a tissue section followed by a second chip with perpendicular
+channels and a new set of barcodes. Since sequencing-based technologies
+use probes that record position instead of using gene-specific probes,
+they can deliver transcriptome-wide profiling.</p>
+<p>LCM techniques process tissue sections and individual cells for
+transcriptomic profiling by isolating regions of interest. They are
 useful for profiling transcriptomes as a first pass and for identifying
 RNA isoforms, but their blunt approach to capturing spatial expression
 data limits spatial resolution and requires many samples for sequencing.
@@ -452,9 +455,9 @@ Transcriptome-wide profiling |</div>
 <td align="center">-</td>
 </tr><tr class="even"><td>Microfluidics</td>
 <td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
+<td align="center">+</td>
+<td align="center">-</td>
+<td align="center">+</td>
 </tr><tr class="odd"><td>Array-based</td>
 <td align="center">-</td>
 <td align="center">+</td>
@@ -462,10 +465,72 @@ Transcriptome-wide profiling |</div>
 <td align="center">+</td>
 </tr></tbody></table><p>Table 1. Relative strengths and weaknesses of spatial transcriptomics
 technologies by general category.</p>
-<p>In this lesson we will use data from positionally barcoded arrays.
-Array-based methods use tissue frozen below the temperature at which RNA
-degrades, though some methods can use formalin-fixed tissues embedded in
-paraffin.</p>
+<p>Array-based methods use tissue frozen below the temperature at which
+RNA degrades (fresh-frozen; FF), though some array-based methods like …
+can use formalin-fixed tissues embedded in paraffin (FFPE).</p>
+<div id="discussion-which-technology-is-right-for-your-research" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="discussion-which-technology-is-right-for-your-research" class="callout-inner">
+<h3 class="callout-title">Discussion: Which technology is right for your
+research?<a class="anchor" aria-label="anchor" href="#discussion-which-technology-is-right-for-your-research"></a>
+</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal"><li>Would an imaging-based or a sequencing-based solution be preferable
+for your research? Why?</li>
+</ol></div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<p>varying - refer to strengths and weaknesses of each category</p>
+</div>
+</div>
+</div>
+</div>
+<div id="discussion-which-technology-is-right-for-your-research" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="discussion-which-technology-is-right-for-your-research" class="callout-inner">
+<h3 class="callout-title">Discussion: Which technology is right for your
+research?<em> (continued)</em><a class="anchor" aria-label="anchor" href="#discussion-which-technology-is-right-for-your-research"></a>
+</h3>
+<div class="callout-content">
+<ol start="2" style="list-style-type: decimal"><li>From the descriptions above, which technology do you think would
+best suit your research? Even if your institution does not offer service
+using a specific technology, describe which best suits your research and
+why you think it’s best suited. Would you use fresh-frozen (FF) or
+formalin-fixed tissues embedded in paraffin (FFPE)? Why is the
+technology best suited to your research?</li>
+</ol></div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<p>varying - describe best uses of different technologies and how they
+have been used in research to date</p>
+</div>
+</div>
+</div>
+</div>
+<p>In this lesson we will use data from positionally barcoded
+arrays.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png" alt="alt text for accessibility purposes" class="figure"><a href="https://commons.wikimedia.org/wiki/User:Jasquatch" class="external-link">James
 Chell</a>,
 <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.%20png" class="external-link">Spatial
@@ -554,9 +619,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/introduction.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/introduction.html",
-  "dateCreated": "2023-11-17",
-  "dateModified": "2023-11-17",
-  "datePublished": "2023-11-17"
+  "dateCreated": "2023-11-20",
+  "dateModified": "2023-11-20",
+  "datePublished": "2023-11-20"
 }
 
   </script><script>
