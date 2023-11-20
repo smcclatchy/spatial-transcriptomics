@@ -104,7 +104,7 @@ Spatial resolution | Tissue area |
 | FISH                | +        | -        | +        | -        |
 | In situ sequencing  | -        | -        | +        | +        |
 | LCM                 |          | +        | -        | -        |
-| Microfluidics       |          | +        | -        | +        |
+| Microfluidics       | -        | +        | -        | +        |
 | Array-based         | -        | +        | -        | +        |
 Table 1. Relative strengths and weaknesses of spatial transcriptomics
 technologies by general category.
@@ -120,7 +120,7 @@ developing. This introduction to the technologies is intended to help you
 navigate a complex technological landscape so that you can learn more about
 existing technologies. It is not intended to be comprehensive. If you would
 like to learn more about spatial transcriptomics technologies, please see the
-list of references located <a href="./reference.html"><strong>here</strong></a>.
+<a href="./reference.html"><strong>list of references located here</strong></a>.
 
 :::::::::::::::::::::::::::::::::::::
 
@@ -158,11 +158,23 @@ accessibility purposes'}
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii. png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 ## 10X Genomics Visium technology
-FF or FFPE unlike most other sequencing-based technologies, which accommodate
-only FF
+In this lesson we will use data from an array-based method called Visium that is
+offered by 10X Genomics. Visium is an upgrade of the spatial transcriptomics 
+method described in 2016 in 
+[Science, 353(6294)](https://doi.org/10.1126/science.aaf2403) 
+and illustrated in general in the figure above. Unlike most other 
+sequencing-based technologies, Visium described accommodates both FF or FFPE 
+tissue. Sequencing-based datasets have grown faster than have imaging-based 
+datasets, with Visium dominating published datasets.
 
 :::::: keypoints
- - Spatial transcriptomics provides the location of individual cells relative to neighboring cells and cell structures.
- - A cell's location is useful data for describing its phenotype, state, and cell and tissue function.
- - Spatial transcriptomics addresses a key obstacle in single-cell studies: the loss of spatial information when tissues are dissociated.
+ - Spatial transcriptomics provides the location of individual cells relative to
+ neighboring cells and cell structures.
+ - A cell's location is useful data for describing its phenotype, state, and
+ cell and tissue function.
+ - Spatial transcriptomics addresses a key obstacle in single-cell studies: the
+ loss of spatial information when tissues are dissociated.
+ - The main goal of spatial transcriptomics studies is to integrate expression
+ with spatial information.
+
 ::::::
