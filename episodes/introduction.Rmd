@@ -56,13 +56,16 @@ identify mRNA species through hybridization with fluorescent probes. These
 probes are gene-specific in fluorescence in situ hybridization (FISH). Current 
 FISH methods employ multiple hybridization rounds, with risk of error for each 
 transcript growing exponentially with each round. FISH methods are limited in 
-the size of tissue that they can profile and can be time-consuming due to 
-microscopic imaging they require. They also can only detect genes that are in
-the probe set employed. They have high spatial resolution though, even
-delivering single-molecule resolution in single-molecule FISH (smFISH).
+the size of tissue that they can profile and most accept fresh-frozen (FF) 
+tissue only. They can also be time-consuming and expensive due to microscopic 
+imaging they require. Since they target specific genes, they can only detect 
+genes that are in the probe set employed. They have high spatial resolution 
+though, even delivering single-molecule resolution in single-molecule FISH 
+(smFISH).
 
 In situ sequencing amplifies and sequences mRNAs directly within a block 
-or section of tissue. Probes profile one or two bases at a time using different
+or section of fresh-frozen (FF) or formalin-fixed paraffin embedded (FFPE) 
+tissue. Probes profile one or two bases at a time using different
 fluorophores, eventually revealing the identity of the mRNA through imaging. In 
 situ sequencing can accommodate larger tissue sections than can FISH, though 
 FISH methods are more efficient at detecting mRNA of genes in the probe set. 
@@ -108,7 +111,7 @@ technologies by general category.
 
 Array-based methods use tissue frozen below the temperature at which RNA 
 degrades (fresh-frozen; FF), though some array-based methods like ... can use 
-formalin-fixed tissues embedded in paraffin (FFPE). 
+ (FFPE). 
 
 ::::::::::::::::::::::::::::: callout
 
@@ -155,6 +158,8 @@ accessibility purposes'}
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii. png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 ## 10X Genomics Visium technology
+FF or FFPE unlike most other sequencing-based technologies, which accommodate
+only FF
 
 :::::: keypoints
  - Spatial transcriptomics provides the location of individual cells relative to neighboring cells and cell structures.
