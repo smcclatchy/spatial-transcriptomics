@@ -48,11 +48,13 @@ because immune cells often circulate in liquid media like blood and lymph.
 
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies broadly fall within two groups: 
-imaging-based and sequencing-based methods. These technologies vary in ability 
-to profile entire transcriptomes, deliver single-cell resolution, and detect
-genes efficiently. Imaging-based technologies read transcriptomes in situ using 
-microscopy and feature single-cell or even single-molecule resolution. They 
-identify mRNA species through hybridization with fluorescent probes. These 
+imaging-based and sequencing-based methods. Both imaging- and sequence-based 
+datasets are available through the [The BRAIN Initiative - Cell Census Network](https://biccn.org/). Sequencing-based datasets are featured in the 
+[Human Cell Atlas](https://data.humancellatlas.org/). These technologies vary in 
+ability to profile entire transcriptomes, deliver single-cell resolution, and 
+detect genes efficiently. Imaging-based technologies read transcriptomes in situ 
+using microscopy and feature single-cell or even single-molecule resolution. 
+They identify mRNA species through hybridization with fluorescent probes. These 
 probes are gene-specific in fluorescence in situ hybridization (FISH). Current 
 FISH methods employ multiple hybridization rounds, with risk of error for each 
 transcript growing exponentially with each round. FISH methods are limited in 
@@ -75,15 +77,16 @@ but delivers high spatial resolution.
 Sequencing-based methods capture, sequence, and count mRNA in situ using 
 next-generation sequencing while retaining positional information. This is 
 distinct from in situ sequencing because next-generation sequencing is employed, 
-not imaging. Sequencing-based methods retain spatial information through laser-
-capture microdissection (LCM) and microfluidics, or through ligation of mRNAs to 
-arrays of barcoded probes that record position. LCM employs lasers to cut a 
-tissue slice or fuse tissue to a membrane followed by sequencing of individual
-cells. Microfluidics places a chip with multiple barcode-containing channels 
-onto a tissue section followed by a second chip with perpendicular channels and 
-a new set of barcodes. Since sequencing-based technologies use probes that 
-record position instead of using gene-specific probes, they can deliver 
-transcriptome-wide profiling. 
+not imaging. The main advantage of sequenced-based methods is that they are 
+unbiased in capturing RNA because they don't rely on predefined probesets 
+targeting specific genes. Sequencing-based methods retain spatial information 
+through laser-capture microdissection (LCM) and microfluidics, or through 
+ligation of mRNAs to arrays of barcoded probes that record position. LCM employs 
+lasers to cut a tissue slice or fuse tissue to a membrane followed by sequencing 
+of individual cells. Microfluidics places a chip with multiple 
+barcode-containing channels onto a tissue section followed by a second chip with perpendicular channels and  a new set of barcodes. Since sequencing-based 
+technologies use probes that record position instead of using gene-specific 
+probes, they can deliver transcriptome-wide profiling. 
 
 LCM techniques process tissue sections and individual cells for transcriptomic 
 profiling by isolating regions of interest. They are useful for profiling 
@@ -159,13 +162,25 @@ accessibility purposes'}
 
 ## 10X Genomics Visium technology
 In this lesson we will use data from an array-based method called Visium that is
-offered by 10X Genomics. Visium is an upgrade of the spatial transcriptomics 
-method described in 2016 in 
+offered by 10X Genomics. Visium is an upgrade and commercializations of the 
+spatial transcriptomics method described in 2016 in 
 [Science, 353(6294)](https://doi.org/10.1126/science.aaf2403) 
-and illustrated in general in the figure above. Unlike most other 
-sequencing-based technologies, Visium described accommodates both FF or FFPE 
-tissue. Sequencing-based datasets have grown faster than have imaging-based 
-datasets, with Visium dominating published datasets.
+and illustrated in general in the figure above. In brief, thin tissue sections
+are placed atop spots printed with spatial barcodes. When the tissue is 
+permeabilized, mRNA is released from the cells and hybridized to the spatial
+barcodes. Hybridized mRNA is reverse transcribed to cDNA and then sequenced.
+Spatial transcriptomics combines two key modes: histological imaging and gene 
+expression profiling. Histological imaging captures tissue morphology with
+standard staining protocols while expression profiling is captured by sequencing
+spatially barcoded cDNA.
+
+Sequencing-based datasets have grown faster than have imaging-based datasets, 
+with Visium dominating published datasets. Unlike most other sequencing-based 
+technologies, Visium accommodates both FF or FFPE tissue. Each spot provides 
+average gene expression measurements from between one to ten cells, approaching
+single-cell resolution. Average gene expression measurements are combined with
+histological images that couple molecular detail and tissue morphology and 
+structure. 
 
 :::::: keypoints
  - Spatial transcriptomics provides the location of individual cells relative to
