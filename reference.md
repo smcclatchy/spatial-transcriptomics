@@ -62,3 +62,6 @@ Spatial transcriptomics (ST)
 : An R package from The Carpentries that provides parsing and validation of
   markdown source materials for The Carpentries Workbench. More information at:
   https://carpentries.github.io/pegboard
+
+Transcriptome
+: The entire collection of mRNA from a single cell
