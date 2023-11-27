@@ -92,9 +92,9 @@ regions of interest. They are useful for profiling transcriptomes as a first
 pass and for identifying RNA isoforms, but their blunt approach to capturing 
 spatial expression data limits spatial resolution and requires many samples for 
 sequencing. Since they focus on regions of interest, it is often not possible to 
-obtain a picture of spatial expression across a whole tissue. Modern LCM-based
-approaches include Nanostring's GeoMx DSP and STRP-seq. LCM has long been used
-with FFPE tissues.
+obtain a picture of spatial expression across a whole tissue. LCM is an older
+technology that has long been used with FFPE tissues. Modern LCM-based
+approaches include Nanostring's GeoMx DSP and STRP-seq. 
 
 Microfluidics places a chip with multiple barcode-containing channels onto a 
 tissue section followed by a second chip with channels perpendicular to the 
@@ -118,10 +118,6 @@ consuming. Spatial resolution is lower, however.
 | Array-based         | -        | +        | -        | +        |
 Table 1. Relative strengths and weaknesses of spatial transcriptomics
 technologies by general category.
-
-Array-based methods use tissue frozen below the temperature at which RNA 
-degrades (fresh-frozen; FF), though some array-based methods like ... can use 
- (FFPE). 
 
 ::::::::::::::::::::::::::::: callout
 
