@@ -25,7 +25,7 @@ tag. They will join to this discussion block, so you can give a general overview
 of the software used in this lesson here and fill out the individual operating
 systems (and potentially add more, e.g. online setup) in the solutions blocks.
 
-Packages: Seurat, rctd, 
+Packages: Seurat, spacexr
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
