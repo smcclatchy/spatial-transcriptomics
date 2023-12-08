@@ -68,7 +68,6 @@ dir.create("data")
 dir.create("scripts")
 dir.create("results")
 ```
-:::::::::::::::::::::::::
 
 ## Data Set Download
 
