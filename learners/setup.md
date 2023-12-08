@@ -29,21 +29,21 @@ R Library Installation
 
 In RStudio, copy and paste the following commands into the Console:
 
-{: .r}
+```r
 install.packages(c("BiocManager", "Matrix", "Seurat", "spacexr", "tidyverse"), dependencies = TRUE)
 BiocManager::install("rhdf5")
-{: .r}
+```
 
 Once the installation has finished, copy and paste the following commands into the 
 console to verify that both packages installed correctly.
 
-{: .r}
+```r
 library(tidyverse)
 library(Matrix)
 library(rhdf5)
 library(Seurat)
 library(spacexr)
-{: .r}
+```
 
 ## Project Setup
 
@@ -63,9 +63,11 @@ library(spacexr)
     the following commands into the R console for step 2 only. You still need to create a 
     project with step 1.
 
+```r
 dir.create("data")
 dir.create("scripts")
 dir.create("results")
+```
 :::::::::::::::::::::::::
 
 ## Data Set Download
@@ -83,3 +85,6 @@ But Antonios has it hosted on Box: <https://thejacksonlaboratory.ent.box.com/s/k
 
 TBD: Create static links that don't expire for each directory.
 
+```r
+download.file(url = "???", destfile = "data")
+```
