@@ -13,6 +13,16 @@ Yue, L., Liu, F., Hu, J., Yang, P., Wang, Y., Dong, J., Shu, W., Huang, X. and W
 
 ## Glossary
 
+Barcode
+: A barcode in spatial transcriptomics is an identifier for a spot on a slide. It is a 
+unique sequence that identifies a spot. The term barcode is generic and identifies other
+entities in different technologies. For example, in single-cell transcriptomics a barcode
+identifies a single cell, not a spot on a slide.
+
+Feature
+: In spatial transcriptomics a gene is a feature. The term feature is generic and refers 
+to different things in different technologies. 
+
 Fluorescence in situ hybridization (FISH)
 : An R package from The Carpentries that is the main user interface for The
   Carpentries Workbench. More information at:
