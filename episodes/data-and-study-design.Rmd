@@ -21,7 +21,31 @@ exercises: 2
 
 ## The data
 
-TBD: Possibly brain data set.
+File Name	Description
+web_summary.html	Run summary metrics and plots in HTML format
+cloupe.cloupe	Loupe Browser visualization and analysis file
+spatial/	Folder containing outputs that capture the spatiality of the data.
+spatial/aligned_fiducials.jpg	Aligned fiducials QC image
+spatial/aligned_tissue_image.jpg	Aligned CytAssist and Microscope QC image. Present only for CytAssist workflow
+spatial/barcode_fluorescence_intensity.csv	CSV file containing the mean and standard deviation of fluorescence intensity for each spot and each channel. Present for the fluorescence image input specified by --darkimage
+spatial/cytassist_image.tiff	Input CytAssist image in original resolution that can be used to re-run the pipeline. Present only for CytAssist workflow
+spatial/detected_tissue_image.jpg	Detected tissue QC image.
+spatial/scalefactors_json.json	Scale conversion factors for spot diameter and coordinates at various image resolutions
+spatial/spatial_enrichment.csv	Feature spatial autocorrelation analysis using Moran's I in CSV format
+spatial/tissue_hires_image.png	Downsampled full resolution image. The image dimensions depend on the input image and slide version
+spatial/tissue_lowres_image.png	Full resolution image downsampled to 600 pixels on the longest dimension
+spatial/tissue_positions.csv	CSV containing spot barcode; if the spot was called under (1) or out (0) of tissue, the array position, image pixel position x, and image pixel position y for the full resolution image
+analysis/	Folder containing secondary analysis data including graph-based clustering and K-means clustering (K = 2-10); differential gene expression between clusters; PCA, t-SNE, and UMAP dimensionality reduction.
+metrics_summary.csv	Run summary metrics in CSV format
+probe_set.csv	Copy of the input probe set reference CSV file. Present for Visium FFPE and CytAssist workflow
+possorted_genome_bam.bam	Indexed BAM file containing position-sorted reads aligned to the genome and transcriptome, annotated with barcode information
+possorted_genome_bam.bam.bai	Index for possorted_genome_bam.bam. In cases where the reference transcriptome is generated from a genome with very long chromosomes (>512 Mbp), Space Ranger v2.0+ generates a possorted_genome_bam.bam.csi index file instead.
+filtered_feature_bc_matrix/	Contains only tissue-associated barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). This file can be input into third-party packages and allows users to wrangle the barcode-feature matrix (e.g. to filter outlier spots, run dimensionality reduction, normalize gene expression).
+filtered_feature_bc_matrix.h5	Same information as filtered_feature_bc_matrix/ but in HDF5 format.
+raw_feature_bc_matrices/	Contains all detected barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column).
+raw_feature_bc_matrix.h5	Same information as raw_feature_bc_matrices/ in HDF5 format.
+﻿ raw_probe_bc_matrix.h5	Contains UMI counts of each probe for all detected barcodes in HDF5 format. Only produced when running pipelines for probe-based assays.
+molecule_info.h5	Contains per-molecule information for all molecules that contain a valid barcode, valid UMI, and were assigned with high confidence to a gene or protein barcode. This file is required for additional analysis spaceranger pipelines including aggr, targeted-compare and targeted-depth.
 
 `![Spatial transcriptomics data include genes in rows and barcodes (spots) in columns.](/episodes/fig/spatial-data.png){alt='An example of spatial transcriptomics data showing genes in rows and barcodes (spots) in columns'}`
 

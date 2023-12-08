@@ -29,7 +29,10 @@ R Library Installation
 
 In RStudio, copy and paste the following commands into the Console:
 
-install.packages(c("tidyverse", "Matrix", "Seurat", "spacexr"), dependencies = TRUE)
+{: .r}
+install.packages(c("BiocManager", "Matrix", "Seurat", "spacexr", "tidyverse"), dependencies = TRUE)
+BiocManager::install("rhdf5")
+{: .r}
 
 Once the installation has finished, copy and paste the following commands into the 
 console to verify that both packages installed correctly.
@@ -37,6 +40,7 @@ console to verify that both packages installed correctly.
 {: .r}
 library(tidyverse)
 library(Matrix)
+library(rhdf5)
 library(Seurat)
 library(spacexr)
 {: .r}
@@ -72,8 +76,10 @@ FIXME: place any data you want learners to use in `episodes/data` and then use
        link to it, replacing the example.com link.
 -->
 
-Data is on a Globus endpoint:
+Original data is on a Globus endpoint:
 http://research.libd.org/globus/jhpce_HumanPilot10x/index.html
 
-TBD: Which sample(s) do we want? We only need the feature/barcode/matrix files.
-Should we host separately on Box?
+But Antonios has it hosted on Box: <https://thejacksonlaboratory.ent.box.com/s/kqo4d25nba067qcvf908t5obqiym3zak/folder/238879909912>
+
+TBD: Create static links that don't expire for each directory.
+
