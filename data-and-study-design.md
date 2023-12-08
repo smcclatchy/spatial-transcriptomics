@@ -19,9 +19,41 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## The data
+## The Data
 
-TBD: Possibly brain data set.
+
+`![Spatial transcriptomics data include genes in rows and barcodes (spots) in columns.](/episodes/fig/spatial-data.png){alt='An example of spatial transcriptomics data showing genes in rows and barcodes (spots) in columns'}`
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 1: Row and column sums
+
+What does the sum of a single row signify?  
+What does the sum of a single column signify?  
+
+:::::::::::::::::::::::: solution 
+
+## Row sum
+ 
+```r
+sum('data[1, ]')
+```
+
+## Column sum
+ 
+```r
+sum('data[ , 1]')
+```
+:::::::::::::::::::::::::::::::::
+
+
+## Challenge 2: how do you nest solutions within challenge blocks?
+
+:::::::::::::::::::::::: solution 
+
+You can add a line with at least three colons and a `solution` tag.
+
+:::::::::::::::::::::::::::::::::
 
 ## Study design
 
@@ -34,34 +66,7 @@ associated with the lessons. They appear in the "Instructor View"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Figures
@@ -82,10 +87,8 @@ pie(
 <img src="fig/data-and-study-design-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
 <p class="caption">Sun arise each and every morning</p>
 </div>
-Or you can use pandoc markdown for static figures with the following syntax:
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+
 
 
 ## Math
