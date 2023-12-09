@@ -37,7 +37,8 @@ from many cells. This is a feature of ST experiments that is distinct from
 single-cell transcriptomics experiments. As a result, many single-cell methods
 won't work with ST data. Later we will look at methods to 
 ["deconvolve" cell types per spot](deconvolve-cell-types-in-a-spot.Rmd) 
-to determine whether there are zero, one or many cells per spot.
+to determine the number and types of cells in each spot. Spots can contain zero,
+one, or many cells.
 
 Count data for each mRNA are mapped back to spots on the slide to indicate the
 tissue position of gene expression. An image of the tissue overlaid on the array 
@@ -64,13 +65,13 @@ What does the sum of a single column signify?
 
 :::::::::::::::::::::::: solution 
 
-Row sum
+The row sum is the total expression of one gene across all spots on the slide.
  
 ```r
 sum('data[1, ]')
 ```
 
-Column sum
+The column sum is the total expression of all genes for one spot on the slide.
  
 ```r
 sum('data[ , 1]')
