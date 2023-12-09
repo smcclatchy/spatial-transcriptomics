@@ -34,13 +34,13 @@ What does the sum of a single column signify?
 
 :::::::::::::::::::::::: solution 
 
-## Row sum
+Row sum
  
 ```r
 sum('data[1, ]')
 ```
 
-## Column sum
+Column sum
  
 ```r
 sum('data[ , 1]')
