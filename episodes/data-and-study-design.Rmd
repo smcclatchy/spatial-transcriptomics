@@ -21,8 +21,7 @@ exercises: 2
 
 ## The Data
 
-
-`![Spatial transcriptomics data include genes in rows and barcodes in columns](fig/spatial-data.png){alt='An example of spatial transcriptomics data showing genes in rows and barcodes (spots) in columns'}`
+![Spatial transcriptomics data include genes in rows and barcodes in columns](fig/spatial-data.png){alt='An example of spatial transcriptomics data showing genes in rows and barcodes (spots) in columns'}
 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
