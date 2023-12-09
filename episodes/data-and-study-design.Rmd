@@ -24,8 +24,9 @@ exercises: 2
 Recall that tissue is laid on a glass slide containing spots with primers to
 capture mRNA. Each spot has a barcode ID indicating its position on the slide.
 
-![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
+![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](fig/Spatial_transcriptomics_ii_cropped.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
 
+Cropped from 
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 Data from the 10X Genomics Visium platform contain gene identifiers in rows
