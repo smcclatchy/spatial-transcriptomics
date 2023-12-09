@@ -24,8 +24,8 @@ exercises: 2
 
 `![Spatial transcriptomics data include genes in rows and barcodes in columns](fig/spatial-data.png){alt='An example of spatial transcriptomics data showing genes in rows and barcodes (spots) in columns'}`
 
-::::::::::::::::::::::::::::::::::::: challenge 
 
+::::::::::::::::::::::::::::::::::::: challenge 
 ## Challenge 1: Row and column sums
 
 What does the sum of a single row signify?  
@@ -55,10 +55,13 @@ You can add a line with at least three colons and a `solution` tag.
 
 :::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::::
+
 ## Study design
 
 
 ## Important considerations for rigorous, reproducible spatial transcriptomics experiments
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
 Inline instructor notes can help inform instructors of timing challenges
