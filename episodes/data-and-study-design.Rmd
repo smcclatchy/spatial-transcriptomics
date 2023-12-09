@@ -26,6 +26,7 @@ exercises: 2
 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
+
 ## Challenge 1: Row and column sums
 
 What does the sum of a single row signify?  
@@ -44,16 +45,7 @@ sum('data[1, ]')
 ```r
 sum('data[ , 1]')
 ```
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::
 
