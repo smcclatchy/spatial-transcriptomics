@@ -24,9 +24,24 @@ exercises: 2
 Recall that tissue is laid on a glass slide containing spots with primers to
 capture mRNA. Each spot has a barcode ID indicating its position on the slide.
 
-![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](fig/Spatial_transcriptomics_ii_cropped.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
+![Printed spots on a slide contain primers to capture messenger RNA from the tissue laid on top of them](fig/Spatial_transcriptomics_ii_cropped.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
 
-Cropped from 
+
+In spatial transcriptomics the barcode indicates the spot. Barcodes are generic
+identifiers that identify different things in different technologies. A barcode
+in single-cell transcriptomics, for example, refers to a single cell, not to a 
+spot on a slide. When you see barcodes in ST data, think "spot", not "single 
+cell". The graphic above is a bit misleading that way because the spots each 
+appear to capture mRNA from only one cell. In fact, one spot can capture mRNA 
+from many cells.  
+
+Count data for each mRNA are mapped back to spots on the slide to indicate the
+tissue position of gene expression. An image of the tissue overlaid on the array 
+of spots pinpoints spatial gene expression in the tissue.
+
+![Sequencing data is mapped back to spots on the slide and compared to an image of the tissue to localize expression](fig/Spatial_transcriptomics_ii_lower_third.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
+
+Adapted from 
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 Data from the 10X Genomics Visium platform contain gene identifiers in rows
