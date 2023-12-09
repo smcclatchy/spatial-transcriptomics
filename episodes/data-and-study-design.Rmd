@@ -33,7 +33,11 @@ in single-cell transcriptomics, for example, refers to a single cell, not to a
 spot on a slide. When you see barcodes in ST data, think "spot", not "single 
 cell". The graphic above is a bit misleading that way because the spots each 
 appear to capture mRNA from only one cell. In fact, one spot can capture mRNA 
-from many cells.  
+from many cells. This is a feature of ST experiments that is distinct from 
+single-cell transcriptomics experiments. As a result, many single-cell methods
+won't work with ST data. Later we will look at methods to 
+["deconvolve" cell types per spot](deconvolve-cell-types-in-a-spot.Rmd) 
+to determine whether there are zero, one or many cells per spot.
 
 Count data for each mRNA are mapped back to spots on the slide to indicate the
 tissue position of gene expression. An image of the tissue overlaid on the array 
