@@ -594,7 +594,7 @@ technology best suited to your research?</p></li>
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>varying - refer to strengths and weaknesses of each category, best
 uses of different technologies and how they have been used in research
@@ -703,8 +703,20 @@ spatial transcriptomics experiments?</li>
 <p>Recall that tissue is laid on a glass slide containing spots with
 primers to capture mRNA. Each spot has a barcode ID indicating its
 position on the slide.</p>
-<figure><img src="fig/Spatial_transcriptomics_ii_cropped.png" alt="A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them" class="figure mx-auto d-block"><figcaption>A sequencing-based spatial transcriptomics method
-using printed spots on a slide.</figcaption></figure><p>Cropped from
+<figure><img src="fig/Spatial_transcriptomics_ii_cropped.png" alt="A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them" class="figure mx-auto d-block"><figcaption>Printed spots on a slide contain primers to capture
+messenger RNA from the tissue laid on top of them</figcaption></figure><p>In spatial transcriptomics the barcode indicates the spot. Barcodes
+are generic identifiers that identify different things in different
+technologies. A barcode in single-cell transcriptomics, for example,
+refers to a single cell, not to a spot on a slide. When you see barcodes
+in ST data, think “spot”, not “single cell”. The graphic above is a bit
+misleading that way because the spots each appear to capture mRNA from
+only one cell. In fact, one spot can capture mRNA from many cells.</p>
+<p>Count data for each mRNA are mapped back to spots on the slide to
+indicate the tissue position of gene expression. An image of the tissue
+overlaid on the array of spots pinpoints spatial gene expression in the
+tissue.</p>
+<figure><img src="fig/Spatial_transcriptomics_ii_lower_third.png" alt="A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them" class="figure mx-auto d-block"><figcaption>Sequencing data is mapped back to spots on the slide
+and compared to an image of the tissue to localize expression</figcaption></figure><p>Adapted from
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch" class="external-link">James
 Chell</a>,
 <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png" class="external-link">Spatial
@@ -1605,7 +1617,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1636,7 +1648,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1780,7 +1792,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1811,7 +1823,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -2129,7 +2141,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2160,7 +2172,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
