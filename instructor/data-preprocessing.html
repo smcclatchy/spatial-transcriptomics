@@ -415,15 +415,16 @@ a barcode (column). This file can be input into third-party packages and
 allows users to wrangle the barcode-feature matrix (e.g. to filter
 outlier spots, run dimensionality reduction, normalize gene
 expression).</td>
-</tr><tr class="even"><td>filtered_feature_bc_matrix.h5</td>
-<td>Same information as filtered_feature_bc_matrix/ but in HDF5
-format.</td>
+</tr><tr class="even"><td><strong>filtered_feature_bc_matrix.h5</strong></td>
+<td><strong>Same information as filtered_feature_bc_matrix/ but in HDF5
+format.</strong></td>
 </tr><tr class="odd"><td>raw_feature_bc_matrices/</td>
 <td>Contains all detected barcodes in MEX format. Each element of the
 matrix is the number of UMIs associated with a feature (row) and a
 barcode (column).</td>
-</tr><tr class="even"><td>raw_feature_bc_matrix.h5</td>
-<td>Same information as raw_feature_bc_matrices/ in HDF5 format.</td>
+</tr><tr class="even"><td><strong>raw_feature_bc_matrix.h5</strong></td>
+<td><strong>Same information as raw_feature_bc_matrices/ in HDF5
+format.</strong></td>
 </tr><tr class="odd"><td>﻿</td>
 <td>raw_probe_bc_matrix.h5</td>
 </tr><tr class="even"><td>molecule_info.h5</td>
@@ -435,35 +436,33 @@ targeted-depth.</td>
 </tr></tbody></table><p>Fortunately, you will not need to look at all of these files. We
 provide a brief description for you in case you are curious or need to
 look at one of the files for technical reasons.</p>
-<p>The primary file that you will use is
-“filtered_feature_bc_matrix.h5”. This file has an “h5” suffix, which
-means that it is an HDF5 file. <a href="https://www.hdfgroup.org/solutions/hdf5/" class="external-link">HDF5</a> is a compressed
-file format for complex high-dimensional data. “HDF5 stands
+<p>The two files that you will use are “raw_feature_bc_matrix.h5” and
+“filtered_feature_bc_matrix.h5”. These files have an “h5” suffix, which
+means that they are HDF5 files. <a href="https://www.hdfgroup.org/solutions/hdf5/" class="external-link">HDF5</a> is a compressed
+file format for storing complex high-dimensional data. “HDF5 stands
 for”Hierarchical Data Formats, version 5”. There is an R package
 designed to read and write HDF5 files called <a href="https://bioconductor.org/packages/release/bioc/html/rhdf5.html" class="external-link">rhdf5</a>.
 This was one of the packages which you installed during the lesson
 setup.</p>
-<blockquote>
-<p>DMG: <strong>STOPPED HERE</strong></p>
-</blockquote>
-<p>What you need to know is that there are three sections required for a
-valid Carpentries lesson template:</p>
-<ol style="list-style-type: decimal"><li>
-<code>questions</code> are displayed at the beginning of the episode
-to prime the learner for the content.</li>
-<li>
-<code>objectives</code> are the learning objectives for an episode
-displayed with the questions.</li>
-<li>
-<code>keypoints</code> are displayed at the end of the episode to
-reinforce the objectives.</li>
-</ol><div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<p>Briefly, HDF5 organizes data into directories within the compressed
+file. There are three “files” within the HDF5 file:</p>
+<table class="table"><colgroup><col width="53%"><col width="46%"></colgroup><thead><tr class="header"><th>File Name</th>
+<th>Description</th>
+</tr></thead><tbody><tr class="odd"><td>features.csv</td>
+<td>Contains the features (i.e. genes in this case) for each row in the
+data matrix.</td>
+</tr><tr class="even"><td>barcodes.csv</td>
+<td>Contains the probe barcodes for each spot on the tissue block.</td>
+</tr><tr class="odd"><td>matrix.mtx</td>
+<td>Contains the counts for each gene in each spot. Features
+(e.g. genes) are in rows and barcodes (e.g. spots) are in columns.</td>
+</tr></tbody></table><div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -495,7 +494,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -524,7 +523,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
