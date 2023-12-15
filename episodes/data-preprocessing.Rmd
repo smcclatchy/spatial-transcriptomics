@@ -57,10 +57,10 @@ of the files for technical reasons.
 
 The primary file that you will use is "filtered_feature_bc_matrix.h5". This
 file has an "h5" suffix, which means that it is an HDF5 file.
-[HDF5][https://www.hdfgroup.org/solutions/hdf5/] is a compressed file format
+[HDF5](https://www.hdfgroup.org/solutions/hdf5/) is a compressed file format
 for complex high-dimensional data. "HDF5 stands for "Hierarchical Data Formats,
 version 5". There is an R package designed to read and write HDF5 files called
-[rhdf5][https://bioconductor.org/packages/release/bioc/html/rhdf5.html]. This 
+[rhdf5](https://bioconductor.org/packages/release/bioc/html/rhdf5.html). This 
 was one of the packages which you installed during the lesson setup.
 
 > DMG: **STOPPED HERE**
