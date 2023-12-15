@@ -45,9 +45,9 @@ set of files is listed in the table below.
 | possorted_genome_bam.bam	| Indexed BAM file containing position-sorted reads aligned to the genome and transcriptome, annotated with barcode information |
 | possorted_genome_bam.bam.bai	| Index for possorted_genome_bam.bam. In cases where the reference transcriptome is generated from a genome with very long chromosomes (>512 Mbp), Space Ranger v2.0+ generates a possorted_genome_bam.bam.csi index file instead. |
 | filtered_feature_bc_matrix/	| Contains only tissue-associated barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). This file can be input into third-party packages and allows users to wrangle the barcode-feature matrix (e.g. to filter outlier spots, run dimensionality reduction, normalize gene expression). |
-| filtered_feature_bc_matrix.h5	| Same information as filtered_feature_bc_matrix/ but in HDF5 format. |
+| **filtered_feature_bc_matrix.h5**	| **Same information as filtered_feature_bc_matrix/ but in HDF5 format.** |
 | raw_feature_bc_matrices/	| Contains all detected barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). |
-| raw_feature_bc_matrix.h5	| Same information as raw_feature_bc_matrices/ in HDF5 format. |
+| **raw_feature_bc_matrix.h5**	| **Same information as raw_feature_bc_matrices/ in HDF5 format.** |
 ﻿| raw_probe_bc_matrix.h5	| Contains UMI counts of each probe for all detected barcodes in HDF5 format. Only produced when running pipelines for probe-based assays. |
 | molecule_info.h5	| Contains per-molecule information for all molecules that contain a valid barcode, valid UMI, and were assigned with high confidence to a gene or protein barcode. This file is required for additional analysis spaceranger pipelines including aggr, targeted-compare and targeted-depth. |
 
@@ -55,25 +55,23 @@ Fortunately, you will not need to look at all of these files. We provide a
 brief description for you in case you are curious or need to look at one
 of the files for technical reasons.
 
-The primary file that you will use is "filtered_feature_bc_matrix.h5". This
-file has an "h5" suffix, which means that it is an HDF5 file.
+The two files that you will use are "raw_feature_bc_matrix.h5" and
+"filtered_feature_bc_matrix.h5". These files have an "h5" suffix,
+which means that they are HDF5 files.
 [HDF5](https://www.hdfgroup.org/solutions/hdf5/) is a compressed file format
-for complex high-dimensional data. "HDF5 stands for "Hierarchical Data Formats,
-version 5". There is an R package designed to read and write HDF5 files called
-[rhdf5](https://bioconductor.org/packages/release/bioc/html/rhdf5.html). This 
-was one of the packages which you installed during the lesson setup.
+for storing complex high-dimensional data. "HDF5 stands for "Hierarchical Data 
+Formats, version 5". There is an R package designed to read and write HDF5 files 
+called [rhdf5](https://bioconductor.org/packages/release/bioc/html/rhdf5.html).
+This was one of the packages which you installed during the lesson setup.
+  
+Briefly, HDF5 organizes data into directories within the compressed file. There
+are three "files" within the HDF5 file:
 
-> DMG: **STOPPED HERE**
-
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
-
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+| File Name     | Description |
+|---------------|-------------|
+| features.csv  | Contains the features (i.e. genes in this case) for each row in the data matrix.|
+| barcodes.csv  | Contains the probe barcodes for each spot on the tissue block. |
+| matrix.mtx    | Contains the counts for each gene in each spot. Features (e.g. genes) are in rows and barcodes (e.g. spots) are in columns. |
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
