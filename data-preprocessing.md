@@ -21,9 +21,9 @@ exercises: 2
 
 ## Introduction
 
-The sequencing core will deliver a set of files and directories.
+The sequencing core will deliver a set of files and directories. The complete 
+set of files is listed in the table below.
 
-```markdown
 | File Name	 | Description |
 |------------|-------------|
 | web_summary.html	| Run summary metrics and plots in HTML format |
@@ -50,13 +50,20 @@ The sequencing core will deliver a set of files and directories.
 | raw_feature_bc_matrix.h5	| Same information as raw_feature_bc_matrices/ in HDF5 format. |
 ﻿| raw_probe_bc_matrix.h5	| Contains UMI counts of each probe for all detected barcodes in HDF5 format. Only produced when running pipelines for probe-based assays. |
 | molecule_info.h5	| Contains per-molecule information for all molecules that contain a valid barcode, valid UMI, and were assigned with high confidence to a gene or protein barcode. This file is required for additional analysis spaceranger pipelines including aggr, targeted-compare and targeted-depth. |
-```
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+Fortunately, you will not need to look at all of these files. We provide a
+brief description for you in case you are curious or need to look at one
+of the files for technical reasons.
+
+The primary file that you will use is "filtered_feature_bc_matrix.h5". This
+file has an "h5" suffix, which means that it is an HDF5 file.
+[HDF5][https://www.hdfgroup.org/solutions/hdf5/] is a compressed file format
+for complex high-dimensional data. "HDF5 stands for "Hierarchical Data Formats,
+version 5". There is an R package designed to read and write HDF5 files called
+[rhdf5][https://bioconductor.org/packages/release/bioc/html/rhdf5.html]. This 
+was one of the packages which you installed during the lesson setup.
+
+> DMG: **STOPPED HERE**
 
 What you need to know is that there are three sections required for a valid
 Carpentries lesson template:
