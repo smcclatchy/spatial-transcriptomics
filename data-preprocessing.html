@@ -40,7 +40,7 @@
     </div>
   </div>
   <hr></header><nav class="navbar navbar-expand-xl navbar-light bg-white bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
     </button>
@@ -51,7 +51,7 @@
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
-      <i role="img" aria-label="search button" data-feather="search"></i>
+        <i role="img" aria-label="search button" data-feather="search"></i>
       -->
     </div>
     <div class="desktop-nav">
@@ -98,7 +98,7 @@
         <!-- START: inst/pkgdown/templates/navbar.html -->
 <div id="sidebar-col" class="col-lg-4">
   <div id="sidebar" class="sidebar">
-      <nav aria-labelledby="flush-headingEleven"><button role="button" aria-label="close menu" alt="close menu" aria-expanded="true" aria-controls="sidebar" class="collapse-toggle">
+      <nav aria-labelledby="flush-headingEleven"><button role="button" aria-label="close menu" alt="close menu" aria-expanded="true" aria-controls="sidebar" class="collapse-toggle" data-collapse="Collapse " data-episodes="Episodes ">
           <i class="search-icon" data-feather="x" role="img"></i>
         </button>
         <div class="sidebar-inner">
@@ -135,14 +135,16 @@
               <div id="flush-collapseEleven" class="accordion-collapse show collapse" aria-labelledby="flush-headingEleven" data-bs-parent="#accordionFlush11">
 
                 <div class="accordion-body">
-                  <div class="accordion accordion-flush" id="accordionFlush1">
+                  <?xml version="1.0" encoding="UTF-8"?><div class="accordion accordion-flush" id="accordionFlush1">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading1">
-        <a href="index.html">Summary and Setup</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
+      <a href="index.html">Summary and Setup</a>
+    </div>
+    <!--/div.accordion-header-->
+  </div>
+  <!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
 
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
@@ -305,14 +307,14 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Preprocessing</h1>
-        <p> Last updated on 2023-12-08 | 
+        <p>Last updated on 2023-12-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
         
         
         <div class="text-end">
-          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right"> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
 
         
@@ -345,43 +347,103 @@ challenge blocks</li>
 </div>
 <section id="introduction"><h2 class="section-heading">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<hr class="half-width"><p>The sequencing core will deliver a set of files and directories.</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">MARKDOWN<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode markdown" tabindex="0"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>| File Name	 | Description |</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>|------------|-------------|</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>| web_summary.html	| Run summary metrics and plots in HTML format |</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>| cloupe.cloupe	| Loupe Browser visualization and analysis file |</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>| spatial/	| Folder containing outputs that capture the spatiality of the data. |</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>| spatial/aligned_fiducials.jpg	| Aligned fiducials QC image |</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>| spatial/aligned_tissue_image.jpg	| Aligned CytAssist and Microscope QC image. Present only for CytAssist workflow |</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>| spatial/barcode_fluorescence_intensity.csv	| CSV file containing the mean and standard deviation of fluorescence intensity for each spot and each channel. Present for the fluorescence image input specified by --darkimage |</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>| spatial/cytassist_image.tiff	| Input CytAssist image in original resolution that can be used to re-run the pipeline. Present only for CytAssist workflow |</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>| spatial/detected_tissue_image.jpg	| Detected tissue QC image. |</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>| spatial/scalefactors_json.json	| Scale conversion factors for spot diameter and coordinates at various image resolutions |</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>| spatial/spatial_enrichment.csv	| Feature spatial autocorrelation analysis using Moran's I in CSV format |</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>| spatial/tissue_hires_image.png	| Downsampled full resolution image. The image dimensions depend on the input image and slide version |</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>| spatial/tissue_lowres_image.png	| Full resolution image downsampled to 600 pixels on the longest dimension |</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>| spatial/tissue_positions.csv	| CSV containing spot barcode; if the spot was called under (1) or out (0) of tissue, the array position, image pixel position x, and image pixel position y for the full resolution image |</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>| analysis/	| Folder containing secondary analysis data including graph-based clustering and K-means clustering (K = 2-10); differential gene expression between clusters; PCA, t-SNE, and UMAP dimensionality reduction. |</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>| metrics_summary.csv	| Run summary metrics in CSV format |</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>| probe_set.csv	| Copy of the input probe set reference CSV file. Present for Visium FFPE and CytAssist workflow |</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>| possorted_genome_bam.bam	| Indexed BAM file containing position-sorted reads aligned to the genome and transcriptome, annotated with barcode information |</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>| possorted_genome_bam.bam.bai	| Index for possorted_genome_bam.bam. In cases where the reference transcriptome is generated from a genome with very long chromosomes (&gt;512 Mbp), Space Ranger v2.0+ generates a possorted_genome_bam.bam.csi index file instead. |</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>| filtered_feature_bc_matrix/	| Contains only tissue-associated barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). This file can be input into third-party packages and allows users to wrangle the barcode-feature matrix (e.g. to filter outlier spots, run dimensionality reduction, normalize gene expression). |</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>| filtered_feature_bc_matrix.h5	| Same information as filtered_feature_bc_matrix/ but in HDF5 format. |</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>| raw_feature_bc_matrices/	| Contains all detected barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). |</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>| raw_feature_bc_matrix.h5	| Same information as raw_feature_bc_matrices/ in HDF5 format. |</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>﻿| raw_probe_bc_matrix.h5	| Contains UMI counts of each probe for all detected barcodes in HDF5 format. Only produced when running pipelines for probe-based assays. |</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>| molecule_info.h5	| Contains per-molecule information for all molecules that contain a valid barcode, valid UMI, and were assigned with high confidence to a gene or protein barcode. This file is required for additional analysis spaceranger pipelines including aggr, targeted-compare and targeted-depth. |</span></code></pre>
-</div>
-<p>This is a lesson created via The Carpentries Workbench. It is written
-in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
-for static files (with extension <code>.md</code>) and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> for dynamic files
-that can render code into output (with extension <code>.Rmd</code>).
-Please refer to the <a href="https://carpentries.github.io/sandpaper-docs/" class="external-link">Introduction to The
-Carpentries Workbench</a> for full documentation.</p>
+<hr class="half-width"><p>The sequencing core will deliver a set of files and directories. The
+complete set of files is listed in the table below.</p>
+<table class="table"><colgroup><col width="48%"><col width="52%"></colgroup><thead><tr class="header"><th>File Name</th>
+<th>Description</th>
+</tr></thead><tbody><tr class="odd"><td>web_summary.html</td>
+<td>Run summary metrics and plots in HTML format</td>
+</tr><tr class="even"><td>cloupe.cloupe</td>
+<td>Loupe Browser visualization and analysis file</td>
+</tr><tr class="odd"><td>spatial/</td>
+<td>Folder containing outputs that capture the spatiality of the
+data.</td>
+</tr><tr class="even"><td>spatial/aligned_fiducials.jpg</td>
+<td>Aligned fiducials QC image</td>
+</tr><tr class="odd"><td>spatial/aligned_tissue_image.jpg</td>
+<td>Aligned CytAssist and Microscope QC image. Present only for
+CytAssist workflow</td>
+</tr><tr class="even"><td>spatial/barcode_fluorescence_intensity.csv</td>
+<td>CSV file containing the mean and standard deviation of fluorescence
+intensity for each spot and each channel. Present for the fluorescence
+image input specified by –darkimage</td>
+</tr><tr class="odd"><td>spatial/cytassist_image.tiff</td>
+<td>Input CytAssist image in original resolution that can be used to
+re-run the pipeline. Present only for CytAssist workflow</td>
+</tr><tr class="even"><td>spatial/detected_tissue_image.jpg</td>
+<td>Detected tissue QC image.</td>
+</tr><tr class="odd"><td>spatial/scalefactors_json.json</td>
+<td>Scale conversion factors for spot diameter and coordinates at
+various image resolutions</td>
+</tr><tr class="even"><td>spatial/spatial_enrichment.csv</td>
+<td>Feature spatial autocorrelation analysis using Moran’s I in CSV
+format</td>
+</tr><tr class="odd"><td>spatial/tissue_hires_image.png</td>
+<td>Downsampled full resolution image. The image dimensions depend on
+the input image and slide version</td>
+</tr><tr class="even"><td>spatial/tissue_lowres_image.png</td>
+<td>Full resolution image downsampled to 600 pixels on the longest
+dimension</td>
+</tr><tr class="odd"><td>spatial/tissue_positions.csv</td>
+<td>CSV containing spot barcode; if the spot was called under (1) or out
+(0) of tissue, the array position, image pixel position x, and image
+pixel position y for the full resolution image</td>
+</tr><tr class="even"><td>analysis/</td>
+<td>Folder containing secondary analysis data including graph-based
+clustering and K-means clustering (K = 2-10); differential gene
+expression between clusters; PCA, t-SNE, and UMAP dimensionality
+reduction.</td>
+</tr><tr class="odd"><td>metrics_summary.csv</td>
+<td>Run summary metrics in CSV format</td>
+</tr><tr class="even"><td>probe_set.csv</td>
+<td>Copy of the input probe set reference CSV file. Present for Visium
+FFPE and CytAssist workflow</td>
+</tr><tr class="odd"><td>possorted_genome_bam.bam</td>
+<td>Indexed BAM file containing position-sorted reads aligned to the
+genome and transcriptome, annotated with barcode information</td>
+</tr><tr class="even"><td>possorted_genome_bam.bam.bai</td>
+<td>Index for possorted_genome_bam.bam. In cases where the reference
+transcriptome is generated from a genome with very long chromosomes
+(&gt;512 Mbp), Space Ranger v2.0+ generates a
+possorted_genome_bam.bam.csi index file instead.</td>
+</tr><tr class="odd"><td>filtered_feature_bc_matrix/</td>
+<td>Contains only tissue-associated barcodes in MEX format. Each element
+of the matrix is the number of UMIs associated with a feature (row) and
+a barcode (column). This file can be input into third-party packages and
+allows users to wrangle the barcode-feature matrix (e.g. to filter
+outlier spots, run dimensionality reduction, normalize gene
+expression).</td>
+</tr><tr class="even"><td>filtered_feature_bc_matrix.h5</td>
+<td>Same information as filtered_feature_bc_matrix/ but in HDF5
+format.</td>
+</tr><tr class="odd"><td>raw_feature_bc_matrices/</td>
+<td>Contains all detected barcodes in MEX format. Each element of the
+matrix is the number of UMIs associated with a feature (row) and a
+barcode (column).</td>
+</tr><tr class="even"><td>raw_feature_bc_matrix.h5</td>
+<td>Same information as raw_feature_bc_matrices/ in HDF5 format.</td>
+</tr><tr class="odd"><td>﻿</td>
+<td>raw_probe_bc_matrix.h5</td>
+</tr><tr class="even"><td>molecule_info.h5</td>
+<td>Contains per-molecule information for all molecules that contain a
+valid barcode, valid UMI, and were assigned with high confidence to a
+gene or protein barcode. This file is required for additional analysis
+spaceranger pipelines including aggr, targeted-compare and
+targeted-depth.</td>
+</tr></tbody></table><p>Fortunately, you will not need to look at all of these files. We
+provide a brief description for you in case you are curious or need to
+look at one of the files for technical reasons.</p>
+<p>The primary file that you will use is
+“filtered_feature_bc_matrix.h5”. This file has an “h5” suffix, which
+means that it is an HDF5 file. [HDF5][<a href="https://www.hdfgroup.org/solutions/hdf5/" class="external-link uri">https://www.hdfgroup.org/solutions/hdf5/</a>] is a
+compressed file format for complex high-dimensional data. “HDF5 stands
+for”Hierarchical Data Formats, version 5”. There is an R package
+designed to read and write HDF5 files called [rhdf5][<a href="https://bioconductor.org/packages/release/bioc/html/rhdf5.html" class="external-link uri">https://bioconductor.org/packages/release/bioc/html/rhdf5.html</a>].
+This was one of the packages which you installed during the lesson
+setup.</p>
+<blockquote>
+<p>DMG: <strong>STOPPED HERE</strong></p>
+</blockquote>
 <p>What you need to know is that there are three sections required for a
 valid Carpentries lesson template:</p>
 <ol style="list-style-type: decimal"><li>
@@ -402,7 +464,7 @@ reinforce the objectives.</li>
 </h3>
 <div class="callout-content">
 <p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -414,11 +476,9 @@ reinforce the objectives.</li>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">
-  Output
-  </h4>
+  <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -445,11 +505,9 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">
-  Show me the solution
-  </h4>
+  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -460,7 +518,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 </section><section id="figures"><h2 class="section-heading">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
 </h2>
 <hr class="half-width"><p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -488,7 +546,7 @@ this:</p>
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+<h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
 </h3>
 <div class="callout-content">
 <ul><li>Use <code>.md</code> files for episodes when you want static
@@ -527,13 +585,13 @@ any links that you are not going to use.
 
       </div><!--/div.row-->
       		<footer class="row footer mx-md-3"><hr><div class="col-md-6">
-				<p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
+        <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit on GitHub</a>
         
 	
-        | <a href="https://github.com/smcclatchy/spatial-transcriptomics/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a> 
+        | <a href="https://github.com/smcclatchy/spatial-transcriptomics/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/smcclatchy/spatial-transcriptomics/" class="external-link">Source</a></p>
 				<p><a href="https://github.com/smcclatchy/spatial-transcriptomics/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:susan.mcclatchy@jax.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
@@ -541,15 +599,13 @@ any links that you are not going to use.
         
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
-        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.15.0" class="external-link">sandpaper (0.15.0)</a>,
-        <a href="https://github.com/carpentries/pegboard/tree/0.7.3" class="external-link">pegboard (0.7.3)</a>,
-      and <a href="https://github.com/carpentries/varnish/tree/0.4.0" class="external-link">varnish (0.4.0)</a>.</p>
+        <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.1" class="external-link">sandpaper (0.16.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.3" class="external-link">pegboard (0.7.3)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
 		<a href="#top">
-			<i class="search-icon" data-feather="arrow-up" role="img" aria-label="Back to top"></i><br><span class="d-none d-sm-none d-md-none d-lg-none d-xl-block">Back</span> To Top
+      <i class="search-icon" data-feather="arrow-up" role="img" aria-label="Back To Top"></i><br><!-- <span class="d-none d-sm-none d-md-none d-lg-none d-xl-block">Back</span> To Top --><span class="d-none d-sm-none d-md-none d-lg-none d-xl-block">Back</span> To Top
 		</a>
 	</div>
   <script type="application/ld+json">
@@ -564,9 +620,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
-  "dateCreated": "2023-12-09",
-  "dateModified": "2023-12-08",
-  "datePublished": "2023-12-12"
+  "dateCreated": "2023-12-15",
+  "dateModified": "2023-12-15",
+  "datePublished": "2023-12-15"
 }
 
   </script><script>
