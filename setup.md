@@ -30,8 +30,9 @@ R Library Installation
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "Matrix", "Seurat", "spacexr", "tidyverse"), dependencies = TRUE)
+install.packages(c("BiocManager", "Matrix", "Seurat", "remotes", "tidyverse"), dependencies = TRUE)
 BiocManager::install("rhdf5")
+remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into the 
