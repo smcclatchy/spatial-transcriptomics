@@ -27,6 +27,9 @@ in a tissue determine cell and tissue function.
 
 ![A cross-section of skeletal muscle tissue showing muscle cells and a small nerve.](https://upload.wikimedia.org/wikipedia/commons/c/c3/Skeletal_muscle_-_cross_section%2C_nerve_bundle.jpg){alt='A cross-section of human skeletal muscle showing muscle cells and a nerve nearby. Stained with hematoxylin and eosin.'}
 
+<a href="https://commons.wikimedia.org/wiki/File:Skeletal_muscle_-_cross_section,_nerve_bundle.jpg">Department of Histology, Jagiellonian University Medical College</a>
+<a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" rel="license">CC BY-SA 3.0 DEED</a>
+
 Describing spatial organization and cell signals, specifically gene expression 
 signals, is the focus of spatially resolved transcriptomics. Spatial patterns of 
 gene expression determine how genes are regulated within a tissue system and how 
