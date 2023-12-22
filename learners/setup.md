@@ -32,6 +32,7 @@ In RStudio, copy and paste the following commands into the Console:
 ```r
 install.packages(c("BiocManager", "Matrix", "Seurat", "remotes", "tidyverse"), dependencies = TRUE)
 BiocManager::install("rhdf5")
+options(timeout = 1e6)
 remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
 
