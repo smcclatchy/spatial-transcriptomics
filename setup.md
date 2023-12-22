@@ -47,13 +47,13 @@ library(spacexr)
 
 ## Project Setup
 
-    Create a new project called scRNA.
+    Create a new project called "spatialRNA".
         Click the File menu button, then New Project.
         Click New Directory.
         Click New Project.
-        Type scRNA as the directory name. Create the project anywhere you like, but don't 
+        Type spatialRNA as the directory name. Create the project anywhere you like, but don't 
         forget where you put it!
-        Click the Create Project button. This will create a file called scRNA.Rproj in the 
+        Click the Create Project button. This will create a file called "spatialRNA.Rproj" in the 
         directory you just created. In the future you can double-click on this file to open 
         RStudio in this directory. This will be the easiest way to interact with the files/code 
         you produce in this workshop.
@@ -71,19 +71,15 @@ dir.create("results")
 
 ## Data Set Download
 
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
-
-Original data is on a Globus endpoint:
-http://research.libd.org/globus/jhpce_HumanPilot10x/index.html
-
-But Antonios has it hosted on Box: <https://thejacksonlaboratory.ent.box.com/s/kqo4d25nba067qcvf908t5obqiym3zak/folder/238879909912>
-
-TBD: Create static links that don't expire for each directory.
+We will be working with brain data from 
+[Maynard et al., Nature Neuroscience, 2021](https://www.nature.com/articles/s41593-020-00787-0). 
+We have created links on Box from which you can download the data. Once you have opened your
+"spatialRNA" project in RStudio, run the code below to download the data into your "data" 
+directory.
 
 ```r
-download.file(url = "???", destfile = "data")
+download.file(url = "https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5",
+              destfile = "data/151508_filtered_feature_bc_matrix.h5")
+download.file(url = "https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5",
+              destfile = "data/151675_filtered_feature_bc_matrix.h5")
 ```
