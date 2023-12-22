@@ -62,7 +62,10 @@ imaging-based and sequencing-based methods. Both imaging- and sequence-based
 datasets are available through the [The BRAIN Initiative - Cell Census Network](https://biccn.org/). Sequencing-based datasets are featured in the 
 [Human Cell Atlas](https://data.humancellatlas.org/). These technologies vary in 
 ability to profile entire transcriptomes, deliver single-cell resolution, and 
-detect genes efficiently. Imaging-based technologies read transcriptomes in situ 
+detect genes efficiently. 
+
+### Imaging-based technologies
+Imaging-based technologies read transcriptomes in situ 
 using microscopy and feature single-cell or even single-molecule resolution. 
 They identify mRNA species through hybridization with fluorescent probes. These 
 probes are gene-specific in fluorescence in situ hybridization (FISH). Current 
@@ -84,6 +87,7 @@ FISH methods are more efficient at detecting mRNA of genes in the probe set.
 Like FISH, in situ sequencing requires considerable imaging time on a microscope 
 but delivers high spatial resolution. 
 
+### Sequencing-based technologies
 Sequencing-based methods capture, sequence, and count mRNA in situ using 
 next-generation sequencing while retaining positional information. This is 
 distinct from in situ sequencing because next-generation sequencing is employed, 
