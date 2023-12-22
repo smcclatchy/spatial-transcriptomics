@@ -33,8 +33,7 @@ package takes a long time to download. It may take up to 30 minutes for it to in
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "Matrix", "Seurat", "remotes", "tidyverse"), dependencies = TRUE)
-BiocManager::install("rhdf5")
+install.packages(c("BiocManager", "hdf5r", "Matrix", "Seurat", "remotes", "tidyverse"), dependencies = TRUE)
 options(timeout = 1e6)
 remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
@@ -45,7 +44,7 @@ console to verify that both packages installed correctly.
 ```r
 library(tidyverse)
 library(Matrix)
-library(rhdf5)
+library(hdf5r)
 library(Seurat)
 library(spacexr)
 ```
