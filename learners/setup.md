@@ -27,6 +27,9 @@ Once you have installed R and RStudio, open RStudio to verify that the installat
 successful.
 R Library Installation
 
+Next, we will install the required packages for this lesson. Note that the [spacexr](https://github.com/dmcable/spacexr) package
+takes a long time to download.
+
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
