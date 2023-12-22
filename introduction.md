@@ -19,19 +19,26 @@ exercises:
 
 ## Spatial transcriptomics in biomedical research
 Investigating the organization of cells and tissues is fundamental to life 
-sciences research. Tissues in different regions of an organ can possess diverse
-functions and cell types and are influenced by varying tissue microenvironments. 
-Spatial patterns of gene expression determine how genes are regulated within a 
-tissue system and how those tissues and their component cells function. 
-Spatially resolved transcriptomic methods map positions of individual cells in a 
-tissue while simultaneously measuring their expression, delivering valuable 
-information about cell phenotype, state and cell and tissue organization and 
-function. Cell position  clarifies the physical relationships between individual 
-cells and cellular structures. When combined with cellular expression, cell
-position sheds light on signals a cell sends or receives through cell-to-cell 
-interactions or from soluble signaling molecules nearby. Spatial information 
-localizes cell signaling while delivering comprehensive gene expression 
-profiling within tissues. 
+sciences research. Tissues located in different regions of an organ can possess diverse functions and cell types. These cells in turn are influenced by varying tissue microenvironments, receiving and processing distinct information from 
+that microenvironment. Co-located cells can communicate directly with one 
+another through chemical and physical signals, responding to these signals 
+with changes in their own state. The spatial organization and signals of cells 
+in a tissue determine cell and tissue function.
+
+![A cross-section of skeletal muscle tissue showing muscle cells and a small nerve.](https://upload.wikimedia.org/wikipedia/commons/c/c3/Skeletal_muscle_-_cross_section%2C_nerve_bundle.jpg){alt='A cross-section of human skeletal muscle showing muscle cells and a nerve nearby. Stained with hematoxylin and eosin.'}
+
+Describing spatial organization and cell signals, specifically gene expression 
+signals, is the focus of spatially resolved transcriptomics. Spatial patterns of 
+gene expression determine how genes are regulated within a tissue system and how 
+those tissues and their component cells function. Spatial transcriptomic (ST) 
+methods map cell position in a tissue, clarifying the physical relationships 
+between individual cells and cellular structures. ST simultaneously measures
+gene expression, delivering valuable information about cell phenotype, state, 
+and cell and tissue organization and function. The combination of cellular 
+expression and position sheds light on signals a cell sends or receives through 
+cell-to-cell interactions or from soluble signaling molecules nearby. Spatial 
+information localizes cell signaling while delivering comprehensive gene 
+expression profiling within tissues. 
 
 ![Signaling between adjacent cells. The Notch protein functions as a receptor for ligands that activate or inhibit such receptors. Receptor-ligand interactions ground cell signaling and communication, often requiring close proximity between cells. ](https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg){alt='alt text for accessibility purposes'}
 
@@ -154,8 +161,7 @@ different technologies and how they have been used in research to date
 
 In this lesson we will use data from positionally barcoded arrays.  
 
-![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='alt text for
-accessibility purposes'}
+![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 ## 10X Genomics Visium technology
