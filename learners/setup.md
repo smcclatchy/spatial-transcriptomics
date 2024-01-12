@@ -33,9 +33,9 @@ package takes a long time to download. It may take up to 30 minutes for it to in
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "data.table", "foreach",  "ggExtra",  "hdf5r",  "Matrix",
-                   "pacman",      "parallel",   "remotes",  "Rfast2",   "Seurat", "tidyverse"),
-                 dependencies = TRUE)
+install.packages(c("BiocManager", "data.table", "foreach",     "ggExtra",  "hdf5r",  "Matrix",
+                   "pacman",      "parallel",   "rcartocolor", "remotes",  "Rfast2", "Seurat",
+                   "tidyverse"), dependencies = TRUE)
 BiocManager::install("glmGamPoi")
 options(timeout = 1e6)
 remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
@@ -56,6 +56,7 @@ library(parrallel)
 library(pacman)
 library(ggExtra)
 library(glmGamPoi)
+library(rcartocolor)
 ```
 
 ## Project Setup
