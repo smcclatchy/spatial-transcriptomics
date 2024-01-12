@@ -87,14 +87,6 @@ functions.
 source("https://raw.githubusercontent.com/TheJacksonLaboratory/cancer-cube-st-pilot-ffpe-ff/main/utils.R")
 ```
 
-Next, we will set the base directory. 
-
-TBD: Or use the 'here' package?
-
-```r
-base_dir = 
-```
-
 We will then load the libraries that we need for this lesson.
 
 ```r
@@ -102,6 +94,9 @@ library(here)
 library(tidyverse)
 library(Seurat)
 ```
+
+Note that the [here](https://here.r-lib.org/) library helps you to find your files by taking
+care of the absolute path.
 
 ## Load Raw and Filtered Spatial Expression Data
 
@@ -112,7 +107,8 @@ spatial transcription data. This is the data which you downloaded in the setup s
 First, we will read in the raw data.
 
 ```r
-raw_st = Load10X_Spatial(data.dir = "data", filename = "raw_feature_bc_matrix.h5")
+raw_filename = dir(path = here("data", pattern = "_raw_feature_bc_matrix.h5")
+raw_st = Load10X_Spatial(data.dir = here("data"), filename = raw_filename)
 ```
 
 ######################################
