@@ -342,9 +342,9 @@ Console:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"data.table"</span>, <span class="st">"foreach"</span>,     <span class="st">"ggExtra"</span>,  <span class="st">"hdf5r"</span>,  <span class="st">"Matrix"</span>,</span>
-<span>                   <span class="st">"pacman"</span>,      <span class="st">"parallel"</span>,   <span class="st">"rcartocolor"</span>, <span class="st">"remotes"</span>,  <span class="st">"Rfast2"</span>, <span class="st">"Seurat"</span>,</span>
-<span>                   <span class="st">"tidyverse"</span><span class="op">)</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"data.table"</span>, <span class="st">"foreach"</span>,  <span class="st">"ggExtra"</span>,     <span class="st">"hdf5r"</span>,    <span class="st">"here"</span>,</span>
+<span>                   <span class="st">"Matrix"</span>,      <span class="st">"pacman"</span>,     <span class="st">"parallel"</span>, <span class="st">"rcartocolor"</span>, <span class="st">"remotes"</span>,  <span class="st">"Rfast2"</span>,</span>
+<span>                   <span class="st">"Seurat"</span>,      <span class="st">"tidyverse"</span><span class="op">)</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"glmGamPoi"</span><span class="op">)</span></span>
 <span><span class="fu">options</span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dmcable/spacexr"</span>, build_vignettes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
@@ -360,6 +360,7 @@ correctly.</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">data.table</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">Matrix</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">hdf5r</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">spacexr</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">foreach</span><span class="op">)</span></span>
