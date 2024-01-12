@@ -73,6 +73,53 @@ are three "files" within the HDF5 file:
 | barcodes.csv  | Contains the probe barcodes for each spot on the tissue block. |
 | matrix.mtx    | Contains the counts for each gene in each spot. Features (e.g. genes) are in rows and barcodes (e.g. spots) are in columns. |
 
+## Set up Environment
+
+Go to the "File" menu and select "Open Project...". Open the "spatialRNA" project which you 
+created in the workshop Setup. 
+
+First, we will load in some utility functions to make our lives a bit easier. The 
+[source](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source) function
+reads an R file and runs the code in it. In this case, this will load several useful
+functions.
+
+```r
+source("https://raw.githubusercontent.com/TheJacksonLaboratory/cancer-cube-st-pilot-ffpe-ff/main/utils.R")
+```
+
+Next, we will set the base directory. 
+
+TBD: Or use the 'here' package?
+
+```r
+base_dir = 
+```
+
+We will then load the libraries that we need for this lesson.
+
+```r
+library(here)
+library(tidyverse)
+library(Seurat)
+```
+
+## Load Raw and Filtered Spatial Expression Data
+
+We will use the [Load10X_Spatial](https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial) 
+function from the [Seurat](https://satijalab.org/seurat/) package to read in the 
+spatial transcription data. This is the data which you downloaded in the setup section.
+
+First, we will read in the raw data.
+
+```r
+raw_st = Load10X_Spatial(data.dir = "data", filename = "raw_feature_bc_matrix.h5")
+```
+
+######################################
+########## DMG STOPPED HERE ##########
+######################################
+
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
 Inline instructor notes can help inform instructors of timing challenges
