@@ -107,7 +107,7 @@ spatial transcription data. This is the data which you downloaded in the setup s
 First, we will read in the raw data.
 
 ```r
-raw_filename = dir(path = here("data", pattern = "_raw_feature_bc_matrix.h5")
+raw_filename = dir(path = here("data"), pattern = "_raw_feature_bc_matrix.h5")
 raw_st = Load10X_Spatial(data.dir = here("data"), filename = raw_filename)
 ```
 
