@@ -525,18 +525,20 @@ project in RStudio, run the code below to download the data into your
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/151508_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">dir.create</span><span class="op">(</span><span class="st">"data/151508"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/151508_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span>
 <span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/151508_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/151508_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">""</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/1511508/spatial/"</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/xycr1otk4hhgcbsec6vu45k2s9sisnbt.h5"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/151675_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span>
 <span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/151675_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Need to separate by sample and add the 'spatial' directories.</span></span>
-<span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/x5vftz72y0u0prfdvskdwd18b7bugk6b.json"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/spatial/"</span><span class="op">)</span></span></code></pre>
+<span><span class="co"># Need to separate by sample and add the 'spatial' directories.</span></span></code></pre>
 </div>
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
 <!-- 
