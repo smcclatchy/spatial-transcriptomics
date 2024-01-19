@@ -101,6 +101,10 @@ download.file(url = "https://thejacksonlaboratory.box.com/shared/static/xycr1otk
               destfile = "data/151675_raw_feature_bc_matrix.h5")
 download.file(url = "https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5",
               destfile = "data/151675_filtered_feature_bc_matrix.h5")
+
+# Need to separate by sample and add the 'spatial' directories.
+download.file(url = "https://thejacksonlaboratory.box.com/shared/static/x5vftz72y0u0prfdvskdwd18b7bugk6b.json",
+              destfile = "data/spatial/")
 ```
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
