@@ -322,17 +322,6 @@ condense.biotypes <- function(df, biotype.col = "gene_biotype") {
   df
 }
 
-#' Try to load package, installing first (via pacman) if necessary
-#' 
-#' @param package A string representing the package to load
-#' @return Nothing
-p_load_ <- function(package) {
-  if(!require(pacman)) {
-    install.packages(pacman)
-  }
-  suppressPackageStartupMessages(p_load(package))
-}
-
 #' Create a panel of plots, each showing deconvolved fractions of a particular population.
 #' 
 #' @param rctd An RCTD object, from the spacexr package.
@@ -512,7 +501,7 @@ setup.parallel.environment <- function(max.cores = NULL) {
   num.cores <- detectCores()
   if(!is.na(num.cores) && (num.cores > 1)) {
     if(!is.null(max.cores)) { num.cores <- min(num.cores, max.cores) }
-    suppressPackageStartupMessages(p_load("doMC"))
+    suppressPackageStartupMessages(library("doMC"))
     cat(paste("Registering ", num.cores-1, " cores.\n", sep=""))
     registerDoMC(cores=(num.cores-1))
   }
