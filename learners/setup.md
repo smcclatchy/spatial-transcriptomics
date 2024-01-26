@@ -7,7 +7,6 @@ develpment environment. You will be installing this software on your laptop and
 downloading the data set.
 
 ## Software Setup
-Packages: Seurat, spacexr
 
 Installing the software may take up to 30 minutes. You may also need to contact your local 
 Information Technology Help Desk to get permission or assistance installing the software. 
@@ -34,11 +33,13 @@ In RStudio, copy and paste the following commands into the Console:
 
 ```r
 install.packages(c("BiocManager", "data.table", "foreach",  "ggExtra",     "hdf5r",    "here",
-                   "Matrix",      "pacman",     "parallel", "rcartocolor", "remotes",  "Rfast2",
-                   "Seurat",      "tidyverse"), dependencies = TRUE)
-BiocManager::install("glmGamPoi")
-options(timeout = 1e6)
-remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
+                   "Matrix",      "pacman"), dependencies = TRUE)
+#install.packages(c("BiocManager", "data.table", "foreach",  "ggExtra",     "hdf5r",    "here",
+#                   "Matrix",      "pacman",     "parallel", "rcartocolor", "remotes",  "Rfast2",
+#                   "Seurat",      "tidyverse"), dependencies = TRUE)
+#BiocManager::install("glmGamPoi")
+#options(timeout = 1e6)
+#remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into the 
