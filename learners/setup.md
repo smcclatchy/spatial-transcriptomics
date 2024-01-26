@@ -93,20 +93,35 @@ We have created links on Box from which you can download the data. Once you have
 directory.
 
 ```r
-dir.create("data/151508")
-download.file(url = "https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5",
-              destfile = "data/151508/151508_raw_feature_bc_matrix.h5")
-download.file(url = "https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5",
-              destfile = "data/151508/151508_filtered_feature_bc_matrix.h5")
-download.file(url = "",
-              destfile = "data/1511508/spatial/")
+dir.create("data/151508/spatial", recursive = TRUE)
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5",
+              destfile = "data/151508/151508_raw_feature_bc_matrix.h5",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5",
+              destfile = "data/151508/151508_filtered_feature_bc_matrix.h5",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/x5vftz72y0u0prfdvskdwd18b7bugk6b.json",
+              destfile = "data/151508/spatial/scalefactors_json.json",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/jqycwv0p9ttromaixzn7qil02tj0fy6i.png",
+              destfile = "data/151508/spatial/tissue_hires_image.png",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/3o8mtr8cu1qoqctb360auabynl9t86ng.png",
+              destfile = "data/151508/spatial/tissue_lowres_image.png",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/gif2llcta2jburqczghs6c86f7ywikg8.csv",
+              destfile = "data/151508/spatial/tissue_positions_list.csv",
+              mode     = "wb")
 
+
+
+
+dir.create("data/151675/spatial", recursive = TRUE)
 download.file(url = "https://thejacksonlaboratory.box.com/shared/static/xycr1otk4hhgcbsec6vu45k2s9sisnbt.h5",
-              destfile = "data/151675_raw_feature_bc_matrix.h5")
+              destfile = "data/151675/151675_raw_feature_bc_matrix.h5", mode = "wb")
 download.file(url = "https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5",
-              destfile = "data/151675_filtered_feature_bc_matrix.h5")
+              destfile = "data/151675/151675_filtered_feature_bc_matrix.h5", mode = "wb")
 
-# Need to separate by sample and add the 'spatial' directories.
 
 ```
 
