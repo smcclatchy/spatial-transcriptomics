@@ -426,8 +426,7 @@ and the RStudio develpment environment. You will be installing this
 software on your laptop and downloading the data set.</p>
 <section id="software-setup"><h2 class="section-heading">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a>
 </h2>
-<hr class="half-width"><p>Packages: Seurat, spacexr</p>
-<p>Installing the software may take up to 30 minutes. You may also need
+<hr class="half-width"><p>Installing the software may take up to 30 minutes. You may also need
 to contact your local Information Technology Help Desk to get permission
 or assistance installing the software. You may be able to install the
 applications using JAX Self Service software. Please do this before the
@@ -457,12 +456,12 @@ Console:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"data.table"</span>, <span class="st">"foreach"</span>,  <span class="st">"ggExtra"</span>,     <span class="st">"hdf5r"</span>,    <span class="st">"here"</span>,</span>
-<span>                   <span class="st">"Matrix"</span>,      <span class="st">"pacman"</span>,     <span class="st">"parallel"</span>, <span class="st">"rcartocolor"</span>, <span class="st">"remotes"</span>,  <span class="st">"Rfast2"</span>,</span>
-<span>                   <span class="st">"Seurat"</span>,      <span class="st">"tidyverse"</span><span class="op">)</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="st">"glmGamPoi"</span><span class="op">)</span></span>
-<span><span class="fu">options</span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dmcable/spacexr"</span>, build_vignettes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co">#install.packages(c("BiocManager", "data.table",  "ggExtra",  "hdf5r",    "here",</span></span>
+<span><span class="co">#                   "Matrix",      "rcartocolor", "remotes",  "Rfast2",</span></span>
+<span><span class="co">#                   "tidyverse"), dependencies = TRUE)</span></span>
+<span><span class="co">#BiocManager::install("glmGamPoi")</span></span>
+<span><span class="co">#options(timeout = 1e6)</span></span>
+<span><span class="co">#remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)</span></span></code></pre>
 </div>
 <p>Once the installation has finished, copy and paste the following
 commands into the console to verify that both packages installed
@@ -471,19 +470,18 @@ correctly.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">data.table</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">Matrix</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">hdf5r</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">spacexr</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">foreach</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">parrallel</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">pacman</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">ggExtra</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">glmGamPoi</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">rcartocolor</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co">#library(tidyverse)</span></span>
+<span><span class="co">#library(data.table)</span></span>
+<span><span class="co">#library(Matrix)</span></span>
+<span><span class="co">#library(hdf5r)</span></span>
+<span><span class="co">#library(here)</span></span>
+<span><span class="co">#library(Seurat)</span></span>
+<span><span class="co">#library(spacexr)</span></span>
+<span><span class="co">#library(foreach)</span></span>
+<span><span class="co">#library(parallel)</span></span>
+<span><span class="co">#library(ggExtra)</span></span>
+<span><span class="co">#library(glmGamPoi)</span></span>
+<span><span class="co">#library(rcartocolor)</span></span></code></pre>
 </div>
 </section><section id="project-setup"><h2 class="section-heading">Project Setup<a class="anchor" aria-label="anchor" href="#project-setup"></a>
 </h2>
@@ -525,20 +523,34 @@ project in RStudio, run the code below to download the data into your
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dir.create</span><span class="op">(</span><span class="st">"data/151508"</span><span class="op">)</span></span>
-<span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/151508/151508_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span>
-<span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/151508/151508_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span>
-<span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">""</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/1511508/spatial/"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">dir.create</span><span class="op">(</span><span class="st">"data/151508/spatial"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/151508_raw_feature_bc_matrix.h5"</span>,</span>
+<span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/151508_filtered_feature_bc_matrix.h5"</span>,</span>
+<span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/x5vftz72y0u0prfdvskdwd18b7bugk6b.json"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/spatial/scalefactors_json.json"</span>,</span>
+<span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/jqycwv0p9ttromaixzn7qil02tj0fy6i.png"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/spatial/tissue_hires_image.png"</span>,</span>
+<span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/3o8mtr8cu1qoqctb360auabynl9t86ng.png"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/spatial/tissue_lowres_image.png"</span>,</span>
+<span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/gif2llcta2jburqczghs6c86f7ywikg8.csv"</span>,</span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151508/spatial/tissue_positions_list.csv"</span>,</span>
+<span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
 <span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="fu">dir.create</span><span class="op">(</span><span class="st">"data/151675/spatial"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/xycr1otk4hhgcbsec6vu45k2s9sisnbt.h5"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/151675_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151675/151675_raw_feature_bc_matrix.h5"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
 <span><span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5"</span>,</span>
-<span>              destfile <span class="op">=</span> <span class="st">"data/151675_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Need to separate by sample and add the 'spatial' directories.</span></span></code></pre>
+<span>              destfile <span class="op">=</span> <span class="st">"data/151675/151675_filtered_feature_bc_matrix.h5"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span></code></pre>
 </div>
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
 <!-- 
@@ -593,9 +605,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/index.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/index.html",
-  "dateCreated": "2024-01-19",
-  "dateModified": "2024-01-19",
-  "datePublished": "2024-01-19"
+  "dateCreated": "2024-02-02",
+  "dateModified": "2024-02-02",
+  "datePublished": "2024-02-02"
 }
 
   </script><script>
