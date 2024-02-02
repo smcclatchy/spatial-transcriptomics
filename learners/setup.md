@@ -32,30 +32,30 @@ package takes a long time to download. It may take up to 30 minutes for it to in
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "data.table", "foreach",     "ggExtra",  "hdf5r",    "here",
-                   "Matrix",      "parallel",   "rcartocolor", "remotes",  "Rfast2",
-                   "tidyverse"), dependencies = TRUE)
-BiocManager::install("glmGamPoi")
-options(timeout = 1e6)
-remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
+#install.packages(c("BiocManager", "data.table",  "ggExtra",  "hdf5r",    "here",
+#                   "Matrix",      "rcartocolor", "remotes",  "Rfast2",
+#                   "tidyverse"), dependencies = TRUE)
+#BiocManager::install("glmGamPoi")
+#options(timeout = 1e6)
+#remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into the 
 console to verify that both packages installed correctly.
 
 ```r
-library(tidyverse)
-library(data.table)
-library(Matrix)
-library(hdf5r)
-library(here)
+#library(tidyverse)
+#library(data.table)
+#library(Matrix)
+#library(hdf5r)
+#library(here)
 #library(Seurat)
-library(spacexr)
-library(foreach)
-library(parallel)
-library(ggExtra)
-library(glmGamPoi)
-library(rcartocolor)
+#library(spacexr)
+#library(foreach)
+#library(parallel)
+#library(ggExtra)
+#library(glmGamPoi)
+#library(rcartocolor)
 ```
 
 ## Project Setup

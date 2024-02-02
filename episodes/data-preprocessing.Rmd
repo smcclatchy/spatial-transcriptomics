@@ -90,9 +90,9 @@ source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/mai
 We will then load the libraries that we need for this lesson.
 
 ```r
-library(here)
-library(tidyverse)
-library(Seurat)
+#library(here)
+#library(tidyverse)
+#library(Seurat)
 ```
 
 Note that the [here](https://here.r-lib.org/) library helps you to find your files by taking
