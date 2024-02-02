@@ -34,7 +34,7 @@ In RStudio, copy and paste the following commands into the Console:
 ```r
 install.packages(c("BiocManager", "data.table", "foreach",     "ggExtra",  "hdf5r",    "here",
                    "Matrix",      "parallel",   "rcartocolor", "remotes",  "Rfast2",
-                   "Seurat",      "tidyverse"), dependencies = TRUE)
+                   "tidyverse"), dependencies = TRUE)
 BiocManager::install("glmGamPoi")
 options(timeout = 1e6)
 remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
@@ -49,7 +49,7 @@ library(data.table)
 library(Matrix)
 library(hdf5r)
 library(here)
-library(Seurat)
+#library(Seurat)
 library(spacexr)
 library(foreach)
 library(parallel)
