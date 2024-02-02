@@ -84,15 +84,15 @@ reads an R file and runs the code in it. In this case, this will load several us
 functions.
 
 ```r
-source("https://raw.githubusercontent.com/TheJacksonLaboratory/cancer-cube-st-pilot-ffpe-ff/main/utils.R")
+#source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 ```
 
 We will then load the libraries that we need for this lesson.
 
 ```r
-library(here)
-library(tidyverse)
-library(Seurat)
+#library(here)
+#library(tidyverse)
+#library(Seurat)
 ```
 
 Note that the [here](https://here.r-lib.org/) library helps you to find your files by taking
@@ -104,54 +104,96 @@ We will use the [Load10X_Spatial](https://www.rdocumentation.org/packages/Seurat
 function from the [Seurat](https://satijalab.org/seurat/) package to read in the 
 spatial transcription data. This is the data which you downloaded in the setup section.
 
-First, we will read in the raw data.
+First, we will read in the raw data for sample 151508.
 
 ```r
-raw_filename = dir(path = here("data"), pattern = "_raw_feature_bc_matrix.h5")
-raw_st = Load10X_Spatial(data.dir = here("data"), filename = raw_filename)
+raw_st = Load10X_Spatial(data.dir = "data/151508", filename = "151508_raw_feature_bc_matrix.h5")
 ```
 
-######################################
-########## DMG STOPPED HERE ##########
-######################################
-
+If you did not see any error messages, then the data loaded in and you should see an
+"raw_st" object in your "Environment" tab on the right.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+If the data does not load in correctly, verify that the students used the 
+mode = "wb" argument in download.file() duing the Setup. We have found that
+Windows users have to use this.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
-
-What is the output of this command?
+Let's look at the "raw_st" object.
 
 ```r
-paste("This", "new", "lesson", "looks", "good")
+raw_st
 ```
 
-:::::::::::::::::::::::: solution 
-
-## Output
- 
 ```output
-[1] "This new lesson looks good"
+An object of class Seurat 
+33538 features across 4992 samples within 1 assay 
+Active assay: Spatial (33538 features, 0 variable features)
+ 1 layer present: counts
+ 1 image present: slice1
 ```
 
-:::::::::::::::::::::::::::::::::
+The output says that we have 33,538 "features" and 4,992 "samples" with one assay.
+"Feature" is a generic term for anything that we measured. In this case, we 
+measured gene expression, so each feature is a gene. Each "sample" is one
+spot on the spatial slide. So this tissue sample has 33,538 genes assayed
+across 4,992 spots.
 
+Next, we will load in the filtered data. Use the code above and look in
+a file browser to identify the "filtered" file for sample 151508.
 
-## Challenge 2: how do you nest solutions within challenge blocks?
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 1: Read in filtered HDF5 file for sample 151508.
+
+Open a file browser and navigate to "Desktop/spatialRNA/data/151508". Can you 
+find an HDF5 file (with an ".h5" suffix) that haw the word "filtered" in it?
+If so, read that file in and assign it to a variable called "filter_st".
+
 
 :::::::::::::::::::::::: solution 
 
-You can add a line with at least three colons and a `solution` tag.
+## Solution
+ 
+```r
+filter_st = Load10X_Spatial(data.dir = "data/151508", filename = "151508_filtered_feature_bc_matrix.h5")
+```
 
 :::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
+
+Once you have the filtered data loaded in, look at the object.
+
+```r
+filter_st
+```
+
+```output
+An object of class Seurat 
+33538 features across 4384 samples within 1 assay 
+Active assay: Spatial (33538 features, 0 variable features)
+ 1 layer present: counts
+ 1 image present: slice1
+```
+
+The raw and filtered data both have 33,538 genes. But the filtered data has fewer
+spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
+
+`![H & E slide of sample 151508](episodes/fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}`
+
+#########################
+### DMG: STOPPED HERE ###
+#########################
+
+
+
+
+
+
+
 
 ## Figures
 
