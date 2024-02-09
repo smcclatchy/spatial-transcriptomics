@@ -456,14 +456,11 @@ Console:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"data.table"</span>,  <span class="st">"doMC"</span>,      <span class="st">"ggExtra"</span>,     <span class="st">"hdf5r"</span>,    <span class="st">"here"</span>,</span>
-<span>                   <span class="st">"Matrix"</span>,      <span class="st">"matrixStats"</span>, <span class="st">"plyr"</span>,      <span class="st">"rcartocolor"</span>, <span class="st">"remotes"</span>,</span>
-<span>                   <span class="st">"Rfast2"</span>,      <span class="st">"Seurat"</span>,      <span class="st">"tidyverse"</span><span class="op">)</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages(c("BiocManager", "data.table",  "doMC",        "ggExtra",  "hdf5r",</span></span>
+<span><span class="co">#                    "here",        "Matrix",      "matrixStats", "plyr",     "rcartocolor", "remotes",</span></span>
+<span><span class="co">#                    "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)</span></span>
+<span><span class="co"># BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))</span></span>
 <span></span>
-<span><span class="co">#install.packages(c("BiocManager", "data.table",  "doMC",      "ggExtra",     "hdf5r",    "here",</span></span>
-<span><span class="co">#                   "Matrix",      "matrixStats", "plyr",      "rcartocolor", "remotes",  "rhdf5",</span></span>
-<span><span class="co">#                   "Rfast2",      "Seurat",    "tidyverse"), dependencies = TRUE)</span></span>
-<span><span class="co">#BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))</span></span>
 <span><span class="co">#options(timeout = 1e6)</span></span>
 <span><span class="co">#remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)</span></span>
 <span><span class="co">#remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)</span></span></code></pre>
@@ -475,18 +472,21 @@ correctly.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#library(tidyverse)</span></span>
-<span><span class="co">#library(data.table)</span></span>
-<span><span class="co">#library(Matrix)</span></span>
-<span><span class="co">#library(hdf5r)</span></span>
-<span><span class="co">#library(here)</span></span>
-<span><span class="co">#library(Seurat)</span></span>
-<span><span class="co">#library(spacexr)</span></span>
-<span><span class="co">#library(foreach)</span></span>
-<span><span class="co">#library(parallel)</span></span>
-<span><span class="co">#library(ggExtra)</span></span>
-<span><span class="co">#library(glmGamPoi)</span></span>
-<span><span class="co">#library(rcartocolor)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">igraph</span><span class="op">)</span></span>
+<span><span class="co"># library(BiocManager)</span></span>
+<span><span class="co"># library(data.table)</span></span>
+<span><span class="co"># library(doMC)</span></span>
+<span><span class="co"># library(ggExtra)</span></span>
+<span><span class="co"># library(hdf5r)</span></span>
+<span><span class="co"># library(here)</span></span>
+<span><span class="co"># library(Matrix)</span></span>
+<span><span class="co"># library(matrixStats)</span></span>
+<span><span class="co"># library(plyr)</span></span>
+<span><span class="co"># library(rcartocolor)</span></span>
+<span><span class="co"># library(remotes)</span></span>
+<span><span class="co"># library(Rfast2)</span></span>
+<span><span class="co"># library(Seurat)</span></span>
+<span><span class="co"># library(tidyverse)</span></span></code></pre>
 </div>
 </section><section id="project-setup"><h2 class="section-heading">Project Setup<a class="anchor" aria-label="anchor" href="#project-setup"></a>
 </h2>
