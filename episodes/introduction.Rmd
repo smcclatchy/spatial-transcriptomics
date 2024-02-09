@@ -48,13 +48,11 @@ expression profiling within tissues.
 <a href="https://commons.wikimedia.org/wiki/File:Notchccr.svg">Fred the Oyster</a> Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Spatial transcriptomics addresses a key obstacle in single-cell and bulk RNA
-sequencing studies: the loss of spatial information when tissues are 
-dissociated. Spatial organization and structure determine function in most
-tissues and organs, so capturing both spatial and expression information is 
-critical for understanding tissue function in neuroscience, cancer biology, 
-developmental biology, and most other fields. Immunology is the only field that 
-doesn't depend on spatial information to determine structure and function 
-because immune cells often circulate in liquid media like blood and lymph. 
+sequencing studies: their loss of spatial information. Spatial organization and structure determine function in most tissues and organs, so capturing both 
+spatial and expression information is critical for understanding tissue function 
+in neuroscience, cancer biology, developmental biology, and most other fields. Immunology is the only field that doesn't depend on spatial information to 
+determine structure and function because immune cells often circulate in liquid 
+media like blood and lymph. 
 
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies broadly fall within two groups: 
@@ -68,24 +66,52 @@ detect genes efficiently.
 Imaging-based technologies read transcriptomes in situ 
 using microscopy and feature single-cell or even single-molecule resolution. 
 They identify mRNA species through hybridization with fluorescent probes. These 
-probes are gene-specific in fluorescence in situ hybridization (FISH). Current 
-FISH methods employ multiple hybridization rounds, with risk of error for each 
-transcript growing exponentially with each round. FISH methods are limited in 
-the size of tissue that they can profile and most accept fresh-frozen (FF) 
-tissue only. They can also be time-consuming and expensive due to microscopic 
-imaging they require. Since they target specific genes, they can only detect 
-genes that are in the probe set employed. They have high spatial resolution 
-though, even delivering single-molecule resolution in single-molecule FISH 
-(smFISH).
+probes are gene-specific in fluorescence in situ hybridization (FISH). 
+
+![Overview of fluorescence in situ hybridization (FISH). ](fig/FISH_Overview.png){alt='a general schematic showing fluorescence in situ hybridization'}
+
+<a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png">
+Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a> Image 
+created with Biorender.com. Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
+
+Current FISH methods employ multiple hybridization rounds, with risk of error 
+for each transcript growing exponentially with each round. FISH methods are 
+limited in the size of tissue that they can profile and most accept fresh-frozen 
+(FF) tissue only. They can also be time-consuming and expensive due to 
+microscopic imaging they require. Since they target specific genes, they can 
+only detect genes that are in the probe set employed. They have high spatial resolution though, even delivering single-molecule resolution in single-molecule 
+FISH (smFISH).
+
+Conventional FISH methods have few distinct color channels that limit the number 
+of genes that can be simultaneously analyzed. Multiplexed error-robust FISH 
+(MERFISH) overcomes this problem, greatly increasing the number of RNA species
+that can be simultaneously imaged in single cells employing binary code gene 
+labeling in multiple rounds of hybridization.
+
+![Schematic representation of multiplexed error-robust FISH (MERFISH). Binary codes assigned to mRNA species of interest, where “1” represents a short fluorescent DNA probe. b, Consecutive hybridization rounds, bleaching in between is implied, but not shown for clarity. At the end of the sixth round, it is possible to tell different mRNAs apart due to the decoded combinations of “1” and “0”. ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/MERFISH_Diagram.png/512px-MERFISH_Diagram.png){alt='alt text for accessibility purposes'}
+
+<a title="SlifertheRyeDragon, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:MERFISH_Diagram.png"><img width="512" alt="MERFISH Diagram" src=""></a>
 
 In situ sequencing amplifies and sequences mRNAs directly within a block 
 or section of fresh-frozen (FF) or formalin-fixed paraffin embedded (FFPE) 
-tissue. Probes profile one or two bases at a time using different
-fluorophores, eventually revealing the identity of the mRNA through imaging. In 
-situ sequencing can accommodate larger tissue sections than can FISH, though 
-FISH methods are more efficient at detecting mRNA of genes in the probe set. 
-Like FISH, in situ sequencing requires considerable imaging time on a microscope 
-but delivers high spatial resolution. 
+tissue. 
+
+![Overview of in situ sequencing.](fig/ISS_Overview.png){alt='a general schematic showing in situ sequencing'}
+<a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png">
+Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a> Image 
+created with Biorender.com. Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
+
+Messenger RNA (mRNA) is reverse transcribed to complementary DNA (cDNA) within 
+tissue sections. A "padlock" probe binds to the cDNA, which is then 
+circularized. Following circularization, the cDNA is amplified (copied) by 
+rolling-circle amplification (RCA), then sequenced by ligation (joining). Probes 
+profile one or two bases at a time using different fluorophores, eventually 
+revealing the identity of the cDNA through imaging. Since it requires imaging,
+in situ sequencing is an imaging-based method even though it involves 
+sequencing. In situ sequencing can accommodate larger tissue sections than can 
+FISH, though FISH methods are more efficient at detecting mRNA of genes in the 
+probe set. Like FISH, in situ sequencing requires considerable imaging time on a 
+microscope but delivers high spatial resolution. 
 
 ### Sequencing-based technologies
 Sequencing-based methods capture, sequence, and count mRNA in situ using 
@@ -100,15 +126,21 @@ sequencing-based technologies use probes that record position instead of
 gene-specific probes, they can deliver transcriptome-wide profiling. 
 
 LCM-based methods employ lasers to cut a tissue slice or fuse tissue to a 
-membrane followed by sequencing of individual cells. LCM techniques process 
-tissue sections and individual cells for transcriptomic profiling by isolating 
-regions of interest. They are useful for profiling transcriptomes as a first 
-pass and for identifying RNA isoforms, but their blunt approach to capturing 
-spatial expression data limits spatial resolution and requires many samples for 
-sequencing. Since they focus on regions of interest, it is often not possible to 
-obtain a picture of spatial expression across a whole tissue. LCM is an older
-technology that has long been used with FFPE tissues. Modern LCM-based
-approaches include Nanostring's GeoMx DSP and STRP-seq. 
+membrane followed by sequencing of individual cells. 
+
+![Overview of laser-capture microdissection .](fig/LCM_Overview.png){alt='a general schematic showing laser-capture microdissection '}
+<a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png">
+Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a> Image 
+created with Biorender.com. Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
+
+LCM techniques process tissue sections and individual cells for transcriptomic 
+profiling by isolating regions of interest. They are useful for profiling 
+transcriptomes as a first pass and for identifying RNA isoforms, but their blunt 
+approach to capturing spatial expression data limits spatial resolution and 
+requires many samples for sequencing. Since they focus on regions of interest, 
+it is often not possible to obtain a picture of spatial expression across a 
+whole tissue. LCM is an older technology that has long been used with FFPE 
+tissues. Modern LCM-based approaches include Nanostring's GeoMx DSP and STRP-seq. 
 
 Microfluidics places a chip with multiple barcode-containing channels onto a 
 tissue section followed by a second chip with channels perpendicular to the 
