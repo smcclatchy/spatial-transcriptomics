@@ -354,7 +354,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></p>
 <hr>
-<p>Last updated on 2023-12-22 |
+<p>Last updated on 2024-02-09 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -431,14 +431,14 @@ the Oyster</a> Public domain, via Wikimedia Commons
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
 <p>Spatial transcriptomics addresses a key obstacle in single-cell and
-bulk RNA sequencing studies: the loss of spatial information when
-tissues are dissociated. Spatial organization and structure determine
-function in most tissues and organs, so capturing both spatial and
-expression information is critical for understanding tissue function in
-neuroscience, cancer biology, developmental biology, and most other
-fields. Immunology is the only field that doesn’t depend on spatial
-information to determine structure and function because immune cells
-often circulate in liquid media like blood and lymph.</p>
+bulk RNA sequencing studies: their loss of spatial information. Spatial
+organization and structure determine function in most tissues and
+organs, so capturing both spatial and expression information is critical
+for understanding tissue function in neuroscience, cancer biology,
+developmental biology, and most other fields. Immunology is the only
+field that doesn’t depend on spatial information to determine structure
+and function because immune cells often circulate in liquid media like
+blood and lymph.</p>
 </section><section id="spatial-transcriptomics-technologies"><h2 class="section-heading">Spatial transcriptomics technologies<a class="anchor" aria-label="anchor" href="#spatial-transcriptomics-technologies"></a>
 </h2>
 <hr class="half-width">
@@ -455,24 +455,53 @@ single-cell resolution, and detect genes efficiently.</p>
 microscopy and feature single-cell or even single-molecule resolution.
 They identify mRNA species through hybridization with fluorescent
 probes. These probes are gene-specific in fluorescence in situ
-hybridization (FISH). Current FISH methods employ multiple hybridization
-rounds, with risk of error for each transcript growing exponentially
-with each round. FISH methods are limited in the size of tissue that
-they can profile and most accept fresh-frozen (FF) tissue only. They can
-also be time-consuming and expensive due to microscopic imaging they
-require. Since they target specific genes, they can only detect genes
-that are in the probe set employed. They have high spatial resolution
-though, even delivering single-molecule resolution in single-molecule
-FISH (smFISH).</p>
+hybridization (FISH).</p>
+<figure><img src="fig/FISH_Overview.png" alt="a general schematic showing fluorescence in situ hybridization" class="figure mx-auto d-block"><figcaption>Overview of fluorescence in situ hybridization
+(FISH).</figcaption></figure><p><a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png" class="external-link">
+Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a>
+Image created with Biorender.com. Public domain, via Wikimedia Commons
+<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
+BY-SA 4.0 DEED</a></p>
+<p>Current FISH methods employ multiple hybridization rounds, with risk
+of error for each transcript growing exponentially with each round. FISH
+methods are limited in the size of tissue that they can profile and most
+accept fresh-frozen (FF) tissue only. They can also be time-consuming
+and expensive due to microscopic imaging they require. Since they target
+specific genes, they can only detect genes that are in the probe set
+employed. They have high spatial resolution though, even delivering
+single-molecule resolution in single-molecule FISH (smFISH).</p>
+<p>Conventional FISH methods have few distinct color channels that limit
+the number of genes that can be simultaneously analyzed. Multiplexed
+error-robust FISH (MERFISH) overcomes this problem, greatly increasing
+the number of RNA species that can be simultaneously imaged in single
+cells employing binary code gene labeling in multiple rounds of
+hybridization.</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/MERFISH_Diagram.png/512px-MERFISH_Diagram.png" alt="alt text for accessibility purposes" class="figure mx-auto d-block"><figcaption>Schematic representation of multiplexed error-robust
+FISH (MERFISH). Binary codes assigned to mRNA species of interest, where
+“1” represents a short fluorescent DNA probe. b, Consecutive
+hybridization rounds, bleaching in between is implied, but not shown for
+clarity. At the end of the sixth round, it is possible to tell different
+mRNAs apart due to the decoded combinations of “1” and “0”.</figcaption></figure><p><a title="SlifertheRyeDragon, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:MERFISH_Diagram.png" class="external-link"><img width="512" alt="MERFISH Diagram" src="" class="figure"></a></p>
 <p>In situ sequencing amplifies and sequences mRNAs directly within a
 block or section of fresh-frozen (FF) or formalin-fixed paraffin
-embedded (FFPE) tissue. Probes profile one or two bases at a time using
-different fluorophores, eventually revealing the identity of the mRNA
-through imaging. In situ sequencing can accommodate larger tissue
-sections than can FISH, though FISH methods are more efficient at
-detecting mRNA of genes in the probe set. Like FISH, in situ sequencing
-requires considerable imaging time on a microscope but delivers high
-spatial resolution.</p>
+embedded (FFPE) tissue.</p>
+<p><img src="fig/ISS_Overview.png" alt="a general schematic showing in situ sequencing" class="figure"><a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png" class="external-link">
+Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a>
+Image created with Biorender.com. Public domain, via Wikimedia Commons
+<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
+BY-SA 4.0 DEED</a></p>
+<p>Messenger RNA (mRNA) is reverse transcribed to complementary DNA
+(cDNA) within tissue sections. A “padlock” probe binds to the cDNA,
+which is then circularized. Following circularization, the cDNA is
+amplified (copied) by rolling-circle amplification (RCA), then sequenced
+by ligation (joining). Probes profile one or two bases at a time using
+different fluorophores, eventually revealing the identity of the cDNA
+through imaging. Since it requires imaging, in situ sequencing is an
+imaging-based method even though it involves sequencing. In situ
+sequencing can accommodate larger tissue sections than can FISH, though
+FISH methods are more efficient at detecting mRNA of genes in the probe
+set. Like FISH, in situ sequencing requires considerable imaging time on
+a microscope but delivers high spatial resolution.</p>
 </div>
 <div class="section level3">
 <h3 id="sequencing-based-technologies">Sequencing-based technologies<a class="anchor" aria-label="anchor" href="#sequencing-based-technologies"></a>
@@ -489,12 +518,17 @@ of mRNAs to arrays of barcoded probes that record position. Since
 sequencing-based technologies use probes that record position instead of
 gene-specific probes, they can deliver transcriptome-wide profiling.</p>
 <p>LCM-based methods employ lasers to cut a tissue slice or fuse tissue
-to a membrane followed by sequencing of individual cells. LCM techniques
-process tissue sections and individual cells for transcriptomic
-profiling by isolating regions of interest. They are useful for
-profiling transcriptomes as a first pass and for identifying RNA
-isoforms, but their blunt approach to capturing spatial expression data
-limits spatial resolution and requires many samples for sequencing.
+to a membrane followed by sequencing of individual cells.</p>
+<p><img src="fig/LCM_Overview.png" alt="a general schematic showing laser-capture microdissection " class="figure"><a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png" class="external-link">
+Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a>
+Image created with Biorender.com. Public domain, via Wikimedia Commons
+<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
+BY-SA 4.0 DEED</a></p>
+<p>LCM techniques process tissue sections and individual cells for
+transcriptomic profiling by isolating regions of interest. They are
+useful for profiling transcriptomes as a first pass and for identifying
+RNA isoforms, but their blunt approach to capturing spatial expression
+data limits spatial resolution and requires many samples for sequencing.
 Since they focus on regions of interest, it is often not possible to
 obtain a picture of spatial expression across a whole tissue. LCM is an
 older technology that has long been used with FFPE tissues. Modern
@@ -769,7 +803,7 @@ What does the sum of a single column signify?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The row sum is the total expression of one gene across all spots on
 the slide.</p>
@@ -1479,7 +1513,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1508,7 +1542,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1649,7 +1683,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1678,7 +1712,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1994,7 +2028,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2023,7 +2057,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -2164,7 +2198,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2193,7 +2227,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
