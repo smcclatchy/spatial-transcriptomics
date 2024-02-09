@@ -1,3 +1,13 @@
+# require(biomaRt)
+# require(doMC)
+# require(harmony)
+# require(matrixStats)
+# require(plyr)
+# require(rhdf5)
+# require(Rsamtools)
+# require(Seurat)
+# require(spacexr)
+
 
 # #' Run RCTD deconvolution by first ensuring that single-cell RNA-seq reference only includes genes in ST data.
 # #'
@@ -23,7 +33,7 @@
 #   }
   
 #   # Get raw ST coiunts
-#   st.counts <- GetAssayData(st.obj, assay="Spatial", slot="counts")
+#   st.counts <- Seurat::GetAssayData(st.obj, assay="Spatial", slot="counts")
   
 #   # Get the spot coordinates
 #   st.coords <- st.obj[[]][, c("col", "row")]
@@ -33,7 +43,7 @@
 #   nUMI <- colSums(st.counts) # In this case, total counts per pixel is nUMI
   
 #   # Create the RCTD 'puck', representing the ST data
-#   puck <- SpatialRNA(st.coords, st.counts, nUMI)
+#   puck <- spacexr::SpatialRNA(st.coords, st.counts, nUMI)
               
 #   # Create an RCTD scRNA-seq reference. 
 #   # NB: we do this for each of potentially multiple ST samples because some of those
@@ -55,18 +65,18 @@
 #   }
 #   sc.cell.types <- sc.cell.types[colnames(sc.counts)]
 #   nUMI <- colSums(sc.counts)
-#   reference <- Reference(sc.counts, sc.cell.types, nUMI, n_max_cells = ncol(sc.counts) + 1)
+#   reference <- spacexr::Reference(sc.counts, sc.cell.types, nUMI, n_max_cells = ncol(sc.counts) + 1)
               
 #   max_cores <- min(5, detectCores() - 1)
   
 #   # Note that we have keep_reference = TRUE here. Without it, the default is
 #   # keep_reference = FALSE, which would ignore the Reference we have 
 #   # intentionally created above.
-#   myRCTD <- create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
+#   myRCTD <- spacexr::create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
   
 #   # NB: running in full mode!
 #   if(run.rctd) {
-#     myRCTD <- suppressPackageStartupMessages(run.RCTD(myRCTD, doublet_mode = 'full'))
+#     myRCTD <- suppressPackageStartupMessages(spacexr::run.RCTD(myRCTD, doublet_mode = 'full'))
 #   }
   
 #   if(!is.null(rds.output.file)) {
@@ -155,10 +165,10 @@
 # #' @param norm_param Choose which normalization assay will be used
 # #' @return merged_obj One Seurat object containing all unique Seurat objs
 # merge.Seurat.objs <- function(objs, norm_param){
-#   merged_obj <- ScaleData(merged_obj, assay=norm_param)
-#   VariableFeatures(merged_obj, assay=norm_param) <- unique(unname(unlist(lapply(filtered.objs, function(x) VariableFeatures(x, assay=norm_param)))))
-#   merged_obj <- RunPCA(merged_obj, verbose = FALSE)
-#   ElbowPlot(merged_obj, ndims = 40)
+#   merged_obj <- Seurat::ScaleData(merged_obj, assay=norm_param)
+#   Seurat::VariableFeatures(merged_obj, assay=norm_param) <- unique(unname(unlist(lapply(filtered.objs, function(x) VariableFeatures(x, assay=norm_param)))))
+#   merged_obj <- Seurat::RunPCA(merged_obj, verbose = FALSE)
+#   Seurat::ElbowPlot(merged_obj, ndims = 40)
 #   mat <- Seurat::GetAssayData(merged_obj, assay = norm_param)
 #   pca <- merged_obj[["pca"]]
   
@@ -169,12 +179,12 @@
 #   varExplained = eigValues / total_variance
 #   cumVarExplained <- cumsum(varExplained)
   
-#   merged_obj <- RunHarmony(merged_obj, group.by.vars = make.names("orig ident"))
+#   merged_obj <- harmony::RunHarmony(merged_obj, group.by.vars = make.names("orig ident"))
   
 #   # Pick the number of dimensions based on a flattening of the elbow plot
-#   merged_obj <- FindNeighbors(merged_obj,reduction = "harmony", dims = 1:20)
-#   merged_obj <- FindClusters(merged_obj, reduction = "harmony",verbose = FALSE)
-#   merged_obj <- RunUMAP(merged_obj, reduction = "harmony",dims = 1:20)
+#   merged_obj <- Seurat::FindNeighbors(merged_obj,reduction = "harmony", dims = 1:20)
+#   merged_obj <- Seurat::FindClusters(merged_obj, reduction = "harmony",verbose = FALSE)
+#   merged_obj <- Seurat::RunUMAP(merged_obj, reduction = "harmony",dims = 1:20)
 #   merged_obj
 # }
 
@@ -183,7 +193,7 @@
 # #' @param obj A Seurat object.
 # #' @return A (sparse) matrix holding the spot counts (i.e., from the "counts" slot)
 # get.count.matrix <- function(obj) {
-#   as.matrix(x = GetAssayData(object = obj, assay = "Spatial", slot = "counts"))
+#   as.matrix(x = Seurat::GetAssayData(object = obj, assay = "Spatial", slot = "counts"))
 # }
 
 
@@ -247,7 +257,7 @@
 # #' @param slot The slot in the assay form which to access the gene expression/values.
 # #' @return A vector of the highest-expressed genes.
 # get.top.genes <- function(obj, n.top = 20, assay = "Spatial", slot = "data") {
-#   mat <- GetAssayData(obj, assay = assay, slot = slot)
+#   mat <- Seurat::GetAssayData(obj, assay = assay, slot = slot)
 #   get.top.genes.matrix(mat, n.top = n.top, assay = assay, slot = slot)
 # }
 
@@ -263,7 +273,7 @@
 # #' @return A (sparse) matrix of spots that are (or are not) in tissue
 # subset.matrix.based.on.tissue.status <- function(obj, tissue.val, tissue.col = "tissue", assay = "Spatial", slot = "data") {
 #   cell.subset <- rownames((obj@meta.data)[(obj@meta.data)[,tissue.col] == tissue.val,])
-#   mat <- GetAssayData(obj, assay = assay, slot = slot)
+#   mat <- Seurat::GetAssayData(obj, assay = assay, slot = slot)
 #   mat[,cell.subset]
 # }
 
@@ -274,7 +284,7 @@
 # #' @param gene_db A Mart object database
 # #' @return A data.frame giving the biotype of each gene in the gene_set
 # get.biotypes_ <- function(gene_set,gene_db){
-#   gb <- getBM(attributes=c("external_gene_name", "gene_biotype", "chromosome_name"),filters = c("external_gene_name"), values=gene_set, mart=gene_db)
+#   gb <- biomaRt::getBM(attributes=c("external_gene_name", "gene_biotype", "chromosome_name"),filters = c("external_gene_name"), values=gene_set, mart=gene_db)
 #   # Label mitochondrial genes as any encoded on the "MT" chromosome
 #   flag <- grepl(gb$chromosome_name, pattern="MT", ignore.case = TRUE)
 #   gb[flag, "gene_biotype"] <- "MT"
@@ -539,7 +549,7 @@
 #   tissue.positions <- get.tissue.position.metadata(spaceranger.dir)
 #   tissue.positions$spot_type <- "background"
 #   tissue.positions[tissue.positions$tissue == 1, "spot_type"] <- "tissue"
-#   obj <- AddMetaData(obj, tissue.positions)
+#   obj <- Seurat::AddMetaData(obj, tissue.positions)
 #   obj  
 # }
 
@@ -578,18 +588,18 @@
 # #' @param gene_set A character array carrying the querried gene symbols names
 # #' @param gene_db A Mart object database
 # #' @return querried.biotypes
-# get.annotationhub.biotypes <- function(gene_set){
-#   stop("Not implemented")
-#   ah <- AnnotationHub()
-#   human_ens <- query(ah, c("Homo sapiens", "EnsDb"))
-#   foo <- human_ens[["AH75011"]]
-#   df <- genes(foo, return.type = "data.frame")
-#   gb <- getBM(attributes=c("external_gene_name", "gene_biotype"),filters = c("external_gene_name"), values=gene_set, mart=gene_db)
-#   querried.biotypes <- as.data.frame(table(gb$gene_biotype))
-#   colnames(querried.biotypes) <- c("biotype", "Freq")
-#   o <- order(querried.biotypes$Freq, decreasing=TRUE)
-#   querried.biotypes <- querried.biotypes[o,]
-# }
+# # get.annotationhub.biotypes <- function(gene_set){
+# #   stop("Not implemented")
+# #   ah <- AnnotationHub()
+# #   human_ens <- query(ah, c("Homo sapiens", "EnsDb"))
+# #   foo <- human_ens[["AH75011"]]
+# #   df <- genes(foo, return.type = "data.frame")
+# #   gb <- getBM(attributes=c("external_gene_name", "gene_biotype"),filters = c("external_gene_name"), values=gene_set, mart=gene_db)
+# #   querried.biotypes <- as.data.frame(table(gb$gene_biotype))
+# #   colnames(querried.biotypes) <- c("biotype", "Freq")
+# #   o <- order(querried.biotypes$Freq, decreasing=TRUE)
+# #   querried.biotypes <- querried.biotypes[o,]
+# # }
 
 # #' Extract per-spot number/fraction of intronic, exonic, and intergenic (mapped) reads and number unmapped reads.
 # #' 
@@ -614,7 +624,7 @@
 #   # aren't reflected in the rname.
 #   if(FALSE) {
 #   # Get the chromosome names
-#   ret <- scanBamHeader(c(bam.file))
+#   ret <- Rsamtools::scanBamHeader(c(bam.file))
 #   # The two elements returned by scanBamHeader are targets and text.
 #   # According to the Rsamtools docs:
 #   # The targets element contains target (reference) sequence lengths. The text element is
@@ -635,8 +645,8 @@
 #                  # CB: error-corrected spot barcode
 #                  # UB: error-corrected molecular barcode
 #                  # RE: E = exonic, N = intronic, I = intergenic
-#                  param <- ScanBamParam(tag=c('CB','RE'), which=GRanges(seqname, IRanges(1, seq.lengths[[seqname]])), flag=scanBamFlag(isUnmappedQuery=FALSE))
-#                  x <- scanBam(bam.file, param=param)[[1]]
+#                  param <- Rsamtools::ScanBamParam(tag=c('CB','RE'), which=GRanges(seqname, IRanges(1, seq.lengths[[seqname]])), flag=scanBamFlag(isUnmappedQuery=FALSE))
+#                  x <- Rsamtools::scanBam(bam.file, param=param)[[1]]
 #                  if(is.null(x$tag$CB)) { return(NULL) }
 #                  if(is.null(x$tag$RE)) { return(NULL) }
 #                  df <- as.data.frame(x$tag)
@@ -652,8 +662,8 @@
 #                })
   
 #   } # end if(FALSE)
-#   param <- ScanBamParam(tag=c('CB','RE'), flag=scanBamFlag(isUnmappedQuery=FALSE))
-#   x <- scanBam(bam.file, param=param)[[1]]
+#   param <- Rsamtools::ScanBamParam(tag=c('CB','RE'), flag=scanBamFlag(isUnmappedQuery=FALSE))
+#   x <- Rsamtools::scanBam(bam.file, param=param)[[1]]
 #   df <- as.data.frame(x$tag)
 #   # Combine counts within spot (for this chromosome)
 #   res <- ddply(df, .variables = c("CB"),
@@ -671,8 +681,8 @@
 #   # See description of _cell_ranger filtering here:
 #   # https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/algorithms/overview
 #   # I believe the bam we are reading already has duplicate UMIs filtered
-#   param <- ScanBamParam(tag=c('CB'),flag=scanBamFlag(isUnmappedQuery=TRUE))
-#   unmr <- scanBam(bam.file, param=param)[[1]]
+#   param <- Rsamtools::ScanBamParam(tag=c('CB'),flag=scanBamFlag(isUnmappedQuery=TRUE))
+#   unmr <- Rsamtools::scanBam(bam.file, param=param)[[1]]
 #   unmr.tbl <- as.data.frame(table(na.omit(unmr$tag$CB)))
 #   colnames(unmr.tbl) <- c("CB", "tot.unmapped.reads")
   
@@ -828,10 +838,10 @@
 # #'           gene.id.targets: A vector of gene ids
 # #'           gene.id.off.targets: A vector of gene ids
 # get.targeted.genes <- function(mol.info.file) {
-#   gene.ensg.ids <- h5read(mol.info.file, "/features/id")
-#   gene.names <- h5read(mol.info.file, '/features/name')
+#   gene.ensg.ids <- rhdf5::h5read(mol.info.file, "/features/id")
+#   gene.names <- rhdf5::h5read(mol.info.file, '/features/name')
   
-#   ls.info <- h5ls(mol.info.file)
+#   ls.info <- rhdf5::h5ls(mol.info.file)
 #   probe.set.key.flag <- grepl(ls.info$name, pattern="Probe Set")
 #   if(length(which(probe.set.key.flag)) == 0) {
 #     # This is not a targeted assay
@@ -848,7 +858,7 @@
 #   # the filtered feature for FFPE/targeted assays should only include the targeted genes. When I assume zero-based indices (as below),
 #   # I get a near perfect correspondence between probe.gene.names and the rownames of the (filtered) count matrix.
 #   # When I assume a one-based index, as I had previously, the correspondence is poor.
-#   probe.gene.indices <- h5read(mol.info.file, paste0(ls.info[probe.set.key.flag,"group"], "/", ls.info[probe.set.key.flag,"name"])) + 1
+#   probe.gene.indices <- rhdf5::h5read(mol.info.file, paste0(ls.info[probe.set.key.flag,"group"], "/", ls.info[probe.set.key.flag,"name"])) + 1
 #   gene.indices <- 1:length(gene.ensg.ids)
 #   nonprobe.gene.indices <- gene.indices[!(gene.indices %in% probe.gene.indices)]
 #   # probe.gene.indices <- gene.indices[(gene.indices %in% probe.gene.ids)]
@@ -871,9 +881,9 @@
 # apply.sctransform_ <- function(obj, use.v2 = TRUE, assay = "Spatial") {
 #   # obj <- PercentageFeatureSet(obj, pattern = "^MT-", col.name = "percent.mt")
 #   if(use.v2) { 
-#     obj <- SCTransform(obj, assay = assay, vars.to.regress = c(paste0("nCount_", assay)), verbose = FALSE, vst.flavor = "v2", method = "glmGamPoi")
+#     obj <- Seurat::SCTransform(obj, assay = assay, vars.to.regress = c(paste0("nCount_", assay)), verbose = FALSE, vst.flavor = "v2", method = "glmGamPoi")
 #   } else {
-#     obj <- SCTransform(obj, assay = assay, vars.to.regress = c(paste0("nCount_", assay)), verbose = FALSE)
+#     obj <- Seurat::SCTransform(obj, assay = assay, vars.to.regress = c(paste0("nCount_", assay)), verbose = FALSE)
 #   }
 #   return(obj)
 # }
