@@ -33,11 +33,13 @@ In RStudio, copy and paste the following commands into the Console:
 
 ```r
 install.packages(c("BiocManager", "data.table",  "doMC",      "ggExtra",     "hdf5r",    "here",
-                   "Matrix",      "matrixStats", "plyr",      "rcartocolor", "remotes",  "rhdf5"))
+                   "Matrix",      "matrixStats", "plyr",      "rcartocolor", "remotes",
+                   "Rfast2",      "tidyverse"), dependencies = TRUE)
+
 #install.packages(c("BiocManager", "data.table",  "doMC",      "ggExtra",     "hdf5r",    "here",
 #                   "Matrix",      "matrixStats", "plyr",      "rcartocolor", "remotes",  "rhdf5",
-#                   "Rfast2",      "Rsamtools",   "tidyverse"), dependencies = TRUE)
-#BiocManager::install(c("biomaRt", "glmGamPoi"))
+#                   "Rfast2",      "Seurat",    "tidyverse"), dependencies = TRUE)
+#BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))
 #options(timeout = 1e6)
 #remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
 #remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
