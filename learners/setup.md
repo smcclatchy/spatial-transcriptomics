@@ -32,15 +32,11 @@ package takes a long time to download. It may take up to 30 minutes for it to in
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "data.table",  "doMC",        "ggExtra",  "hdf5r",
-                   "here",        "Matrix",      "matrixStats", "plyr",     "rcartocolor", "remotes",
-                   "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
-BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))
+# install.packages(c("BiocManager", "data.table",  "doMC",        "ggExtra",  "hdf5r",
+#                    "here",        "Matrix",      "matrixStats", "plyr",     "rcartocolor", "remotes",
+#                    "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
+# BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))
 
-#install.packages(c("BiocManager", "data.table",  "doMC",      "ggExtra",     "hdf5r",    "here",
-#                   "Matrix",      "matrixStats", "plyr",      "rcartocolor", "remotes",  "rhdf5",
-#                   "Rfast2",      "Seurat",    "tidyverse"), dependencies = TRUE)
-#BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))
 #options(timeout = 1e6)
 #remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
 #remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
@@ -50,20 +46,21 @@ Once the installation has finished, copy and paste the following commands into t
 console to verify that both packages installed correctly.
 
 ```r
-library(BiocManager)
-library(data.table)
-library(doMC)
-library(ggExtra)
-library(hdf5r)
-library(here)
-library(Matrix)
-library(matrixStats)
-library(plyr)
-library(rcartocolor)
-library(remotes)
-library(Rfast2)
-library(Seurat)
-library(tidyverse)
+library(igraph)
+# library(BiocManager)
+# library(data.table)
+# library(doMC)
+# library(ggExtra)
+# library(hdf5r)
+# library(here)
+# library(Matrix)
+# library(matrixStats)
+# library(plyr)
+# library(rcartocolor)
+# library(remotes)
+# library(Rfast2)
+# library(Seurat)
+# library(tidyverse)
 ```
 
 ## Project Setup

@@ -5,7 +5,7 @@
 # require(plyr)
 # require(rhdf5)
 # require(Rsamtools)
-require(Seurat)
+# require(Seurat)
 # require(spacexr)
 
 
@@ -105,41 +105,41 @@ require(Seurat)
 #   write.csv(ST_automated,paste0(base_dir,'/automatic_analysis/',curr_datatypes,'.csv'), row.names = FALSE ,quote=FALSE)
 # }
 
-#' Get the position information for each spot in a tissue
-#' 
-#' A function that extracts spot position information from the spaceranger output corresponding to 
-#' a single tissue. See https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/output/images
-#' for a full description.
-#'
-#' @param spaceranger_dir The path to the spaceranger output.
-#' @return A data.frame with columns:
-#'  barcode: The sequence of the barcode associated to the spot.
-#'  in_tissue: Binary, indicating if the spot falls inside (1) or outside (0) of tissue.
-#'  array_row: The row coordinate of the spot in the array from 0 to 77. The array has 78 rows.
-#'  array_col: The column coordinate of the spot in the array. In order to express the orange crate arrangement of the spots, this column index uses even numbers from 0 to 126 for even rows, and odd numbers from 1 to 127 for odd rows. Notice then that each row (even or odd) has 64 spots.
-#'  pxl_row_in_fullres: The row pixel coordinate of the center of the spot in the full resolution image.
-#'  pxl_col_in_fullres: The column pixel coordinate of the center of the spot in the full resolution image.
-get.tissue.position.metadata <- function(spaceranger_dir) {
-  image.dir <- paste0(spaceranger_dir, "/", "spatial/")
+# #' Get the position information for each spot in a tissue
+# #' 
+# #' A function that extracts spot position information from the spaceranger output corresponding to 
+# #' a single tissue. See https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/output/images
+# #' for a full description.
+# #'
+# #' @param spaceranger_dir The path to the spaceranger output.
+# #' @return A data.frame with columns:
+# #'  barcode: The sequence of the barcode associated to the spot.
+# #'  in_tissue: Binary, indicating if the spot falls inside (1) or outside (0) of tissue.
+# #'  array_row: The row coordinate of the spot in the array from 0 to 77. The array has 78 rows.
+# #'  array_col: The column coordinate of the spot in the array. In order to express the orange crate arrangement of the spots, this column index uses even numbers from 0 to 126 for even rows, and odd numbers from 1 to 127 for odd rows. Notice then that each row (even or odd) has 64 spots.
+# #'  pxl_row_in_fullres: The row pixel coordinate of the center of the spot in the full resolution image.
+# #'  pxl_col_in_fullres: The column pixel coordinate of the center of the spot in the full resolution image.
+# get.tissue.position.metadata <- function(spaceranger_dir) {
+#   image.dir <- paste0(spaceranger_dir, "/", "spatial/")
   
-  file <- file.path(image.dir, "tissue_positions_list.csv")
-  col.names <- c("barcodes", "tissue", "row", "col", "imagerow", "imagecol")
-  if(file.exists(file)) {
-    tissue.positions <- 
-      read.csv(file = file, col.names = col.names, header = FALSE, as.is = TRUE, row.names = 1)
-    return(tissue.positions)
-  }
-  file <- file.path(image.dir, "tissue_positions.csv")
-  if(!file.exists(file)) {
-    stop("Found neither tissue_positions_list.csv nor tissue_positions.csv")
-  }
-  tissue.positions <- 
-    read.csv(file = file, header = TRUE, as.is = TRUE)
-  colnames(tissue.positions) <- col.names
-  rownames(tissue.positions) <- tissue.positions$barcodes
-  tissue.positions <- tissue.positions[, !(colnames(tissue.positions) %in% c("barcodes"))]
-  return(tissue.positions)
-}
+#   file <- file.path(image.dir, "tissue_positions_list.csv")
+#   col.names <- c("barcodes", "tissue", "row", "col", "imagerow", "imagecol")
+#   if(file.exists(file)) {
+#     tissue.positions <- 
+#       read.csv(file = file, col.names = col.names, header = FALSE, as.is = TRUE, row.names = 1)
+#     return(tissue.positions)
+#   }
+#   file <- file.path(image.dir, "tissue_positions.csv")
+#   if(!file.exists(file)) {
+#     stop("Found neither tissue_positions_list.csv nor tissue_positions.csv")
+#   }
+#   tissue.positions <- 
+#     read.csv(file = file, header = TRUE, as.is = TRUE)
+#   colnames(tissue.positions) <- col.names
+#   rownames(tissue.positions) <- tissue.positions$barcodes
+#   tissue.positions <- tissue.positions[, !(colnames(tissue.positions) %in% c("barcodes"))]
+#   return(tissue.positions)
+# }
 
 # #' Create a Seurat object based on the spaceranger baseline file
 # #'
@@ -467,41 +467,41 @@ get.tissue.position.metadata <- function(spaceranger_dir) {
 #   expr.mat[gene.rep,]
 # }
 
-# #' Calculate the quantiles of the mean expression (over samples/cell/spots/columns) of an expression matrix.
-# #'  
-# #' @param expr.mat An expression matrix (with no assumed units), whose rows are genes (in no particular namespace) and whose columns are samples/cells/spots.
-# #' @param quantiles A vector of probability values
-# #' @summary.func Function to apply to rows of expression matrix to summarize each gene's expression
-# #' @return A data.frame containing the estimated quantiles for each probability value in quantiles (one row, and as many columns as values in quantiles)
-# calculate.expression.quantiles <- function(expr.mat, quantiles = seq(0, 1, by=0.1), summary.func = mean) {
-#   # gene.summaries <- rowMeans(expr.mat)
-#   gene.summaries <- apply(expr.mat, 1, summary.func)
-#   quantile(gene.summaries, probs=quantiles)
-# }
+# # #' Calculate the quantiles of the mean expression (over samples/cell/spots/columns) of an expression matrix.
+# # #'  
+# # #' @param expr.mat An expression matrix (with no assumed units), whose rows are genes (in no particular namespace) and whose columns are samples/cells/spots.
+# # #' @param quantiles A vector of probability values
+# # #' @summary.func Function to apply to rows of expression matrix to summarize each gene's expression
+# # #' @return A data.frame containing the estimated quantiles for each probability value in quantiles (one row, and as many columns as values in quantiles)
+# # calculate.expression.quantiles <- function(expr.mat, quantiles = seq(0, 1, by=0.1), summary.func = mean) {
+# #   # gene.summaries <- rowMeans(expr.mat)
+# #   gene.summaries <- apply(expr.mat, 1, summary.func)
+# #   quantile(gene.summaries, probs=quantiles)
+# # }
 
-#' Add metadata to Seurat object.
-#'  
-#' This function is a simple wrapper around AddMetaData
-#' 
-#' @param obj A Seurat object
-#' @param metadata.df A data.frame expected to have all of the rownames (corresponding to cells/spots) in existing metadata for obj (obj[[]])
-#' @return obj modified to hold the metadata in metadata.df
-add.metadata.to.seurat.obj <- function(obj, metadata.df) {
-  # rows <- rownames(obj[[]])
-  # print(head(rows))
-  # print(table(rows %in% rownames(metadata.df)))
-  # stopifnot(rows %in% rownames(metadata.df))
-  # metadata.df <- metadata.df[rows,]
-  colnames(metadata.df) <- make.names(colnames(metadata.df))
-  metadata.df <- metadata.df[, !(colnames(metadata.df) %in% colnames(obj[[]])), drop=FALSE]
-  cols.to.add <- colnames(metadata.df)
-  all.meta <- merge(obj[[]], metadata.df, by = "row.names", all.x = TRUE)
-  rownames(all.meta) <- all.meta$Row.names
-  ids <- Seurat::Cells(obj)
-  all.meta <- all.meta[ids,]
-  obj <- Seurat::AddMetaData(obj, all.meta[, cols.to.add, drop=FALSE])
-  obj
-}
+# #' Add metadata to Seurat object.
+# #'  
+# #' This function is a simple wrapper around AddMetaData
+# #' 
+# #' @param obj A Seurat object
+# #' @param metadata.df A data.frame expected to have all of the rownames (corresponding to cells/spots) in existing metadata for obj (obj[[]])
+# #' @return obj modified to hold the metadata in metadata.df
+# add.metadata.to.seurat.obj <- function(obj, metadata.df) {
+#   # rows <- rownames(obj[[]])
+#   # print(head(rows))
+#   # print(table(rows %in% rownames(metadata.df)))
+#   # stopifnot(rows %in% rownames(metadata.df))
+#   # metadata.df <- metadata.df[rows,]
+#   colnames(metadata.df) <- make.names(colnames(metadata.df))
+#   metadata.df <- metadata.df[, !(colnames(metadata.df) %in% colnames(obj[[]])), drop=FALSE]
+#   cols.to.add <- colnames(metadata.df)
+#   all.meta <- merge(obj[[]], metadata.df, by = "row.names", all.x = TRUE)
+#   rownames(all.meta) <- all.meta$Row.names
+#   ids <- Seurat::Cells(obj)
+#   all.meta <- all.meta[ids,]
+#   obj <- Seurat::AddMetaData(obj, all.meta[, cols.to.add, drop=FALSE])
+#   obj
+# }
 
 # #' Enable parallel execution.
 # #'  
