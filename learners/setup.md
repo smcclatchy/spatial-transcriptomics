@@ -48,6 +48,7 @@ console to verify that both packages installed correctly.
 ```r
 library(igraph)
 library(leiden)
+library(Seurat)
 # library(BiocManager)
 # library(data.table)
 # library(doMC)
