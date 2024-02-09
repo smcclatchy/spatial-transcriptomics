@@ -32,8 +32,8 @@ package takes a long time to download. It may take up to 30 minutes for it to in
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "data.table",  "doMC",      "ggExtra",     "hdf5r",    "here",
-                   "Matrix",      "matrixStats", "plyr",      "rcartocolor", "remotes",
+install.packages(c("BiocManager", "data.table",  "doMC",        "ggExtra",  "harmony",     "hdf5r",
+                   "here",        "Matrix",      "matrixStats", "plyr",     "rcartocolor", "remotes",
                    "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
 
 #install.packages(c("BiocManager", "data.table",  "doMC",      "ggExtra",     "hdf5r",    "here",
@@ -49,8 +49,8 @@ Once the installation has finished, copy and paste the following commands into t
 console to verify that both packages installed correctly.
 
 ```r
-#library(tidyverse)
-#library(data.table)
+library(BiocManager)
+library(data.table)
 #library(Matrix)
 #library(hdf5r)
 #library(here)
@@ -61,6 +61,7 @@ console to verify that both packages installed correctly.
 #library(ggExtra)
 #library(glmGamPoi)
 #library(rcartocolor)
+#library(tidyverse)
 ```
 
 ## Project Setup
