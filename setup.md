@@ -36,7 +36,7 @@ install.packages(c("BiocManager", "data.table",  "doMC",  "ggExtra", "hdf5r",
                    "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
                    "plyr",        "rcartocolor", "remotes",
                    "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
-BiocManager::install(c("biomaRt", "glmGamPoi", "rhdf5",  "Rsamtools"))
+BiocManager::install(c("glmGamPoi", "rhdf5"))
 
 #options(timeout = 1e6)
 #remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
