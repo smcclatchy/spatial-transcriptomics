@@ -38,9 +38,9 @@ install.packages(c("BiocManager", "data.table",  "doMC",  "ggExtra", "hdf5r",
                    "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
 BiocManager::install(c("glmGamPoi", "rhdf5"))
 
-#options(timeout = 1e6)
-#remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
-#remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
+options(timeout = 1e6)
+remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
+remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into the 
@@ -61,6 +61,7 @@ library(plyr)
 library(rcartocolor)
 library(remotes)
 library(Rfast2)
+library(spacexr)
 library(Seurat)
 library(tidyverse)
 ```
