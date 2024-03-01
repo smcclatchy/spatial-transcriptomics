@@ -14,7 +14,7 @@ carpentry: 'incubator'
 title: 'Spatial Transcriptomics'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: 
+created: 2024-03-01
 
 # Comma-separated list of keywords for the lesson
 keywords: 'software, data, lesson, The Carpentries, transcriptome, Visium, cancer'
@@ -58,7 +58,7 @@ contact: 'susan.mcclatchy@jax.org'
 # - another-learner.md
 
 # Order of episodes in your lesson
-episodes: 
+episodes:
 - introduction.Rmd
 - data-and-study-design.Rmd
 - data-preprocessing.Rmd
@@ -71,13 +71,15 @@ episodes:
 - differential-expression-testing.Rmd
 
 # Information for Learners
-learners: 
+learners:
+- setup.md
+- reference.md
 
 # Information for Instructors
-instructors: 
+instructors:
 
 # Learner Profiles
-profiles: 
+profiles:
 
 # Customisation ---------------------------------------------
 #
