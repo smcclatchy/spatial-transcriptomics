@@ -84,18 +84,18 @@ reads an R file and runs the code in it. In this case, this will load several us
 functions.
 
 ```r
-#source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 ```
 
 We will then load the libraries that we need for this lesson.
 
 ```r
-#library(here)
-#library(tidyverse)
-#library(Seurat)
+library(here)
+library(tidyverse)
+library(Seurat)
 ```
 
-Note that the [here](https://here.r-lib.org/) library helps you to find your files by taking
+Note that the [here library](https://here.r-lib.org/) helps you to find your files by taking
 care of the absolute path.
 
 ## Load Raw and Filtered Spatial Expression Data
