@@ -307,7 +307,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Preprocessing</h1>
-        <p>Last updated on 2024-02-27 |
+        <p>Last updated on 2024-03-01 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -468,18 +468,18 @@ will load several useful functions.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">source</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We will then load the libraries that we need for this lesson.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#library(here)</span></span>
-<span><span class="co">#library(tidyverse)</span></span>
-<span><span class="co">#library(Seurat)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Note that the <a href="https://here.r-lib.org/" class="external-link">here</a> library
+<p>Note that the <a href="https://here.r-lib.org/" class="external-link">here library</a>
 helps you to find your files by taking care of the absolute path.</p>
 </section><section id="load-raw-and-filtered-spatial-expression-data"><h2 class="section-heading">Load Raw and Filtered Spatial Expression Data<a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a>
 </h2>
@@ -503,7 +503,7 @@ right.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>If the data does not load in correctly, verify that the students used
 the mode = “wb” argument in download.file() duing the Setup. We have
@@ -556,7 +556,7 @@ called “filter_st”.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -616,7 +616,8 @@ Sun arise each and every morning
 </figcaption></figure><p>Or you can use pandoc markdown for static figures with the following
 syntax:</p>
 <p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><figcaption>You belong in The Carpentries!</figcaption></figure></section><section id="math"><h2 class="section-heading">Math<a class="anchor" aria-label="anchor" href="#math"></a>
+<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
+</figure></section><section id="math"><h2 class="section-heading">Math<a class="anchor" aria-label="anchor" href="#math"></a>
 </h2>
 <hr class="half-width"><p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
 create dynamic reports with {knitr}, so we now use mathjax to describe
@@ -703,9 +704,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-preprocessing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-preprocessing.html",
-  "dateCreated": "2024-02-16",
-  "dateModified": "2024-02-27",
-  "datePublished": "2024-02-27"
+  "dateCreated": "2024-03-01",
+  "dateModified": "2024-03-01",
+  "datePublished": "2024-03-01"
 }
 
   </script><script>

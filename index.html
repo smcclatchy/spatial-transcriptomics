@@ -323,8 +323,8 @@ install the following software:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R/4.3.1:</span> Select the installation for your operating system <span class="er">(</span><span class="ex">Windows,</span> Mac, or Linux<span class="kw">)</span><span class="bu">.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">RStudio:</span> Download the free Rstudio Desktop.</span></code></pre>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">R/4.3.1:</span> Select the installation for your operating system <span class="er">(</span><span class="ex">Windows,</span> Mac, or Linux<span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">RStudio:</span> Download the free Rstudio Desktop.</span></code></pre>
 </div>
 <p>You do not need to install this exact version of R, but it would be
 good to make sure your R is relatively recent (say, updated within the
@@ -347,9 +347,9 @@ Console:</p>
 <span>                   <span class="st">"Rfast2"</span>,      <span class="st">"Seurat"</span>,      <span class="st">"tidyverse"</span><span class="op">)</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"glmGamPoi"</span>, <span class="st">"rhdf5"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#options(timeout = 1e6)</span></span>
-<span><span class="co">#remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)</span></span>
-<span><span class="co">#remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)</span></span></code></pre>
+<span><span class="fu">options</span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"immunogenomics/harmony"</span>, build_vignettes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dmcable/spacexr"</span>, build_vignettes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Once the installation has finished, copy and paste the following
 commands into the console to verify that both packages installed
@@ -372,6 +372,7 @@ correctly.</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">rcartocolor</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">remotes</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">Rfast2</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">spacexr</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span></code></pre>
 </div>
@@ -380,21 +381,21 @@ correctly.</p>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Create</span> a new project called <span class="st">"spatialRNA"</span>.</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">Click</span> the File menu button, then New Project.</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">Click</span> New Directory.</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">Click</span> New Project.</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">Type</span> spatialRNA as the directory name. Create the project anywhere you like, but don<span class="st">'t </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">    forget where you put it!</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">    Click the Create Project button. This will create a file called "spatialRNA.Rproj" in the </span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">    directory you just created. In the future you can double-click on this file to open </span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">    RStudio in this directory. This will be the easiest way to interact with the files/code </span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">    you produce in this workshop.</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">Use the Files tab to create a data folder to hold the data, a scripts folder to house </span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">your scripts, and a results folder to hold results. Alternatively, you can copy and paste </span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="st">the following commands into the R console for step 2 only. You still need to create a </span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">project with step 1.</span></span></code></pre>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">Create</span> a new project called <span class="st">"spatialRNA"</span>.</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    <span class="ex">Click</span> the File menu button, then New Project.</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="ex">Click</span> New Directory.</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="ex">Click</span> New Project.</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="ex">Type</span> spatialRNA as the directory name. Create the project anywhere you like, but don<span class="st">'t </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="st">    forget where you put it!</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="st">    Click the Create Project button. This will create a file called "spatialRNA.Rproj" in the </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="st">    directory you just created. In the future you can double-click on this file to open </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="st">    RStudio in this directory. This will be the easiest way to interact with the files/code </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="st">    you produce in this workshop.</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="st">Use the Files tab to create a data folder to hold the data, a scripts folder to house </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="st">your scripts, and a results folder to hold results. Alternatively, you can copy and paste </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="st">the following commands into the R console for step 2 only. You still need to create a </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="st">project with step 1.</span></span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -497,9 +498,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/index.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/index.html",
-  "dateCreated": "2024-02-16",
-  "dateModified": "2024-02-27",
-  "datePublished": "2024-02-27"
+  "dateCreated": "2024-03-01",
+  "dateModified": "2024-03-01",
+  "datePublished": "2024-03-01"
 }
 
   </script><script>
