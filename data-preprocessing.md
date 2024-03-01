@@ -83,16 +83,50 @@ First, we will load in some utility functions to make our lives a bit easier. Th
 reads an R file and runs the code in it. In this case, this will load several useful
 functions.
 
+
 ```r
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 ```
 
 We will then load the libraries that we need for this lesson.
 
+
 ```r
-library(here)
 library(tidyverse)
+```
+
+```{.output}
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+```r
 library(Seurat)
+```
+
+```{.output}
+Loading required package: SeuratObject
+Loading required package: sp
+'SeuratObject' was built under R 4.3.0 but the current version is
+4.3.2; it is recomended that you reinstall 'SeuratObject' as the ABI
+for R may have changed
+'SeuratObject' was built with package 'Matrix' 1.6.4 but the current
+version is 1.6.5; it is recomended that you reinstall 'SeuratObject' as
+the ABI for 'Matrix' may have changed
+
+Attaching package: 'SeuratObject'
+
+The following object is masked from 'package:base':
+
+    intersect
 ```
 
 Note that the [here library](https://here.r-lib.org/) helps you to find your files by taking
@@ -106,8 +140,13 @@ spatial transcription data. This is the data which you downloaded in the setup s
 
 First, we will read in the raw data for sample 151508.
 
+
 ```r
-raw_st = Load10X_Spatial(data.dir = "data/151508", filename = "151508_raw_feature_bc_matrix.h5")
+raw_st = Load10X_Spatial(data.dir = "./data/151508", filename = "151508_raw_feature_bc_matrix.h5")
+```
+
+```{.error}
+Error in Read10X_h5(filename = file.path(data.dir, filename), ...): Please install hdf5r to read HDF5 files
 ```
 
 If you did not see any error messages, then the data loaded in and you should see an
@@ -124,17 +163,15 @@ Windows users have to use this.
 
 Let's look at the "raw_st" object.
 
+
 ```r
 raw_st
 ```
 
-```output
-An object of class Seurat 
-33538 features across 4992 samples within 1 assay 
-Active assay: Spatial (33538 features, 0 variable features)
- 1 layer present: counts
- 1 image present: slice1
+```{.error}
+Error in eval(expr, envir, enclos): object 'raw_st' not found
 ```
+
 
 The output says that we have 33,538 "features" and 4,992 "samples" with one assay.
 "Feature" is a generic term for anything that we measured. In this case, we 
@@ -158,8 +195,13 @@ If so, read that file in and assign it to a variable called "filter_st".
 
 ## Solution
  
+
 ```r
-filter_st = Load10X_Spatial(data.dir = "data/151508", filename = "151508_filtered_feature_bc_matrix.h5")
+filter_st = Load10X_Spatial(data.dir = "./data/151508", filename = "151508_filtered_feature_bc_matrix.h5")
+```
+
+```{.error}
+Error in Read10X_h5(filename = file.path(data.dir, filename), ...): Please install hdf5r to read HDF5 files
 ```
 
 :::::::::::::::::::::::::::::::::
@@ -167,22 +209,20 @@ filter_st = Load10X_Spatial(data.dir = "data/151508", filename = "151508_filtere
 
 Once you have the filtered data loaded in, look at the object.
 
+
 ```r
 filter_st
 ```
 
-```output
-An object of class Seurat 
-33538 features across 4384 samples within 1 assay 
-Active assay: Spatial (33538 features, 0 variable features)
- 1 layer present: counts
- 1 image present: slice1
+```{.error}
+Error in eval(expr, envir, enclos): object 'filter_st' not found
 ```
+
 
 The raw and filtered data both have 33,538 genes. But the filtered data has fewer
 spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 
-`![H & E slide of sample 151508](episodes/fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}`
+`![H & E slide of sample 151508](./fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}`
 
 #########################
 ### DMG: STOPPED HERE ###
