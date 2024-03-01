@@ -65,7 +65,7 @@ detect genes efficiently.
 ### Imaging-based technologies
 Imaging-based technologies read transcriptomes in situ 
 using microscopy and feature single-cell or even single-molecule resolution. 
-They identify mRNA species through hybridization with fluorescent probes. These 
+They identify messenger RNA (mRNA) species through hybridization with fluorescent probes. These 
 probes are gene-specific in fluorescence in situ hybridization (FISH). 
 
 ![Overview of fluorescence in situ hybridization (FISH). ](fig/FISH_Overview.png){alt='a general schematic showing fluorescence in situ hybridization'}
@@ -85,12 +85,12 @@ FISH (smFISH).
 Conventional FISH methods have few distinct color channels that limit the number 
 of genes that can be simultaneously analyzed. Multiplexed error-robust FISH 
 (MERFISH) overcomes this problem, greatly increasing the number of RNA species
-that can be simultaneously imaged in single cells employing binary code gene 
+that can be simultaneously imaged in single cells by using binary code gene 
 labeling in multiple rounds of hybridization.
 
-![Schematic representation of multiplexed error-robust FISH (MERFISH). Binary codes assigned to mRNA species of interest, where “1” represents a short fluorescent DNA probe. b, Consecutive hybridization rounds, bleaching in between is implied, but not shown for clarity. At the end of the sixth round, it is possible to tell different mRNAs apart due to the decoded combinations of “1” and “0”. ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/MERFISH_Diagram.png/512px-MERFISH_Diagram.png){alt='alt text for accessibility purposes'}
+![Schematic representation of multiplexed error-robust FISH (MERFISH). Binary codes assigned to mRNA species of interest, where “1” represents a short fluorescent DNA probe. b, Consecutive hybridization rounds, bleaching in between is implied, but not shown for clarity. At the end of the sixth round, it is possible to tell different mRNAs apart due to the decoded combinations of “1” and “0”. ](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/MERFISH_Diagram.png/1024px-MERFISH_Diagram.png){alt='alt text for accessibility purposes'}
 
-<a title="SlifertheRyeDragon, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:MERFISH_Diagram.png"><img width="512" alt="MERFISH Diagram" src=""></a>
+<a href="https://commons.wikimedia.org/wiki/File:MERFISH_Diagram.png">SlifertheRyeDragon</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
 
 In situ sequencing amplifies and sequences mRNAs directly within a block 
 or section of fresh-frozen (FF) or formalin-fixed paraffin embedded (FFPE) 
@@ -118,7 +118,7 @@ Sequencing-based methods capture, sequence, and count mRNA in situ using
 next-generation sequencing while retaining positional information. This is 
 distinct from in situ sequencing because next-generation sequencing is employed, 
 not imaging. The main advantage of sequenced-based methods is that they are 
-unbiased in capturing RNA because they don't rely on predefined probesets 
+unbiased in capturing mRNA because they don't rely on predefined probesets 
 targeting specific genes. Sequencing-based methods retain spatial information 
 through laser-capture microdissection (LCM), microfluidics, or through 
 ligation of mRNAs to arrays of barcoded probes that record position. Since 
@@ -150,10 +150,21 @@ DBiT-seq. DBiT-seq can be used with FFPE tissues. This approach is helpful to
 avoid diffusion of mRNA away from capture areas, though a disadvantage is that
 cells often sit astride multiple capture areas.
 
+![Workflow schematic of DBiT-seq on FFPE samples.](fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png){alt='a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue'}
+
+<a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png"/></a>
+<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
+
 Other array-based methods capture mRNA with spatially-barcoded probes and 
 sequence them. They can profile larger tissue sections than can FISH or in situ 
-sequencing and they don't rely on microscopic imaging, which can be quite time 
-consuming. Spatial resolution is lower, however.
+sequencing and they don't rely on time-consuming microscopic imaging. Spatial resolution is lower, however.
+
+In this lesson we will use data from positionally barcoded arrays.  
+
+![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture mRNA from the tissue laid on top of them'}
+
+
+<a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 | Technology | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution | Tissue area |
 | ------------ | :------: | :------: | :------: | :------: |
@@ -184,10 +195,10 @@ like to learn more about spatial transcriptomics technologies, please see the
 research? Why?  
 
 2. From the descriptions above, which technology do you think would best suit
-your research? Even if your institution does not offer service using a 
-specific technology, describe which best suits your research and why you think
-it's best suited. Would you use fresh-frozen (FF) or formalin-fixed tissues 
-embedded in paraffin (FFPE)? Why is the technology best suited to your research?
+your research? Would you use fresh-frozen (FF) or formalin-fixed tissues 
+embedded in paraffin (FFPE)?Even if your institution does not offer service 
+using a specific technology, describe which best suits your research and why you
+think it's best suited.  
 
 :::::::::::::::::::::::: solution 
 
@@ -197,11 +208,6 @@ different technologies and how they have been used in research to date
 ::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
-In this lesson we will use data from positionally barcoded arrays.  
-
-![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
-<a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
 
 ## 10X Genomics Visium technology
 In this lesson we will use data from an array-based method called Visium that is
