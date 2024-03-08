@@ -178,14 +178,15 @@ technologies by general category.
 
 ::::::::::::::::::::::::::::: callout
 
-The diversity in spatial transcriptomics technologies is enormous and rapidly
-developing. This introduction to the technologies is intended to help you 
+This introduction to the technologies is intended to help you 
 navigate a complex technological landscape so that you can learn more about
-existing technologies. It is not intended to be comprehensive. If you would
-like to learn more about spatial transcriptomics technologies, please see the
-<a href="./reference.html"><strong>list of references located here</strong></a>.
+existing technologies. It is not intended to be comprehensive.
 
 :::::::::::::::::::::::::::::::::::::
+
+The diversity in spatial transcriptomics technologies is enormous and rapidly
+developing.  If you would like to learn more about spatial transcriptomics technologies, please see the
+<a href="./reference.html"><strong>list of references located here</strong></a>.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 

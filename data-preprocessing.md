@@ -116,11 +116,8 @@ library(Seurat)
 Loading required package: SeuratObject
 Loading required package: sp
 'SeuratObject' was built under R 4.3.0 but the current version is
-4.3.2; it is recomended that you reinstall 'SeuratObject' as the ABI
+4.3.3; it is recomended that you reinstall 'SeuratObject' as the ABI
 for R may have changed
-'SeuratObject' was built with package 'Matrix' 1.6.4 but the current
-version is 1.6.5; it is recomended that you reinstall 'SeuratObject' as
-the ABI for 'Matrix' may have changed
 
 Attaching package: 'SeuratObject'
 
