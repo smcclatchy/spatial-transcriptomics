@@ -1,0 +1,39 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Spatial Transcriptomics
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Antonios
+    family-names: Somarakis
+    affiliation: The Jackson Laboratory
+    email: antonios.somarakis@jax.org
+    orcid: 'https://orcid.org/0000-0003-1020-1562'
+  - given-names: Brian
+    family-names: White
+    email: brian.white@jax.org
+    affiliation: The Jackson Laboratory
+    orcid: 'https://orcid.org/0000-0002-2954-4410'
+  - given-names: Susan
+    family-names: McClatchy
+    email: susan.mcclatchy@jax.org
+    affiliation: The Jackson Laboratory
+    orcid: 'https://orcid.org/0000-0003-3219-2177'
+  - given-names: Daniel
+    family-names: Gatti
+    email: daniel.gatti@jax.org
+    affiliation: The Jackson Laboratory
+    orcid: 'https://orcid.org/0000-0003-0667-9926'
+repository-code: 'https://github.com/smcclatchy/spatial-transcriptomics'
+url: 'http://smcclatchy.github.io/spatial-transcriptomics/'
+abstract: >-
+  This lesson follows a spatial transcriptomics workflow
+  using data from the 10X Genomics Visium platform.
+keywords:
+  - spatial-transcriptomics
+  - 10X-genomics-visium
+license: CC-BY-4.0
