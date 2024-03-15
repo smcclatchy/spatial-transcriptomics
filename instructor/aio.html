@@ -356,7 +356,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -628,8 +628,9 @@ technologies by general category.</p>
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title">Callout</h3>
+<div class="callout-inner">
+<h3 class="callout-title">Callout<a class="anchor" aria-label="anchor" href="#callout1"></a>
+</h3>
 <div class="callout-content">
 <p>This introduction to the technologies is intended to help you
 navigate a complex technological landscape so that you can learn more
@@ -730,7 +731,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-data-and-study-design"><p>Content from <a href="data-and-study-design.html">Data and Study Design</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -878,7 +879,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-data-preprocessing"><p>Content from <a href="data-preprocessing.html">Data Preprocessing</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -1169,7 +1170,8 @@ which you downloaded in the setup section.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">raw_st</span> <span class="op">=</span> <span class="fu">Load10X_Spatial</span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"./data/151508"</span>, filename <span class="op">=</span> <span class="st">"151508_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">raw_st</span> <span class="op">&lt;-</span> <span class="fu">Load10X_Spatial</span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"./data/151508"</span>, </span>
+<span>                          filename <span class="op">=</span> <span class="st">"151508_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1185,10 +1187,10 @@ right.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>If the data does not load in correctly, verify that the students used
-the mode = “wb” argument in download.file() duing the Setup. We have
+the mode = “wb” argument in download.file() during the Setup. We have
 found that Windows users have to use this.</p>
 </div>
 </div>
@@ -1211,6 +1213,12 @@ with one assay. “Feature” is a generic term for anything that we
 measured. In this case, we measured gene expression, so each feature is
 a gene. Each “sample” is one spot on the spatial slide. So this tissue
 sample has 33,538 genes assayed across 4,992 spots.</p>
+<p>An experiment may have more than one assay. For example, you may run
+both RNA sequencing and chromatin accessibility in the same set of
+samples. In this case, we have one assay, which contains the RNA-seq
+counts for each spot.</p>
+<p>There is also a single image called ‘slice1’ attached to the Seurat
+object.</p>
 <p>Next, we will load in the filtered data. Use the code above and look
 in a file browser to identify the “filtered” file for sample 151508.</p>
 <div id="challenge-1-read-in-filtered-hdf5-file-for-sample-151508." class="callout challenge">
@@ -1234,13 +1242,14 @@ called “filter_st”.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">=</span> <span class="fu">Load10X_Spatial</span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"./data/151508"</span>, filename <span class="op">=</span> <span class="st">"151508_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">Load10X_Spatial</span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"./data/151508"</span>, </span>
+<span>                             filename <span class="op">=</span> <span class="st">"151508_filtered_feature_bc_matrix.h5"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1266,22 +1275,154 @@ called “filter_st”.</p>
 <p>The raw and filtered data both have 33,538 genes. But the filtered
 data has fewer spots. The raw data had 4,992 spots and the filtered data
 has 4,384 spots.</p>
-<p><code>![H &amp; E slide of sample 151508](./fig/tissue_lowres_image.png){alt='H &amp; E slide of sample 151508'}</code></p>
-<div id="section" class="section level25">
-<p class="heading"></p>
+<p>Look at the H &amp; E slide below and notice the grey spots around
+the border. These are used by the spatial transcriptomics software to
+“register” the image.</p>
+<figure><img src="../fig/tissue_lowres_image.png" alt="H &amp; E slide of sample 151508" class="figure mx-auto d-block"><div class="figcaption">H &amp; E slide of sample 151508</div>
+</figure><div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image." class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
 </div>
-<div class="section level3">
-<h3 id="dmg-stopped-here">DMG: STOPPED HERE<a class="anchor" aria-label="anchor" href="#dmg-stopped-here"></a>
+<div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image." class="callout-inner">
+<h3 class="callout-title">Challenge 2: How does the computer know how to
+orient the image?.<a class="anchor" aria-label="anchor" href="#challenge-2-how-does-the-computer-know-how-to-orient-the-image."></a>
 </h3>
-<div id="section-1" class="section level25">
-<p class="heading"></p>
+<div class="callout-content">
+<p>Look carefully at the spots in the H &amp; E image above. Are the
+spots symmetric? Is there anything different about the spots that might
+help a computer to assign up/down and left/right to the image?</p>
 </div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<p>Look at the spots in each corner. In the upper-left, you will see the
+following patterns:</p>
+<figure><img src="../fig/tissue_diagram_with_registration_spots.png" alt="Diagram showing tissue and registration spots in corners" class="figure mx-auto d-block"><div class="figcaption">Slide Diagram</div>
+</figure><p>The patterns in each corner allow the spatial transcriptomics
+software to orient the slide.</p>
+</div>
+</div>
+</div>
+</div>
+<p>Next, we will read a file containing information about whether each
+spot is in the background or the tissue. This file does not contain
+column names, although <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link">SpaceRanger
+2.0</a>, which processes the samples at the sequencing core, should add
+column names to this file.</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tissue_position</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"./data/151508/spatial/tissue_positions_list.csv"</span>,</span>
+<span>                            col_names <span class="op">=</span> <span class="cn">FALSE</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>                     <span class="fu">column_to_rownames</span><span class="op">(</span><span class="st">'X1'</span><span class="op">)</span></span>
+<span><span class="fu">colnames</span><span class="op">(</span><span class="va">tissue_position</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"in_tissue"</span>, </span>
+<span>                               <span class="st">"array_row"</span>, </span>
+<span>                               <span class="st">"array_col"</span>, </span>
+<span>                               <span class="st">"pxl_row_in_fullres"</span>, </span>
+<span>                               <span class="st">"pxl_col_in_fullres"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>It is important to note that the order of the spots differs between
+the Seurat object and the tissue position file. We need to reorder the
+tissue positions to match the Seurat object. We can extract the spot
+barcodes using the <a href="https://satijalab.org/seurat/reference/cells" class="external-link">Cells()</a>
+function. This is named for the earlier versions of Seurat, which
+processed single cell transcript data. In this case, we are getting
+<strong>spot</strong> IDs, even though the function is called
+“Cells”.</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tissue_position</span> <span class="op">&lt;-</span> <span class="va">tissue_position</span><span class="op">[</span><span class="fu">Cells</span><span class="op">(</span><span class="va">raw_st</span><span class="op">)</span>,<span class="op">]</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'raw_st' not found</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb17">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stopifnot</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">tissue_position</span><span class="op">)</span> <span class="op">==</span> <span class="fu">Cells</span><span class="op">(</span><span class="va">raw_st</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'raw_st' not found</code></pre>
+</div>
+<p>Now that we have aligned the barcodes between the Seurat object and
+the tissue positions, we can add the tissue positions to the Seurat
+object’s metadata.</p>
+<div class="codewrapper sourceCode" id="cb19">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">raw_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">raw_st</span>, metadata <span class="op">=</span> <span class="va">tissue_position</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'raw_st' not found</code></pre>
+</div>
+<blockquote>
+<p>DMG: I’m not sure why only the tissue spots show up in the figure
+below.</p>
+</blockquote>
+<div class="codewrapper sourceCode" id="cb21">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">raw_st</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">type</span> <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">raw_st</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">in_tissue</span> <span class="op">==</span> <span class="fl">0</span>, <span class="st">"Background"</span>, <span class="st">"Tissue"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'raw_st' not found</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">SpatialPlot</span><span class="op">(</span><span class="va">raw_st</span>, group.by <span class="op">=</span> <span class="st">"type"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'raw_st' not found</code></pre>
+</div>
+<p>We expect most of the transcript counts to be in the tissue spots.
+The Seurat object metadata contains a count of the number of transcripts
+in each cell called “nCount_Spatial”. Let’s plot the counts in the
+tissue and background spots.</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">raw_st</span><span class="op">@</span><span class="va">meta.data</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="fu">as.logical</span><span class="op">(</span><span class="va">in_tissue</span><span class="op">)</span>, <span class="va">nCount_Spatial</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Transcript Counts in Tissue and Background'</span>,</span>
+<span>         x     <span class="op">=</span> <span class="st">'In Tissue?'</span>,</span>
+<span>         y     <span class="op">=</span> <span class="st">'Counts'</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'raw_st' not found</code></pre>
 </div>
 </section><section id="figures"><h2 class="section-heading">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
 </h2>
 <hr class="half-width">
 <p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1333,7 +1474,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-remove-low-quality-spots"><p>Content from <a href="remove-low-quality-spots.html">Remove Low-quality Spots</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/remove-low-quality-spots.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -1398,7 +1539,7 @@ reinforce the objectives.</li>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1430,7 +1571,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1459,7 +1600,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1523,7 +1664,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-apply-normalization-methods"><p>Content from <a href="apply-normalization-methods.html">Apply Normalization Methods</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-normalization-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -1710,7 +1851,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-apply-feature-selection-methods"><p>Content from <a href="apply-feature-selection-methods.html">Apply Feature Selection Methods</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-feature-selection-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -1897,7 +2038,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-apply-dimensionality-reduction-methods"><p>Content from <a href="apply-dimensionality-reduction-methods.html">Apply Dimensionality Reduction Methods</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-dimensionality-reduction-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -2088,7 +2229,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-apply-clustering-algorithms"><p>Content from <a href="apply-clustering-algorithms.html">Apply Clustering Algorithms</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-clustering-algorithms.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -2151,7 +2292,7 @@ reinforce the objectives.</li>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -2183,7 +2324,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Output</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2212,7 +2353,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -2276,7 +2417,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-deconvolve-cell-types-in-a-spot"><p>Content from <a href="deconvolve-cell-types-in-a-spot.html">Deconvolve Cell Types in a Spot</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/deconvolve-cell-types-in-a-spot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -2463,7 +2604,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-differential-expression-testing"><p>Content from <a href="differential-expression-testing.html">Differential Expression Testing</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -2674,7 +2815,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -2697,8 +2838,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/aio.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-03-12",
-  "datePublished": "2024-03-12"
+  "dateModified": "2024-03-15",
+  "datePublished": "2024-03-15"
 }
 
   </script><script>
