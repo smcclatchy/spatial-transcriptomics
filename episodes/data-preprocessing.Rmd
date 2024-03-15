@@ -106,7 +106,8 @@ spatial transcription data. This is the data which you downloaded in the setup s
 First, we will read in the raw data for sample 151508.
 
 ```{r}
-raw_st = Load10X_Spatial(data.dir = "./data/151508", filename = "151508_raw_feature_bc_matrix.h5")
+raw_st <- Load10X_Spatial(data.dir = "./data/151508", 
+                          filename = "151508_raw_feature_bc_matrix.h5")
 ```
 
 If you did not see any error messages, then the data loaded in and you should see an
@@ -115,7 +116,7 @@ If you did not see any error messages, then the data loaded in and you should se
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
 If the data does not load in correctly, verify that the students used the 
-mode = "wb" argument in download.file() duing the Setup. We have found that
+mode = "wb" argument in download.file() during the Setup. We have found that
 Windows users have to use this.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -134,6 +135,12 @@ measured gene expression, so each feature is a gene. Each "sample" is one
 spot on the spatial slide. So this tissue sample has 33,538 genes assayed
 across 4,992 spots.
 
+An experiment may have more than one assay. For example, you may run both RNA
+sequencing and chromatin accessibility in the same set of samples. In this case,
+we have one assay, which contains the RNA-seq counts for each spot.
+
+There is also a single image called 'slice1' attached to the Seurat object.
+
 Next, we will load in the filtered data. Use the code above and look in
 a file browser to identify the "filtered" file for sample 151508.
 
@@ -151,7 +158,8 @@ If so, read that file in and assign it to a variable called "filter_st".
 ## Solution
  
 ```{r}
-filter_st = Load10X_Spatial(data.dir = "./data/151508", filename = "151508_filtered_feature_bc_matrix.h5")
+filter_st <- Load10X_Spatial(data.dir = "./data/151508", 
+                             filename = "151508_filtered_feature_bc_matrix.h5")
 ```
 
 :::::::::::::::::::::::::::::::::
@@ -167,14 +175,92 @@ filter_st
 The raw and filtered data both have 33,538 genes. But the filtered data has fewer
 spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 
-`![H & E slide of sample 151508](./fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}`
+Look at the H & E slide below and notice the grey spots around the border. These
+are used by the spatial transcriptomics software to "register" the image.
 
-#########################
-### DMG: STOPPED HERE ###
-#########################
+![H & E slide of sample 151508](fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 2: How does the computer know how to orient the image?.
+
+Look carefully at the spots in the H & E image above. Are the spots symmetric?
+Is there anything different about the spots that might help a computer to 
+assign up/down and left/right to the image?
 
 
+:::::::::::::::::::::::: solution 
 
+## Solution
+ 
+Look at the spots in each corner. In the upper-left, you will see the following
+patterns:
+
+![Slide Diagram](fig/tissue_diagram_with_registration_spots.png){alt='Diagram showing tissue and registration spots in corners'}
+
+The patterns in each corner allow the spatial transcriptomics software to 
+orient the slide.
+
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
+
+Next, we will read a file containing information about whether each spot is in 
+the background or the tissue. This file does not contain column names, although
+[SpaceRanger 2.0](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs), 
+which processes the samples at the sequencing core, should add column names to 
+this file.
+
+```{r}
+tissue_position <- read_csv("./data/151508/spatial/tissue_positions_list.csv",
+                            col_names = FALSE, show_col_types = FALSE) %>% 
+                     column_to_rownames('X1')
+colnames(tissue_position) <- c("in_tissue", 
+                               "array_row", 
+                               "array_col", 
+                               "pxl_row_in_fullres", 
+                               "pxl_col_in_fullres")
+```
+
+It is important to note that the order of the spots differs between the Seurat 
+object and the tissue position file. We need to reorder the tissue positions
+to match the Seurat object. We can extract the spot barcodes using the
+[Cells()](https://satijalab.org/seurat/reference/cells) function. This is 
+named for the earlier versions of Seurat, which processed single cell transcript
+data. In this case, we are getting **spot** IDs, even though the function is
+called "Cells".
+
+```{r}
+tissue_position <- tissue_position[Cells(raw_st),]
+stopifnot(rownames(tissue_position) == Cells(raw_st))
+```
+
+Now that we have aligned the barcodes between the Seurat object and the tissue
+positions, we can add the tissue positions to the Seurat object's metadata.
+
+```{r}
+raw_st <- AddMetaData(object = raw_st, metadata = tissue_position)
+```
+
+> DMG: I'm not sure why only the tissue spots show up in the figure below.
+
+```{r}
+raw_st@meta.data$type = ifelse(raw_st@meta.data$in_tissue == 0, "Background", "Tissue")
+SpatialPlot(raw_st, group.by = "type")
+```
+
+We expect most of the transcript counts to be in the tissue spots. The Seurat 
+object metadata contains a count of the number of transcripts in each cell 
+called "nCount_Spatial". Let's plot the counts in the tissue and background
+spots.
+
+```{r}
+raw_st@meta.data %>%
+  ggplot(aes(as.logical(in_tissue), nCount_Spatial)) +
+    geom_boxplot() +
+    labs(title = 'Transcript Counts in Tissue and Background',
+         x     = 'In Tissue?',
+         y     = 'Counts')
+```
 
 
 
