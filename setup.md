@@ -128,7 +128,13 @@ download.file(url = "https://thejacksonlaboratory.box.com/shared/static/xycr1otk
 download.file(url = "https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5",
               destfile = "data/151675/151675_filtered_feature_bc_matrix.h5", mode = "wb")
 
+#########################################################################
+# DMG: Where does "spot-meta.csv" come from? It's not in the sumner directory.
+#########################################################################
 
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/efluht66uoac98kw3cuk40axf7qtg0dg.tsv",
+              destfile = "data/spot-meta.tsv",
+              mode     = "wb")
 ```
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
