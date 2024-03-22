@@ -21,7 +21,7 @@ exercises:
 Investigating the organization of cells and tissues is fundamental to life 
 sciences research. Tissues located in different regions of an organ can possess diverse functions and cell types. These cells in turn are influenced by varying tissue microenvironments, receiving and processing distinct information from 
 that microenvironment. Co-located cells can communicate directly with one 
-another through chemical and physical signals, responding to these signals 
+another through chemical and mechanical signals, responding to these signals 
 with changes in their own state. The spatial organization and signals of cells 
 in a tissue determine cell and tissue function.
 
