@@ -19,11 +19,13 @@ exercises:
 
 ## Spatial transcriptomics in biomedical research
 Investigating the organization of cells and tissues is fundamental to life 
-sciences research. Tissues located in different regions of an organ can possess diverse functions and cell types. These cells in turn are influenced by varying tissue microenvironments, receiving and processing distinct information from 
-that microenvironment. Co-located cells can communicate directly with one 
-another through chemical and physical signals, responding to these signals 
-with changes in their own state. The spatial organization and signals of cells 
-in a tissue determine cell and tissue function.
+sciences research. Cells and tissues situated in different regions of an organ 
+can possess diverse functions and cell types. These cells in turn are influenced 
+by varying tissue microenvironments, receiving and processing distinct 
+information from that microenvironment. Co-located cells can communicate 
+directly with one another through chemical and mechanical signals, responding to 
+these signals with changes in their own state. Thus, knowing the spatial 
+organization of cells in a tissue can reveal cell and tissue function.
 
 ![A cross-section of skeletal muscle tissue showing muscle cells and a small nerve.](https://upload.wikimedia.org/wikipedia/commons/c/c3/Skeletal_muscle_-_cross_section%2C_nerve_bundle.jpg){alt='A cross-section of human skeletal muscle showing muscle cells and a nerve nearby. Stained with hematoxylin and eosin.'}
 
