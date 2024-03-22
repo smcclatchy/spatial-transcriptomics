@@ -32,9 +32,9 @@ organization of cells in a tissue can reveal cell and tissue function.
 <a href="https://commons.wikimedia.org/wiki/File:Skeletal_muscle_-_cross_section,_nerve_bundle.jpg">Department of Histology, Jagiellonian University Medical College</a>
 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" rel="license">CC BY-SA 3.0 DEED</a>
 
-Describing spatial organization and cell signals, specifically gene expression 
-signals, is the focus of spatially resolved transcriptomics. Spatial patterns of 
-gene expression determine how genes are regulated within a tissue system and how 
+Spatially resolved transcriptomics describes the spatial organization and cell
+signals, specifically gene expression signals. Spatial patterns of gene 
+expression determine how genes are regulated within a tissue system and how 
 those tissues and their component cells function. Spatial transcriptomic (ST) 
 methods map cell position in a tissue, clarifying the physical relationships 
 between individual cells and cellular structures. ST simultaneously measures
