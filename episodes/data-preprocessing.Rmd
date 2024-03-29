@@ -309,19 +309,27 @@ plot1 | plot2
 ```
 
 Next, we want to look at the distribution of transcript counts and numbers of
-genes across the tissue. This can be helpful in identifying problems with the
+genes across the tissue. This can be helpful in identifying technical issues
+with the sample processing.
 We will use Seurat's 
 [SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
 function to look at these values.
 
-
-Brain: we may have layers of different kinds of cells.
-e.g. Cancer: stromal cells have lower counts than tumor cells.
+It is difficult to lay out a broad set of rules that will work for all types of
+tissues and samples. Some tissues may have homogeneous transcript counts
+across the section, while others may show variation in transcript counts due
+to tissue structure. For example, in cancer tissue sections, stromal cells tend
+to have lower counts than tumor cells and this should be evident in a transcript
+count plot. In the brain sample below, we might expect some variation in 
+transcript counts in different regions of the brain.
 
 
 ```{r fig.alt = "Figure showing transcript counts in each spot with varying intensity across the tissue",fig.cap="Transcript Counts in each Spot"}
 SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
 ```
+
+In this case, we see a band of higher counts running from upper-left to 
+lower-right. There are also bands of lower counts above and below this band.
 
 ```{r fig.alt = "Figure showing number of genes detected in each spot with varying intensity across the tissue",fig.cap="Number of Genes in each Spot"}
 SpatialFeaturePlot(filter_st, features = "nFeature_Spatial")
