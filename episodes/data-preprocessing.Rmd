@@ -108,7 +108,8 @@ First, we will read in the raw data for sample 151508.
 
 ```{r}
 raw_st <- Load10X_Spatial(data.dir = "./data/151508", 
-                          filename = "151508_raw_feature_bc_matrix.h5")
+                          filename = "151508_raw_feature_bc_matrix.h5",
+                          filter.matrix = FALSE)
 ```
 
 If you did not see any error messages, then the data loaded in and you should see an
@@ -179,7 +180,7 @@ spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 Look at the H & E slide below and notice the grey spots around the border. These
 are used by the spatial transcriptomics software to "register" the image.
 
-![H & E slide of sample 151508](fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}
+![H & E slide of sample 151508](fig/tissue_hires_image.png){alt='H & E slide of sample 151508'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -242,19 +243,19 @@ positions, we can add the tissue positions to the Seurat object's metadata.
 raw_st <- AddMetaData(object = raw_st, metadata = tissue_position)
 ```
 
-> DMG: I'm not sure why only the tissue spots show up in the figure below.
+Next, we will plot the spot annotation, indicating spots that are in the tissue
+in blue and background spots in red.
 
-```{r}
-raw_st@meta.data$type = ifelse(raw_st@meta.data$in_tissue == 0, "Background", "Tissue")
-SpatialPlot(raw_st, group.by = "type")
+```{r fig.alt = "Histology slide with tissue and background spots labelled", fig.cap = "Spots identified in Tissue and Background"}
+SpatialPlot(raw_st, group.by = "in_tissue")
 ```
 
 We expect most of the transcript counts to be in the tissue spots. The Seurat 
-object metadata contains a count of the number of transcripts in each cell 
+object metadata contains a count of the number of transcripts in each spot 
 called "nCount_Spatial". Let's plot the counts in the tissue and background
 spots.
 
-```{r}
+```{r fig.alt = "Boxplot showing lower trancript counts in background area of slide", fig.cap = "Transcript Counts in Tissue and Background"}
 raw_st@meta.data %>%
   ggplot(aes(as.logical(in_tissue), nCount_Spatial)) +
     geom_boxplot() +
@@ -263,37 +264,71 @@ raw_st@meta.data %>%
          y     = 'Counts')
 ```
 
+As expected, we see most of the counts in the tissue spots.
 
+We can also plot the number of genes detected in each spot. Seurat calls genes
+"features", so we will plot the "nFeature_Spatial" value. This is stored in the
+metadata of the Seurat object.
 
-
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-```{r pyramid, fig.alt = "pie chart illusion of a pyramid", fig.cap = "Sun arise each and every morning"}
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+```{r fig.alt = "Boxplot showing lower numbers of genes in background area of slide", fig.cap = "Number of Genes in Tissue and Background"}
+raw_st@meta.data %>%
+  ggplot(aes(as.logical(in_tissue), nFeature_Spatial)) +
+    geom_boxplot() +
+    labs(title = 'Number of Genes in Tissue and Background',
+         x     = 'In Tissue?',
+         y     = 'Number of Genes')
 ```
-Or you can use pandoc markdown for static figures with the following syntax:
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+::::::::::::::::::::::::::::::::::::: challenge 
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+## Challenge 3: Why might there be transcript counts outside of the tissue boundaries?
 
-## Math
+We expect transcript counts in the spots which overlap with the tissue section.
+What reasons can you think of that might lead transcript counts to occur in the
+background spots?
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+:::::::::::::::::::::::: solution 
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+## Solution
+ 
+1. When the tissue section is lysed, some transcripts may leak out of the cells
+and into the background region of the slide.
+> DMG: Ask the core.
 
-Cool, right?
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
+
+> DMG: Should we work with the filtered file? Or start with the raw file and filter the spots?
+
+```{r}
+plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
+           NoLegend()
+plot2 <- SpatialDimPlot(filter_st) + 
+           NoLegend()
+plot1 | plot2
+```
+
+Next, we want to look at the distribution of transcript counts and numbers of
+genes across the tissue. This can be helpful in identifying problems with the
+We will use Seurat's 
+[SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
+function to look at these values.
+
+
+Brain: we may have layers of different kinds of cells.
+e.g. Cancer: stromal cells have lower counts than tumor cells.
+
+
+```{r fig.alt = "Figure showing transcript counts in each spot with varying intensity across the tissue",fig.cap="Transcript Counts in each Spot"}
+SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
+```
+
+```{r fig.alt = "Figure showing number of genes detected in each spot with varying intensity across the tissue",fig.cap="Number of Genes in each Spot"}
+SpatialFeaturePlot(filter_st, features = "nFeature_Spatial")
+```
+
+
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
