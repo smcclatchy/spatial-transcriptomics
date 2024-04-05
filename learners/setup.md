@@ -16,7 +16,7 @@ We will help you in advance to make sure that you have everything that you need.
 
 If you do not already have R and RStudio installed, download and install the following software:
 
-    R/4.3.1: Select the installation for your operating system (Windows, Mac, or Linux).
+    R/4.3.3: Select the installation for your operating system (Windows, Mac, or Linux).
     RStudio: Download the free Rstudio Desktop.
 
 You do not need to install this exact version of R, but it would be good to make sure your R 
@@ -141,6 +141,12 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/drl
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ny1wokl6sz1xjzz68aftbk209se5nvws.tsv",
               destfile = "data/spot-meta.tsv",
               mode     = "wb")
+```
+
+## Session Info
+
+```r
+sessionInfo()
 ```
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
