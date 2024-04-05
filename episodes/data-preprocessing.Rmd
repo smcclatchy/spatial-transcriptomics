@@ -205,6 +205,8 @@ orient the slide.
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
+## Add Spot Metadata
+
 Next, we will read a file containing information about whether each spot is in 
 the background or the tissue. This file does not contain column names, although
 the next version of 
@@ -240,7 +242,8 @@ Now that we have aligned the barcodes between the Seurat object and the tissue
 positions, we can add the tissue positions to the Seurat object's metadata.
 
 ```{r}
-raw_st <- AddMetaData(object = raw_st, metadata = tissue_position)
+raw_st    <- AddMetaData(object = raw_st,    metadata = tissue_position)
+filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
 ```
 
 Next, we will plot the spot annotation, indicating spots that are in the tissue
@@ -298,7 +301,13 @@ and into the background region of the slide.
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
-> DMG: Should we work with the filtered file? Or start with the raw file and filter the spots?
+Up to this point, we have been working with the raw, unfiltered data to show
+you how the spots are filtered. However, in most workflows, you will work
+directly with the filtered file. From this point forward, we will work with the
+filtered data object.
+
+Let's plot the spots in the tissue in the filtered object to verify that it is
+only using spots in the tissue.
 
 ```{r}
 plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
@@ -308,12 +317,45 @@ plot2 <- SpatialDimPlot(filter_st) +
 plot1 | plot2
 ```
 
+## Plot Transcript and Feature Counts
+
 Next, we want to look at the distribution of transcript counts and numbers of
-genes across the tissue. This can be helpful in identifying technical issues
-with the sample processing.
+genes in each spot across the tissue. This can be helpful in identifying 
+technical issues with the sample processing.
 We will use Seurat's 
 [SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
-function to look at these values.
+function to look at these values. We can color the spots based on the spot
+metadata stored in the Seurat object. You can find these column names by looking 
+at the "meta.data" slot of the Seurat object.
+
+```{r}
+head(filter_st@meta.data)
+```
+
+To plot the transcript counts, we will use the "nCount_Spatial" column in the
+spot metadata.
+
+```{r fig.alt = "Figure showing transcript counts in each spot with varying intensity across the tissue",fig.cap="Transcript Counts in each Spot"}
+plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
+           NoLegend()
+plot2 <- SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
+plot1 | plot2
+```
+
+In this case, we see a band of higher counts running from upper-left to 
+lower-right. There are also bands of lower counts above and below this band.
+The band in the upper-right corner may be due to the fissure in the tissue. It
+is less clear why the expression is low in the lower-left corner.
+
+We can also look at the number of genes detected in each spot using 
+"nFeature_Spatial".
+
+```{r fig.alt = "Figure showing number of genes detected in each spot with varying intensity across the tissue",fig.cap="Number of Genes in each Spot"}
+plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
+           NoLegend()
+plot2 <- SpatialFeaturePlot(filter_st, features = "nFeature_Spatial")
+plot1 | plot2
+```
 
 It is difficult to lay out a broad set of rules that will work for all types of
 tissues and samples. Some tissues may have homogeneous transcript counts
@@ -323,27 +365,14 @@ to have lower counts than tumor cells and this should be evident in a transcript
 count plot. In the brain sample below, we might expect some variation in 
 transcript counts in different regions of the brain.
 
-
-```{r fig.alt = "Figure showing transcript counts in each spot with varying intensity across the tissue",fig.cap="Transcript Counts in each Spot"}
-SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
-```
-
-In this case, we see a band of higher counts running from upper-left to 
-lower-right. There are also bands of lower counts above and below this band.
-
-```{r fig.alt = "Figure showing number of genes detected in each spot with varying intensity across the tissue",fig.cap="Number of Genes in each Spot"}
-SpatialFeaturePlot(filter_st, features = "nFeature_Spatial")
-```
-
-
+## Conclusion
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- The sequencing core will provide you with an unfiltered and a filtered data
+file.
+- 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
