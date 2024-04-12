@@ -217,13 +217,25 @@ different technologies and how they have been used in research to date
 
 ## 10X Genomics Visium technology
 In this lesson we will use data from an array-based method called Visium that is
-offered by 10X Genomics. Visium is an upgrade and commercialization of the 
-spatial transcriptomics method described in 2016 in 
+offered by [10X Genomics][visium]. Visium is an upgrade and commercialization of 
+the spatial transcriptomics method described in 2016 in 
 [Science, 353(6294)](https://doi.org/10.1126/science.aaf2403) 
-and illustrated in general in the figure above. In brief, thin tissue sections
-are placed atop spots printed with spatial barcodes. When the tissue is 
-permeabilized, mRNA is released from the cells and hybridized to the spatial
-barcodes. Hybridized mRNA is reverse transcribed to cDNA and then sequenced.
+and illustrated in general in the figure above. A more specific schematic is
+given below.
+
+![Overview of Visium technology with fresh-frozen (FF) or formalin-fixed  paraffin embedded (FFPE) tissue. Source: [10x Genomics Visium][visium]](fig/visium-technology.png){alt='a general schematic showing the Visium technology'}
+
+Thin tissue sections are placed atop spots printed with spatial barcodes. For 
+fresh-frozen (FF) tissues, tissue fixing and permeabilization discharges mRNA to 
+bind with spatially barcoded probes that indicate the position on the slide. 
+Captured mRNA is then reverse transcribed to cDNA and sequencing libraries 
+created from these. Formalin-fixed paraffin embedded (FFPE) tissues require
+extra steps. Probe pairs that identify each gene in the transcriptome 
+hybridize with their target genes and then bind to one another. Permeabilization
+discharges the probe pairs to spatially barcoded probes on the slide. The probe
+pairs are then extended to include complements of the spatial barcodes. 
+Sequencing libraries are then formed from the probes.
+
 Spatial transcriptomics combines two key modes: histological imaging and gene 
 expression profiling. Histological imaging captures tissue morphology with
 standard staining protocols while expression profiling is captured by sequencing
