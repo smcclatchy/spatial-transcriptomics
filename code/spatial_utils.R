@@ -300,3 +300,18 @@ print_RCTD_results <- function(obj, myRCTD.all, prefix) {
   print(g)
   d <- dev.off()
 }
+
+
+# Function to apply the threshold and plot quality control vars
+apply_qc_threshold <- function(seurat_object, metric_name, threshold, is_greater=FALSE) {
+  if (is_greater) {
+    qc_flag <- seurat_object@meta.data[[metric_name]] > threshold
+  } else {
+    qc_flag <- seurat_object@meta.data[[metric_name]] < threshold
+  }
+
+  seurat_object@meta.data[paste0("qc_", metric_name)] <- qc_flag
+  plot1 <- SpatialDimPlot(seurat_object, group.by = paste0("qc_", metric_name)) + theme(legend.position = "right")
+  print(plot1)
+  return(qc_flag)
+}
