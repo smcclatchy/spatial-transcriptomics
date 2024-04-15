@@ -39,6 +39,8 @@ Normalized data should show reduced variance due to technical factors and enhanc
 
 ::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Normalization Methods
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
