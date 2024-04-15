@@ -32,7 +32,7 @@ organization of cells in a tissue can reveal cell and tissue function.
 <a href="https://commons.wikimedia.org/wiki/File:Skeletal_muscle_-_cross_section,_nerve_bundle.jpg">Department of Histology, Jagiellonian University Medical College</a>
 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" rel="license">CC BY-SA 3.0 DEED</a>
 
-Spatially resolved transcriptomics describes the spatial organization and cell
+Spatially resolved transcriptomics describes spatial organization and cell
 signals, specifically gene expression signals. Spatial patterns of gene 
 expression determine how genes are regulated within a tissue system and how 
 those tissues and their component cells function. Spatial transcriptomic (ST) 
@@ -50,9 +50,11 @@ expression profiling within tissues.
 <a href="https://commons.wikimedia.org/wiki/File:Notchccr.svg">Fred the Oyster</a> Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Spatial transcriptomics addresses a key obstacle in single-cell and bulk RNA
-sequencing studies: their loss of spatial information. Spatial organization and structure determine function in most tissues and organs, so capturing both 
+sequencing studies: their loss of spatial information. Spatial organization and 
+structure determine function in most tissues and organs, so capturing both 
 spatial and expression information is critical for understanding tissue function 
-in neuroscience, cancer biology, developmental biology, and most other fields. Immunology is the only field that doesn't depend on spatial information to 
+in neuroscience, cancer biology, developmental biology, and most other fields. 
+Immunology is the only field that doesn't depend on spatial information to 
 determine structure and function because immune cells often circulate in liquid 
 media like blood and lymph. 
 
@@ -65,10 +67,10 @@ ability to profile entire transcriptomes, deliver single-cell resolution, and
 detect genes efficiently. 
 
 ### Imaging-based technologies
-Imaging-based technologies read transcriptomes in situ 
-using microscopy and feature single-cell or even single-molecule resolution. 
-They identify messenger RNA (mRNA) species through hybridization with fluorescent probes. These 
-probes are gene-specific in fluorescence in situ hybridization (FISH). 
+Imaging-based technologies read transcriptomes in place using microscopy, and 
+feature single-cell or even single-molecule resolution. They identify messenger 
+RNA (mRNA) species through hybridization with fluorescent probes. These probes 
+are gene-specific in fluorescence in situ hybridization (FISH). 
 
 ![Overview of fluorescence in situ hybridization (FISH). ](fig/FISH_Overview.png){alt='a general schematic showing fluorescence in situ hybridization'}
 
@@ -81,7 +83,8 @@ for each transcript growing exponentially with each round. FISH methods are
 limited in the size of tissue that they can profile and most accept fresh-frozen 
 (FF) tissue only. They can also be time-consuming and expensive due to 
 microscopic imaging they require. Since they target specific genes, they can 
-only detect genes that are in the probe set employed. They have high spatial resolution though, even delivering single-molecule resolution in single-molecule 
+only detect genes that are in the probe set employed. They have high spatial 
+resolution though, even delivering single-molecule resolution in single-molecule 
 FISH (smFISH).
 
 Conventional FISH methods have few distinct color channels that limit the number 
@@ -94,9 +97,9 @@ labeling in multiple rounds of hybridization.
 
 <a href="https://commons.wikimedia.org/wiki/File:MERFISH_Diagram.png">SlifertheRyeDragon</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
 
-In situ sequencing amplifies and sequences mRNAs directly within a block 
-or section of fresh-frozen (FF) or formalin-fixed paraffin embedded (FFPE) 
-tissue. 
+A second imaging-based method, in situ sequencing, amplifies and sequences mRNAs 
+directly within a block or section of fresh-frozen (FF) or formalin-fixed 
+paraffin embedded (FFPE) tissue. 
 
 ![Overview of in situ sequencing.](fig/ISS_Overview.png){alt='a general schematic showing in situ sequencing'}
 <a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png">
@@ -119,7 +122,7 @@ microscope but delivers high spatial resolution.
 Sequencing-based methods capture, sequence, and count mRNA in situ using 
 next-generation sequencing while retaining positional information. This is 
 distinct from in situ sequencing because next-generation sequencing is employed, 
-not imaging. The main advantage of sequenced-based methods is that they are 
+not imaging. The main advantage of sequencing-based methods is that they are 
 unbiased in capturing mRNA because they don't rely on predefined probesets 
 targeting specific genes. Sequencing-based methods retain spatial information 
 through laser-capture microdissection (LCM), microfluidics, or through 
@@ -214,13 +217,25 @@ different technologies and how they have been used in research to date
 
 ## 10X Genomics Visium technology
 In this lesson we will use data from an array-based method called Visium that is
-offered by 10X Genomics. Visium is an upgrade and commercialization of the 
-spatial transcriptomics method described in 2016 in 
+offered by [10X Genomics][visium]. Visium is an upgrade and commercialization of 
+the spatial transcriptomics method described in 2016 in 
 [Science, 353(6294)](https://doi.org/10.1126/science.aaf2403) 
-and illustrated in general in the figure above. In brief, thin tissue sections
-are placed atop spots printed with spatial barcodes. When the tissue is 
-permeabilized, mRNA is released from the cells and hybridized to the spatial
-barcodes. Hybridized mRNA is reverse transcribed to cDNA and then sequenced.
+and illustrated in general in the figure above. A more specific schematic is
+given below.
+
+![Overview of Visium technology with fresh-frozen (FF) or formalin-fixed  paraffin embedded (FFPE) tissue. Source: [10x Genomics Visium][visium]](fig/visium-technology.png){alt='a general schematic showing the Visium technology'}
+
+Thin tissue sections are placed atop spots printed with spatial barcodes. For 
+fresh-frozen (FF) tissues, tissue fixing and permeabilization discharges mRNA to 
+bind with spatially barcoded probes that indicate the position on the slide. 
+Captured mRNA is then reverse transcribed to cDNA and sequencing libraries 
+created from these. Formalin-fixed paraffin embedded (FFPE) tissues require
+extra steps. Probe pairs that identify each gene in the transcriptome 
+hybridize with their target genes and then bind to one another. Permeabilization
+discharges the probe pairs to spatially barcoded probes on the slide. The probe
+pairs are then extended to include complements of the spatial barcodes. 
+Sequencing libraries are then formed from the probes.
+
 Spatial transcriptomics combines two key modes: histological imaging and gene 
 expression profiling. Histological imaging captures tissue morphology with
 standard staining protocols while expression profiling is captured by sequencing

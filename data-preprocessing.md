@@ -92,38 +92,9 @@ We will then load the libraries that we need for this lesson.
 
 
 ```r
-library(tidyverse)
-```
-
-```{.output}
-── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
-
-```r
-library(Seurat)
-```
-
-```{.output}
-Loading required package: SeuratObject
-Loading required package: sp
-'SeuratObject' was built under R 4.3.0 but the current version is
-4.3.3; it is recomended that you reinstall 'SeuratObject' as the ABI
-for R may have changed
-
-Attaching package: 'SeuratObject'
-
-The following object is masked from 'package:base':
-
-    intersect
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(hdf5r))
+suppressPackageStartupMessages(library(Seurat))
 ```
 
 Note that the [here library](https://here.r-lib.org/) helps you to find your files by taking
@@ -140,11 +111,8 @@ First, we will read in the raw data for sample 151508.
 
 ```r
 raw_st <- Load10X_Spatial(data.dir = "./data/151508", 
-                          filename = "151508_raw_feature_bc_matrix.h5")
-```
-
-```{.error}
-Error in Read10X_h5(filename = file.path(data.dir, filename), ...): Please install hdf5r to read HDF5 files
+                          filename = "151508_raw_feature_bc_matrix.h5",
+                          filter.matrix = FALSE)
 ```
 
 If you did not see any error messages, then the data loaded in and you should see an
@@ -166,8 +134,12 @@ Let's look at the "raw_st" object.
 raw_st
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
+```{.output}
+An object of class Seurat 
+33538 features across 4992 samples within 1 assay 
+Active assay: Spatial (33538 features, 0 variable features)
+ 1 layer present: counts
+ 1 image present: slice1
 ```
 
 
@@ -205,10 +177,6 @@ filter_st <- Load10X_Spatial(data.dir = "./data/151508",
                              filename = "151508_filtered_feature_bc_matrix.h5")
 ```
 
-```{.error}
-Error in Read10X_h5(filename = file.path(data.dir, filename), ...): Please install hdf5r to read HDF5 files
-```
-
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
@@ -219,8 +187,12 @@ Once you have the filtered data loaded in, look at the object.
 filter_st
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'filter_st' not found
+```{.output}
+An object of class Seurat 
+33538 features across 4384 samples within 1 assay 
+Active assay: Spatial (33538 features, 0 variable features)
+ 1 layer present: counts
+ 1 image present: slice1
 ```
 
 
@@ -230,7 +202,7 @@ spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 Look at the H & E slide below and notice the grey spots around the border. These
 are used by the spatial transcriptomics software to "register" the image.
 
-![H & E slide of sample 151508](fig/tissue_lowres_image.png){alt='H & E slide of sample 151508'}
+![H & E slide of sample 151508](fig/tissue_hires_image.png){alt='H & E slide of sample 151508'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -239,7 +211,6 @@ are used by the spatial transcriptomics software to "register" the image.
 Look carefully at the spots in the H & E image above. Are the spots symmetric?
 Is there anything different about the spots that might help a computer to 
 assign up/down and left/right to the image?
-
 
 :::::::::::::::::::::::: solution 
 
@@ -256,11 +227,14 @@ orient the slide.
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
+## Add Spot Metadata
+
 Next, we will read a file containing information about whether each spot is in 
 the background or the tissue. This file does not contain column names, although
+the next version of 
 [SpaceRanger 2.0](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs), 
-which processes the samples at the sequencing core, should add column names to 
-this file.
+which is used to process the data at the sequencing core, should add column 
+names to this file.
 
 
 ```r
@@ -285,18 +259,7 @@ called "Cells".
 
 ```r
 tissue_position <- tissue_position[Cells(raw_st),]
-```
-
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
-```
-
-```r
 stopifnot(rownames(tissue_position) == Cells(raw_st))
-```
-
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
 ```
 
 Now that we have aligned the barcodes between the Seurat object and the tissue
@@ -304,34 +267,25 @@ positions, we can add the tissue positions to the Seurat object's metadata.
 
 
 ```r
-raw_st <- AddMetaData(object = raw_st, metadata = tissue_position)
+raw_st    <- AddMetaData(object = raw_st,    metadata = tissue_position)
+filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
-```
-
-> DMG: I'm not sure why only the tissue spots show up in the figure below.
+Next, we will plot the spot annotation, indicating spots that are in the tissue
+in blue and background spots in red.
 
 
 ```r
-raw_st@meta.data$type = ifelse(raw_st@meta.data$in_tissue == 0, "Background", "Tissue")
+SpatialPlot(raw_st, group.by = "in_tissue")
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
-```
-
-```r
-SpatialPlot(raw_st, group.by = "type")
-```
-
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
-```
+<div class="figure" style="text-align: center">
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-10-1.png" alt="Histology slide with tissue and background spots labelled"  />
+<p class="caption">Spots identified in Tissue and Background</p>
+</div>
 
 We expect most of the transcript counts to be in the tissue spots. The Seurat 
-object metadata contains a count of the number of transcripts in each cell 
+object metadata contains a count of the number of transcripts in each spot 
 called "nCount_Spatial". Let's plot the counts in the tissue and background
 spots.
 
@@ -345,54 +299,156 @@ raw_st@meta.data %>%
          y     = 'Counts')
 ```
 
-```{.error}
-Error in eval(expr, envir, enclos): object 'raw_st' not found
-```
+<div class="figure" style="text-align: center">
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-11-1.png" alt="Boxplot showing lower trancript counts in background area of slide"  />
+<p class="caption">Transcript Counts in Tissue and Background</p>
+</div>
 
+As expected, we see most of the counts in the tissue spots.
 
-
-
-
-## Figures
-
-You can include figures generated from R Markdown:
+We can also plot the number of genes detected in each spot. Seurat calls genes
+"features", so we will plot the "nFeature_Spatial" value. This is stored in the
+metadata of the Seurat object.
 
 
 ```r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+raw_st@meta.data %>%
+  ggplot(aes(as.logical(in_tissue), nFeature_Spatial)) +
+    geom_boxplot() +
+    labs(title = 'Number of Genes in Tissue and Background',
+         x     = 'In Tissue?',
+         y     = 'Number of Genes')
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/data-preprocessing-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-12-1.png" alt="Boxplot showing lower numbers of genes in background area of slide"  />
+<p class="caption">Number of Genes in Tissue and Background</p>
 </div>
-Or you can use pandoc markdown for static figures with the following syntax:
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+::::::::::::::::::::::::::::::::::::: challenge 
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+## Challenge 3: Why might there be transcript counts outside of the tissue boundaries?
 
-## Math
+We expect transcript counts in the spots which overlap with the tissue section.
+What reasons can you think of that might lead transcript counts to occur in the
+background spots?
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+:::::::::::::::::::::::: solution 
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+## Solution
+ 
+1. When the tissue section is lysed, some transcripts may leak out of the cells
+and into the background region of the slide.
+> DMG: Ask the core.
 
-Cool, right?
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
+
+Up to this point, we have been working with the raw, unfiltered data to show
+you how the spots are filtered. However, in most workflows, you will work
+directly with the filtered file. From this point forward, we will work with the
+filtered data object.
+
+Let's plot the spots in the tissue in the filtered object to verify that it is
+only using spots in the tissue.
+
+
+```r
+plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
+           NoLegend()
+plot2 <- SpatialDimPlot(filter_st) + 
+           NoLegend()
+plot1 | plot2
+```
+
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+
+## Plot Transcript and Feature Counts
+
+Next, we want to look at the distribution of transcript counts and numbers of
+genes in each spot across the tissue. This can be helpful in identifying 
+technical issues with the sample processing.
+We will use Seurat's 
+[SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
+function to look at these values. We can color the spots based on the spot
+metadata stored in the Seurat object. You can find these column names by looking 
+at the "meta.data" slot of the Seurat object.
+
+
+```r
+head(filter_st@meta.data)
+```
+
+```{.output}
+                      orig.ident nCount_Spatial nFeature_Spatial in_tissue
+AAACAAGTATCTCCCA-1 SeuratProject           3627             1847         1
+AAACAATCTACTAGCA-1 SeuratProject            956              635         1
+AAACACCAATAACTGC-1 SeuratProject            990              716         1
+AAACAGAGCGACTCCT-1 SeuratProject           1377              862         1
+AAACAGCTTTCAGAAG-1 SeuratProject           3215             1720         1
+AAACAGGGTCTATATT-1 SeuratProject           3035             1617         1
+                   array_row array_col pxl_row_in_fullres pxl_col_in_fullres
+AAACAAGTATCTCCCA-1        50       102               8586               9171
+AAACAATCTACTAGCA-1         3        43               2944               5127
+AAACACCAATAACTGC-1        59        19               9646               3454
+AAACAGAGCGACTCCT-1        14        94               4273               8634
+AAACAGCTTTCAGAAG-1        43         9               7728               2772
+AAACAGGGTCTATATT-1        47        13               8208               3046
+```
+
+To plot the transcript counts, we will use the "nCount_Spatial" column in the
+spot metadata.
+
+
+```r
+plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
+           NoLegend()
+plot2 <- SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
+plot1 | plot2
+```
+
+<div class="figure" style="text-align: center">
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-15-1.png" alt="Figure showing transcript counts in each spot with varying intensity across the tissue"  />
+<p class="caption">Transcript Counts in each Spot</p>
+</div>
+
+In this case, we see a band of higher counts running from upper-left to 
+lower-right. There are also bands of lower counts above and below this band.
+The band in the upper-right corner may be due to the fissure in the tissue. It
+is less clear why the expression is low in the lower-left corner.
+
+We can also look at the number of genes detected in each spot using 
+"nFeature_Spatial".
+
+
+```r
+plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
+           NoLegend()
+plot2 <- SpatialFeaturePlot(filter_st, features = "nFeature_Spatial")
+plot1 | plot2
+```
+
+<div class="figure" style="text-align: center">
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-16-1.png" alt="Figure showing number of genes detected in each spot with varying intensity across the tissue"  />
+<p class="caption">Number of Genes in each Spot</p>
+</div>
+
+It is difficult to lay out a broad set of rules that will work for all types of
+tissues and samples. Some tissues may have homogeneous transcript counts
+across the section, while others may show variation in transcript counts due
+to tissue structure. For example, in cancer tissue sections, stromal cells tend
+to have lower counts than tumor cells and this should be evident in a transcript
+count plot. In the brain sample below, we might expect some variation in 
+transcript counts in different regions of the brain.
+
+## Conclusion
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- The sequencing core will provide you with an unfiltered and a filtered data
+file.
+- 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

@@ -16,7 +16,7 @@ We will help you in advance to make sure that you have everything that you need.
 
 If you do not already have R and RStudio installed, download and install the following software:
 
-    R/4.3.1: Select the installation for your operating system (Windows, Mac, or Linux).
+    R/4.3.3: Select the installation for your operating system (Windows, Mac, or Linux).
     RStudio: Download the free Rstudio Desktop.
 
 You do not need to install this exact version of R, but it would be good to make sure your R 
@@ -49,18 +49,18 @@ console to verify that both packages installed correctly.
 ```r
 library(BiocManager)
 library(data.table)
-library(doMC)
-library(ggExtra)
+#library(doMC)
+#library(ggExtra)
 library(hdf5r)
 library(here)
-library(igraph)
-library(leiden)
-library(Matrix)
-library(matrixStats)
-library(plyr)
+#library(igraph)
+#library(leiden)
+#library(Matrix)
+#library(matrixStats)
+#library(plyr)
 library(rcartocolor)
 library(remotes)
-library(Rfast2)
+#library(Rfast2)
 library(spacexr)
 library(Seurat)
 library(tidyverse)
@@ -100,41 +100,53 @@ directory.
 
 ```r
 dir.create("data/151508/spatial", recursive = TRUE)
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/f9e5nshrfzk0k5bdr11h7ocjp5prrzox.h5",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/vfbgloxx9ciu04hj9i9f5jjzglfrx0by.h5",
               destfile = "data/151508/151508_raw_feature_bc_matrix.h5",
               mode     = "wb")
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/sddrhl3ronu8nk94ja2gcifnte6lk9lt.h5",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/puetvwocuf14kzyogtds7y1o7cme8dvp.h5",
               destfile = "data/151508/151508_filtered_feature_bc_matrix.h5",
               mode     = "wb")
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/x5vftz72y0u0prfdvskdwd18b7bugk6b.json",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/zxulmiupeurvrmwe0tz1y0hslzrsj4wb.json",
               destfile = "data/151508/spatial/scalefactors_json.json",
               mode     = "wb")
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/jqycwv0p9ttromaixzn7qil02tj0fy6i.png",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/w1bjdguo3emfb5uvwlys26yrudw08dm0.png",
               destfile = "data/151508/spatial/tissue_hires_image.png",
               mode     = "wb")
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/3o8mtr8cu1qoqctb360auabynl9t86ng.png",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/xgmx8tqdfjndejr1hp3r29r4531rd6s2.png",
               destfile = "data/151508/spatial/tissue_lowres_image.png",
               mode     = "wb")
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/gif2llcta2jburqczghs6c86f7ywikg8.csv",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/gw2e7d47tihg25df8hahelrhx42y345o.csv",
               destfile = "data/151508/spatial/tissue_positions_list.csv",
               mode     = "wb")
 
+dir.create("data/151673/spatial", recursive = TRUE)
+download.file(url = "https://thejacksonlaboratory.box.com/shared/static/ge38lg6u1i45n3grusrdyd3nccukl489.h5",
+              destfile = "data/151673/151673_raw_feature_bc_matrix.h5", mode = "wb")
+download.file(url = "https://thejacksonlaboratory.box.com/shared/static/m8btvh1y9tjszfal99k2cvr1f32lh1si.h5",
+              destfile = "data/151673/151673_filtered_feature_bc_matrix.h5", mode = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/feb8gnawor51ojh2ci4mlshhxobpnaji.json",
+              destfile = "data/151673/spatial/scalefactors_json.json",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ejyx4qkv62p5t0njwf5z8px2mqcjxnd7.png",
+              destfile = "data/151673/spatial/tissue_hires_image.png",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/8tgbt4654zbxwsqr3vwlk64dyzzulhlb.png",
+              destfile = "data/151673/spatial/tissue_lowres_image.png",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/drlayml5otq7n2xedndm0qsqly58g306.csv",
+              destfile = "data/151673/spatial/tissue_positions_list.csv",
+              mode     = "wb")
 
 
-
-dir.create("data/151675/spatial", recursive = TRUE)
-download.file(url = "https://thejacksonlaboratory.box.com/shared/static/xycr1otk4hhgcbsec6vu45k2s9sisnbt.h5",
-              destfile = "data/151675/151675_raw_feature_bc_matrix.h5", mode = "wb")
-download.file(url = "https://thejacksonlaboratory.box.com/shared/static/4xoq4xcbt74zld76ifqlsagc7e36l9qs.h5",
-              destfile = "data/151675/151675_filtered_feature_bc_matrix.h5", mode = "wb")
-
-#########################################################################
-# DMG: Where does "spot-meta.csv" come from? It's not in the sumner directory.
-#########################################################################
-
-download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/efluht66uoac98kw3cuk40axf7qtg0dg.tsv",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ny1wokl6sz1xjzz68aftbk209se5nvws.tsv",
               destfile = "data/spot-meta.tsv",
               mode     = "wb")
+```
+
+## Session Info
+
+```r
+sessionInfo()
 ```
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->

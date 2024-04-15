@@ -21,21 +21,322 @@ exercises: 2
 
 ## Introduction
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+Spatial transcriptomics involves a complex process that may involves some
+technical failures. If the processing of the entire slide fails, it should be
+obvious due to a large number of transcripts appearing in spots outside of the
+tissue or low transcript counts across the whole tissue.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+However, there may also be variation in spot quality in a slide that has
+largely high-quality spots. These artifacts are much rarer than in single-cell
+transcriptomics because the process of tissue sectioning is less disruptive
+than tissue dissociation. Because of this, we recommend light spot filtering.
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+There are three metrics that we will use to identify and remove low-quality spots:
+
+1. Mitochondrial gene expression,
+2. Total counts,
+3. Number of detected genes.
+
+During tissue processing, it is possible that some cells will be lysed, 
+spilling out the transcripts, but retaining the mitochondria. These spots will
+appear with much higher mitochondrial gene expression. We will also examine
+the total gene counts and number of genes detected in each cell because high
+counts may indicate spots with lysed cells whose contents bled into other cells.
+
+However, these metrics may be tissue-dependent. In some tissues, there may be
+biological reasons for differential expression across the tissue. For example,
+in a cancer sample, mitochondrial or total gene expression may vary between
+stromal and tumor regions. It will be important for you to familiarize yourself 
+with the structure of the tissue that you are analyzing in order to make
+rational judgments about filtering.
+
+# Filtering by Mitochondrial Gene Count
+
+In single-cell RNA sequencing experiments, the tissue is digested and the cells
+are dissociated. This mechanical disruption is stressful to the cells and some
+of them are damaged in the process. Elevated levels of mitochondrial genes often
+indicate cell death or damage because, when a cell's membrane is compromised, 
+it loses most cytoplasmic content while retaining mitochondrial RNA. Therefore, 
+spots with high mitochondrial RNA may represent damaged or dying cells, and 
+their exclusion helps focus the analysis on healthy, intact cells. 
+
+More details on this relationship can be found in the 
+[literature on mitochondrial DNA and cell death](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0888-1).
+
+However, in spatial transcriptomics, the tissue is either frozen or 
+formalin-fixed and there is much less mechanical disruption of the tissue. 
+Because of this, we are skeptical of the value of filtering spots based on
+mitochondrial gene counts.
+
+For completeness, we show how to obtain the mitochondrial genes, calculate the
+perrcentage of counts produced by these genes in each spot, and add this to
+the Seurat object metadata.
+
+We will search the gene symbols in the feature metadata to identify 
+mitochondrial genes. We do not need to find all genes in these
+categories, so we will search for genes with symbols that start with "MT".
+
+The Seurat object is designed to be flexible and may contains several data types.
+For example, it may contain both transcript and open chromatin peaks. In this 
+analysis, the Seurat object only contains transcipt counts. The different types
+of data are called "Layers" in Seurat and may be accessed using the 
+[Layers](https://satijalab.github.io/seurat-object/reference/Layers.html) 
+function.
+
+
+```r
+Layers(filter_st)
+```
+
+```{.error}
+Error in Layers(filter_st): could not find function "Layers"
+```
+
+This tells us that the "filter_st" object only contains one data Layer called
+"counts". We can access this using the 
+[LayerData](https://satijalab.github.io/seurat-object/reference/Layers.html)
+function using "counts" as an argument.
+
+
+```r
+counts <- LayerData(filter_st, 'counts')
+```
+
+```{.error}
+Error in LayerData(filter_st, "counts"): could not find function "LayerData"
+```
+
+```r
+head(counts)
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'counts' not found
+```
+
+The output above may look odd to you since there are no numbers. Notice that
+the text above the table says "sparse Matrix". Many of the counts in the file
+are likely to be zero. Due to the manner in which numbers are stored in 
+computer memory, a zero takes up as much space as a number. If we had to store
+all of these zeros, it would consume a lot of computer memory. A sparse matrix
+is a special data structure which only stores the non-zero values. In the table
+above, each dot (.) represents a position with zero counts.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+You don't have to have the students type out the next block. It may be better
+to let them focus on the concept rather than typing.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+If we look at another part of the "counts" matrix, we can see numbers.
+
+
+```r
+counts[33500:33510,]
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'counts' not found
+```
+
+As you can see in the table above, the gene symbols are stored in the rownames 
+of "counts". We will find find mitochondrial genes by searching for gene symbols
+which start with "MT".
+
+
+```r
+mito_pattern <- '^[Mm][Tt]-'
+mito_genes   <- rownames(counts)[grep(mito_pattern, rownames(counts))]
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'counts' not found
+```
+
+```r
+mito_genes
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'mito_genes' not found
+```
+
+We now have a set of mitochondrial genes. We will use these genes to estimate the 
+percentage of transcript counts expressed by mitochondrial genes in each cell 
+and add this to the Seurat object. We will pass the mitochondrial gene 
+symbols into
+[PercentageFeatureSet](https://satijalab.org/seurat/reference/percentagefeatureset), 
+which will perform the calculation for us.
+
+
+```r
+filter_st[["percent.mt"]] <- PercentageFeatureSet(filter_st, pattern = mito_pattern)
+```
+
+```{.error}
+Error in PercentageFeatureSet(filter_st, pattern = mito_pattern): could not find function "PercentageFeatureSet"
+```
+
+This syntax adds a new column called "percent.mt" to the spot metadata.
+
+
+```r
+colnames(filter_st@meta.data)
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'filter_st' not found
+```
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+There is no need to have students type out the figure titles and axis labels.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Let's look at histograms of the ribosomal and mitochondrial gene percentages.
+
+
+```r
+hist(FetchData(filter_st, "percent.mt")[,1],   main = "% Mitochondrial Genes",
+     xlab = "%")
+```
+
+```{.error}
+Error in FetchData(filter_st, "percent.mt"): could not find function "FetchData"
+```
+
+In these plots, we are looking for spots which are outside of a normal
+distribution. It is difficult to generalize how to select a filtering 
+threshold. Some tissue or cell types may have higher mitochondrial gene expression.
+Further, heterogeneous tissues may have subsets of cells with differing levels
+of mitochondrial gene expression. 
+
+Let's visually check whether the mitochondrial gene expression is normally
+distributed.
+
+
+```r
+mito_expr <- FetchData(filter_st, "percent.mt")[,1]
+```
+
+```{.error}
+Error in FetchData(filter_st, "percent.mt"): could not find function "FetchData"
+```
+
+```r
+qqnorm(mito_expr, las = 1)
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'mito_expr' not found
+```
+
+```r
+qqline(mito_expr)
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'mito_expr' not found
+```
+
+
+In this case, there may be a reason to filter out spots with greater than 35% 
+mitochondrial counts.
+
+## Filter by Transcript and Gene Count
+
+In the previous lesson, we looked a the number of transcripts expressed and
+the number of genes detected in each spot. Let's plot these values again.
+
+
+
+```r
+layout(matrix(1:2, ncol = 1))
+hist(FetchData(filter_st, "nCount_Spatial")[,1],
+     main = 'Counts per Spot', xlab = 'Counts', las = 1)
+```
+
+```{.error}
+Error in FetchData(filter_st, "nCount_Spatial"): could not find function "FetchData"
+```
+
+```r
+hist(FetchData(filter_st, "nFeature_Spatial")[,1], 
+     main = 'Genes per Spot', xlab = 'Genes', las = 1)
+```
+
+```{.error}
+Error in FetchData(filter_st, "nFeature_Spatial"): could not find function "FetchData"
+```
+
+
+```r
+filter_st@meta.data[paste0("qc_", metric_name)] <- qc_flag
+```
+
+```{.error}
+Error in eval(expr, envir, enclos): object 'qc_flag' not found
+```
+
+```r
+plot1 <- SpatialDimPlot(filter_st, group.by = paste0("qc_", metric_name))
+```
+
+```{.error}
+Error in SpatialDimPlot(filter_st, group.by = paste0("qc_", metric_name)): could not find function "SpatialDimPlot"
+```
+
+
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+There is no need to have students type out the figure titles and axis labels.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+```r
+layout(matrix(1:3, ncol = 1))
+hist(FetchData(filter_st, "nCount_Spatial")[,1], 
+     main   = "Histogram of Counts per Spot", 
+     xlab   = "Sum of Counts per Spots", 
+     ylab   = "Frequency", 
+     breaks = 100)
+```
+
+```{.error}
+Error in FetchData(filter_st, "nCount_Spatial"): could not find function "FetchData"
+```
+
+```r
+hist(FetchData(filter_st, "nFeature_Spatial")[,1], 
+     main   = "Histogram of Features per Spot", 
+     xlab   = "Sum of Features (>1 UMI) per spot", 
+     ylab   = "Frequency", 
+     breaks = 100)
+```
+
+```{.error}
+Error in FetchData(filter_st, "nFeature_Spatial"): could not find function "FetchData"
+```
+
+```r
+hist(FetchData(filter_st, "percent.mt")[,1], 
+     main   = "Histogram of Mitochondrial Gene Percentage", 
+     xlab   = "% mittochondrial expression", 
+     ylab   = "Frequency", 
+     breaks = 100)
+```
+
+```{.error}
+Error in FetchData(filter_st, "percent.mt"): could not find function "FetchData"
+```
+
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
