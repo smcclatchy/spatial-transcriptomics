@@ -19,6 +19,16 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(hdf5r))
+suppressPackageStartupMessages(library(Seurat))
+
+source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+
+filter_st = readRDS(file = 'filter_st1.rds')
+```
+
 ## Introduction
 
 Spatial transcriptomics involves a complex process that may involves some
@@ -50,7 +60,7 @@ stromal and tumor regions. It will be important for you to familiarize yourself
 with the structure of the tissue that you are analyzing in order to make
 rational judgments about filtering.
 
-# Filtering by Mitochondrial Gene Count
+## Filtering by Mitochondrial Gene Count
 
 In single-cell RNA sequencing experiments, the tissue is digested and the cells
 are dissociated. This mechanical disruption is stressful to the cells and some
@@ -69,7 +79,7 @@ Because of this, we are skeptical of the value of filtering spots based on
 mitochondrial gene counts.
 
 For completeness, we show how to obtain the mitochondrial genes, calculate the
-perrcentage of counts produced by these genes in each spot, and add this to
+percentage of counts produced by these genes in each spot, and add this to
 the Seurat object metadata.
 
 We will search the gene symbols in the feature metadata to identify 
@@ -78,7 +88,7 @@ categories, so we will search for genes with symbols that start with "MT".
 
 The Seurat object is designed to be flexible and may contains several data types.
 For example, it may contain both transcript and open chromatin peaks. In this 
-analysis, the Seurat object only contains transcipt counts. The different types
+analysis, the Seurat object only contains transcript counts. The different types
 of data are called "Layers" in Seurat and may be accessed using the 
 [Layers](https://satijalab.github.io/seurat-object/reference/Layers.html) 
 function.
@@ -154,7 +164,7 @@ There is no need to have students type out the figure titles and axis labels.
 
 Let's look at histograms of the ribosomal and mitochondrial gene percentages.
 
-```{r fig.height=4,fig.width=4}
+```{r fig.height=4,fig.width=4,fig.alt='mito'}
 hist(FetchData(filter_st, "percent.mt")[,1],   main = "% Mitochondrial Genes",
      xlab = "%")
 ```
@@ -168,7 +178,7 @@ of mitochondrial gene expression.
 Let's visually check whether the mitochondrial gene expression is normally
 distributed.
 
-```{r fig.width=5,fig.height=5}
+```{r fig.width=5,fig.height=5,fig.alt='mito'}
 mito_expr <- FetchData(filter_st, "percent.mt")[,1]
 qqnorm(mito_expr, las = 1)
 qqline(mito_expr)
@@ -184,7 +194,7 @@ In the previous lesson, we looked a the number of transcripts expressed and
 the number of genes detected in each spot. Let's plot these values again.
 
 
-```{r fig.height=6,fig.width=4}
+```{r fig.height=6,fig.width=4,fig.alt='mito'}
 layout(matrix(1:2, ncol = 1))
 hist(FetchData(filter_st, "nCount_Spatial")[,1],
      main = 'Counts per Spot', xlab = 'Counts', las = 1)
@@ -267,33 +277,7 @@ You can add a line with at least three colons and a `solution` tag.
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Figures
 
-You can include figures generated from R Markdown:
-
-```{r pyramid, fig.alt = "pie chart illusion of a pyramid", fig.cap = "Sun arise each and every morning"}
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
@@ -304,3 +288,7 @@ Cool, right?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+# Save data for build system ot use in next lesson.
+saveRDS(filter_st, file = 'filter_st2.rds')
+```
