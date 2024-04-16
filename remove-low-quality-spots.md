@@ -1032,7 +1032,7 @@ above, each dot (.) represents a position with zero counts.
 You don't have to have the students type out the next block. It may be better
 to let them focus on the concept rather than typing.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 If we look at another part of the "counts" matrix, we can see numbers.
 
@@ -3558,7 +3558,7 @@ colnames(filter_st@meta.data)
 
 There is no need to have students type out the figure titles and axis labels.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Let's look at histograms of the ribosomal and mitochondrial gene percentages.
 
@@ -3628,13 +3628,11 @@ Error in eval(expr, envir, enclos): object 'metric_name' not found
 
 
 
-
-
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
 There is no need to have students type out the figure titles and axis labels.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ```r
@@ -3657,45 +3655,6 @@ hist(FetchData(filter_st, "percent.mt")[,1],
 ```
 
 <img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
-
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
