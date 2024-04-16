@@ -169,7 +169,7 @@ If so, read that file in and assign it to a variable called "filter_st".
 
 :::::::::::::::::::::::: solution 
 
-## Solution
+## Solution 1
  
 
 ```r
@@ -214,7 +214,7 @@ assign up/down and left/right to the image?
 
 :::::::::::::::::::::::: solution 
 
-## Solution
+## Solution 2
  
 Look at the spots in each corner. In the upper-left, you will see the following
 patterns:
@@ -335,7 +335,7 @@ background spots?
 
 :::::::::::::::::::::::: solution 
 
-## Solution
+## Solution 3
  
 1. When the tissue section is lysed, some transcripts may leak out of the cells
 and into the background region of the slide.
@@ -451,4 +451,6 @@ file.
 - 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+
 

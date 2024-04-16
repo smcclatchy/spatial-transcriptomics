@@ -157,7 +157,7 @@ cells often sit astride multiple capture areas.
 
 ![Workflow schematic of DBiT-seq on FFPE samples.](fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png){alt='a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue'}
 
-<a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png"/></a>
+<a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png alt="FFPE workflow"/></a>
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Other array-based methods capture mRNA with spatially-barcoded probes and 
@@ -166,7 +166,7 @@ sequencing and they don't rely on time-consuming microscopic imaging. Spatial re
 
 In this lesson we will use data from positionally barcoded arrays.  
 
-![A sequencing-based spatial transcriptomics method using printed spots on a slide. ](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture mRNA from the tissue laid on top of them'}
+![A sequencing-based spatial transcriptomics method using printed spots on a slide.](https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture mRNA from the tissue laid on top of them'}
 
 
 <a href="https://commons.wikimedia.org/wiki/User:Jasquatch">James Chell</a>, <a href="https://commons.wikimedia.org/wiki/File:Spatial_transcriptomics_ii.png">Spatial transcriptomics ii</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>

@@ -13,8 +13,10 @@ each.
 - Identify important elements for good experimental design.
 - Analyze spatial transcriptomics data, including quality control, transcript quantification, and cell-type assignment within regions.
 
-### Prerequisites
+## Prerequisites
+
 To succeed in this course, you need to have
+
 1.	proficiency in the R programming language;
 2.	knowledge of bulk RNA and single-cell sequence analysis.
 
