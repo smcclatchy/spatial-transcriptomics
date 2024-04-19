@@ -44,8 +44,6 @@ LogNormalize is a specific normalization method that scales gene expression data
 Raw read counts provide essential insights into the absolute cell type densities within a sample, which are crucial for mapping cellular distribution. In contrast, normalized data adjusts for technical variations like sequencing depth and RNA capture efficiency, thus revealing the relative proportions of cell types and identifying specific tissue structures, such as epithelium or fibrosis. Saiselet et al. demonstrated that while normalized data effectively identify distinct morphologies, raw counts are vital for detecting areas with unusual cell-type concentrations, such as high epithelial regions expressing vimentin (VIM) (Saiselet, M., et al., Journal of Molecular Cell Biology, 2020).
 Hence, choosing the right normalization method depends on the specific characteristics of each dataset and the biological questions at hand. Researchers must understand the impact of each normalization strategy on both the biological and technical aspects of their data.
 
-::::::::::::::::::::::::::::::::::::::::::::::::
-
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(hdf5r))
@@ -73,7 +71,7 @@ Consider two datasets from the same spatial transcriptomics experiment: one raw 
 Normalized data should show reduced variance due to technical factors and enhanced clarity in detecting biological differences. Raw data may exhibit skewed expression profiles influenced by technical artifacts.
 
 
-::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::
 
