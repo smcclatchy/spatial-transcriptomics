@@ -3588,7 +3588,6 @@ qqline(mito_expr)
 
 <img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-9-1.png" alt="mito" style="display: block; margin: auto;" />
 
-
 In this case, there may be a reason to filter out spots with greater than 35% 
 mitochondrial counts.
 
@@ -3597,6 +3596,11 @@ mitochondrial counts.
 In the previous lesson, we looked a the number of transcripts expressed and
 the number of genes detected in each spot. Let's plot these values again.
 
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+There is no need to have students type out the figure titles and axis labels.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ```r
@@ -3609,60 +3613,120 @@ hist(FetchData(filter_st, "nFeature_Spatial")[,1],
 
 <img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-10-1.png" alt="mito" style="display: block; margin: auto;" />
 
+Again, most of the spots fall within a reasonable distribution. The right tail
+of the distribution is not very thick. We might filter spots with over 7,000
+counts or 3,000 genes. We will use these thresholds to add a "keep" column
+to the Seurat object metadata.
 
-```r
-filter_st@meta.data[paste0("qc_", metric_name)] <- qc_flag
-```
-
-```{.error}
-Error in eval(expr, envir, enclos): object 'qc_flag' not found
-```
-
-```r
-plot1 <- SpatialDimPlot(filter_st, group.by = paste0("qc_", metric_name))
-```
-
-```{.error}
-Error in eval(expr, envir, enclos): object 'metric_name' not found
-```
-
-
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-There is no need to have students type out the figure titles and axis labels.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+First, we will create variables for each threshold. While we could type the
+numbers directly into the logical comparison statements, creating variables
+makes it clear what each number represents.
 
 
 ```r
-layout(matrix(1:3, ncol = 1))
-hist(FetchData(filter_st, "nCount_Spatial")[,1], 
-     main   = "Histogram of Counts per Spot", 
-     xlab   = "Sum of Counts per Spots", 
-     ylab   = "Frequency", 
-     breaks = 100)
-hist(FetchData(filter_st, "nFeature_Spatial")[,1], 
-     main   = "Histogram of Features per Spot", 
-     xlab   = "Sum of Features (>1 UMI) per spot", 
-     ylab   = "Frequency", 
-     breaks = 100)
-hist(FetchData(filter_st, "percent.mt")[,1], 
-     main   = "Histogram of Mitochondrial Gene Percentage", 
-     xlab   = "% mittochondrial expression", 
-     ylab   = "Frequency", 
-     breaks = 100)
+mito_thr     <- 35
+counts_thr   <- 7000
+features_thr <- 3000
 ```
 
-<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+Next, we will create a "keep" variable which will be TRUE for spots that
+we want to keep.
+
+
+```r
+keep <- FetchData(filter_st, "percent.mt")[,1]       < mito_thr
+keep <- FetchData(filter_st, "nCount_Spatial")[,1]   < counts_thr   & keep
+keep <- FetchData(filter_st, "nFeature_Spatial")[,1] < features_thr & keep
+
+filter_st$keep <- keep
+```
+
+Now let's plot the spots on the tissue and color them based on whether we will
+keep them.
+
+
+```r
+SpatialDimPlot(filter_st, group.by = "keep")
+```
+
+<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+
+When you examine the spots that have been flagged, it is important to look for 
+patterns. If a contiguous section of tissue contains spots that will be removed,
+it is worth looking at the histology slide to see if there are structures that
+correlate with the removed spots. If it is a section of necrotic tissue, then, 
+depending on your experimental question, you may want to remove those spots. 
+But you should always look for patterns in the removed spots and convince
+yourself that they are not biasing your results.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 1: Change the spot filtering thresholds.
+
+1. Change the threshold for the number of counts per spot to keep spots with
+**more** than 1200 counts. Note that we are filtering on the lower side of
+the distribution. 
+1. Add new variable called "keep_counts" to the Seurat object.
+1. Plot the spot overlaid on the tissue section, colored
+by whether you are keeping them. 
+
+Is there a pattern to the removed spots that seems to correlate with the tissue
+structure?
+
+:::::::::::::::::::::::: solution 
+
+## Solution 1
+ 
+
+```r
+new_counts_thr <- 1200
+keep_counts    <- FetchData(filter_st, "nCount_Spatial")[,1] > new_counts_thr
+filter_st$keep_counts <- keep_counts
+SpatialDimPlot(filter_st, group.by = "keep_counts")
+```
+
+<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+
+Note that the spots that we have flagged seem to correspond to stripes in the
+tissue section. These may be regions of the brain which have lower levels of
+gene expression, so we may want to revise or remove this threshold. Overall,
+this exercise shows that it is important to use judgement when filtering spots.
+
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::
+
+Note that we will only remove a few spots in this filtering step.
+
+
+```r
+table(FetchData(filter_st, "keep")[,1])
+```
+
+```{.output}
+
+FALSE  TRUE 
+    6  4378 
+```
+
+We can remove the spots directly using the following syntax. In this case, the
+"columns" of the Seurat object correspond to the spots.
+
+
+```r
+filter_st <- filter_st[,keep]
+```
+
+```{.warning}
+Warning: Not validating Seurat objects
+```
+
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Spot filtering should be light.
+- Inspect the spots that you are filtering to confirm that you are not discarding
+important tissue structures.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

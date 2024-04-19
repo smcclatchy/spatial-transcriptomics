@@ -177,8 +177,8 @@ filter_st <- Load10X_Spatial(data.dir = "./data/151508",
                              filename = "151508_filtered_feature_bc_matrix.h5")
 ```
 
-:::::::::::::::::::::::::::::::::
-:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Once you have the filtered data loaded in, look at the object.
 
