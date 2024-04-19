@@ -51,7 +51,7 @@
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
-        <i role="img" aria-label="search button" data-feather="search"></i>
+        <i role="img" aria-label="Search the All In One page" data-feather="search"></i>
       -->
     </div>
     <div class="desktop-nav">
@@ -76,11 +76,17 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="reference.html">Reference</a></li>
           </ul></li>
       </ul></div>
+    <!--
     <form class="d-flex col-md-2 search-form">
-      <fieldset disabled><input class="form-control me-2 searchbox" type="search" placeholder="Search" aria-label="Search"><button class="btn btn-outline-success tablet-search-button" type="submit">
-          <i class="search-icon" data-feather="search" role="img" aria-label="search button"></i>
+      <fieldset disabled>
+      <input class="form-control me-2 searchbox" type="search" placeholder="" aria-label="">
+        <button class="btn btn-outline-success tablet-search-button"  type="submit">
+          <i class="search-icon" data-feather="search" role="img" aria-label="Search the All In One page"></i>
         </button>
-      </fieldset></form>
+      </fieldset>
+    </form>
+    -->
+    <a class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
 </nav><div class="col-md-12 mobile-title">
   Spatial Transcriptomics
@@ -196,7 +202,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="apply-normalization-methods.html">5. Apply Normalization Methods</a>
+        <a href="apply-normalization-methods.html">5. Normalization in Spatial Transcriptomics</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -305,7 +311,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Spatially Resolved Transcriptomics in Life Sciences Research</h1>
-        <p>Last updated on 2024-03-26 |
+        <p>Last updated on 2024-04-19 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -363,10 +369,10 @@ showing muscle cells and a small nerve.</div>
 of Histology, Jagiellonian University Medical College</a>
 <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" rel="license" class="external-link">CC
 BY-SA 3.0 DEED</a></p>
-<p>Spatially resolved transcriptomics describes the spatial organization
-and cell signals, specifically gene expression signals. Spatial patterns
-of gene expression determine how genes are regulated within a tissue
-system and how those tissues and their component cells function. Spatial
+<p>Spatially resolved transcriptomics describes spatial organization and
+cell signals, specifically gene expression signals. Spatial patterns of
+gene expression determine how genes are regulated within a tissue system
+and how those tissues and their component cells function. Spatial
 transcriptomic (ST) methods map cell position in a tissue, clarifying
 the physical relationships between individual cells and cellular
 structures. ST simultaneously measures gene expression, delivering
@@ -403,8 +409,8 @@ technologies vary in ability to profile entire transcriptomes, deliver
 single-cell resolution, and detect genes efficiently.</p>
 <div class="section level3">
 <h3 id="imaging-based-technologies">Imaging-based technologies<a class="anchor" aria-label="anchor" href="#imaging-based-technologies"></a></h3>
-<p>Imaging-based technologies read transcriptomes in situ using
-microscopy and feature single-cell or even single-molecule resolution.
+<p>Imaging-based technologies read transcriptomes in place using
+microscopy, and feature single-cell or even single-molecule resolution.
 They identify messenger RNA (mRNA) species through hybridization with
 fluorescent probes. These probes are gene-specific in fluorescence in
 situ hybridization (FISH).</p>
@@ -439,9 +445,9 @@ tell different mRNAs apart due to the decoded combinations of “1” and
 </figure><p><a href="https://commons.wikimedia.org/wiki/File:MERFISH_Diagram.png" class="external-link">SlifertheRyeDragon</a>,
 <a href="https://creativecommons.org/licenses/by-sa/4.0" class="external-link">CC BY-SA
 4.0</a>, via Wikimedia Commons</p>
-<p>In situ sequencing amplifies and sequences mRNAs directly within a
-block or section of fresh-frozen (FF) or formalin-fixed paraffin
-embedded (FFPE) tissue.</p>
+<p>A second imaging-based method, in situ sequencing, amplifies and
+sequences mRNAs directly within a block or section of fresh-frozen (FF)
+or formalin-fixed paraffin embedded (FFPE) tissue.</p>
 <p><img src="fig/ISS_Overview.png" alt="a general schematic showing in situ sequencing" class="figure"><a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png" class="external-link">
 Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a>
 Image created with Biorender.com. Public domain, via Wikimedia Commons
@@ -466,7 +472,7 @@ a microscope but delivers high spatial resolution.</p>
 using next-generation sequencing while retaining positional information.
 This is distinct from in situ sequencing because next-generation
 sequencing is employed, not imaging. The main advantage of
-sequenced-based methods is that they are unbiased in capturing mRNA
+sequencing-based methods is that they are unbiased in capturing mRNA
 because they don’t rely on predefined probesets targeting specific
 genes. Sequencing-based methods retain spatial information through
 laser-capture microdissection (LCM), microfluidics, or through ligation
@@ -499,7 +505,9 @@ capture areas, though a disadvantage is that cells often sit astride
 multiple capture areas.</p>
 <figure><img src="fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue" class="figure mx-auto d-block"><div class="figcaption">Workflow schematic of DBiT-seq on FFPE
 samples.</div>
-</figure><p><a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659" class="external-link"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" class="figure"></a>
+</figure><p><a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659" class="external-link">&lt;img
+src=“</a><a href="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" class="external-link uri">https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png</a>
+alt=”FFPE workflow”/&gt;
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
 <p>Other array-based methods capture mRNA with spatially-barcoded probes
@@ -605,18 +613,30 @@ to date</p>
 </section><section id="x-genomics-visium-technology"><h2 class="section-heading">10X Genomics Visium technology<a class="anchor" aria-label="anchor" href="#x-genomics-visium-technology"></a>
 </h2>
 <hr class="half-width"><p>In this lesson we will use data from an array-based method called
-Visium that is offered by 10X Genomics. Visium is an upgrade and
-commercialization of the spatial transcriptomics method described in
-2016 in <a href="https://doi.org/10.1126/science.aaf2403" class="external-link">Science,
-353(6294)</a> and illustrated in general in the figure above. In brief,
-thin tissue sections are placed atop spots printed with spatial
-barcodes. When the tissue is permeabilized, mRNA is released from the
-cells and hybridized to the spatial barcodes. Hybridized mRNA is reverse
-transcribed to cDNA and then sequenced. Spatial transcriptomics combines
-two key modes: histological imaging and gene expression profiling.
-Histological imaging captures tissue morphology with standard staining
-protocols while expression profiling is captured by sequencing spatially
-barcoded cDNA.</p>
+Visium that is offered by <a href="https://www.10xgenomics.com/platforms/visium" class="external-link">10X Genomics</a>.
+Visium is an upgrade and commercialization of the spatial
+transcriptomics method described in 2016 in <a href="https://doi.org/10.1126/science.aaf2403" class="external-link">Science, 353(6294)</a>
+and illustrated in general in the figure above. A more specific
+schematic is given below.</p>
+<figure><img src="fig/visium-technology.png" alt="a general schematic showing the Visium technology" class="figure mx-auto d-block"><div class="figcaption">Overview of Visium technology with fresh-frozen
+(FF) or formalin-fixed paraffin embedded (FFPE) tissue. Source: <a href="https://www.10xgenomics.com/platforms/visium" class="external-link">10x Genomics
+Visium</a>
+</div>
+</figure><p>Thin tissue sections are placed atop spots printed with spatial
+barcodes. For fresh-frozen (FF) tissues, tissue fixing and
+permeabilization discharges mRNA to bind with spatially barcoded probes
+that indicate the position on the slide. Captured mRNA is then reverse
+transcribed to cDNA and sequencing libraries created from these.
+Formalin-fixed paraffin embedded (FFPE) tissues require extra steps.
+Probe pairs that identify each gene in the transcriptome hybridize with
+their target genes and then bind to one another. Permeabilization
+discharges the probe pairs to spatially barcoded probes on the slide.
+The probe pairs are then extended to include complements of the spatial
+barcodes. Sequencing libraries are then formed from the probes.</p>
+<p>Spatial transcriptomics combines two key modes: histological imaging
+and gene expression profiling. Histological imaging captures tissue
+morphology with standard staining protocols while expression profiling
+is captured by sequencing spatially barcoded cDNA.</p>
 <p>Sequencing-based datasets have grown faster than have imaging-based
 datasets, with Visium dominating published datasets. Unlike most other
 sequencing-based technologies, Visium accommodates both FF or FFPE
@@ -677,14 +697,14 @@ any links that you are not going to use.
 	
         | <a href="https://github.com/smcclatchy/spatial-transcriptomics/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/smcclatchy/spatial-transcriptomics/" class="external-link">Source</a></p>
-				<p><a href="https://github.com/smcclatchy/spatial-transcriptomics/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:susan.mcclatchy@jax.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+				<p><a href="https://github.com/smcclatchy/spatial-transcriptomics/blob/main/CITATION.cff" class="external-link">Cite</a> | <a href="mailto:susan.mcclatchy@jax.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 			</div>
 			<div class="col-md-6">
         
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.4" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.5" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -706,8 +726,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/introduction.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/introduction.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-03-26",
-  "datePublished": "2024-03-26"
+  "dateModified": "2024-04-19",
+  "datePublished": "2024-04-19"
 }
 
   </script><script>
