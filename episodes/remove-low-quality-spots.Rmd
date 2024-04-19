@@ -204,8 +204,8 @@ hist(FetchData(filter_st, "nFeature_Spatial")[,1],
 
 ```{r}
 
-filter_st@meta.data[paste0("qc_", metric_name)] <- qc_flag
-plot1 <- SpatialDimPlot(filter_st, group.by = paste0("qc_", metric_name))
+#filter_st@meta.data[paste0("qc_", metric_name)] <- qc_flag
+#plot1 <- SpatialDimPlot(filter_st, group.by = paste0("qc_", metric_name))
 
 
 ```
