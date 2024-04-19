@@ -20,6 +20,16 @@ exercises: 5
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(hdf5r))
+suppressPackageStartupMessages(library(Seurat))
+
+source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+
+filter_st = readRDS(file = 'filter_st2.rds')
+```
+
 ## Why Normalize?
 
 ### Description of normalization techniques
@@ -46,3 +56,8 @@ Normalized data should show reduced variance due to technical factors and enhanc
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+# Save data for build system ot use in next lesson.
+saveRDS(filter_st, file = 'filter_st3.rds')
+```

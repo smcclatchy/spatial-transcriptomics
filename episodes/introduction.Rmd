@@ -1,7 +1,7 @@
 ---
 title: Spatially Resolved Transcriptomics in Life Sciences Research
-teaching:
-exercises:
+teaching: 30
+exercises: 10
 ---
 
 :::::: questions
