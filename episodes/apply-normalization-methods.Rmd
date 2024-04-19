@@ -55,6 +55,8 @@ Normalized data should show reduced variance due to technical factors and enhanc
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
+- Normalization may or may not be required.
+
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
