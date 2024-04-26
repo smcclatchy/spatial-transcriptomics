@@ -1,113 +1,74 @@
+
 ---
-title: 'Apply Dimensionality Reduction Methods'
-teaching: 10
-exercises: 2
+title: 'Apply Dimensionality Reduction Methods in Spatial Transcriptomics'
+teaching: 15
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do I use principal components analysis on highly variable genes?
-- How do I use uniform manifold approximation and projection (UMAP)?
-- How do I visualize the reductions?
+- How do PCA and UMAP differ in their approach to dimensionality reduction in spatial transcriptomics?
+- What advantages do linear methods like PCA offer before applying nonlinear methods like UMAP?
+- How do these dimensionality reduction techniques impact downstream analysis such as clustering and visualization?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Differentiate between linear and nonlinear dimensionality reduction methods and their applications in spatial transcriptomics.
+- Implement PCA to preprocess data before applying UMAP to enhance interpretability and structure recognition.
+- Assess the effectiveness of each method in revealing spatial and molecular patterns within the data.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## Understanding Dimensionality Reduction in Spatial Transcriptomics
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+Dimensionality reduction is a crucial step in managing high-dimensional spatial transcriptomics data, enhancing analytical clarity, and reducing computational load. Linear methods like PCA and nonlinear methods like UMAP each play distinct roles in processing and interpreting complex datasets.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+### Key Dimensionality Reduction Techniques
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+#### PCA (Principal Component Analysis)
+PCA is a linear technique that reduces dimensionality by transforming data into a set of uncorrelated variables called principal components. This method efficiently captures the main variance directions in the data, which is vital for preliminary data exploration and noise reduction.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+#### UMAP (Uniform Manifold Approximation and Projection)
+UMAP is a nonlinear technique that excels in preserving both local and global data structures, making it suitable for detailed feature exploration in large spatial datasets. It is often applied after PCA to focus on the refined dataset for deeper insights.
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Seurat))
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# Load your spatial transcriptomics dataset
+data <- readRDS(file = 'spatial_data.rds')
+```
+
+## Why Apply Dimensionality Reduction?
+
+### Linear vs. Nonlinear Techniques
+
+Linear methods like PCA are typically used in the initial stages of analysis to remove noise and reduce dimensionality without losing key information. This preprocessing step makes subsequent nonlinear reduction with UMAP more effective, as UMAP builds on the cleaner, simpler data structure provided by PCA to uncover intricate patterns that linear methods might miss.
+
+### Enhancing Data Interpretation and Computational Efficiency
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
+## Challenge 1: Implement PCA and UMAP Sequentially
 
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
+Apply PCA followed by UMAP on the same spatial transcriptomics dataset. What distinct insights do each of these methods provide, and how does PCA preprocessing influence UMAP’s output?
 
 :::::::::::::::::::::::: solution 
 
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
+PCA will highlight the major variance and remove noise, preparing the data for UMAP, which will then reveal detailed spatial and molecular organization by preserving both local and global structures.
 
-:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::::::::::::
 
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-```{r pyramid, fig.alt = "pie chart illusion of a pyramid", fig.cap = "Sun arise each and every morning"}
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
+## Dimensionality Reduction Methods
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Linear dimensionality reduction methods like PCA are crucial for initial data simplification and noise reduction.
+- Nonlinear methods like UMAP are valuable for detailed exploration of data structures post-linear preprocessing.
+- The sequential application of PCA and UMAP can provide a comprehensive view of the spatial transcriptomics data, leveraging the strengths of both linear and nonlinear approaches.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
