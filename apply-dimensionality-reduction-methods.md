@@ -33,11 +33,6 @@ PCA is a linear technique that reduces dimensionality by transforming data into 
 #### UMAP (Uniform Manifold Approximation and Projection)
 UMAP is a nonlinear technique that excels in preserving both local and global data structures, making it suitable for detailed feature exploration in large spatial datasets. It is often applied after PCA to focus on the refined dataset for deeper insights.
 
-
-```{.error}
-Error in gzfile(file, "rb"): cannot open the connection
-```
-
 ## Why Apply Dimensionality Reduction?
 
 ### Linear vs. Nonlinear Techniques
