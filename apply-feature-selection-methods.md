@@ -1,117 +1,67 @@
+
 ---
-title: 'Apply Feature Selection Methods'
-teaching: 10
-exercises: 2
+title: 'Apply Feature Selection Methods in Spatial Transcriptomics'
+teaching: 20
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do I identify highly variable genes?
+- Why feature selection is important in spatial transcriptomics?
+- What are the implications of using different proportions of highly variable genes (HVGs) in data analysis?
+- Why is feature selection in spatial transcriptomics not typically necessary with normalization techniques like SCTransform?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Identify appropriate feature selection methods for different normalization techniques in spatial transcriptomics.
+- Evaluate the effects of varying the proportion of highly variable genes on the resolution of clustering and PCA outcomes.
+- Understand the rationale behind the dependency of feature selection on specific normalization methods like NormalizeData.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## Understanding Feature Selection in Spatial Transcriptomics
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+Feature selection in spatial transcriptomics is essential for reducing the dimensionality of high-dimensional datasets, enhancing model performance, and improving interpretability. This process is crucial because it helps in minimizing computational demands, reducing noise, and speeding up downstream analyses like clustering and PCA. By focusing on a subset of genes that show significant variability or are biologically relevant, researchers can achieve more robust and generalizable models, draw clearer conclusions, and facilitate hypothesis testing.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+### Choosing Feature Selection Methods
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+#### Importance of High Variable Gene Selection
+Feature selection methods such as variance stabilizing transformation (VST) and mean-variance plotting are crucial for refining the dataset to include genes that exhibit meaningful variability across different spatial regions. These methods help focus on genes that are most informative for downstream analyses like clustering and dimensionality reduction.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+### Feature Selection with SCTransform
+SCTransform, a normalization method, inherently adjusts gene expression data to stabilize variance, which often negates the need for subsequent feature selection. This method ensures that the genes retained are already adjusted for technical variability, highlighting those with biological significance.
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+### Feature Selection with NormalizeData
+When using normalization methods like NormalizeData, which focuses on scaling gene expression data without variance stabilization, applying feature selection becomes essential. This method requires the selection of highly variable genes to enhance the analysis, particularly in clustering and principal component analysis (PCA).
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+## Why Feature Selection?
+
+### Enhancing Data Interpretation Through Selective Gene Analysis
+
+### Optimization of Computational Resources
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
+## Challenge 1: Explore Different HVG Selection Methods
 
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
+Consider two feature selection methods, VST and mean-variance plotting, applied to the same spatial transcriptomics dataset normalized with NormalizeData. What differences would you expect in the clustering and PCA outcomes depending on the proportion of HVGs selected?
 
 :::::::::::::::::::::::: solution 
 
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
+Using different proportions of HVGs can alter the resolution of clusters and PCA components, highlighting the importance of methodical selection to capture true biological variability and not just technical noise.
 
-:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::::::::::::
 
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-
-```r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-
-<div class="figure" style="text-align: center">
-<img src="fig/apply-feature-selection-methods-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
+## Feature Selection Methods
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Feature selection is a crucial step in spatial transcriptomics analysis, particularly for non-variance-stabilizing normalization methods like NormalizeData.
+- Techniques such as VST and mean-variance plotting enable researchers to focus on genes that provide the most biological insight.
+- Different proportions of highly variable genes and feature selection methods can significantly influence the analytical outcomes, emphasizing the need for tailored approaches based on the specific characteristics of each dataset.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
