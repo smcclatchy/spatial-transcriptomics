@@ -22,20 +22,23 @@ exercises: 2
 ## The Data
 
 Recall that tissue is laid on a glass slide containing spots with primers to
-capture mRNA. Each spot has a barcode ID indicating its position on the slide.
+capture mRNA. The graphic below details a Visium slide with four capture areas.
+Each capture area has arrays of barcoded spots containing oligonucleiotides. 
+The oligonucleotides each contain a poly(dT) sequence for capture of 
+polyadenylated molecules, a unique molecular identifier (UMI) to identify 
+duplicate molecules, a spatial barcode shared by all oligonucleotides within the
+same spot, and a partial read for library preparation and sequencing. 
 
-![Printed spots on a slide contain primers to capture messenger RNA from the tissue laid on top of them](fig/Spatial_transcriptomics_ii_cropped.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them'}
-
+![Visium spatial gene expression slide](fig/visium-slide.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain oligonucleotides to capture messenger RNA from the tissue laid on top of them'}
 
 In spatial transcriptomics the barcode indicates the spot. Barcodes are generic
 identifiers that identify different things in different technologies. A barcode
 in single-cell transcriptomics, for example, refers to a single cell, not to a 
 spot on a slide. When you see barcodes in ST data, think "spot", not "single 
-cell". The graphic above is a bit misleading that way because the spots each 
-appear to capture mRNA from only one cell. In fact, one spot can capture mRNA 
-from many cells. This is a feature of ST experiments that is distinct from 
-single-cell transcriptomics experiments. As a result, many single-cell methods
-won't work with ST data. Later we will look at methods to 
+cell". In fact, one spot can capture mRNA from many cells. This is a feature of 
+ST experiments that is distinct from single-cell transcriptomics experiments. As 
+a result, many single-cell methods won't work with ST data. Later we will look 
+at methods to 
 ["deconvolve" cell types per spot](deconvolve-cell-types-in-a-spot.Rmd) 
 to determine the number and types of cells in each spot. Spots can contain zero,
 one, or many cells.
@@ -81,7 +84,58 @@ sum('data[ , 1]')
 :::::::::::::::::::::::::::::::::::::
 
 ## Study design
+Good experimental design plays a critical role in obtaining reliable and 
+meaningful results. Randomization is an essential feature for experiments
+Randomization minimizes bias, moderates experimental error (a.k.a. noise), and
+ensures that our comparisons between treatment groups are valid. Randomization 
+also accounts for or cancels out effects of “nuisance” variables like the time 
+or day of the experiment, the investigator or technician, equipment calibration, 
+exposure to light or ventilation in animal rooms, or other variables that are 
+not being studied but that do influence the responses. Randomization balances 
+out the effects of nuisance variables between treatment groups by giving an 
+equal probability for an experimental unit to be assigned to any treatment 
+group.
 
+The graphic below shows a Visium workflow for fresh-frozen tissues. 
+![Visium spatial transcriptomics workflow with fresh-frozen tissue](fig/fresh-frozen-workflow.png){alt='A Visium spatial transcriptomics workflow with fresh-frozen tissue'}
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 2: Treatment and control samples
+You plan to place samples of treated tissue on one slide and samples of the 
+controls on another slide. 
+What will happen when it is time for data analysis?
+What could you have done differently?
+
+:::::::::::::::::::::::: solution 
+
+
+::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::
+
+
+The graphic below shows a Visium workflow for formalin-fixed paraffin embedded 
+tissues. 
+
+![Visium spatial transcriptomics workflow with formalin-fixed paraffin embedded  tissue](fig/visium-FFPE-workflow.png){alt='A Visium spatial transcriptomics workflow with formalin-fixed paraffin embedded tissue'}
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 3: Time points
+Your study requires data collection at three time points: 5, 10, and 15 weeks. 
+At the end of 5 weeks, you will run samples through the entire Visium workflow. 
+You will repeat this for the 10- and 15-week samples when each of those time 
+points is reached.
+What will happen when it is time for data analysis?
+What could you have done differently?
+
+:::::::::::::::::::::::: solution 
+
+
+::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::
 
 ## Important considerations for rigorous, reproducible spatial transcriptomics experiments
 
