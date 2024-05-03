@@ -312,7 +312,7 @@ transcriptomics experiments</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data and Study Design</h1>
-        <p>Last updated on 2024-04-15 |
+        <p>Last updated on 2024-05-03 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -352,22 +352,25 @@ spatial transcriptomics experiments?</li>
 <section id="the-data"><h2 class="section-heading">The Data<a class="anchor" aria-label="anchor" href="#the-data"></a>
 </h2>
 <hr class="half-width"><p>Recall that tissue is laid on a glass slide containing spots with
-primers to capture mRNA. Each spot has a barcode ID indicating its
-position on the slide.</p>
-<figure><img src="fig/Spatial_transcriptomics_ii_cropped.png" alt="A graphic showing printed spots on a glass slide that are identified by a barcode and that contain primers to capture messenger RNA from the tissue laid on top of them" class="figure mx-auto d-block"><div class="figcaption">Printed spots on a slide contain primers to
-capture messenger RNA from the tissue laid on top of them</div>
+primers to capture mRNA. The graphic below details a Visium slide with
+four capture areas. Each capture area has arrays of barcoded spots
+containing oligonucleiotides. The oligonucleotides each contain a
+poly(dT) sequence for capture of polyadenylated molecules, a unique
+molecular identifier (UMI) to identify duplicate molecules, a spatial
+barcode shared by all oligonucleotides within the same spot, and a
+partial read for library preparation and sequencing.</p>
+<figure><img src="fig/visium-slide.png" alt="A graphic showing printed spots on a glass slide that are identified by a barcode and that contain oligonucleotides to capture messenger RNA from the tissue laid on top of them" class="figure mx-auto d-block"><div class="figcaption">Visium spatial gene expression slide</div>
 </figure><p>In spatial transcriptomics the barcode indicates the spot. Barcodes
 are generic identifiers that identify different things in different
 technologies. A barcode in single-cell transcriptomics, for example,
 refers to a single cell, not to a spot on a slide. When you see barcodes
-in ST data, think “spot”, not “single cell”. The graphic above is a bit
-misleading that way because the spots each appear to capture mRNA from
-only one cell. In fact, one spot can capture mRNA from many cells. This
-is a feature of ST experiments that is distinct from single-cell
-transcriptomics experiments. As a result, many single-cell methods won’t
-work with ST data. Later we will look at methods to <a href="deconvolve-cell-types-in-a-spot.html">“deconvolve” cell types per
-spot</a> to determine the number and types of cells in each spot. Spots
-can contain zero, one, or many cells.</p>
+in ST data, think “spot”, not “single cell”. In fact, one spot can
+capture mRNA from many cells. This is a feature of ST experiments that
+is distinct from single-cell transcriptomics experiments. As a result,
+many single-cell methods won’t work with ST data. Later we will look at
+methods to <a href="deconvolve-cell-types-in-a-spot.html">“deconvolve”
+cell types per spot</a> to determine the number and types of cells in
+each spot. Spots can contain zero, one, or many cells.</p>
 <p>Count data for each mRNA are mapped back to spots on the slide to
 indicate the tissue position of gene expression. An image of the tissue
 overlaid on the array of spots pinpoints spatial gene expression in the
@@ -429,7 +432,80 @@ the slide.</p>
 </div>
 </section><section id="study-design"><h2 class="section-heading">Study design<a class="anchor" aria-label="anchor" href="#study-design"></a>
 </h2>
-<hr class="half-width"></section><section id="important-considerations-for-rigorous-reproducible-spatial-transcriptomics-experiments"><h2 class="section-heading">Important considerations for rigorous, reproducible spatial
+<hr class="half-width"><p>Good experimental design plays a critical role in obtaining reliable
+and meaningful results. Randomization is an essential feature for
+experiments Randomization minimizes bias, moderates experimental error
+(a.k.a. noise), and ensures that our comparisons between treatment
+groups are valid. Randomization also accounts for or cancels out effects
+of “nuisance” variables like the time or day of the experiment, the
+investigator or technician, equipment calibration, exposure to light or
+ventilation in animal rooms, or other variables that are not being
+studied but that do influence the responses. Randomization balances out
+the effects of nuisance variables between treatment groups by giving an
+equal probability for an experimental unit to be assigned to any
+treatment group.</p>
+<p>The graphic below shows a Visium workflow for fresh-frozen tissues.
+<img src="fig/fresh-frozen-workflow.png" alt="A Visium spatial transcriptomics workflow with fresh-frozen tissue" class="figure"></p>
+<div id="challenge-2-treatment-and-control-samples" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-2-treatment-and-control-samples" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Treatment and control
+samples<a class="anchor" aria-label="anchor" href="#challenge-2-treatment-and-control-samples"></a>
+</h3>
+<div class="callout-content">
+<p>You plan to place samples of treated tissue on one slide and samples
+of the controls on another slide. What will happen when it is time for
+data analysis? What could you have done differently?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<p>The graphic below shows a Visium workflow for formalin-fixed paraffin
+embedded tissues.</p>
+<figure><img src="fig/visium-FFPE-workflow.png" alt="A Visium spatial transcriptomics workflow with formalin-fixed paraffin embedded tissue" class="figure mx-auto d-block"><div class="figcaption">Visium spatial transcriptomics workflow with
+formalin-fixed paraffin embedded tissue</div>
+</figure><div id="challenge-3-time-points" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-3-time-points" class="callout-inner">
+<h3 class="callout-title">Challenge 3: Time points<a class="anchor" aria-label="anchor" href="#challenge-3-time-points"></a>
+</h3>
+<div class="callout-content">
+<p>Your study requires data collection at three time points: 5, 10, and
+15 weeks. At the end of 5 weeks, you will run samples through the entire
+Visium workflow. You will repeat this for the 10- and 15-week samples
+when each of those time points is reached. What will happen when it is
+time for data analysis? What could you have done differently?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+</section><section id="important-considerations-for-rigorous-reproducible-spatial-transcriptomics-experiments"><h2 class="section-heading">Important considerations for rigorous, reproducible spatial
 transcriptomics experiments<a class="anchor" aria-label="anchor" href="#important-considerations-for-rigorous-reproducible-spatial-transcriptomics-experiments"></a>
 </h2>
 <hr class="half-width"><div id="keypoints1" class="callout keypoints">
@@ -513,8 +589,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/data-and-study-design.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-and-study-design.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-04-15",
-  "datePublished": "2024-04-30"
+  "dateModified": "2024-05-03",
+  "datePublished": "2024-05-03"
 }
 
   </script><script>
