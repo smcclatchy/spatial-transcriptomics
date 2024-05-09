@@ -23,7 +23,7 @@ exercises: 2
 
 Recall that tissue is laid on a glass slide containing spots with primers to
 capture mRNA. The graphic below details a Visium slide with four capture areas.
-Each capture area has arrays of barcoded spots containing oligonucleiotides. 
+Each capture area has arrays of barcoded spots containing oligonucleotides. 
 The oligonucleotides each contain a poly(dT) sequence for capture of 
 polyadenylated molecules, a unique molecular identifier (UMI) to identify 
 duplicate molecules, a spatial barcode shared by all oligonucleotides within the
@@ -85,18 +85,19 @@ sum('data[ , 1]')
 
 ## Study design
 Good experimental design plays a critical role in obtaining reliable and 
-meaningful results. Randomization is an essential feature for experiments
-Randomization minimizes bias, moderates experimental error (a.k.a. noise), and
-ensures that our comparisons between treatment groups are valid. Randomization 
-also accounts for or cancels out effects of “nuisance” variables like the time 
-or day of the experiment, the investigator or technician, equipment calibration, 
-exposure to light or ventilation in animal rooms, or other variables that are 
-not being studied but that do influence the responses. Randomization balances 
-out the effects of nuisance variables between treatment groups by giving an 
-equal probability for an experimental unit to be assigned to any treatment 
-group.
+meaningful results and is an essential feature of rigorous, reproducible
+experiments. Randomization minimizes bias, moderates experimental error 
+(a.k.a. noise), and ensures that our comparisons between treatment groups are 
+valid. Randomization  also accounts for or cancels out effects of “nuisance” 
+variables like the time or day of the experiment, the investigator or 
+technician carrying out the work, equipment calibration, exposure to light or 
+ventilation in animal rooms, or other variables that are not being studied but 
+that do influence the responses. Randomization balances out the effects of 
+nuisance variables between treatment groups by giving an equal probability for 
+an experimental unit to be assigned to any treatment group.
 
-The graphic below shows a Visium workflow for fresh-frozen tissues. 
+The graphic below shows a Visium workflow for fresh-frozen tissues.
+
 ![Visium spatial transcriptomics workflow with fresh-frozen tissue](fig/fresh-frozen-workflow.png){alt='A Visium spatial transcriptomics workflow with fresh-frozen tissue'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
