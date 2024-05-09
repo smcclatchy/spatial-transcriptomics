@@ -37,11 +37,11 @@ signals, specifically gene expression signals. Spatial patterns of gene
 expression determine how genes are regulated within a tissue system and how 
 those tissues and their component cells function. Spatial transcriptomic (ST) 
 methods map cell position in a tissue, clarifying the physical relationships 
-between individual cells and cellular structures. ST simultaneously measures
+between cells and cellular structures. ST simultaneously measures
 gene expression, delivering valuable information about cell phenotype, state, 
 and cell and tissue organization and function. The combination of cellular 
 expression and position sheds light on signals a cell sends or receives through 
-cell-to-cell interactions or from soluble signaling molecules nearby. Spatial 
+cell-to-cell interactions. Spatial 
 information localizes cell signaling while delivering comprehensive gene 
 expression profiling within tissues. 
 
@@ -53,10 +53,7 @@ Spatial transcriptomics addresses a key obstacle in single-cell and bulk RNA
 sequencing studies: their loss of spatial information. Spatial organization and 
 structure determine function in most tissues and organs, so capturing both 
 spatial and expression information is critical for understanding tissue function 
-in neuroscience, cancer biology, developmental biology, and most other fields. 
-Immunology is the only field that doesn't depend on spatial information to 
-determine structure and function because immune cells often circulate in liquid 
-media like blood and lymph. 
+in neuroscience, immuno-oncology, developmental biology, and most other fields. 
 
 ## Spatial transcriptomics technologies
 Spatial transcriptomics technologies broadly fall within two groups: 
@@ -67,10 +64,10 @@ ability to profile entire transcriptomes, deliver single-cell resolution, and
 detect genes efficiently. 
 
 ### Imaging-based technologies
-Imaging-based technologies read transcriptomes in place using microscopy, and 
-feature single-cell or even single-molecule resolution. They identify messenger 
-RNA (mRNA) species through hybridization with fluorescent probes. These probes 
-are gene-specific in fluorescence in situ hybridization (FISH). 
+Imaging-based technologies read transcriptomes in place using microscopy at 
+single-cell or even single-molecule resolution. They identify messenger 
+RNA (mRNA) species fluorescence in situ hybridization (FISH), i.e., by hybridizing
+mRNA to gene-specific fluorescent probes.
 
 ![Overview of fluorescence in situ hybridization (FISH). ](fig/FISH_Overview.png){alt='a general schematic showing fluorescence in situ hybridization'}
 
@@ -80,10 +77,9 @@ created with Biorender.com. Public domain, via Wikimedia Commons <a href="https:
 
 Current FISH methods employ multiple hybridization rounds, with risk of error 
 for each transcript growing exponentially with each round. FISH methods are 
-limited in the size of tissue that they can profile and most accept fresh-frozen 
-(FF) tissue only. They can also be time-consuming and expensive due to 
+limited in the size of tissue that they can profile and most are applicable only to fresh-frozen (FF) tissue. They can also be time-consuming and expensive due to 
 microscopic imaging they require. Since they target specific genes, they can 
-only detect genes that are in the probe set employed. They have high spatial 
+only detect genes that are in the probe set. They have high spatial 
 resolution though, even delivering single-molecule resolution in single-molecule 
 FISH (smFISH).
 
@@ -121,14 +117,13 @@ microscope but delivers high spatial resolution.
 ### Sequencing-based technologies
 Sequencing-based methods capture, sequence, and count mRNA in situ using 
 next-generation sequencing while retaining positional information. This is 
-distinct from in situ sequencing because next-generation sequencing is employed, 
-not imaging. The main advantage of sequencing-based methods is that they are 
-unbiased in capturing mRNA because they don't rely on predefined probesets 
-targeting specific genes. Sequencing-based methods retain spatial information 
+distinct from in situ sequencing because next-generation sequencing is employed. 
+Sequencing-based methods may be "unbiased" (i.e., using poly-A capture of genes), 
+in which they capture the entire transcriptome, or probe-based, in which
+they typically capture the majority of protein-coding genes.
+Sequencing-based methods retain spatial information 
 through laser-capture microdissection (LCM), microfluidics, or through 
-ligation of mRNAs to arrays of barcoded probes that record position. Since 
-sequencing-based technologies use probes that record position instead of 
-gene-specific probes, they can deliver transcriptome-wide profiling. 
+ligation of mRNAs to arrays of barcoded probes that record position. 
 
 LCM-based methods employ lasers to cut a tissue slice or fuse tissue to a 
 membrane followed by sequencing of individual cells. 
