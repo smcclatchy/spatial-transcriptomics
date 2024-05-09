@@ -312,7 +312,7 @@ transcriptomics experiments</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data and Study Design</h1>
-        <p>Last updated on 2024-05-03 |
+        <p>Last updated on 2024-05-09 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -356,7 +356,7 @@ spatial transcriptomics experiments?</li>
 <hr class="half-width"><p>Recall that tissue is laid on a glass slide containing spots with
 primers to capture mRNA. The graphic below details a Visium slide with
 four capture areas. Each capture area has arrays of barcoded spots
-containing oligonucleiotides. The oligonucleotides each contain a
+containing oligonucleotides. The oligonucleotides each contain a
 poly(dT) sequence for capture of polyadenylated molecules, a unique
 molecular identifier (UMI) to identify duplicate molecules, a spatial
 barcode shared by all oligonucleotides within the same spot, and a
@@ -410,7 +410,7 @@ What does the sum of a single column signify?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The row sum is the total expression of one gene across all spots on
 the slide.</p>
@@ -435,20 +435,22 @@ the slide.</p>
 </section><section id="study-design"><h2 class="section-heading">Study design<a class="anchor" aria-label="anchor" href="#study-design"></a>
 </h2>
 <hr class="half-width"><p>Good experimental design plays a critical role in obtaining reliable
-and meaningful results. Randomization is an essential feature for
-experiments Randomization minimizes bias, moderates experimental error
-(a.k.a. noise), and ensures that our comparisons between treatment
-groups are valid. Randomization also accounts for or cancels out effects
-of “nuisance” variables like the time or day of the experiment, the
-investigator or technician, equipment calibration, exposure to light or
-ventilation in animal rooms, or other variables that are not being
-studied but that do influence the responses. Randomization balances out
-the effects of nuisance variables between treatment groups by giving an
-equal probability for an experimental unit to be assigned to any
-treatment group.</p>
-<p>The graphic below shows a Visium workflow for fresh-frozen tissues.
-<img src="../fig/fresh-frozen-workflow.png" alt="A Visium spatial transcriptomics workflow with fresh-frozen tissue" class="figure"></p>
-<div id="challenge-2-treatment-and-control-samples" class="callout challenge">
+and meaningful results and is an essential feature of rigorous,
+reproducible experiments. Randomization minimizes bias, moderates
+experimental error (a.k.a. noise), and ensures that our comparisons
+between treatment groups are valid. Randomization also accounts for or
+cancels out effects of “nuisance” variables like the time or day of the
+experiment, the investigator or technician carrying out the work,
+equipment calibration, exposure to light or ventilation in animal rooms,
+or other variables that are not being studied but that do influence the
+responses. Randomization balances out the effects of nuisance variables
+between treatment groups by giving an equal probability for an
+experimental unit to be assigned to any treatment group.</p>
+<p>The graphic below shows a Visium workflow for fresh-frozen
+tissues.</p>
+<figure><img src="../fig/fresh-frozen-workflow.png" alt="A Visium spatial transcriptomics workflow with fresh-frozen tissue" class="figure mx-auto d-block"><div class="figcaption">Visium spatial transcriptomics workflow with
+fresh-frozen tissue</div>
+</figure><div id="challenge-2-treatment-and-control-samples" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -468,7 +470,7 @@ data analysis? What could you have done differently?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 
 </div>
@@ -500,7 +502,7 @@ time for data analysis? What could you have done differently?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 
 </div>
@@ -591,8 +593,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-and-study-design.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-and-study-design.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-05-03",
-  "datePublished": "2024-05-07"
+  "dateModified": "2024-05-09",
+  "datePublished": "2024-05-09"
 }
 
   </script><script>
