@@ -180,7 +180,7 @@ spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 Look at the H & E slide below and notice the grey spots around the border. These
 are used by the spatial transcriptomics software to "register" the image.
 
-![H & E slide of sample 151508](fig/tissue_hires_image.png){alt='H & E slide of sample 151508'}
+![H & E slide of sample 151508](fig/tissue_hires_image_151508.png){alt='H & E slide of sample 151508'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -322,6 +322,18 @@ plot1 | plot2
 Next, we want to look at the distribution of transcript counts and numbers of
 genes in each spot across the tissue. This can be helpful in identifying 
 technical issues with the sample processing.
+
+It is useful to first think about what we expect. In the publication
+associated with this data, the authors show the structure that they expect in 
+this tissue section of the human dorsolateral prefrontal cortex (DLPFC). In the 
+figure below, they show a series of layers, from L1 to L6, arranged from the 
+upper right to the lower left. In the lower left corner, they expect to see 
+"White Matter" (WM). So we expect to see some series of layers arranged from
+the upper right to the lower left.
+
+![Maynard et al, Figure 1c](fig/Maynard_etal_Fig1c.png){alt="Figure 1c"}
+
+
 We will use Seurat's 
 [SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
 function to look at these values. We can color the spots based on the spot
@@ -342,9 +354,9 @@ plot2 <- SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
 plot1 | plot2
 ```
 
-In this case, we see a band of higher counts running from upper-left to 
-lower-right. There are also bands of lower counts above and below this band.
-The band in the upper-right corner may be due to the fissure in the tissue. It
+In this case, we see a band of higher counts running from upper left to 
+lower right. There are also bands of lower counts above and below this band.
+The band in the upper right corner may be due to the fissure in the tissue. It
 is less clear why the expression is low in the lower-left corner.
 
 We can also look at the number of genes detected in each spot using 
@@ -363,7 +375,7 @@ across the section, while others may show variation in transcript counts due
 to tissue structure. For example, in cancer tissue sections, stromal cells tend
 to have lower counts than tumor cells and this should be evident in a transcript
 count plot. In the brain sample below, we might expect some variation in 
-transcript counts in different regions of the brain.
+transcript counts in different layers of the brain.
 
 ## Conclusion
 
@@ -372,7 +384,10 @@ transcript counts in different regions of the brain.
 
 - The sequencing core will provide you with an unfiltered and a filtered data
 file.
-- 
+- It is important to know something about the structure of the tissue which
+you are analyzing.
+- Plotting total counts and genes in each spot may help to identify quality
+control issues.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

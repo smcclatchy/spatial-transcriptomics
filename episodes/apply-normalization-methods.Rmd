@@ -7,16 +7,21 @@ exercises: 5
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - How do we determine the necessity of normalization in spatial transcriptomics?
-- What insights do additional modalities like H&E staining provide in assessing normalization needs?
-- How do specific normalization techniques like SCTransform and log scaling work and when should they be applied?
+- What insights do additional modalities like H&E staining provide in assessing 
+normalization needs?
+- How do specific normalization techniques like SCTransform and log scaling work 
+and when should they be applied?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Assess the need for normalization using both spatial transcriptomics data and ancillary modalities like H&E staining.
-- Understand the specific applications and mechanisms of normalization techniques such as SCTransform and log scaling.
-- Implement adaptive normalization strategies that accurately reflect both absolute and relative cellular information.
+- Assess the need for normalization using both spatial transcriptomics data and 
+ancillary modalities like H&E staining.
+- Understand the specific applications and mechanisms of normalization techniques
+such as SCTransform and log scaling.
+- Implement adaptive normalization strategies that accurately reflect both 
+absolute and relative cellular information.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -113,15 +118,21 @@ facilitating more accurate downstream analyses like clustering.
 
 
 ```{r}
-sct <- SCTransform(filter_st, 
-                   assay = "Spatial")
+filter_st <- SCTransform(filter_st, 
+                         assay = "Spatial")
 ```
 
 The SCTransform method added the normalized counts (called "data") and the 
 standardized counts (called "scale.data") to the Seurat object. 
 
 ```{r}
-Layers(sct)
+Layers(filter_st)
+```
+
+It has also added new Assay called "SCT".
+
+```{r}
+Assays(filter_st)
 ```
 
 Let's plot the mean versus the variance of the genes using the 
@@ -129,7 +140,7 @@ Let's plot the mean versus the variance of the genes using the
 function. 
 
 ```{r}
-VariableFeaturePlot(sct, log = NULL) + 
+VariableFeaturePlot(filter_st, log = NULL) + 
   ggtitle("Variable Features - SCT")
 ```
 
@@ -149,10 +160,10 @@ the skewness caused by highly expressed genes and stabilizes the variance across
 the dataset, making it more suitable for downstream analytical comparisons.
 
 ```{r}
-log_norm <- NormalizeData(filter_st, 
-                          assay                = "Spatial", 
-                          normalization.method = "LogNormalize", 
-                          scale.factor         = 1e6)
+filter_st <- NormalizeData(filter_st, 
+                           assay                = "Spatial", 
+                           normalization.method = "LogNormalize", 
+                           scale.factor         = 1e6)
 ```
 
 In this normalization, feature counts for each spot are divided by the total 
@@ -164,16 +175,16 @@ variance relationship somewhat flatter.
 The Log Normalization adds a "data" object to the Seurat object.
 
 ```{r}
-Layers(log_norm)
+Layers(filter_st)
 ```
 
-
 ```{r}
-log_norm <- FindVariableFeatures(log_norm,  
-                                 assay            = 'Spatial', 
-                                 selection.method = "mean.var.plot",
-                                 nfeatures        = 3000)
-VariableFeaturePlot(log_norm, log = NULL) + 
+filter_st@active.assay = "Spatial"
+filter_st <- FindVariableFeatures(filter_st,  
+                                  assay            = 'Spatial', 
+                                  selection.method = "mean.var.plot",
+                                  nfeatures        = 3000)
+VariableFeaturePlot(filter_st, log = NULL) + 
   ggtitle("Variable Features - Log-norm")
 ```
 
@@ -223,10 +234,11 @@ method. The normalized counts are stored in the "data" slot of the Seurat
 object.
 
 ```{r}
-counts_log <- LayerData(log_norm, layer = "data")
+counts_log <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_log), main = "Log-norm")
 
-counts_sct <- LayerData(sct, layer = "data")
+filter_st@active.assay = "SCT"
+counts_sct <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
 
@@ -237,30 +249,21 @@ distribution of total counts and spans a factor of four, from ~400 to ~1600.
 Next, we will compare the mean-variance plots between the two methods.
 
 ```{r}
-top15 <- head(VariableFeatures(log_norm), 15)
-plot1 <- VariableFeaturePlot(log_norm, log = NULL) + 
+filter_st@active.assay = "Spatial"
+top15 <- head(VariableFeatures(filter_st), 15)
+plot1 <- VariableFeaturePlot(filter_st, log = NULL) + 
            ggtitle("Variable Features - Log normalization")
 plot1 <- LabelPoints(plot = plot1, points = top15, repel = TRUE)
 
-top15SCT <- head(VariableFeatures(sct), 15)
-plot2    <- VariableFeaturePlot(sct) + 
+filter_st@active.assay = "SCT"
+top15SCT <- head(VariableFeatures(filter_st), 15)
+plot2    <- VariableFeaturePlot(filter_st) + 
               ggtitle("Variable Features - SCT")
 plot2    <- LabelPoints(plot = plot2, points = top15SCT, repel = TRUE)
 
 plot1
 plot2
 ```
-
-### Applying the Selected Normalization
-
-Since we have selected the SCT transformation, apply it to our Seurat object
-now.
-
-```{r}
-filter_st <- SCTransform(filter_st, 
-                   assay = "Spatial")
-```
-
 
 ### No One-Size-Fits-All Approach
 
@@ -288,6 +291,6 @@ the biological and technical aspects of their data.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
-# Save data for build system ot use in next lesson.
+# Save data for build system to use in next lesson.
 saveRDS(filter_st, file = 'filter_st3.rds')
 ```
