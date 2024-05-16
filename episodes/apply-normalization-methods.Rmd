@@ -1,7 +1,7 @@
 ---
 title: 'Normalization in Spatial Transcriptomics'
-teaching: 15
-exercises: 5
+teaching: 60
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -284,9 +284,13 @@ the biological and technical aspects of their data.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Normalization is essential but must be selectively applied based on the unique characteristics of each dataset and the specific biological questions at hand.
-- Techniques like SCTransform and log scaling offer ways to balance technical correction with biological integrity.
-- Examining both raw and normalized data can provide comprehensive insights into the absolute and relative characteristics of cellular components in spatial transcriptomics.
+- Normalization is essential but must be selectively applied based on the unique 
+characteristics of each dataset and the specific biological questions at hand.
+- Techniques like SCTransform and log scaling offer ways to balance technical 
+correction with biological integrity.
+- Examining both raw and normalized data can provide comprehensive insights into
+the absolute and relative characteristics of cellular components in spatial 
+transcriptomics.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 

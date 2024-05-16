@@ -1,7 +1,7 @@
 ---
 title: 'Remove Low-quality Spots'
-teaching: 10
-exercises: 2
+teaching: 60
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -14,8 +14,8 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Understand how to look for low quality spots.
+- Decide whether to retain or remove low quality spots.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -207,7 +207,7 @@ hist(FetchData(filter_st, "nFeature_Spatial")[,1],
 ```
 
 Again, most of the spots fall within a reasonable distribution. The right tail
-of the distribution is not very thick. We might filter spots with over 7,000
+of the distribution is not very thick. We might filter spots with over 14,000
 counts or 3,000 genes. We will use these thresholds to add a "keep" column
 to the Seurat object metadata.
 
@@ -216,9 +216,9 @@ numbers directly into the logical comparison statements, creating variables
 makes it clear what each number represents.
 
 ```{r}
-mito_thr     <- 35
-counts_thr   <- 7000
-features_thr <- 3000
+mito_thr     <- 32
+counts_thr   <- 14000
+features_thr <- 5000
 ```
 
 Next, we will create a "keep" variable which will be TRUE for spots that
@@ -252,7 +252,7 @@ yourself that they are not biasing your results.
 ## Challenge 1: Change the spot filtering thresholds.
 
 1. Change the threshold for the number of counts per spot to keep spots with
-**more** than 1200 counts. Note that we are filtering on the lower side of
+**more** than 2000 counts. Note that we are filtering on the lower side of
 the distribution. 
 1. Add new variable called "keep_counts" to the Seurat object.
 1. Plot the spot overlaid on the tissue section, colored
@@ -266,7 +266,7 @@ structure?
 ## Solution 1
  
 ```{r}
-new_counts_thr <- 1200
+new_counts_thr <- 2000
 keep_counts    <- FetchData(filter_st, "nCount_Spatial")[,1] > new_counts_thr
 filter_st$keep_counts <- keep_counts
 SpatialDimPlot(filter_st, group.by = "keep_counts")
@@ -292,8 +292,6 @@ We can remove the spots directly using the following syntax. In this case, the
 ```{r}
 filter_st <- filter_st[,keep]
 ```
-
-
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
