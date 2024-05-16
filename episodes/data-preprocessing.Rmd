@@ -1,7 +1,7 @@
 ---
 title: 'Data Preprocessing'
-teaching: 10
-exercises: 2
+teaching: 60
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -104,11 +104,11 @@ We will use the [Load10X_Spatial](https://www.rdocumentation.org/packages/Seurat
 function from the [Seurat](https://satijalab.org/seurat/) package to read in the 
 spatial transcription data. This is the data which you downloaded in the setup section.
 
-First, we will read in the raw data for sample 151508.
+First, we will read in the raw data for sample 151673.
 
 ```{r}
-raw_st <- Load10X_Spatial(data.dir = "./data/151508", 
-                          filename = "151508_raw_feature_bc_matrix.h5",
+raw_st <- Load10X_Spatial(data.dir      = "./data/151673", 
+                          filename      = "151673_raw_feature_bc_matrix.h5",
                           filter.matrix = FALSE)
 ```
 
@@ -144,13 +144,13 @@ we have one assay, which contains the RNA-seq counts for each spot.
 There is also a single image called 'slice1' attached to the Seurat object.
 
 Next, we will load in the filtered data. Use the code above and look in
-a file browser to identify the "filtered" file for sample 151508.
+a file browser to identify the "filtered" file for sample 151673.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Read in filtered HDF5 file for sample 151508.
+## Challenge 1: Read in filtered HDF5 file for sample 151673.
 
-Open a file browser and navigate to "Desktop/spatialRNA/data/151508". Can you 
+Open a file browser and navigate to "Desktop/spatialRNA/data/151673". Can you 
 find an HDF5 file (with an ".h5" suffix) that haw the word "filtered" in it?
 If so, read that file in and assign it to a variable called "filter_st".
 
@@ -160,8 +160,8 @@ If so, read that file in and assign it to a variable called "filter_st".
 ## Solution 1
  
 ```{r}
-filter_st <- Load10X_Spatial(data.dir = "./data/151508", 
-                             filename = "151508_filtered_feature_bc_matrix.h5")
+filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
+                             filename = "151673_filtered_feature_bc_matrix.h5")
 ```
 
 ::::::::::::::::::::::::::::::::::
@@ -180,7 +180,7 @@ spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 Look at the H & E slide below and notice the grey spots around the border. These
 are used by the spatial transcriptomics software to "register" the image.
 
-![H & E slide of sample 151508](fig/tissue_hires_image_151508.png){alt='H & E slide of sample 151508'}
+![H & E slide of sample 151673](fig/tissue_hires_image_151673.png){alt='H & E slide of sample 151673'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -215,7 +215,7 @@ which is used to process the data at the sequencing core, should add column
 names to this file.
 
 ```{r}
-tissue_position <- read_csv("./data/151508/spatial/tissue_positions_list.csv",
+tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
                             col_names = FALSE, show_col_types = FALSE) %>% 
                      column_to_rownames('X1')
 colnames(tissue_position) <- c("in_tissue", 
@@ -250,7 +250,7 @@ Next, we will plot the spot annotation, indicating spots that are in the tissue
 in blue and background spots in red.
 
 ```{r fig.alt = "Histology slide with tissue and background spots labelled", fig.cap = "Spots identified in Tissue and Background"}
-SpatialPlot(raw_st, group.by = "in_tissue")
+SpatialPlot(raw_st, group.by = "in_tissue", alpha = 0.3)
 ```
 
 We expect most of the transcript counts to be in the tissue spots. The Seurat 
@@ -296,7 +296,6 @@ background spots?
  
 1. When the tissue section is lysed, some transcripts may leak out of the cells
 and into the background region of the slide.
-> DMG: Ask the core.
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
@@ -332,7 +331,6 @@ upper right to the lower left. In the lower left corner, they expect to see
 the upper right to the lower left.
 
 ![Maynard et al, Figure 1c](fig/Maynard_etal_Fig1c.png){alt="Figure 1c"}
-
 
 We will use Seurat's 
 [SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
@@ -379,11 +377,12 @@ transcript counts in different layers of the brain.
 
 ## Conclusion
 
-
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - The sequencing core will provide you with an unfiltered and a filtered data
 file.
+- The HDF5 file ends with an "h5" extension and contains the barcodes,
+features (genes), and counts matrix.
 - It is important to know something about the structure of the tissue which
 you are analyzing.
 - Plotting total counts and genes in each spot may help to identify quality
