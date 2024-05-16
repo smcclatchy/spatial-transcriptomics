@@ -6,7 +6,7 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- What data files should I expect from the sequencing core?
+- What data files should I expect from the Visium assay?
 - Which data preprocessing steps are required to prepare the raw data files for further analysis?
 - What software will we use for data preprocessing?
 
@@ -21,8 +21,9 @@ exercises: 2
 
 ## Introduction
 
-The sequencing core will deliver a set of files and directories. The complete 
-set of files is listed in the table below.
+The [Space Ranger](https://www.10xgenomics.com/support/software/space-ranger) 
+software is a popular, though by no means only, set of pipelines 
+for preprocessing of Visium data. We focus on it here. It provides the following output: 
 
 | File Name	 | Description |
 |------------|-------------|
@@ -59,7 +60,7 @@ The two files that you will use are "raw_feature_bc_matrix.h5" and
 "filtered_feature_bc_matrix.h5". These files have an "h5" suffix,
 which means that they are HDF5 files.
 [HDF5](https://www.hdfgroup.org/solutions/hdf5/) is a compressed file format
-for storing complex high-dimensional data. "HDF5 stands for "Hierarchical Data 
+for storing complex high-dimensional data. HDF5 stands for "Hierarchical Data 
 Formats, version 5". There is an R package designed to read and write HDF5 files 
 called [rhdf5](https://bioconductor.org/packages/release/bioc/html/rhdf5.html).
 This was one of the packages which you installed during the lesson setup.
@@ -100,9 +101,18 @@ care of the absolute path.
 
 ## Load Raw and Filtered Spatial Expression Data
 
+In this course, we will use the [Seurat](https://satijalab.org/seurat/) R environment, which
+was originally designed for analysis of single-cell RNA-seq data, but has been extended
+for spatial transcriptomics data. The Seurat website provides helpful 
+[vignettes](https://satijalab.org/seurat/articles/get_started_v5_new) and a concise
+command [cheat sheet](https://satijalab.org/seurat/articles/essential_commands). 
+[SpatialExperiment](https://bioconductor.org/packages/release/bioc/html/SpatialExperiment.html) 
+in R and [scanpy](https://scanpy.readthedocs.io/en/stable/) in python, amongst others,
+are also frequently used in analyzing spatial transcriptomics data.
+
 We will use the [Load10X_Spatial](https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial) 
-function from the [Seurat](https://satijalab.org/seurat/) package to read in the 
-spatial transcription data. This is the data which you downloaded in the setup section.
+function from Seurat to read in the 
+spatial transcription data. These are the data which you downloaded in the setup section.
 
 First, we will read in the raw data for sample 151508.
 
@@ -124,7 +134,7 @@ Windows users have to use this.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Let's look at the "raw_st" object.
+Let's look at "raw_st", which is a Seurat object.
 
 ```{r}
 raw_st
@@ -137,11 +147,16 @@ measured gene expression, so each feature is a gene. Each "sample" is one
 spot on the spatial slide. So this tissue sample has 33,538 genes assayed
 across 4,992 spots.
 
-An experiment may have more than one assay. For example, you may run both RNA
+An experiment may have more than one "assay." For example, you may run both RNA
 sequencing and chromatin accessibility in the same set of samples. In this case,
-we have one assay, which contains the RNA-seq counts for each spot.
+we have one assay -- RNA-seq. Each assay will, in turn, have one or more
+"layers." Each layer stores a different form of the data. Initially, our Seurat
+object has a single "counts" layer, holding the raw, un-normalized RNA-seq counts
+for each spot. Subsequent downstream analyses can populate other layers, including
+normalized counts (conventionally stored in a "data" layer) or variance-stabilized counts
+(conventionally stored in a "scale.data" layer).
 
-There is also a single image called 'slice1' attached to the Seurat object.
+There is also a single image called "slice1" attached to the Seurat object.
 
 Next, we will load in the filtered data. Use the code above and look in
 a file browser to identify the "filtered" file for sample 151508.
@@ -151,7 +166,7 @@ a file browser to identify the "filtered" file for sample 151508.
 ## Challenge 1: Read in filtered HDF5 file for sample 151508.
 
 Open a file browser and navigate to "Desktop/spatialRNA/data/151508". Can you 
-find an HDF5 file (with an ".h5" suffix) that haw the word "filtered" in it?
+find an HDF5 file (with an ".h5" suffix) that has the word "filtered" in it?
 If so, read that file in and assign it to a variable called "filter_st".
 
 
@@ -177,16 +192,17 @@ filter_st
 The raw and filtered data both have 33,538 genes. But the filtered data has fewer
 spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
 
-Look at the H & E slide below and notice the grey spots around the border. These
-are used by the spatial transcriptomics software to "register" the image.
+Look at the H&E slide below and notice the grey "fiducial" spots around the border. These
+are used by the spatial transcriptomics software to "register" the H&E image and the
+spatially-barcoded sequences.
 
-![H & E slide of sample 151508](fig/tissue_hires_image_151508.png){alt='H & E slide of sample 151508'}
+![H&E slide of sample 151508](fig/tissue_hires_image_151508.png){alt='H&E slide of sample 151508'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
 ## Challenge 2: How does the computer know how to orient the image?.
 
-Look carefully at the spots in the H & E image above. Are the spots symmetric?
+Look carefully at the spots in the H&E image above. Are the spots symmetric?
 Is there anything different about the spots that might help a computer to 
 assign up/down and left/right to the image?
 
@@ -382,8 +398,10 @@ transcript counts in different layers of the brain.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- The sequencing core will provide you with an unfiltered and a filtered data
+- The 10x Space Ranger pipeline provides you with an unfiltered and a filtered data
 file.
+- Seurat is one, of several, popular environments for analyzing spatial 
+transcriptomics data.
 - It is important to know something about the structure of the tissue which
 you are analyzing.
 - Plotting total counts and genes in each spot may help to identify quality
