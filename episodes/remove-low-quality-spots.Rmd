@@ -26,7 +26,17 @@ suppressPackageStartupMessages(library(Seurat))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
-filter_st = readRDS(file = 'filter_st1.rds')
+filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
+                             filename = "151673_filtered_feature_bc_matrix.h5")
+tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
+                            col_names = FALSE, show_col_types = FALSE) %>% 
+                     column_to_rownames('X1')
+colnames(tissue_position) <- c("in_tissue", 
+                               "array_row", 
+                               "array_col", 
+                               "pxl_row_in_fullres", 
+                               "pxl_col_in_fullres")
+filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
 ```
 
 ## Introduction
@@ -301,7 +311,3 @@ important tissue structures.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{r echo=FALSE,warning=FALSE,message=FALSE}
-# Save data for build system ot use in next lesson.
-saveRDS(filter_st, file = 'filter_st2.rds')
-```

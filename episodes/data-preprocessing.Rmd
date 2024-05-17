@@ -347,8 +347,8 @@ upper right to the lower left. In the lower left corner, they expect to see
 "White Matter" (WM). So we expect to see some series of layers arranged from
 the upper right to the lower left.
 
-![Maynard et al, Figure 1c](fig/Maynard_etal_Fig1c.png){alt="Figure 1c"}
-
+<!-- ![Maynard et al, Figure 1c](fig/Maynard_etal_Fig1c.png){alt="Figure 1c"} -->
+ 
 We will use Seurat's 
 [SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
 function to look at these values. We can color the spots based on the spot
@@ -409,8 +409,4 @@ control issues.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{r echo=FALSE,warning=FALSE,message=FALSE}
-# Save data for build system ot use in next lesson.
-saveRDS(filter_st, file = 'filter_st1.rds')
-```
 
