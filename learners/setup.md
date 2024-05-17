@@ -40,6 +40,7 @@ BiocManager::install(c("glmGamPoi", "rhdf5"))
 
 options(timeout = 1e6)
 remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
+remotes::install_github("immunogenomics/presto", build_vignettes = FALSE)
 remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
 ```
 
@@ -58,6 +59,7 @@ library(here)
 #library(Matrix)
 #library(matrixStats)
 #library(plyr)
+library(presto)
 library(rcartocolor)
 library(remotes)
 #library(Rfast2)
