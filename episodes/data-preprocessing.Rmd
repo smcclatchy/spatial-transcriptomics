@@ -245,7 +245,7 @@ It is important to note that the order of the spots differs between the Seurat
 object and the tissue position file. We need to reorder the tissue positions
 to match the Seurat object. We can extract the spot barcodes using the
 [Cells()](https://satijalab.org/seurat/reference/cells) function. This is 
-named for the earlier versions of Seurat, which processed single cell transcript
+named for the earlier versions of Seurat, which processed single cell transcriptomic
 data. In this case, we are getting **spot** IDs, even though the function is
 called "Cells".
 
@@ -268,17 +268,18 @@ in blue and background spots in red.
 ```{r fig.alt = "Histology slide with tissue and background spots labelled", fig.cap = "Spots identified in Tissue and Background"}
 SpatialPlot(raw_st, group.by = "in_tissue", alpha = 0.3)
 ```
-
-We expect most of the transcript counts to be in the tissue spots. The Seurat 
-object metadata contains a count of the number of transcripts in each spot 
-called "nCount_Spatial". Let's plot the counts in the tissue and background
+The 10x platform tags each molecule with a Unique Molecular Identifier (UMI). This allows
+us to keep only one unique sequencing read per molecule and to exclude those arising
+from PCR duplication. We expect most of the UMI counts to be in the tissue spots. 
+The Seurat object metadata contains the UMI count in each spot in a column 
+called "nCount_Spatial". Let's plot the UMI counts in the tissue and background
 spots.
 
-```{r fig.alt = "Boxplot showing lower trancript counts in background area of slide", fig.cap = "Transcript Counts in Tissue and Background"}
+```{r fig.alt = "Boxplot showing lower trancript counts in background area of slide", fig.cap = "UMI Counts in Tissue and Background"}
 raw_st@meta.data %>%
   ggplot(aes(as.logical(in_tissue), nCount_Spatial)) +
     geom_boxplot() +
-    labs(title = 'Transcript Counts in Tissue and Background',
+    labs(title = 'UMI Counts in Tissue and Background',
          x     = 'In Tissue?',
          y     = 'Counts')
 ```
@@ -300,10 +301,10 @@ raw_st@meta.data %>%
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 3: Why might there be transcript counts outside of the tissue boundaries?
+## Challenge 3: Why might there be UMI counts outside of the tissue boundaries?
 
-We expect transcript counts in the spots which overlap with the tissue section.
-What reasons can you think of that might lead transcript counts to occur in the
+We expect UMI counts in the spots which overlap with the tissue section.
+What reasons can you think of that might lead UMI counts to occur in the
 background spots?
 
 :::::::::::::::::::::::: solution 
@@ -332,9 +333,9 @@ plot2 <- SpatialDimPlot(filter_st) +
 plot1 | plot2
 ```
 
-## Plot Transcript and Feature Counts
+## Plot UMI and Gene Counts across Tissue
 
-Next, we want to look at the distribution of transcript counts and numbers of
+Next, we want to look at the distribution of UMI counts and numbers of
 genes in each spot across the tissue. This can be helpful in identifying 
 technical issues with the sample processing.
 
@@ -358,10 +359,10 @@ at the "meta.data" slot of the Seurat object.
 head(filter_st@meta.data)
 ```
 
-To plot the transcript counts, we will use the "nCount_Spatial" column in the
+To plot the UMI counts, we will use the "nCount_Spatial" column in the
 spot metadata.
 
-```{r fig.alt = "Figure showing transcript counts in each spot with varying intensity across the tissue",fig.cap="Transcript Counts in each Spot"}
+```{r fig.alt = "Figure showing UMI counts in each spot with varying intensity across the tissue",fig.cap="UMI Counts in each Spot"}
 plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
            NoLegend()
 plot2 <- SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
@@ -384,12 +385,12 @@ plot1 | plot2
 ```
 
 It is difficult to lay out a broad set of rules that will work for all types of
-tissues and samples. Some tissues may have homogeneous transcript counts
-across the section, while others may show variation in transcript counts due
+tissues and samples. Some tissues may have homogeneous UMI counts
+across the section, while others may show variation in UMI counts due
 to tissue structure. For example, in cancer tissue sections, stromal cells tend
-to have lower counts than tumor cells and this should be evident in a transcript
+to have lower counts than tumor cells and this should be evident in a UMI
 count plot. In the brain sample below, we might expect some variation in 
-transcript counts in different layers of the brain.
+UMI counts in different layers of the brain.
 
 ## Conclusion
 
