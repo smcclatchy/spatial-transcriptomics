@@ -1,111 +1,151 @@
 ---
-title: 'Deconvolve Cell Types in a Spot'
-teaching: 10
-exercises: 2
+title: 'Deconvolution in Spatial Transcriptomics'
+teaching: 60
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do I determine the number of cells per spot?
+- How does deconvolution enhance the analysis of spatial transcriptomics data?
+- What are the steps to integrate single-cell RNA-seq data for deconvolution in spatial transcriptomics?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Perform deconvolution to quantify different cell types in spatial transcriptomics spots using single-cell RNA-seq data.
+- Understand the process of integrating single-cell RNA-seq data with spatial transcriptomics data.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(hdf5r))
+suppressPackageStartupMessages(library(spacexr))
+suppressPackageStartupMessages(library(Seurat))
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
-
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
-
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
+source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 ```
 
-:::::::::::::::::::::::: solution 
+## Deconvolution in Spatial Transcriptomics
 
-## Output
- 
-```output
-[1] "This new lesson looks good"
+Spatial transcriptomics (ST) provides valuable insights into the spatial distribution of gene expression within tissue
+sections. However, each spatial spot in an ST experiment often contains multiple cells, leading to mixed gene expression
+signals. Deconvolution is needed to resolve these mixed signals into individual cell type contributions, allowing for a
+more accurate interpretation of the spatial gene expression data.
+
+## Why Deconvolution is Needed
+
+Mixed cell populations in each spot of an ST dataset can lead to complex, mixed gene expression profiles. Deconvolution
+helps quantify the different cell types within each spot, enabling more precise biological insights and downstream analyses
+such as cell type-specific expression patterns and interactions.
+
+## Deconvolution with RCTD
+
+RCTD (Robust Cell Type Decomposition) (Cable, D. M., et al., Nature Biotechnology, 2021) is a popular deconvolution
+algorithm designed to handle the complexities of mixed cell populations in spatial transcriptomics data. The algorithm uses
+single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolute the spatial transcriptomics data, estimating the
+proportions of different cell types in each spatial spot. The RCTD algorithm models the observed gene expression in each
+spatial spot as a mixture of the gene expression profiles of different cell types and estimates the proportion of each cell
+type in each spot using a non-negative least squares (NNLS) approach. RCTD can operate in various modes to fit multiple
+cell types per pixel, improving the accuracy of the decomposition.
+
+## Loading Single Cell RNA-Seq Data
+
+First, we load the single-cell RNA-seq data that will serve as a reference for deconvolution. This data is essential for
+mapping the gene expression profiles from the ST data to specific cell types.
+
+```{r}
+# Load single-cell RNA-seq data
+sc.counts <- read.table("C:\\Users\\somara\\Documents\\sc_counts.tsv", sep = "\t", header = TRUE, row.names = 1, quote = "", check.names = FALSE)
+
+# Load cell type annotations
+cofactor_loaded <- read.table("C:\\Users\\somara\\Documents\\sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
+cofactor_values_factor <- factor(cofactor_loaded$Value)
+sc.cell.types <- setNames(cofactor_values_factor, cofactor_loaded$Name)
 ```
 
-:::::::::::::::::::::::::::::::::
+## Deconvolution with RCTD
 
+RCTD (Robust Cell Type Decomposition) is a powerful tool that uses scRNA-seq reference data to deconvolute the spatial
+transcriptomics data, thereby quantifying the cell types present in each spatial spot.
 
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-```{r pyramid, fig.alt = "pie chart illusion of a pyramid", fig.cap = "Sun arise each and every morning"}
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+```{r}
+rctd.wrapper <- function(st.obj, sc.counts, sc.cell.types, rds.output.file = NULL, run.rctd = TRUE, intersect.sc.and.st.genes = FALSE) {
+  if(!is.null(rds.output.file) && file.exists(rds.output.file)) {
+    myRCTD <- readRDS(rds.output.file)
+    gc()
+    return(myRCTD)
+  }
+  
+  # Get raw ST counts
+  st.counts <- GetAssayData(st.obj, assay="Spatial", slot="counts")
+  
+  # Get the spot coordinates
+  st.coords <- st.obj[[]][, c("col", "row")]
+  colnames(st.coords) <- c("x","y")
+  
+  # Get the number of UMI per spot
+  nUMI <- colSums(st.counts)
+  
+  # Create the RCTD 'puck', representing the ST data
+  puck <- SpatialRNA(st.coords, st.counts, nUMI)
+  
+  # Create an RCTD scRNA-seq reference
+  if(intersect.sc.and.st.genes) {
+    sc.counts <- sc.counts[rownames(sc.counts) %in% rownames(st.counts),]
+  }
+  sc.cell.types <- sc.cell.types[colnames(sc.counts)]
+  nUMI <- colSums(sc.counts)
+  reference <- Reference(sc.counts, sc.cell.types, nUMI, n_max_cells = ncol(sc.counts) + 1)
+              
+  max_cores <- min(5, detectCores() - 1)
+  
+  myRCTD <- create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
+  
+  if(run.rctd) {
+    myRCTD <- suppressPackageStartupMessages(run.RCTD(myRCTD, doublet_mode = 'full'))
+  }
+  
+  if(!is.null(rds.output.file)) {
+    saveRDS(myRCTD, rds.output.file)
+  }
+  
+  gc()
+  myRCTD
+}
 ```
-Or you can use pandoc markdown for static figures with the following syntax:
+## Running Deconvolution on Brain Samples
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the spots and quantify the cell types. Here,
+two different samples are analyzed.
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+```{r}
+# Deconvolution for brain sample 1
+result_1 <- rctd.wrapper(brain1, sc.counts, sc.cell.types, "rctd_st_brains_new.rds")
+print_RCTD_results(brain1, result_1, 'brains_new.png')
 
-## Math
+# Deconvolution for brain sample 2
+result_2 <- rctd.wrapper(brain2, sc.counts, sc.cell.types, "rctd_st_brains_new2.rds")
+print_RCTD_results(brain2, result_2, 'brains_new2.png')
+```
+## Interpreting Deconvolution Results
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+The deconvolution process outputs the proportion of different cell types in each spatial spot, allowing for a detailed
+understanding of the tissue composition. These results can be visualized and further analyzed to draw biological insights
+about the tissue sections.
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+## Summary
 
-Cool, right?
+Incorporating deconvolution into the spatial transcriptomics workflow enhances the ability to quantify the different cell
+types in each spatial spot, providing a richer and more detailed understanding of the tissue architecture. By following
+these steps, researchers can ensure that their spatial transcriptomics data is accurately deconvoluted, leading to more
+robust and insightful analyses.
 
-::::::::::::::::::::::::::::::::::::: keypoints 
+:::::::::::::::::::::::::::::::::: keypoints
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Deconvolution enhances spatial transcriptomics by quantifying the different cell types within spatial spots.
+- Integrating single-cell RNA-seq data with spatial transcriptomics data is essential for accurate deconvolution.
+- The RCTD method is effective for quantifying the proportion of different cell types in spatial transcriptomics data.
 
-::::::::::::::::::::::::::::::::::::::::::::::::
-
+:::::::::::::::::::::::::::::::::::::::::::::
