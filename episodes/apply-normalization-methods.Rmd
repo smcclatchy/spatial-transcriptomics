@@ -181,7 +181,7 @@ the skewness caused by highly expressed genes and stabilizes the variance across
 the dataset, making it more suitable for downstream analytical comparisons.
 
 ```{r}
-filter_st <- NormalizeData(filter_st, 
+lognorm_st <- NormalizeData(filter_st, 
                            assay                = "Spatial", 
                            normalization.method = "LogNormalize", 
                            scale.factor         = 1e6)
@@ -196,16 +196,15 @@ variance relationship somewhat flatter.
 The Log Normalization adds a "data" object to the Seurat object.
 
 ```{r}
-Layers(filter_st)
+Layers(lognorm_st)
 ```
 
 ```{r}
-filter_st@active.assay = "Spatial"
-filter_st <- FindVariableFeatures(filter_st,  
+lognorm_st <- FindVariableFeatures(lognorm_st,  
                                   assay            = 'Spatial', 
                                   selection.method = "mean.var.plot",
                                   nfeatures        = 3000)
-VariableFeaturePlot(filter_st, log = NULL) + 
+VariableFeaturePlot(lognorm_st, log = NULL) + 
   ggtitle("Variable Features - Log-norm")
 ```
 
@@ -255,10 +254,9 @@ method. The normalized counts are stored in the "data" slot of the Seurat
 object.
 
 ```{r}
-counts_log <- LayerData(filter_st, layer = "data")
+counts_log <- LayerData(lognorm_st, layer = "data")
 hist(colSums2(counts_log), main = "Log-norm")
 
-filter_st@active.assay = "SCT"
 counts_sct <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
@@ -270,13 +268,11 @@ distribution of total counts and spans a factor of four, from ~400 to ~1600.
 Next, we will compare the mean-variance plots between the two methods.
 
 ```{r}
-filter_st@active.assay = "Spatial"
-top15 <- head(VariableFeatures(filter_st), 15)
-plot1 <- VariableFeaturePlot(filter_st, log = NULL) + 
+top15 <- head(VariableFeatures(lognorm_st), 15)
+plot1 <- VariableFeaturePlot(lognorm_st, log = NULL) + 
            ggtitle("Variable Features - Log normalization")
 plot1 <- LabelPoints(plot = plot1, points = top15, repel = TRUE)
 
-filter_st@active.assay = "SCT"
 top15SCT <- head(VariableFeatures(filter_st), 15)
 plot2    <- VariableFeaturePlot(filter_st) + 
               ggtitle("Variable Features - SCT")

@@ -71,6 +71,9 @@ keep <- FetchData(filter_st, "nFeature_Spatial")[,1] < features_thr & keep
 
 filter_st$keep <- keep
 filter_st <- filter_st[,keep]
+
+filter_st <- SCTransform(filter_st, 
+                         assay = "Spatial")
 ```
 
 ## Understanding the Morphology of your Tissue.
@@ -317,28 +320,27 @@ When we look at the corresponding row in the UMAP plots, we see that the white
 matter is clearly separated in all of the plots. The number of clusters increases
 with increasing cluster resolution, with the middle row (cluster resolution = 1),
 having close to seven layers, like the publication ground truth. The middle
-plot in the middle row has nine clusters, which is alos close to the publication.
+plot in the middle row has nine clusters, which is also close to the publication.
 
 ::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
+We selected a cluster resolution of 0.8 and 50 PCs for the following work.
 
-
-
-We decided to use:
-res = 0.8
-pc  = 50
-
-
+```{r message=FALSE,warning=FALSE}
+filter_st <- FindNeighbors(filter_st, 
+                           reduction = "pca", 
+                           dims      = 1:50) %>% 
+               FindClusters(resolution = 0.8)
+```
 
 ```{r}
-SpatialDimPlot(filter_st, group.by = "seurat_clusters")
+SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
+  ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8")
 ```
 
 
-```{r}
-SpatialDimPlot(filter_st, group.by = "seurat_clusters")
-```
+
 
 
 ```{r}
@@ -365,14 +367,15 @@ for (method in HVG_selection_methods) {
       for (genes_prop in genes_props) {
         
         feats_used <- head(VariableFeatures(filter_st), round(length(VariableFeatures(filter_st)) * genes_prop))
-        filter_st <- ScaleData(filter_st, features = feats_used)
-        filter_st <- RunPCA(filter_st, features = feats_used, npcs = PCA_components)
-        filter_st <- FindNeighbors(filter_st, reduction = "pca", dims = 1:PCA_components)
+        filter_st <- ScaleData(filter_st, features = feats_used) %>% 
+                       RunPCA(features = feats_used, npcs = PCA_components) %>% 
+                       FindNeighbors(reduction = "pca", dims = 1:PCA_components)
+
         temp_clust <- paste("clusters_", method, "_", resolution, "_", PCA_components, "_", genes_prop, sep="")
         filter_st <- FindClusters(filter_st, reduction = "pca", resolution=resolution, cluster.name = temp_clust)
 
         ari <- adjustedRandIndex(filter_st@meta.data$layer_guess, filter_st@meta.data[[temp_clust]])
-        
+
         results_df <- rbind(results_df, data.frame(HVG_selection_method = method,
                                                    Cluster_resolution = resolution,
                                                    PCA_components = PCA_components,
