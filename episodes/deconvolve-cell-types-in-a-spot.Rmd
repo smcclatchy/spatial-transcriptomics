@@ -71,12 +71,7 @@ RCTD (Robust Cell Type Decomposition) is a powerful tool that uses scRNA-seq ref
 transcriptomics data, thereby quantifying the cell types present in each spatial spot.
 
 ```{r}
-rctd.wrapper <- function(st.obj, sc.counts, sc.cell.types, rds.output.file = NULL, run.rctd = TRUE, intersect.sc.and.st.genes = FALSE) {
-  if(!is.null(rds.output.file) && file.exists(rds.output.file)) {
-    myRCTD <- readRDS(rds.output.file)
-    gc()
-    return(myRCTD)
-  }
+run.rctd <- function(st.obj, sc.counts, sc.cell.types) {
   
   # Get raw ST counts
   st.counts <- GetAssayData(st.obj, assay="Spatial", slot="counts")
@@ -92,26 +87,22 @@ rctd.wrapper <- function(st.obj, sc.counts, sc.cell.types, rds.output.file = NUL
   puck <- SpatialRNA(st.coords, st.counts, nUMI)
   
   # Create an RCTD scRNA-seq reference
-  if(intersect.sc.and.st.genes) {
-    sc.counts <- sc.counts[rownames(sc.counts) %in% rownames(st.counts),]
-  }
   sc.cell.types <- sc.cell.types[colnames(sc.counts)]
   nUMI <- colSums(sc.counts)
   reference <- Reference(sc.counts, sc.cell.types, nUMI, n_max_cells = ncol(sc.counts) + 1)
-              
+
+  # Set up parallel execution
   max_cores <- min(5, detectCores() - 1)
   
   myRCTD <- create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
+
+  # Run deconvolution -- note that we are using 'full' mode to devolve a spot into 
+  # (potentially) all available cell types.
+  myRCTD <- suppressWarnings(run.RCTD(myRCTD, doublet_mode = 'full'))
   
-  if(run.rctd) {
-    myRCTD <- suppressPackageStartupMessages(run.RCTD(myRCTD, doublet_mode = 'full'))
-  }
-  
-  if(!is.null(rds.output.file)) {
-    saveRDS(myRCTD, rds.output.file)
-  }
-  
+  # Clean up memory
   gc()
+
   myRCTD
 }
 ```
@@ -122,11 +113,11 @@ two different samples are analyzed.
 
 ```{r}
 # Deconvolution for brain sample 1
-result_1 <- rctd.wrapper(brain1, sc.counts, sc.cell.types, "rctd_st_brains_new.rds")
+result_1 <- run.rctd(brain1, sc.counts, sc.cell.types, "rctd_st_brains_new.rds")
 print_RCTD_results(brain1, result_1, 'brains_new.png')
 
 # Deconvolution for brain sample 2
-result_2 <- rctd.wrapper(brain2, sc.counts, sc.cell.types, "rctd_st_brains_new2.rds")
+result_2 <- run.rctd(brain2, sc.counts, sc.cell.types, "rctd_st_brains_new2.rds")
 print_RCTD_results(brain2, result_2, 'brains_new2.png')
 ```
 ## Interpreting Deconvolution Results
