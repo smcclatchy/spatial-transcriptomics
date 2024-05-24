@@ -57,10 +57,10 @@ mapping the gene expression profiles from the ST data to specific cell types.
 
 ```{r}
 # Load single-cell RNA-seq data
-sc.counts <- read.table("C:\\Users\\somara\\Documents\\sc_counts.tsv", sep = "\t", header = TRUE, row.names = 1, quote = "", check.names = FALSE)
+sc.counts <- read.table("data/scRNA-seq/sc_counts.tsv", sep = "\t", header = TRUE, row.names = 1, quote = "", check.names = FALSE)
 
 # Load cell type annotations
-cofactor_loaded <- read.table("C:\\Users\\somara\\Documents\\sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
+cofactor_loaded <- read.table("data/scRNA-seq/sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
 cofactor_values_factor <- factor(cofactor_loaded$Value)
 sc.cell.types <- setNames(cofactor_values_factor, cofactor_loaded$Name)
 ```
