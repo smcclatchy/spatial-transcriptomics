@@ -145,17 +145,45 @@ filter_st <- SCTransform(filter_st,
                          assay = "Spatial")
 ```
 
-The SCTransform method added the normalized counts (called "data") and the 
-standardized counts (called "scale.data") to the Seurat object. 
+The SCTransform method added a new Assay called "SCT."
+
+```{r}
+Assays(filter_st)
+```
+
+It made this new Assay, the default. Be aware that Seurat functions often operate on the DefaultAssay.
+
+```{r}
+DefaultAssay(filter_st)
+```
+
+Within this new "SCT" Assay, SCTransform has created three Layers. 
 
 ```{r}
 Layers(filter_st)
 ```
 
-It has also added new Assay called "SCT".
+As you can see by reading its documentation, these new Layers are "counts" (counts corrected
+for differences in sequencing depth between cells), "data" (lop1p of the corrected counts), 
+and "scale.data" (scaled Pearson residuals, i.e., the difference between an observed count
+and its expected value under the model used by SCTransform, divided by the standard deviation
+in that count under the model).
 
 ```{r}
-Assays(filter_st)
+?SCTransform
+```
+
+Notice, in particular, that the "counts" Layers in the "Spatial" and "SCT" Assays are
+different. As mentioned above, the latter have been corrected for differences in sequencing
+depth between cells. As such, the distribution in total counts per cell is much more
+uniform in the latter case.
+
+```{r}
+raw_counts_spatial <- LayerData(filter_st, layer = "counts", assay = "Spatial")
+hist(colSums2(raw_counts_spatial), main = "Raw counts (Spatial)")
+
+corrected_counts_sct <- LayerData(filter_st, layer = "data", assay = "SCT")
+hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
 Let's plot the mean versus the variance of the genes using the 
@@ -195,9 +223,12 @@ natural-log transformed using log1p (ln(x + 1)). The "scale.factor" argument
 has a default of 10,000. Here, we selected 1,000,000 because it made the mean-
 variance relationship somewhat flatter.
 
-The Log Normalization adds a "data" object to the Seurat object.
+The Log Normalization adds a "data" object to the Seurat object. Note that,
+unlike SCTransform, NormalizeData does not set the DefaultAssay, so we need to do
+explicitly.
 
 ```{r}
+DefaultAssay(lognorm_st) <- "Spatial"
 Layers(lognorm_st)
 ```
 
