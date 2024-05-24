@@ -16,7 +16,7 @@ We will help you in advance to make sure that you have everything that you need.
 
 If you do not already have R and RStudio installed, download and install the following software:
 
-    R/4.3.3: Select the installation for your operating system (Windows, Mac, or Linux).
+    R/4.4.0: Select the installation for your operating system (Windows, Mac, or Linux).
     RStudio: Download the free Rstudio Desktop.
 
 You do not need to install this exact version of R, but it would be good to make sure your R 
@@ -40,8 +40,8 @@ BiocManager::install(c("glmGamPoi", "rhdf5"))
 
 options(timeout = 1e6)
 remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
-remotes::install_github("immunogenomics/presto", build_vignettes = FALSE)
-remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
+remotes::install_github("immunogenomics/presto",  build_vignettes = FALSE)
+remotes::install_github("dmcable/spacexr",        build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into the 
