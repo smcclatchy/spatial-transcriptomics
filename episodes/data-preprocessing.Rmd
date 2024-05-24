@@ -188,9 +188,9 @@ Once you have the filtered data loaded in, look at the object.
 filter_st
 ```
 
-
-The raw and filtered data both have 33,538 genes. But the filtered data has fewer
-spots. The raw data had 4,992 spots and the filtered data has 4,384 spots.
+The raw and filtered data both have the same number of genes(33,538). But the
+two objects have different numbers of spots. The raw data has 4,992 spots and 
+the filtered data has 4,384 spots.
 
 Look at the H&E slide below and notice the grey "fiducial" spots around the border. These
 are used by the spatial transcriptomics software to "register" the H&E image and the
@@ -392,6 +392,38 @@ to have lower counts than tumor cells and this should be evident in a UMI
 count plot. In the brain sample below, we might expect some variation in 
 UMI counts in different layers of the brain.
 
+## Removing Genes with Low Expression
+
+In order to build this lesson, we needed to reduce the size of the data. To
+do this, we are going to filter out genes that have no expression across the 
+cells.
+
+How many genes to we have before filtering?
+
+```{r}
+paste(nrow(filter_st), "genes.")
+```
+
+Next, we will get the raw counts, calculate the sum of each gene's exprsssion
+across all spots, and filter the Seurat object to retain genes with summed
+counts greater than zero.
+
+```{r}
+counts     <- LayerData(filter_st, 'counts')
+gene_sums  <- rowSums(counts)
+keep_genes <- which(gene_sums > 0)
+
+filter_st  <- filter_st[keep_genes,]
+```
+
+How many genes to we have after filtering?
+
+```{r}
+paste(nrow(filter_st), "genes.")
+```
+
+So we removed about 11,700 genes that had zero counts.
+
 ## Conclusion
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
@@ -409,4 +441,7 @@ control issues.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,include=FALSE}
+saveRDS(filter_st, file = 'seurat_obj_data_proc.rds')
+```
 

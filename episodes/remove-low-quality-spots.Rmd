@@ -26,17 +26,19 @@ suppressPackageStartupMessages(library(Seurat))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
-filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
-                             filename = "151673_filtered_feature_bc_matrix.h5")
-tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
-                            col_names = FALSE, show_col_types = FALSE) %>% 
-                     column_to_rownames('X1')
-colnames(tissue_position) <- c("in_tissue", 
-                               "array_row", 
-                               "array_col", 
-                               "pxl_row_in_fullres", 
-                               "pxl_col_in_fullres")
-filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
+filter_st <- readRDS(file = 'seurat_obj_data_proc.rds')
+
+# filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
+#                              filename = "151673_filtered_feature_bc_matrix.h5")
+# tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
+#                             col_names = FALSE, show_col_types = FALSE) %>% 
+#                      column_to_rownames('X1')
+# colnames(tissue_position) <- c("in_tissue", 
+#                                "array_row", 
+#                                "array_col", 
+#                                "pxl_row_in_fullres", 
+#                                "pxl_col_in_fullres")
+# filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
 ```
 
 ## Introduction
@@ -135,7 +137,7 @@ to let them focus on the concept rather than typing.
 If we look at another part of the "counts" matrix, we can see numbers.
 
 ```{r}
-counts[33500:33510,1:5]
+counts[20000:20005,1:5]
 ```
 
 As you can see in the table above, the gene symbols are stored in the rownames 
@@ -311,3 +313,6 @@ important tissue structures.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,include=FALSE}
+saveRDS(filter_st, file = 'seurat_obj_remove_lq_spots.rds')
+```

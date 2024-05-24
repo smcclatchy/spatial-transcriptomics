@@ -41,39 +41,37 @@ patterns within the data.
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(gridExtra))
-suppressPackageStartupMessages(library(hdf5r))
-suppressPackageStartupMessages(library(mclust))
-suppressPackageStartupMessages(library(sparseMatrixStats))
 suppressPackageStartupMessages(library(Seurat))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
-filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
-                             filename = "151673_filtered_feature_bc_matrix.h5")
-tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
-                            col_names = FALSE, show_col_types = FALSE) %>% 
-                     column_to_rownames('X1')
-colnames(tissue_position) <- c("in_tissue", 
-                               "array_row", 
-                               "array_col", 
-                               "pxl_row_in_fullres", 
-                               "pxl_col_in_fullres")
-filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
-mito_pattern <- '^[Mm][Tt]-'
-filter_st[["percent.mt"]] <- PercentageFeatureSet(filter_st, pattern = mito_pattern)
-mito_thr     <- 32
-counts_thr   <- 14000
-features_thr <- 5000
-keep <- FetchData(filter_st, "percent.mt")[,1]       < mito_thr
-keep <- FetchData(filter_st, "nCount_Spatial")[,1]   < counts_thr   & keep
-keep <- FetchData(filter_st, "nFeature_Spatial")[,1] < features_thr & keep
+filter_st <- readRDS(file = 'seurat_obj_norm.rds')
 
-filter_st$keep <- keep
-filter_st <- filter_st[,keep]
-
-filter_st <- SCTransform(filter_st, 
-                         assay = "Spatial")
+# filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
+#                              filename = "151673_filtered_feature_bc_matrix.h5")
+# tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
+#                             col_names = FALSE, show_col_types = FALSE) %>% 
+#                      column_to_rownames('X1')
+# colnames(tissue_position) <- c("in_tissue", 
+#                                "array_row", 
+#                                "array_col", 
+#                                "pxl_row_in_fullres", 
+#                                "pxl_col_in_fullres")
+# filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
+# mito_pattern <- '^[Mm][Tt]-'
+# filter_st[["percent.mt"]] <- PercentageFeatureSet(filter_st, pattern = mito_pattern)
+# mito_thr     <- 32
+# counts_thr   <- 14000
+# features_thr <- 5000
+# keep <- FetchData(filter_st, "percent.mt")[,1]       < mito_thr
+# keep <- FetchData(filter_st, "nCount_Spatial")[,1]   < counts_thr   & keep
+# keep <- FetchData(filter_st, "nFeature_Spatial")[,1] < features_thr & keep
+# 
+# filter_st$keep <- keep
+# filter_st <- filter_st[,keep]
+# 
+# filter_st <- SCTransform(filter_st, 
+#                          assay = "Spatial")
 ```
 
 ## Understanding the Morphology of your Tissue.
@@ -83,6 +81,8 @@ types in the tissue which you are analyzing. While it would be ideal to have
 an unbiased analysis that uses normalizations and clustering methods to 
 automatically assign cell types and define tissue structure, in practice we
 adjust these parameters based on the tissue structure that we expect to find.
+
+> DMG: figure showing expected tissue structure.
 
 ## Understanding Feature Selection in Spatial Transcriptomics
 
@@ -105,20 +105,21 @@ that exhibit meaningful variability across different spatial regions. These
 methods help focus on genes that are most informative for downstream analyses 
 like clustering and dimensionality reduction.
 
-### Feature Selection with SCTransform
-
-SCTransform, a normalization method, inherently adjusts gene expression data to 
-stabilize variance, which often negates the need for subsequent feature selection. 
-This method ensures that the genes retained are already adjusted for technical 
-variability, highlighting those with biological significance.
-
 ### Feature Selection with NormalizeData
 
 When using normalization methods like NormalizeData, which focuses on scaling 
 gene expression data without variance stabilization, applying feature selection 
 becomes essential. This method requires the selection of highly variable genes 
 to enhance the analysis, particularly in clustering and principal component 
-analysis (PCA).
+analysis (PCA). Typically, you will select in the range of 2,000 to 5,000
+highly variable genes.
+
+### Feature Selection with SCTransform
+
+SCTransform, a normalization method, inherently adjusts gene expression data to 
+stabilize variance, which often negates the need for subsequent feature selection. 
+This method ensures that the genes retained are already adjusted for technical 
+variability, highlighting those with biological significance.
 
 The SCTransform selects 3,000 variable features by default. We will use those 
 variable features to calculate principal components (PCs) of the gene expression
@@ -288,13 +289,13 @@ dev.off()
 The plot below shows the clusters as colors overlayed on the tissue. Each row
 shows a different cluster resolutions and each column snows the number of PCs. 
 
-![Tissue Clustering](fig/tissue_cluster_resol.png){alt.text="Tissue Clustering"}
+![Tissue Clustering](fig/tissue_cluster_resol.png){alt-text="Tissue Clustering"}
 
 The plot below shows the UMAP clustering for the same set of parameters in the
 same order. The cluster colors are the same in the plots above and below. 
 Increasing the cluster resolution increases the number of clusters.
 
-![UMAP Clustering](fig/umap_cluster_resol.png){alt.text="UMAP Clustering"}
+![UMAP Clustering](fig/umap_cluster_resol.png){alt-text="UMAP Clustering"}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -338,56 +339,6 @@ filter_st <- FindNeighbors(filter_st,
 SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
   ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8")
 ```
-
-
-
-
-
-```{r}
-HVG_selection_methods <- c("vst", "mean.var.plot")
-Cluster_resolutions <- c(0.5, 1.0, 1.5)
-PCA_components_list <- c(5, 10, 25) # Updated to list to avoid confusion with the loop variable
-genes_props <- c(0.1, 0.5, 1)
-
-# Initialize a dataframe to store the results
-results_df <- data.frame(HVG_selection_method = character(),
-                         Cluster_resolution = numeric(),
-                         PCA_components = integer(),
-                         Genes_prop = numeric(),
-                         ARI = numeric(),
-                         stringsAsFactors = FALSE)
-
-# Iterate over each combination of variables
-for (method in HVG_selection_methods) {
-  filter_st <- FindVariableFeatures(filter_st, assay='Spatial', 
-                                    selection.method = method, 
-                                    nfeatures = 2000)
-  for (resolution in Cluster_resolutions) {
-    for (PCA_components in PCA_components_list) {
-      for (genes_prop in genes_props) {
-        
-        feats_used <- head(VariableFeatures(filter_st), round(length(VariableFeatures(filter_st)) * genes_prop))
-        filter_st <- ScaleData(filter_st, features = feats_used) %>% 
-                       RunPCA(features = feats_used, npcs = PCA_components) %>% 
-                       FindNeighbors(reduction = "pca", dims = 1:PCA_components)
-
-        temp_clust <- paste("clusters_", method, "_", resolution, "_", PCA_components, "_", genes_prop, sep="")
-        filter_st <- FindClusters(filter_st, reduction = "pca", resolution=resolution, cluster.name = temp_clust)
-
-        ari <- adjustedRandIndex(filter_st@meta.data$layer_guess, filter_st@meta.data[[temp_clust]])
-
-        results_df <- rbind(results_df, data.frame(HVG_selection_method = method,
-                                                   Cluster_resolution = resolution,
-                                                   PCA_components = PCA_components,
-                                                   Genes_prop = genes_prop,
-                                                   ARI = ari))
-      }
-    }
-  }
-}
-write.csv(results_df, file = 'SCT_clustering_results.csv')
-```
-
 
 ## Why Feature Selection?
 
@@ -458,3 +409,6 @@ PCA will highlight the major variance and remove noise, preparing the data for U
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,include=FALSE}
+saveRDS(filter_st, file = 'seurat_obj_feat_sel_clust.Rmd')
+```
