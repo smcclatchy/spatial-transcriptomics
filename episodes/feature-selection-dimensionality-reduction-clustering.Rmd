@@ -289,13 +289,13 @@ dev.off()
 The plot below shows the clusters as colors overlayed on the tissue. Each row
 shows a different cluster resolutions and each column snows the number of PCs. 
 
-![Tissue Clustering](fig/tissue_cluster_resol.png){alt-text="Tissue Clustering"}
+![Tissue Clustering](fig/tissue_cluster_resol.png){alt="Tissue Clustering"}
 
 The plot below shows the UMAP clustering for the same set of parameters in the
 same order. The cluster colors are the same in the plots above and below. 
 Increasing the cluster resolution increases the number of clusters.
 
-![UMAP Clustering](fig/umap_cluster_resol.png){alt-text="UMAP Clustering"}
+![UMAP Clustering](fig/umap_cluster_resol.png){alt="UMAP Clustering"}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
