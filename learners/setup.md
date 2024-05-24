@@ -35,7 +35,12 @@ In RStudio, copy and paste the following commands into the Console:
 install.packages(c("BiocManager", "data.table",  "ggExtra", "hdf5r",
                    "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
                    "plyr",        "rcartocolor", "remotes",
-                   "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
+                   "Rfast2",      "Seurat",      "tidyverse")
+for(pkg in pkgs) {
+  if(!require(pkg, character.only=TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+  }
+}
 BiocManager::install(c("glmGamPoi", "rhdf5"))
 
 options(timeout = 1e6)
@@ -136,6 +141,11 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/drl
 
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ny1wokl6sz1xjzz68aftbk209se5nvws.tsv",
               destfile = "data/spot-meta.tsv",
+              mode     = "wb")
+
+dir.create("data/scRNA-seq", recursive = TRUE)
+download.file(url      = "https://thejacksonlaboratory.box.com/s/ydu9rbdhum5qrvuijze23qwz7dlztefo",
+              destfile = "data/scRNA-seq/sc_cell_types.tsv",
               mode     = "wb")
 ```
 

@@ -118,12 +118,6 @@ What could you have done differently?
 
 :::::::::::::::::::::::::::::::::::::
 
-
-The graphic below shows a Visium workflow for formalin-fixed paraffin embedded 
-tissues. 
-
-![Visium spatial transcriptomics workflow with formalin-fixed paraffin embedded  tissue](fig/visium-FFPE-workflow.png){alt='A Visium spatial transcriptomics workflow with formalin-fixed paraffin embedded tissue'}
-
 ::::::::::::::::::::::::::::::::::::: challenge 
 
 ## Challenge 3: Time points
