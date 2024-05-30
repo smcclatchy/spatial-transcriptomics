@@ -31,9 +31,9 @@ suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(sparseMatrixStats))
 suppressPackageStartupMessages(library(Seurat))
 
-source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+source("../code/spatial_utils.R")
 
-filter_st <- readRDS(file = 'seurat_obj_remove_lq_spots.rds')
+filter_st <- load_seurat_object(file_prefix = 'removelqspots')
 
 # filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
 #                              filename = "151673_filtered_feature_bc_matrix.h5")
@@ -345,5 +345,5 @@ transcriptomics.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-saveRDS(filter_st, file = 'seurat_obj_norm.rds')
+save_seurat_object(obj = filter_st, file_prefix = 'applynorm')
 ```

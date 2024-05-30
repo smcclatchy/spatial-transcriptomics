@@ -1,5 +1,7 @@
 # Custom util functions
 
+require(Matrix)
+
 #' Add metadata to Seurat object.
 #'
 #' This function is a simple wrapper around AddMetaData
@@ -315,3 +317,112 @@ apply_qc_threshold <- function(seurat_object, metric_name, threshold, is_greater
   print(plot1)
   return(qc_flag)
 }
+
+# Given a Seurat object, write out each counts matrix to separate files,
+# then null out the counts slots and save the Seurat object.
+# We will write out the counts for each Assay, then set them to an empty
+# matrix before saving the object.
+#
+# We write out the files as file_prefix, Assay, Layer, so that we can
+# assemble the Seurat object later.
+#
+# Arguments:
+# obj: Seurat object to save.
+# file_prefix: character string to append to files that we have.
+# Returns: Nothing.
+save_seurat_object <- function(obj, file_prefix) {
+
+  # Save the object metadata.
+  saveRDS(obj[[]], file = paste0(file_prefix, "_meta_data.rds"))
+
+  # Get the Assays in this object.
+  obj_assays <- Assays(obj)
+
+  # For each Assay, ...
+  for(a in obj_assays) {
+
+    # Set the default assay and get the Layers.
+    DefaultAssay(obj) <- a
+    assay_layers      <- Layers(obj)
+
+    # For each Layer, write it out and null out the layer.
+    for(c in assay_layers) {
+
+      # Save the current counts matrix.
+      saveRDS(object = LayerData(obj, c),
+              file   = paste0(file_prefix, "_", a, "_", c, ".rds"))
+
+      # Null out the current counts matrix.
+      if(class(LayerData(obj, c))[1] == "dgCMatrix") {
+
+        # Sparse matrix.
+        LayerData(obj, c) <- SparseEmptyMatrix(nrow     = nrow(obj),
+                                               ncol     = ncol(obj),
+                                               rownames = rownames(obj),
+                                               colnames = colnames(obj))
+
+      } else {
+
+        # Normal matrix.
+        LayerData(obj, c) <- matrix()
+
+      } # else
+
+    } # for(c)
+
+  } # for(a)
+
+  # Save the stripped-down Seurat object.
+  saveRDS(obj, file = paste0(file_prefix, "_seurat_obj.rds"))
+
+} # save_seurat_object()
+
+
+# Given a file prefix, look for the files that start with that prefix,
+# infer the Assays and Layers and try to reassemble the Seurat object.
+#
+# Arguments:
+# file_prefix: character string to append to files that we have.
+# Returns:
+# Seurat object with all of the Assay Layers populated.
+load_seurat_object <- function(file_prefix) {
+
+  # Get the files that start with the prefix.
+  files <- dir(path = '.', pattern = file_prefix)
+
+  # Find the file containing the Seurat object and read it in.
+  wh  <- grep("_seurat_obj.rds", files)
+  obj <- readRDS(files[wh])
+
+  # Remove the Seurat object filename for the next part.
+  files <- files[-wh]
+
+  # Read in the cspot metadata and assign it to the Seurat object metadata.
+  wh      <- grep("_meta_data.rds", files)
+  obj[[]] <- readRDS(files[wh])
+
+  # Remove the metadata filename for the next part.
+  files <- files[-wh]
+
+  # Create a data.frame with the filenames, assay, and layer.
+  file_parts <- strsplit(sub("\\.rds$", "", files), split = '_')
+  file_info  <- data.frame(files = files,
+                           assay = sapply(file_parts, '[', 2),
+                           layer = sapply(file_parts, '[', 3))
+
+
+  for(i in 1:nrow(file_info)) {
+
+    current_assay <- file_info$assay[i]
+    current_layer <- file_info$layer[i]
+
+    DefaultAssay(obj) <-current_assay
+
+    LayerData(obj, current_layer) <- readRDS(file_info$files[i])
+
+  } # for(i)
+
+  return(obj)
+
+} # load_seurat_object()
+

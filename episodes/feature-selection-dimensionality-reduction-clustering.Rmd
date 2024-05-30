@@ -43,35 +43,11 @@ suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 
-source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+source("../code/spatial_utils.R")
 
-filter_st <- readRDS(file = 'seurat_obj_norm.rds')
+filter_st <- load_seurat_object(file_prefix = 'applynorm')
+DefaultAssay(filter_st) <- "SCT"
 
-# filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
-#                              filename = "151673_filtered_feature_bc_matrix.h5")
-# tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
-#                             col_names = FALSE, show_col_types = FALSE) %>% 
-#                      column_to_rownames('X1')
-# colnames(tissue_position) <- c("in_tissue", 
-#                                "array_row", 
-#                                "array_col", 
-#                                "pxl_row_in_fullres", 
-#                                "pxl_col_in_fullres")
-# filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
-# mito_pattern <- '^[Mm][Tt]-'
-# filter_st[["percent.mt"]] <- PercentageFeatureSet(filter_st, pattern = mito_pattern)
-# mito_thr     <- 32
-# counts_thr   <- 14000
-# features_thr <- 5000
-# keep <- FetchData(filter_st, "percent.mt")[,1]       < mito_thr
-# keep <- FetchData(filter_st, "nCount_Spatial")[,1]   < counts_thr   & keep
-# keep <- FetchData(filter_st, "nFeature_Spatial")[,1] < features_thr & keep
-# 
-# filter_st$keep <- keep
-# filter_st <- filter_st[,keep]
-# 
-# filter_st <- SCTransform(filter_st, 
-#                          assay = "Spatial")
 ```
 
 ## Understanding the Morphology of your Tissue.
@@ -410,5 +386,5 @@ PCA will highlight the major variance and remove noise, preparing the data for U
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-saveRDS(filter_st, file = 'seurat_obj_feat_sel_clust.Rmd')
+save_seurat_object(obj = filter_st, file_prefix = 'featselclust')
 ```

@@ -24,7 +24,10 @@ suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(spacexr))
 suppressPackageStartupMessages(library(Seurat))
 
-source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+source("../code/spatial_utils.R")
+
+filter_st <- load_seurat_object(file_prefix = 'featselclust')
+DefaultAssay(filter_st) <- "SCT"
 ```
 
 ## Deconvolution in Spatial Transcriptomics
@@ -140,3 +143,7 @@ robust and insightful analyses.
 - The RCTD method is effective for quantifying the proportion of different cell types in spatial transcriptomics data.
 
 :::::::::::::::::::::::::::::::::::::::::::::
+
+```{r echo=FALSE,include=FALSE}
+save_seurat_object(obj = filter_st, file_prefix = 'deconvolve')
+```

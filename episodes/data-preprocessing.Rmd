@@ -85,7 +85,7 @@ reads an R file and runs the code in it. In this case, this will load several us
 functions.
 
 ```{r}
-source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+source("../code/spatial_utils.R")
 ```
 
 We will then load the libraries that we need for this lesson.
@@ -442,6 +442,6 @@ control issues.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-saveRDS(filter_st, file = 'seurat_obj_data_proc.rds')
+save_seurat_object(obj = filter_st, file_prefix = 'datapreproc')
 ```
 

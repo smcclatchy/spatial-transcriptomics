@@ -17,6 +17,18 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+```{r echo=FALSE,warning=FALSE,message=FALSE}
+suppressPackageStartupMessages(library(rcartocolor))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Seurat))
+
+source("../code/spatial_utils.R")
+
+filter_st <- load_seurat_object(file_prefix = 'deconvolve')
+DefaultAssay(filter_st) <- "SCT"
+
+```
+
 ## Introduction
 
 This is a lesson created via The Carpentries Workbench. It is written in
