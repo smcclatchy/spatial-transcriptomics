@@ -17,6 +17,15 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+``` error
+Error in match.arg(arg = value, choices = Assays(object = object)): 'arg' should be one of "Spatial", "SCT"
+```
+
+``` error
+Error: object 'filter_st' not found
+```
+
 ## Introduction
 
 This is a lesson created via The Carpentries Workbench. It is written in
@@ -77,7 +86,7 @@ You can add a line with at least three colons and a `solution` tag.
 You can include figures generated from R Markdown:
 
 
-```r
+``` r
 pie(
   c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
   init.angle = 315, 

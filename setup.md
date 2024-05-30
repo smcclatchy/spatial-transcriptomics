@@ -16,7 +16,7 @@ We will help you in advance to make sure that you have everything that you need.
 
 If you do not already have R and RStudio installed, download and install the following software:
 
-    R/4.3.3: Select the installation for your operating system (Windows, Mac, or Linux).
+    R/4.4.0: Select the installation for your operating system (Windows, Mac, or Linux).
     RStudio: Download the free Rstudio Desktop.
 
 You do not need to install this exact version of R, but it would be good to make sure your R 
@@ -32,15 +32,21 @@ package takes a long time to download. It may take up to 30 minutes for it to in
 In RStudio, copy and paste the following commands into the Console:
 
 ```r
-install.packages(c("BiocManager", "data.table",  "doMC",  "ggExtra", "hdf5r",
+install.packages(c("BiocManager", "data.table",  "ggExtra", "hdf5r",
                    "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
                    "plyr",        "rcartocolor", "remotes",
-                   "Rfast2",      "Seurat",      "tidyverse"), dependencies = TRUE)
+                   "Rfast2",      "Seurat",      "tidyverse")
+for(pkg in pkgs) {
+  if(!require(pkg, character.only=TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+  }
+}
 BiocManager::install(c("glmGamPoi", "rhdf5"))
 
 options(timeout = 1e6)
 remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
-remotes::install_github("dmcable/spacexr", build_vignettes = FALSE)
+remotes::install_github("immunogenomics/presto",  build_vignettes = FALSE)
+remotes::install_github("dmcable/spacexr",        build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into the 
@@ -49,19 +55,14 @@ console to verify that both packages installed correctly.
 ```r
 library(BiocManager)
 library(data.table)
-#library(doMC)
-#library(ggExtra)
+library(harmony)
 library(hdf5r)
 library(here)
-#library(igraph)
-#library(leiden)
-#library(Matrix)
-#library(matrixStats)
-#library(plyr)
+library(presto)
 library(rcartocolor)
 library(remotes)
-#library(Rfast2)
 library(spacexr)
+library(sparseMatrixStats)
 library(Seurat)
 library(tidyverse)
 ```
@@ -140,6 +141,14 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/drl
 
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ny1wokl6sz1xjzz68aftbk209se5nvws.tsv",
               destfile = "data/spot-meta.tsv",
+              mode     = "wb")
+
+dir.create("data/scRNA-seq", recursive = TRUE)
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ydu9rbdhum5qrvuijze23qwz7dlztefo.tsv",
+              destfile = "data/scRNA-seq/sc_cell_types.tsv",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/lasxuiq5wi3ms1jnokzmm7pp4hptr8ma.gz",
+              destfile = "data/scRNA-seq/sc_counts.tsv.gz",
               mode     = "wb")
 ```
 
