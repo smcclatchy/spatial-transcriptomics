@@ -31,32 +31,10 @@ suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(sparseMatrixStats))
 suppressPackageStartupMessages(library(Seurat))
 
-source("../code/spatial_utils.R")
+source("https://github.com/smcclatchy/spatial-transcriptomics/blob/main/code/spatial_utils.R")
 
 filter_st <- load_seurat_object(file_prefix = 'removelqspots')
 
-# filter_st <- Load10X_Spatial(data.dir = "./data/151673", 
-#                              filename = "151673_filtered_feature_bc_matrix.h5")
-# tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",
-#                             col_names = FALSE, show_col_types = FALSE) %>% 
-#                      column_to_rownames('X1')
-# colnames(tissue_position) <- c("in_tissue", 
-#                                "array_row", 
-#                                "array_col", 
-#                                "pxl_row_in_fullres", 
-#                                "pxl_col_in_fullres")
-# filter_st <- AddMetaData(object = filter_st, metadata = tissue_position)
-# mito_pattern <- '^[Mm][Tt]-'
-# filter_st[["percent.mt"]] <- PercentageFeatureSet(filter_st, pattern = mito_pattern)
-# mito_thr     <- 32
-# counts_thr   <- 14000
-# features_thr <- 5000
-# keep <- FetchData(filter_st, "percent.mt")[,1]       < mito_thr
-# keep <- FetchData(filter_st, "nCount_Spatial")[,1]   < counts_thr   & keep
-# keep <- FetchData(filter_st, "nFeature_Spatial")[,1] < features_thr & keep
-# 
-# filter_st$keep <- keep
-# filter_st <- filter_st[,keep]
 ```
 
 ## Understanding Normalization in Spatial Transcriptomics

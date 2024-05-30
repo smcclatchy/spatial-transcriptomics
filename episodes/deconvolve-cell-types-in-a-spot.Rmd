@@ -27,7 +27,7 @@ suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(parallel))
 suppressPackageStartupMessages(library(doMC))
 
-source("../code/spatial_utils.R")
+source("https://github.com/smcclatchy/spatial-transcriptomics/blob/main/code/spatial_utils.R")
 
 filter_st <- load_seurat_object(file_prefix = 'featselclust')
 DefaultAssay(filter_st) <- "SCT"
