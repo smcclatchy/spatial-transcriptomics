@@ -92,11 +92,11 @@
   Spatial Transcriptomics
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 41%" class="percentage">
-    41%
+<aside class="col-md-12 lesson-progress"><div style="width: 46%" class="percentage">
+    46%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 41%" aria-valuenow="41" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 46%" aria-valuenow="46" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -200,8 +200,6 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#understanding-normalization-in-spatial-transcriptomics">Understanding Normalization in Spatial Transcriptomics</a></li>
-<li><a href="#why-normalize">Why Normalize?</a></li>
-<li><a href="#normalization-methods">Normalization Methods</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -211,7 +209,7 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="apply-feature-selection-methods.html">6. Apply Feature Selection Methods in Spatial Transcriptomics</a>
+        <a href="feature-selection-dimensionality-reduction-clustering.html">6. Feature Selection, Dimensionality Reduction, and Spot Clustering</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -220,7 +218,7 @@
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="apply-dimensionality-reduction-methods.html">7. Apply Dimensionality Reduction Methods in Spatial Transcriptomics</a>
+        <a href="deconvolve-cell-types-in-a-spot.html">7. Deconvolution in Spatial Transcriptomics</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -229,25 +227,7 @@
 <div class="accordion accordion-flush" id="accordionFlush9">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading9">
-        <a href="apply-clustering-algorithms.html">8. Apply Clustering Algorithms</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush10">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading10">
-        <a href="deconvolve-cell-types-in-a-spot.html">9. Deconvolve Cell Types in a Spot</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush11">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading11">
-        <a href="differential-expression-testing.html">10. Differential Expression Testing</a>
+        <a href="differential-expression-testing.html">8. Differential Expression Testing</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -296,7 +276,7 @@
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/remove-low-quality-spots.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/apply-feature-selection-methods.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/feature-selection-dimensionality-reduction-clustering.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -304,20 +284,20 @@
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>
           Previous: Remove Low-quality
         </a>
-        <a class="chapter-link float-end" href="../instructor/apply-feature-selection-methods.html" rel="next">
-          Next: Apply Feature... 
+        <a class="chapter-link float-end" href="../instructor/feature-selection-dimensionality-reduction-clustering.html" rel="next">
+          Next: Feature Selection,... 
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Normalization in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-04-19 |
+        <p>Last updated on 2024-05-30 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-normalization-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
         
         
-        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 20 minutes</p>
+        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 70 minutes</p>
         
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -360,7 +340,23 @@ both absolute and relative cellular information.</li>
 </h2>
 <hr class="half-width"><p>Normalization in spatial transcriptomics must be carefully tailored
 to each dataset, balancing the technical corrections with the
-preservation of biologically meaningful signals.</p>
+preservation of biologically meaningful signals. There are two artifacts
+of the data that we need to adjust for:</p>
+<ol style="list-style-type: decimal"><li>the difference in total counts across spots, and</li>
+<li>the difference in variance across genes.</li>
+</ol><p>For the first point, each spot may have a different number of total
+counts, which makes it difficult to compare gene expression levels
+between spots. On the other hand, different spots may contain different
+types of cells, which may express differing numbers of transcripts. So
+there is a balance between normalizing all spots to have the same total
+counts and leaving some variation in total counts which may be due to
+the biology of the tissue.</p>
+<p>For the second point, in order to compare gene expression values
+between different genes, the within-gene variance should be similar
+between genes. This is because many statistical tests require that the
+within-group variance be the same. As you’ll see below, there is a
+relationship between the mean and variance of genes that will allow us
+to correct for this difference.</p>
 <div class="section level3">
 <h3 id="assessing-normalization-needs">Assessing Normalization Needs<a class="anchor" aria-label="anchor" href="#assessing-normalization-needs"></a></h3>
 <div class="section level4">
@@ -373,6 +369,24 @@ characterized by reduced cellular material, might suggest technical
 artifacts, indicating a need for normalization.</p>
 </div>
 <div class="section level4">
+<h4 id="total-counts-per-spot">Total Counts per Spot<a class="anchor" aria-label="anchor" href="#total-counts-per-spot"></a></h4>
+<p>The spots are arranged in column in the data matrix. We will look at
+the distribution of total counts per spot by summing the counts in each
+column and making a histogram.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu">LayerData</span><span class="op">(</span><span class="va">filter_st</span>, layer <span class="op">=</span> <span class="st">'counts'</span><span class="op">)</span></span>
+<span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Histogram of Counts per Spot"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>As you can see, the total counts per spot ranges cross three orders
+of magnitude. Some of this may be due to the biology of the tissue,
+i.e. some cells may express more transcripts. But some of this may be
+due to technical issues.</p>
+</div>
+<div class="section level4">
 <h4 id="mean-variance-plotting">Mean-Variance Plotting<a class="anchor" aria-label="anchor" href="#mean-variance-plotting"></a></h4>
 <p>Mean-variance plots are an essential tool for assessing gene
 expression variability relative to the mean expression levels across
@@ -382,33 +396,401 @@ deviates significantly from what would be expected under normal
 biological conditions. This can be particularly useful for spotting
 genes that are overly influenced by technical artifacts or biological
 outliers, suggesting the corresponding normalization choices.</p>
+<p>In the raw counts, each spot will have different total number of
+counts. This is termed the “library size”. Since each spot has a
+different number of counts, it will be difficult to compare gene
+expression values between them in a meaningful way because the
+denominator (total spot counts) is different in each spot.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="normalization-techniques-and-their-implications">Normalization Techniques and Their Implications<a class="anchor" aria-label="anchor" href="#normalization-techniques-and-their-implications"></a></h3>
 <div class="section level4">
 <h4 id="sctransform">SCTransform<a class="anchor" aria-label="anchor" href="#sctransform"></a></h4>
-<p>SCTransform is a normalization method for single-cell and spatial
-transcriptomics that uses a regularized negative binomial regression to
-stabilize variance across expression levels. It selects highly variable
-genes and corrects for technical noise by modeling gene expression
-counts with Pearson residuals. This approach effectively adjusts for
-confounding factors such as sequencing depth, facilitating more accurate
-downstream analyses like clustering.</p>
+<p><a href="https://satijalab.org/seurat/articles/sctransform_vignette.html" class="external-link">SCTransform</a>
+is a normalization method for single-cell and spatial transcriptomics
+that uses a regularized negative binomial regression to stabilize
+variance across expression levels <a href="https://link.springer.com/article/10.1186/s13059-021-02584-9" class="external-link">Choudhary
+et al.</a>. It selects highly variable genes and corrects for technical
+noise by modeling gene expression counts with Pearson residuals. This
+approach effectively adjusts for confounding factors such as sequencing
+depth, facilitating more accurate downstream analyses like
+clustering.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">SCTransform</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<span>                         assay <span class="op">=</span> <span class="st">"Spatial"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Running SCTransform on assay: Spatial</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Running SCTransform on layer: counts</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>vst.flavor='v2' set. Using model with fixed slope and excluding poisson genes.</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="warning" tabindex="0"><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
+'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Variance stabilizing transformation of count matrix of size 17996 by 3633</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Model formula is y ~ log_umi</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Get Negative Binomial regression parameters per gene</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Using 2000 genes, 3633 cells</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Found 105 outliers - those will be ignored in fitting/regularization step</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Second step: Get residuals using fitted parameters for 17996 genes</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Computing corrected count matrix for 17996 genes</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Calculating gene attributes</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Wall clock passed: Time difference of 20.86873 secs</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Determine variable features</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Centering data matrix</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Set default assay to SCT</code></pre>
+</div>
+<p>The SCTransform method added a new Assay called “SCT.”</p>
+<div class="codewrapper sourceCode" id="cb19">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Assays</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "Spatial" "SCT"    </code></pre>
+</div>
+<p>It made this new Assay, the default. Be aware that Seurat functions
+often operate on the DefaultAssay.</p>
+<div class="codewrapper sourceCode" id="cb21">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DefaultAssay</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "SCT"</code></pre>
+</div>
+<p>Within this new “SCT” Assay, SCTransform has created three
+Layers.</p>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">Layers</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "counts"     "data"       "scale.data"</code></pre>
+</div>
+<p>As you can see by reading its documentation, these new Layers are
+“counts” (counts corrected for differences in sequencing depth between
+cells), “data” (lop1p of the corrected counts), and “scale.data” (scaled
+Pearson residuals, i.e., the difference between an observed count and
+its expected value under the model used by SCTransform, divided by the
+standard deviation in that count under the model).</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">SCTransform</span></span></code></pre>
+</div>
+<p>Notice, in particular, that the “counts” Layers in the “Spatial” and
+“SCT” Assays are different. As mentioned above, the latter have been
+corrected for differences in sequencing depth between cells. As such,
+the distribution in total counts per cell is much more uniform in the
+latter case.</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">raw_counts_spatial</span> <span class="op">&lt;-</span> <span class="fu">LayerData</span><span class="op">(</span><span class="va">filter_st</span>, layer <span class="op">=</span> <span class="st">"counts"</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span><span class="op">)</span></span>
+<span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">raw_counts_spatial</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Raw counts (Spatial)"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb27">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">corrected_counts_sct</span> <span class="op">&lt;-</span> <span class="fu">LayerData</span><span class="op">(</span><span class="va">filter_st</span>, layer <span class="op">=</span> <span class="st">"data"</span>, assay <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span></span>
+<span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">corrected_counts_sct</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Corrected counts (SCT)"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-8-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s plot the mean versus the variance of the genes using the <a href="https://satijalab.org/seurat/reference/variablefeatureplot" class="external-link">VariableFeaturePlot</a>
+function.</p>
+<div class="codewrapper sourceCode" id="cb28">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">VariableFeaturePlot</span><span class="op">(</span><span class="va">filter_st</span>, log <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Variable Features - SCT"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The geometric mean (mean of the log counts) is shown on the X-axis
+and the residual variance. Each point shows one gene. By default, Seurat
+selects a set of 3,000 variable genes which are colored in red. The
+variance is largely stable across a range of mean expression values.</p>
 </div>
 <div class="section level4">
 <h4 id="lognormalize">LogNormalize<a class="anchor" aria-label="anchor" href="#lognormalize"></a></h4>
 <p>LogNormalize is a specific normalization method that scales gene
-expression data to account for differences in cell-specific total RNA
+expression data to account for differences in spot-specific total RNA
 counts. This process involves dividing the raw gene expression counts in
-each cell by the total counts in that cell, multiplying by a scale
+each spot by the total counts in that cell, multiplying by a scale
 factor, and then applying a natural logarithm transformation using
 <code>log1p</code> (log(1+x)). This method helps in reducing the
 skewness caused by highly expressed genes and stabilizes the variance
 across the dataset, making it more suitable for downstream analytical
 comparisons.</p>
+<div class="codewrapper sourceCode" id="cb29">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">NormalizeData</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<span>                           assay                <span class="op">=</span> <span class="st">"Spatial"</span>, </span>
+<span>                           normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>, </span>
+<span>                           scale.factor         <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Normalizing layer: counts</code></pre>
+</div>
+<p>In this normalization, feature counts for each spot are divided by
+the total counts for that spot and multiplied by the scale.factor. This
+is then natural-log transformed using log1p (ln(x + 1)). The
+“scale.factor” argument has a default of 10,000. Here, we selected
+1,000,000 because it made the mean- variance relationship somewhat
+flatter.</p>
+<p>The Log Normalization adds a “data” object to the Seurat object. Note
+that, unlike SCTransform, NormalizeData does not set the DefaultAssay,
+so we need to do explicitly.</p>
+<div class="codewrapper sourceCode" id="cb31">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DefaultAssay</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Spatial"</span></span>
+<span><span class="fu">Layers</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "counts" "data"  </code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb33">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">FindVariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span>,  </span>
+<span>                                  assay            <span class="op">=</span> <span class="st">'Spatial'</span>, </span>
+<span>                                  selection.method <span class="op">=</span> <span class="st">"mean.var.plot"</span>,</span>
+<span>                                  nfeatures        <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Finding variable features for layer data</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb35">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">VariableFeaturePlot</span><span class="op">(</span><span class="va">lognorm_st</span>, log <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Variable Features - Log-norm"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="warning" tabindex="0"><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>It is not entirely clear what is plotted on each axis. As best we can
+tell, the mean is on the X-axis and the standardized variance is on the
+Y-axis.</p>
+<p>Our goal is to maintain consistent variance across average gene
+expression levels. Ideally, when plotting variance against mean
+expression, we aim for a straight, flat line. This comparison helps us
+determine which normalization method best suits our data.</p>
+<div id="challenge-1-compare-mean-variance-plots" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-1-compare-mean-variance-plots" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Compare Mean-Variance Plots<a class="anchor" aria-label="anchor" href="#challenge-1-compare-mean-variance-plots"></a>
+</h3>
+<div class="callout-content">
+<p>Above, we created mean-variance plots for the SCT and Log
+normalizations. Which method does a better job of stabilizing the
+variance across genes? Turn to the person next to you and put the
+Log-normalized plot on one of your screens and the SCT transform plot on
+the other person’s screen. Discuss the mean-variance relationship in
+each plot and decide which one you think stabilizes the variance across
+genes better.</p>
 </div>
 </div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<p>In the Log-normalization plot, the variation in the variance is wider
+for genes with lower expression and lower for genes with higher
+expression. Also, the range of variances is quite wide. In the SCT plot,
+the variance of the low- expressed genes is smaller and it rises as mean
+expression increases. The height of the variances becomes stable for
+genes with mean expression over about 100. For this reason, we prefer
+the SCT transform.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="comparing-normalizations">Comparing Normalizations<a class="anchor" aria-label="anchor" href="#comparing-normalizations"></a></h3>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">
+<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div class="accordion-body">
+<p>Don’t have the students type this. Show the plots and discuss
+them.</p>
+</div>
+</div>
+</div>
+</div>
+<p>First, let’s look at the total counts per spot after normalization by
+each method. The normalized counts are stored in the “data” slot of the
+Seurat object.</p>
+<div class="codewrapper sourceCode" id="cb37">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts_log</span> <span class="op">&lt;-</span> <span class="fu">LayerData</span><span class="op">(</span><span class="va">lognorm_st</span>, layer <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span></span>
+<span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">counts_log</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Log-norm"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb38">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">counts_sct</span> <span class="op">&lt;-</span> <span class="fu">LayerData</span><span class="op">(</span><span class="va">filter_st</span>, layer <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span></span>
+<span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">counts_sct</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-13-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Notice that the log-normalization has a range of total counts per
+spot that ranges across several orders of magnitude. The SCT transform
+has a more uniform distribution of total counts and spans a factor of
+four, from ~400 to ~1600.</p>
+<p>Next, we will compare the mean-variance plots between the two
+methods.</p>
+<div class="codewrapper sourceCode" id="cb39">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top15</span> <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span><span class="va">plot1</span> <span class="op">&lt;-</span> <span class="fu">VariableFeaturePlot</span><span class="op">(</span><span class="va">lognorm_st</span>, log <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>           <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Variable Features - Log normalization"</span><span class="op">)</span></span>
+<span><span class="va">plot1</span> <span class="op">&lt;-</span> <span class="fu">LabelPoints</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot1</span>, points <span class="op">=</span> <span class="va">top15</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>When using repel, set xnudge and ynudge to 0 for optimal results</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb41">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top15SCT</span> <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span><span class="va">plot2</span>    <span class="op">&lt;-</span> <span class="fu">VariableFeaturePlot</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>              <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Variable Features - SCT"</span><span class="op">)</span></span>
+<span><span class="va">plot2</span>    <span class="op">&lt;-</span> <span class="fu">LabelPoints</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot2</span>, points <span class="op">=</span> <span class="va">top15SCT</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>When using repel, set xnudge and ynudge to 0 for optimal results</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb43">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plot1</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="warning" tabindex="0"><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb45">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plot2</span></span></code></pre>
+</div>
+<figure><img src="../fig/apply-normalization-methods-rendered-unnamed-chunk-14-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
 <div class="section level3">
 <h3 id="no-one-size-fits-all-approach">No One-Size-Fits-All Approach<a class="anchor" aria-label="anchor" href="#no-one-size-fits-all-approach"></a></h3>
 <p>Raw read counts provide essential insights into the absolute cell
@@ -426,48 +808,7 @@ depends on the specific characteristics of each dataset and the
 biological questions at hand. Researchers must understand the impact of
 each normalization strategy on both the biological and technical aspects
 of their data.</p>
-</div>
-</section><section id="why-normalize"><h2 class="section-heading">Why Normalize?<a class="anchor" aria-label="anchor" href="#why-normalize"></a>
-</h2>
-<hr class="half-width"><div class="section level3">
-<h3 id="description-of-normalization-techniques">Description of normalization techniques<a class="anchor" aria-label="anchor" href="#description-of-normalization-techniques"></a></h3>
-</div>
-<div class="section level3">
-<h3 id="data-interpretation">Data Interpretation<a class="anchor" aria-label="anchor" href="#data-interpretation"></a></h3>
-<div id="challenge-1-analyze-normalized-vs.-raw-data" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="challenge-1-analyze-normalized-vs.-raw-data" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Analyze Normalized vs. Raw
-Data<a class="anchor" aria-label="anchor" href="#challenge-1-analyze-normalized-vs.-raw-data"></a>
-</h3>
-<div class="callout-content">
-<p>Consider two datasets from the same spatial transcriptomics
-experiment: one raw and one normalized. What differences would you
-expect in the analysis results between these two datasets?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
-<div class="accordion-body">
-<p>Normalized data should show reduced variance due to technical factors
-and enhanced clarity in detecting biological differences. Raw data may
-exhibit skewed expression profiles influenced by technical
-artifacts.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section><section id="normalization-methods"><h2 class="section-heading">Normalization Methods<a class="anchor" aria-label="anchor" href="#normalization-methods"></a>
-</h2>
-<hr class="half-width"><div id="keypoints1" class="callout keypoints">
+<div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
@@ -490,10 +831,11 @@ components in spatial transcriptomics.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
+</div>
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/remove-low-quality-spots.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/apply-feature-selection-methods.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/feature-selection-dimensionality-reduction-clustering.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -501,8 +843,8 @@ any links that you are not going to use.
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>
           Previous: Remove Low-quality
         </a>
-        <a class="chapter-link float-end" href="../instructor/apply-feature-selection-methods.html" rel="next">
-          Next: Apply Feature... 
+        <a class="chapter-link float-end" href="../instructor/feature-selection-dimensionality-reduction-clustering.html" rel="next">
+          Next: Feature Selection,... 
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -526,7 +868,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.4" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.5" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
+        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/a32a7836d4455f407c3cafe8ab95edc636e5e919" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -548,8 +890,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-normalization-methods.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-normalization-methods.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-04-19",
-  "datePublished": "2024-05-09"
+  "dateModified": "2024-05-30",
+  "datePublished": "2024-05-30"
 }
 
   </script><script>

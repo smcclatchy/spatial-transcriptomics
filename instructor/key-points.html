@@ -246,7 +246,7 @@
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="apply-feature-selection-methods.html">6. Apply Feature Selection Methods in Spatial Transcriptomics</a>
+        <a href="feature-selection-dimensionality-reduction-clustering.html">6. Feature Selection, Dimensionality Reduction, and Spot Clustering</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -258,7 +258,7 @@
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="apply-dimensionality-reduction-methods.html">7. Apply Dimensionality Reduction Methods in Spatial Transcriptomics</a>
+        <a href="deconvolve-cell-types-in-a-spot.html">7. Deconvolution in Spatial Transcriptomics</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -270,31 +270,7 @@
 <div class="accordion accordion-flush" id="accordionFlush9">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading9">
-        <a href="apply-clustering-algorithms.html">8. Apply Clustering Algorithms</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush10">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading10">
-        <a href="deconvolve-cell-types-in-a-spot.html">9. Deconvolve Cell Types in a Spot</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush11">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading11">
-        <a href="differential-expression-testing.html">10. Differential Expression Testing</a>
+        <a href="differential-expression-testing.html">8. Differential Expression Testing</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -361,8 +337,8 @@
 <section id="introduction"><h2 class="section-heading"><a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></h2>
 <hr class="half-width">
 <ul>
-<li>Spatial transcriptomics provides the location of individual cells
-relative to neighboring cells and cell structures.</li>
+<li>Spatial transcriptomics provides the location of cells relative to
+neighboring cells and cell structures.</li>
 <li>A cell’s location is useful data for describing its phenotype,
 state, and cell and tissue function.</li>
 <li>Spatial transcriptomics addresses a key obstacle in single-cell
@@ -384,10 +360,16 @@ locally</li>
 </ul></section><section id="data-preprocessing"><h2 class="section-heading"><a href="data-preprocessing.html">Data Preprocessing</a></h2>
 <hr class="half-width">
 <ul>
-<li>The sequencing core will provide you with an unfiltered and a
+<li>The 10x Space Ranger pipeline provides you with an unfiltered and a
 filtered data file.</li>
-<li>
-</li>
+<li>The HDF5 file ends with an “h5” extension and contains the barcodes,
+features (genes), and counts matrix.</li>
+<li>Seurat is one, of several, popular environments for analyzing
+spatial transcriptomics data.</li>
+<li>It is important to know something about the structure of the tissue
+which you are analyzing.</li>
+<li>Plotting total counts and genes in each spot may help to identify
+quality control issues.</li>
 </ul></section><section id="remove-low-quality-spots"><h2 class="section-heading"><a href="remove-low-quality-spots.html">Remove Low-quality Spots</a></h2>
 <hr class="half-width">
 <ul>
@@ -405,7 +387,7 @@ technical correction with biological integrity.</li>
 <li>Examining both raw and normalized data can provide comprehensive
 insights into the absolute and relative characteristics of cellular
 components in spatial transcriptomics.</li>
-</ul></section><section id="apply-feature-selection-methods"><h2 class="section-heading"><a href="apply-feature-selection-methods.html">Apply Feature Selection Methods in Spatial Transcriptomics</a></h2>
+</ul></section><section id="feature-selection-dimensionality-reduction-clustering"><h2 class="section-heading"><a href="feature-selection-dimensionality-reduction-clustering.html">Feature Selection, Dimensionality Reduction, and Spot Clustering</a></h2>
 <hr class="half-width">
 <ul>
 <li>Feature selection is a crucial step in spatial transcriptomics
@@ -417,9 +399,6 @@ to focus on genes that provide the most biological insight.</li>
 methods can significantly influence the analytical outcomes, emphasizing
 the need for tailored approaches based on the specific characteristics
 of each dataset.</li>
-</ul></section><section id="apply-dimensionality-reduction-methods"><h2 class="section-heading"><a href="apply-dimensionality-reduction-methods.html">Apply Dimensionality Reduction Methods in Spatial Transcriptomics</a></h2>
-<hr class="half-width">
-<ul>
 <li>Linear dimensionality reduction methods like PCA are crucial for
 initial data simplification and noise reduction.</li>
 <li>Nonlinear methods like UMAP are valuable for detailed exploration of
@@ -427,28 +406,15 @@ data structures post-linear preprocessing.</li>
 <li>The sequential application of PCA and UMAP can provide a
 comprehensive view of the spatial transcriptomics data, leveraging the
 strengths of both linear and nonlinear approaches.</li>
-</ul></section><section id="apply-clustering-algorithms"><h2 class="section-heading"><a href="apply-clustering-algorithms.html">Apply Clustering Algorithms</a></h2>
+</ul></section><section id="deconvolve-cell-types-in-a-spot"><h2 class="section-heading"><a href="deconvolve-cell-types-in-a-spot.html">Deconvolution in Spatial Transcriptomics</a></h2>
 <hr class="half-width">
 <ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
-</ul></section><section id="deconvolve-cell-types-in-a-spot"><h2 class="section-heading"><a href="deconvolve-cell-types-in-a-spot.html">Deconvolve Cell Types in a Spot</a></h2>
-<hr class="half-width">
-<ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<li>Deconvolution enhances spatial transcriptomics by quantifying the
+different cell types within spatial spots.</li>
+<li>Integrating single-cell RNA-seq data with spatial transcriptomics
+data is essential for accurate deconvolution.</li>
+<li>The RCTD method is effective for quantifying the proportion of
+different cell types in spatial transcriptomics data.</li>
 </ul></section><section id="differential-expression-testing"><h2 class="section-heading"><a href="differential-expression-testing.html">Differential Expression Testing</a></h2>
 <hr class="half-width">
 <ul>
@@ -485,7 +451,7 @@ locally</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.4" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.5" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
+        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/a32a7836d4455f407c3cafe8ab95edc636e5e919" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -508,8 +474,8 @@ locally</li>
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/key-points.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/key-points.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-05-09",
-  "datePublished": "2024-05-09"
+  "dateModified": "2024-05-30",
+  "datePublished": "2024-05-30"
 }
 
   </script><script>

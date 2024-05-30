@@ -92,11 +92,11 @@
   Spatial Transcriptomics
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 21%" class="percentage">
-    21%
+<aside class="col-md-12 lesson-progress"><div style="width: 10%" class="percentage">
+    10%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 21%" aria-valuenow="21" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 10%" aria-valuenow="10" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -174,7 +174,6 @@
       <div class="accordion-body">
         <ul><li><a href="#the-data">The Data</a></li>
 <li><a href="#study-design">Study design</a></li>
-<li><a href="#challenge-2-treatment-and-control-samples">Challenge 2: Treatment and control samples</a></li>
 <li><a href="#important-considerations-for-rigorous-reproducible-spatial-transcriptomics-experiments">Important considerations for rigorous, reproducible spatial
 transcriptomics experiments</a></li>
         </ul></div><!--/div.accordion-body-->
@@ -213,7 +212,7 @@ transcriptomics experiments</a></li>
 <div class="accordion accordion-flush" id="accordionFlush7">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading7">
-        <a href="apply-feature-selection-methods.html">6. Apply Feature Selection Methods in Spatial Transcriptomics</a>
+        <a href="feature-selection-dimensionality-reduction-clustering.html">6. Feature Selection, Dimensionality Reduction, and Spot Clustering</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -222,7 +221,7 @@ transcriptomics experiments</a></li>
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="apply-dimensionality-reduction-methods.html">7. Apply Dimensionality Reduction Methods in Spatial Transcriptomics</a>
+        <a href="deconvolve-cell-types-in-a-spot.html">7. Deconvolution in Spatial Transcriptomics</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -231,25 +230,7 @@ transcriptomics experiments</a></li>
 <div class="accordion accordion-flush" id="accordionFlush9">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading9">
-        <a href="apply-clustering-algorithms.html">8. Apply Clustering Algorithms</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush10">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading10">
-        <a href="deconvolve-cell-types-in-a-spot.html">9. Deconvolve Cell Types in a Spot</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush11">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading11">
-        <a href="differential-expression-testing.html">10. Differential Expression Testing</a>
+        <a href="differential-expression-testing.html">8. Differential Expression Testing</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -313,7 +294,7 @@ transcriptomics experiments</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data and Study Design</h1>
-        <p>Last updated on 2024-05-09 |
+        <p>Last updated on 2024-05-30 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -451,21 +432,37 @@ experimental unit to be assigned to any treatment group.</p>
 tissues.</p>
 <figure><img src="../fig/fresh-frozen-workflow.png" alt="A Visium spatial transcriptomics workflow with fresh-frozen tissue" class="figure mx-auto d-block"><div class="figcaption">Visium spatial transcriptomics workflow with
 fresh-frozen tissue</div>
-</figure><p>``{r visium-ff-workflow, fig.link = ‘<a href="https://www.10xgenomics.com/library/6f2b8a" class="external-link uri">https://www.10xgenomics.com/library/6f2b8a</a>’, fig.cap =
-“Visium spatial transcriptomics workflow with fresh-frozen tissue.
+</figure><div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu">include_graphics</span><span class="op">(</span><span class="st">"fig/fresh-frozen-workflow.png"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="figure" style="text-align: center">
+<a href="https://www.10xgenomics.com/library/6f2b8a" target="_blank" class="external-link"><img src="../fig/fresh-frozen-workflow.png" alt="A Visium spatial transcriptomics workflow with fresh-frozen tissue" width="3035" class="figure"></a>
+<figcaption>
+Visium spatial transcriptomics workflow with fresh-frozen tissue.
 Optimal Cutting Temperature (OCT), immunofluorescence (IF), hematoxylin
 and eosin (H&amp;E), reverse transcription (RT), quantitative polymerase
 chain reaction (qPCR), quality control (QC), adenosine tailing
 (A-tailing), single index PCR (SI-PCR). Graphic from Grant application
-resources for Visium products”, fig.alt=“A Visium spatial
-transcriptomics workflow with fresh-frozen tissue”}
-knitr::include_graphics(“fig/fresh-frozen-workflow.png”) ```
-::::::::::::::::::::::::::::::::::::: challenge</p>
-</section><section id="challenge-2-treatment-and-control-samples"><h2 class="section-heading">Challenge 2: Treatment and control samples<a class="anchor" aria-label="anchor" href="#challenge-2-treatment-and-control-samples"></a>
-</h2>
-<hr class="half-width"><p>You plan to place samples of treated tissue on one slide and samples
+resources for Visium products
+</figcaption></div>
+<div id="challenge-2-treatment-and-control-samples" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-2-treatment-and-control-samples" class="callout-inner">
+<h3 class="callout-title">Challenge 2: Treatment and control
+samples<a class="anchor" aria-label="anchor" href="#challenge-2-treatment-and-control-samples"></a>
+</h3>
+<div class="callout-content">
+<p>You plan to place samples of treated tissue on one slide and samples
 of the controls on another slide. What will happen when it is time for
 data analysis? What could you have done differently?</p>
+</div>
+</div>
+</div>
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
@@ -478,12 +475,7 @@ data analysis? What could you have done differently?</p>
 </div>
 </div>
 </div>
-<p>:::::::::::::::::::::::::::::::::::::</p>
-<p>The graphic below shows a Visium workflow for formalin-fixed paraffin
-embedded tissues.</p>
-<figure><img src="../fig/visium-FFPE-workflow.png" alt="A Visium spatial transcriptomics workflow with formalin-fixed paraffin embedded tissue" class="figure mx-auto d-block"><div class="figcaption">Visium spatial transcriptomics workflow with
-formalin-fixed paraffin embedded tissue</div>
-</figure><div id="challenge-3-time-points" class="callout challenge">
+<div id="challenge-3-time-points" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -506,6 +498,66 @@ time for data analysis? What could you have done differently?</p>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
+<p>The issue is that time point is now confounded. A better approach
+would be to start the 15-week samples, then 5 weeks later start the
+10-week samples, then 5 weeks later start the 5-week samples. This way
+you can run all of your samples at the same time. None of your samples
+will have spent a long time in the freezer, so you won’t need to worry
+about the variation that might cause. You won’t need to worry about the
+time point confounding the results.</p>
+</div>
+</div>
+</div>
+</div>
+<p>We will use data from <a href="https://doi.org/10.1038/s41593-020-00787-0" class="external-link">Transcriptome-scale
+spatial gene expression in the human dorsolateral prefrontal cortex by
+Maynard et al, Nat Neurosci 24, 425–436 (2021).</a></p>
+<p>``{r brain-tissue-section, fig.link =
+‘fig/tissue-block-with-layers.png’, fig.cap = “Tissue blocks were
+excised from human dorsolateral prefrontal cortex. Tissue blocks include
+six cortical layers and underlying white matter (wm).”, fig.alt=“A human
+brain showing a section of dorsolateral prefrontal cortex extracted. A
+block of tissue containing six cortical layers and an underlying layer
+of white matter is excised from the section.”}</p>
+<p>Adapted from
+<a href="https://doi.org/10.1038/s41593-020-00787-0" class="external-link">Maynard et al, Nat
+Neurosci 24, 425–436 (2021)</a>.
+<a href="https://www.biorender.com" class="external-link">Created with BioRender.com</a>.</p>
+<p>``{r experimental-design, fig.link = ‘fig/experimental-design.png’,
+fig.cap = “Slides contain tissue samples from three neurotypical adult
+subjects. Each slide contains two pairs of replicates containing
+directly adjacent tissue sections 10 microns in size. The second pair of
+replicates is located 300 microns posterior to the first pair. A total
+of 12 samples were assayed with Visium.”, fig.alt=“Three Visium slides
+showing four spatial capture areas each. Each slide contains directly
+adjacent serial tissue sections for one subject. The second pair of
+samples contains tissue sections that are 300 microns posterior to the
+first pair of samples.”}</p>
+<p>Adapted from
+<a href="https://doi.org/10.1038/s41593-020-00787-0" class="external-link">Maynard et al, Nat
+Neurosci 24, 425–436 (2021)</a>.
+<a href="https://www.biorender.com" class="external-link">Created with BioRender.com</a>.</p>
+<div id="challenge-4-what-do-you-notice" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-4-what-do-you-notice" class="callout-inner">
+<h3 class="callout-title">Challenge 4: What do you notice?<a class="anchor" aria-label="anchor" href="#challenge-4-what-do-you-notice"></a>
+</h3>
+<div class="callout-content">
+<p>What do you notice about the experimental design that might create
+issues during data analysis? Why might the authors have done the
+experiment this way? Is there anything that can be done about this?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
+</button>
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div class="accordion-body">
 
 </div>
 </div>
@@ -514,7 +566,8 @@ time for data analysis? What could you have done differently?</p>
 </section><section id="important-considerations-for-rigorous-reproducible-spatial-transcriptomics-experiments"><h2 class="section-heading">Important considerations for rigorous, reproducible spatial
 transcriptomics experiments<a class="anchor" aria-label="anchor" href="#important-considerations-for-rigorous-reproducible-spatial-transcriptomics-experiments"></a>
 </h2>
-<hr class="half-width"><div id="keypoints1" class="callout keypoints">
+<hr class="half-width"><p>randomization statistical power</p>
+<div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
@@ -573,7 +626,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.4" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.5" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
+        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/a32a7836d4455f407c3cafe8ab95edc636e5e919" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.2" class="external-link">varnish (1.0.2)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -595,8 +648,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-and-study-design.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/data-and-study-design.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-05-09",
-  "datePublished": "2024-05-09"
+  "dateModified": "2024-05-30",
+  "datePublished": "2024-05-30"
 }
 
   </script><script>
