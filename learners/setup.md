@@ -144,8 +144,11 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ny1
               mode     = "wb")
 
 dir.create("data/scRNA-seq", recursive = TRUE)
-download.file(url      = "https://thejacksonlaboratory.box.com/s/ydu9rbdhum5qrvuijze23qwz7dlztefo",
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ydu9rbdhum5qrvuijze23qwz7dlztefo.tsv",
               destfile = "data/scRNA-seq/sc_cell_types.tsv",
+              mode     = "wb")
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/lasxuiq5wi3ms1jnokzmm7pp4hptr8ma.gz",
+              destfile = "data/scRNA-seq/sc_counts.tsv.gz",
               mode     = "wb")
 ```
 
