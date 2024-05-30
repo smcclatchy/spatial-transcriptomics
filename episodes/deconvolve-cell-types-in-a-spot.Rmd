@@ -23,17 +23,21 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(spacexr))
 suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(parallel))
+suppressPackageStartupMessages(library(doMC))
 
 source("../code/spatial_utils.R")
 
 filter_st <- load_seurat_object(file_prefix = 'featselclust')
 DefaultAssay(filter_st) <- "SCT"
+
 ```
 
 ## Deconvolution in Spatial Transcriptomics
 
 Spatial transcriptomics (ST) provides valuable insights into the spatial distribution of gene expression within tissue
-sections. However, each spatial spot in an ST experiment often contains multiple cells, leading to mixed gene expression
+sections. However, each spatial spot in an ST experiment generally contains multiple cells, leading to mixed gene expression
 signals. Deconvolution is needed to resolve these mixed signals into individual cell type contributions, allowing for a
 more accurate interpretation of the spatial gene expression data.
 
@@ -50,8 +54,7 @@ algorithm designed to handle the complexities of mixed cell populations in spati
 single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolute the spatial transcriptomics data, estimating the
 proportions of different cell types in each spatial spot. The RCTD algorithm models the observed gene expression in each
 spatial spot as a mixture of the gene expression profiles of different cell types and estimates the proportion of each cell
-type in each spot using a non-negative least squares (NNLS) approach. RCTD can operate in various modes to fit multiple
-cell types per pixel, improving the accuracy of the decomposition.
+type in each spot using a non-negative least squares (NNLS) approach. RCTD can operate in two modes: in "doublet" mode it fits at most two cell types per spot, in "full" mode it fits potentially all cell types in the reference per spot, and in "multi" mode it again fits more than two cell types per spot by extending the "doublet" approach. Here, we will use "full" mode.
 
 ## Loading Single Cell RNA-Seq Data
 
@@ -60,12 +63,16 @@ mapping the gene expression profiles from the ST data to specific cell types.
 
 ```{r}
 # Load single-cell RNA-seq data
-sc.counts <- read.table("data/scRNA-seq/sc_counts.tsv", sep = "\t", header = TRUE, row.names = 1, quote = "", check.names = FALSE)
+sc.counts <- as.data.frame(fread("data/scRNA-seq/sc_counts.tsv.gz"))
+rownames(sc.counts) <- sc.counts[,1]
+sc.counts <- sc.counts[,-1]
 
 # Load cell type annotations
-cofactor_loaded <- read.table("data/scRNA-seq/sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
-cofactor_values_factor <- factor(cofactor_loaded$Value)
-sc.cell.types <- setNames(cofactor_values_factor, cofactor_loaded$Name)
+sc.metadata <- read.table("data/scRNA-seq/sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
+sc.cell.types <- setNames(factor(sc.metadata$Value), sc.metadata$Name)
+shared.cells <- intersect(colnames(sc.counts), names(sc.cell.types))
+sc.cell.types <- sc.cell.types[shared.cells]
+sc.counts <- sc.counts[, shared.cells]
 ```
 
 ## Deconvolution with RCTD
@@ -73,26 +80,37 @@ sc.cell.types <- setNames(cofactor_values_factor, cofactor_loaded$Name)
 RCTD (Robust Cell Type Decomposition) is a powerful tool that uses scRNA-seq reference data to deconvolute the spatial
 transcriptomics data, thereby quantifying the cell types present in each spatial spot.
 
+First, we will create the reference object encapsulating the scRNA-seq data.
+
 ```{r}
-run.rctd <- function(st.obj, sc.counts, sc.cell.types) {
+reference <- Reference(sc.counts, sc.cell.types)
+```
+
+RCTD is computationally expensive, so let's enable parallelism.
+
+```{r}
+num.cores <- detectCores()
+if(!is.na(num.cores) && (num.cores > 1)) {
+  registerDoMC(cores=(num.cores-1))
+  options(mc.cores=num.cores-1)
+}
+```
+
+Since we will apply it multiple times, let's write a wrapper function that
+performs RCTD deconvolution.
+
+```{r}
+run.rctd <- function(reference, st.obj) {
   
   # Get raw ST counts
-  st.counts <- GetAssayData(st.obj, assay="Spatial", slot="counts")
+  st.counts <- GetAssayData(st.obj, assay="Spatial", layer="counts")
   
   # Get the spot coordinates
-  st.coords <- st.obj[[]][, c("col", "row")]
+  st.coords <- st.obj[[]][, c("array_col", "array_row")]
   colnames(st.coords) <- c("x","y")
-  
-  # Get the number of UMI per spot
-  nUMI <- colSums(st.counts)
-  
+    
   # Create the RCTD 'puck', representing the ST data
-  puck <- SpatialRNA(st.coords, st.counts, nUMI)
-  
-  # Create an RCTD scRNA-seq reference
-  sc.cell.types <- sc.cell.types[colnames(sc.counts)]
-  nUMI <- colSums(sc.counts)
-  reference <- Reference(sc.counts, sc.cell.types, nUMI, n_max_cells = ncol(sc.counts) + 1)
+  puck <- SpatialRNA(st.coords, st.counts)
 
   # Set up parallel execution
   max_cores <- min(5, detectCores() - 1)
@@ -116,11 +134,17 @@ two different samples are analyzed.
 
 ```{r}
 # Deconvolution for brain sample 1
-result_1 <- run.rctd(brain1, sc.counts, sc.cell.types, "rctd_st_brains_new.rds")
-print_RCTD_results(brain1, result_1, 'brains_new.png')
+
+#brain1 = 151508
+#brain2 = 151673
+
+result_1 <- run.rctd(reference, filter_st)
+print_RCTD_results(filter_st, result_1, 'brains_new.png')
+
+stop("Need to apply rctd to second object below.")
 
 # Deconvolution for brain sample 2
-result_2 <- run.rctd(brain2, sc.counts, sc.cell.types, "rctd_st_brains_new2.rds")
+result_2 <- run.rctd(reference, brain2)
 print_RCTD_results(brain2, result_2, 'brains_new2.png')
 ```
 ## Interpreting Deconvolution Results

@@ -84,16 +84,14 @@ First, we will load in some utility functions to make our lives a bit easier. Th
 reads an R file and runs the code in it. In this case, this will load several useful
 functions.
 
-```{r}
-source("../code/spatial_utils.R")
-```
-
 We will then load the libraries that we need for this lesson.
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(Seurat))
+
+source("../code/spatial_utils.R")
 ```
 
 Note that the [here library](https://here.r-lib.org/) helps you to find your files by taking
