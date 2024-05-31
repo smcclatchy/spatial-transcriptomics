@@ -245,9 +245,48 @@ AAACAGGGTCTATATT-1             3               3
 Before we proceed, it is worth thinking about the structure of the tissue.
 Below, we show the tissue layer structure deduced by experts in brain morphology
 and described in 
-[Maynard et al](https://www.nature.com/articles/s41593-020-00787-0){alt.text="Maynard et al"}.
+[Maynard et al](https://www.nature.com/articles/s41593-020-00787-0){alt.text="Maynard et al"}. 
+The authors provide these annotations. Let's add them to our Seurat object and plot
+them.
 
-![Tissue layers from publication](fig/Maynard_et_al_151673_ground_truth.png){alt="Cluster layers in sample 151673 from publication"}
+
+``` r
+spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
+# Subset to our sample
+spot_metadata <- subset(spot_metadata, sample_name == 151673)
+rownames(spot_metadata) <- spot_metadata$barcode
+stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
+spot_metadata <- spot_metadata[Cells(filter_st),]
+
+filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess"), drop=FALSE])
+
+unique_layers <- unique(na.omit(filter_st[[]]$layer_guess))
+num_layers <- length(unique_layers)
+
+color_pal    <- setNames(carto_pal(num_layers, "Safe"), unique_layers)
+
+SpatialDimPlot(filter_st[, !is.na(filter_st[[]]$layer_guess)], group.by = 'layer_guess', cols=color_pal) 
+```
+
+``` warning
+Warning: Not validating Centroids objects
+Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
+```
+
+<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 The authors describe six layers arranged from the upper right to the lower left,
 and a white matter (WM) later. At this stage of the analysis, we have nine 
@@ -267,7 +306,7 @@ SpatialDimPlot(filter_st,
                cols     = color_pal)
 ```
 
-<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 How many layers do we have compared to the publication? What do you think about
 the quality of the layers in this plot? Are there clear layers in the tissue?
@@ -292,7 +331,7 @@ UMAPPlot(filter_st,
          label.size = 6)
 ```
 
-<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 We have made some decisions above which might affect the quality of out spot 
 clusters, including the number of nearest neighbors, the number of variable 
@@ -421,7 +460,7 @@ SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
   ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8")
 ```
 
-<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
