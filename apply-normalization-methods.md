@@ -167,7 +167,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 20.86873 secs
+Wall clock passed: Time difference of 21.31607 secs
 ```
 
 ``` output
@@ -193,7 +193,7 @@ Assays(filter_st)
 [1] "Spatial" "SCT"    
 ```
 
-It made this new Assay, the default. Be aware that Seurat functions often operate on the DefaultAssay.
+It made this new Assay the default. Be aware that Seurat functions often operate on the DefaultAssay.
 
 
 ``` r
@@ -216,7 +216,7 @@ Layers(filter_st)
 ```
 
 As you can see by reading its documentation, these new Layers are "counts" (counts corrected
-for differences in sequencing depth between cells), "data" (lop1p of the corrected counts), 
+for differences in sequencing depth between cells), "data" (`log1p` transformation or (log(1+x)) of the corrected counts), 
 and "scale.data" (scaled Pearson residuals, i.e., the difference between an observed count
 and its expected value under the model used by SCTransform, divided by the standard deviation
 in that count under the model).
@@ -233,18 +233,15 @@ uniform in the latter case.
 
 
 ``` r
+layout(matrix(1:2, ncol = 1))
 raw_counts_spatial <- LayerData(filter_st, layer = "counts", assay = "Spatial")
 hist(colSums2(raw_counts_spatial), main = "Raw counts (Spatial)")
-```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
-
-``` r
 corrected_counts_sct <- LayerData(filter_st, layer = "data", assay = "SCT")
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-8-2.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 Let's plot the mean versus the variance of the genes using the 
 [VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) 
@@ -259,7 +256,7 @@ VariableFeaturePlot(filter_st, log = NULL) +
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
-residual variance. Each point shows one gene. By default, Seurat selects a set
+residual variance is on the Y-axis. Each point shows one gene. By default, Seurat selects a set
 of 3,000 variable genes which are colored in red. The variance is largely
 stable across a range of mean expression values.
 
@@ -269,7 +266,7 @@ LogNormalize is a specific normalization method that scales gene expression data
 to account for differences in spot-specific total RNA counts. This process 
 involves dividing the raw gene expression counts in each spot by the total
 counts in that cell, multiplying by a scale factor, and then applying a natural
-logarithm transformation using `log1p` (log(1+x)). This method helps in reducing
+logarithm transformation using log1p (log(x+1)). This method helps in reducing
 the skewness caused by highly expressed genes and stabilizes the variance across
 the dataset, making it more suitable for downstream analytical comparisons.
 
@@ -287,7 +284,7 @@ Normalizing layer: counts
 
 In this normalization, feature counts for each spot are divided by the total 
 counts for that spot and multiplied by the scale.factor. This is then 
-natural-log transformed using log1p (ln(x + 1)). The "scale.factor" argument
+natural-log transformed using log1p (log(x + 1)). The "scale.factor" argument
 has a default of 10,000. Here, we selected 1,000,000 because it made the mean-
 variance relationship somewhat flatter.
 
@@ -376,22 +373,19 @@ object.
 
 
 ``` r
+layout(matrix(1:2, ncol = 1))
 counts_log <- LayerData(lognorm_st, layer = "data")
 hist(colSums2(counts_log), main = "Log-norm")
-```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
-
-``` r
 counts_sct <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-2.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Notice that the log-normalization has a range of total counts per spot that
 ranges across several orders of magnitude. The SCT transform has a more uniform
-distribution of total counts and spans a factor of four, from ~400 to ~1600.
+distribution of total counts and spans a factor of three, from ~1000 to ~2700.
 
 Next, we will compare the mean-variance plots between the two methods.
 
