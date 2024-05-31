@@ -1,7 +1,7 @@
 # Custom util functions
 
-require(Matrix)
-require(Seurat)
+suppressPackageStartupMessages(require(Matrix))
+suppressPackageStartupMessages(require(Seurat))
 
 #' Add metadata to Seurat object.
 #'
