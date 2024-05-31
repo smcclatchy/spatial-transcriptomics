@@ -1,6 +1,7 @@
 # Custom util functions
 
 require(Matrix)
+require(Seurat)
 
 #' Add metadata to Seurat object.
 #'
@@ -203,10 +204,10 @@ plot_tissue_prc_merge <-function(brain.merge){
 }
 
 #' Create a panel of plots, each showing deconvolved fractions of a particular population.
-#' 
+#'
 #' @param rctd An RCTD object, from the spacexr package.
 #' @param normalize Boolean indicating whether weights should be normalized to sum to 1.
-#' @return A data frame whose rows are spots, whose columns are deconvolved populations, and whose 
+#' @return A data frame whose rows are spots, whose columns are deconvolved populations, and whose
 #'                    entries are the (predicted) fraction of a population in a given spot.
 #'                    Also adds columns x and y, holding spatial coordinates of spots.
 format.rctd.output_ <- function(rctd, normalize = TRUE) {
@@ -337,6 +338,7 @@ apply_qc_threshold <- function(seurat_object, metric_name, threshold, is_greater
   return(qc_flag)
 }
 
+################################################################################
 # Given a Seurat object, write out each counts matrix to separate files,
 # then null out the counts slots and save the Seurat object.
 # We will write out the counts for each Assay, then set them to an empty
@@ -397,6 +399,7 @@ save_seurat_object <- function(obj, file_prefix) {
 } # save_seurat_object()
 
 
+################################################################################
 # Given a file prefix, look for the files that start with that prefix,
 # infer the Assays and Layers and try to reassemble the Seurat object.
 #
@@ -429,15 +432,16 @@ load_seurat_object <- function(file_prefix) {
                            assay = sapply(file_parts, '[', 2),
                            layer = sapply(file_parts, '[', 3))
 
-
+  # Go through each row in the file data.frame, read in the file, and place
+  # it's contents in the correct Assay and Layer.
   for(i in 1:nrow(file_info)) {
 
     current_assay <- file_info$assay[i]
     current_layer <- file_info$layer[i]
 
-    DefaultAssay(obj) <-current_assay
+    #DefaultAssay(obj) <- current_assay
 
-    LayerData(obj, current_layer) <- readRDS(file_info$files[i])
+    LayerData(obj, layer = current_layer, assay = current_assay) <- readRDS(file_info$files[i])
 
   } # for(i)
 
