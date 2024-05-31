@@ -1,7 +1,7 @@
 ---
 title: 'Differential Expression Testing'
-teaching: 
-exercises: 
+teaching: 60
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -19,7 +19,7 @@ exercises:
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{{r setup, include=FALSE}}
+```{r setup, include=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ggplot2))
@@ -140,8 +140,9 @@ This observation underscores the spatial correlation of gene expression, highlig
 - Moran's I statistic is applied to reveal spatial autocorrelation in gene expression, critical for examining spatially dependent biological activities.
 - Moran's I algorithm effectively identifies genes expressed in anatomically distinct regions, as validated from the correlation analysis with the DE genes from the annotated regions.
 
+:::::::::::::::::::::::::::::::::::::::::::::
+
 ```{r echo=FALSE,include=FALSE}
 save_seurat_object(obj = filter_st, file_prefix = 'de_testing')
 ```
 
-:::::::::::::::::::::::::::::::::::::::::::::
