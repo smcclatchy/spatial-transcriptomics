@@ -1,123 +1,147 @@
 ---
 title: 'Differential Expression Testing'
-teaching: 10
-exercises: 2
+teaching: 
+exercises: 
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- What is the purpose of differential expression testing in bioinformatics?
+- Can Moran's I algorithm independently identify region-specific differential expressions that align with results obtained from expert annotations?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Identify differentially expressed genes across different layers using expert annotations.
+- Utilize Moran's I algorithm to find spatially variable genes.
+- Explore the correlation between genes identified through expert annotations and those detected by Moran's I algorithm.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-```{r echo=FALSE,warning=FALSE,message=FALSE}
-suppressPackageStartupMessages(library(rcartocolor))
+```{{r setup, include=FALSE}}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
-
-source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
-
-filter_st <- load_seurat_object(file_prefix = 'deconvolve')
-DefaultAssay(filter_st) <- "SCT"
-
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(pheatmap))
 ```
 
-## Introduction
+## Introduction to Differential Expression Testing
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+Differential expression testing is crucial in bioinformatics for identifying genes that show significant differences in expression across different samples or groups. 
+This method helps find genes that are upregulated or downregulated in specific contexts, providing insights into biological functions and disease mechanisms.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+## Moran's I Statistic
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+Moran's I is a measure used to assess spatial autocorrelation in data, indicating whether similar values are clustered, dispersed, or random. 
+In bioinformatics, it's applied to detect genes whose expression patterns exhibit clear spatial structure, aiding in understanding spatially localized biological processes.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+## Data Preparation
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
+```{{r data-prep}}
+plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
+plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+unique_clusters <- unique(plot_seurat_object$Layers)
+num_clusters <- length(unique_clusters)
+palette <- carto_pal(num_clusters, "Safe")
+names(palette) <- unique_clusters
 ```
 
-:::::::::::::::::::::::: solution 
+## Differential Expression Analysis
 
-## Output
- 
-```output
-[1] "This new lesson looks good"
+### Differential Expression Using Expert's Annotation
+
+Based on the exprerts brain layers annotation, as it is indicated here:
+
+```{{r layers}}
+plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
+plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+
+unique_clusters <- unique(plot_seurat_object$Layers)
+num_clusters <- length(unique_clusters)
+
+palette <- carto_pal(num_clusters, "Safe")
+names(palette) <- unique_clusters
+
+p <- SpatialDimPlot(plot_seurat_object, group.by = 'Layers', cols=palette) +
+  theme(legend.position = "right")
+
+print(p)
 ```
 
-:::::::::::::::::::::::::::::::::
+We identify genes that are upregulated in each brain region in comparison to other regions.
 
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-```{r pyramid, fig.alt = "pie chart illusion of a pyramid", fig.cap = "Sun arise each and every morning"}
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+```{{r layer-de}}
+Idents(seurat_object) <- "layer_guess"
+brain2 <- FindAllMarkers(seurat_object, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 ```
-Or you can use pandoc markdown for static figures with the following syntax:
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+### Spatial Differential Expression Using Moran's I
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
 
-## Math
+```{{r moran-i}}
+brain <- FindSpatiallyVariableFeatures(seurat_object, assay = "SCT", features = VariableFeatures(seurat_object)[1:1000], selection.method = "moransi")
+```
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+## Correlation of Differnetially Expressed Genes in each Brain Region and genes with highset Moran's I value.
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+### Heatmap of Differential Expression
 
-Cool, right?
+```{{r heatmap-de}}
 
-::::::::::::::::::::::::::::::::::::: keypoints 
+library(pheatmap)
+library(dplyr)
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+# Unique clusters
+unique_clusters <- unique(brain2$cluster)
 
-::::::::::::::::::::::::::::::::::::::::::::::::
+# Create list of data frames filtered by cluster
+cluster_data_frames <- lapply(setNames(unique_clusters, unique_clusters), function(cluster) {
+  brain2 %>% filter(cluster == !!as.character(cluster))
+})
 
+# Get and sort 'MoransI_observed' values
+wer_sorted <- brain@assays[["SCT"]]@meta.features %>%
+  arrange(desc(MoransI_observed)) %>%
+  slice_head(n = 100)
+
+# Initialize p-value adjustment matrix
+p_val_adj_matrix <- matrix(1, nrow = nrow(wer_sorted), ncol = length(cluster_data_frames), 
+                           dimnames = list(rownames(wer_sorted), names(cluster_data_frames)))
+
+# Fill the matrix with adjusted p-values
+for (i in rownames(wer_sorted)) {
+  for (j in seq_along(cluster_data_frames)) {
+    df <- cluster_data_frames[[j]]
+    if (i %in% df$gene) {
+      p_val_adj_value <- df$p_val_adj[df$gene == i]
+      p_val_adj_matrix[i, j] <- p_val_adj_value
+    }
+  }
+}
+
+# Generate and save heatmap
+g <- pheatmap(p_val_adj_matrix, 
+              cluster_rows = TRUE, 
+              cluster_cols = TRUE, 
+              display_numbers = FALSE, 
+              color = colorRampPalette(c("navy", "white", "firebrick3"))(50), 
+              main = "Heatmap of DE p-values of spatially DE genes ")
+print(g)
+```
+
+The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
+This observation underscores the spatial correlation of gene expression, highlighting its potential relevance in understanding regional brain functions and pathologies.
+
+:::::::::::::::::::::::::::::::::: keypoints
+
+- Differential expression testing pinpoints genes with significant expression variations across samples, helping to decode biological and disease mechanisms. 
+- Moran's I statistic is applied to reveal spatial autocorrelation in gene expression, critical for examining spatially dependent biological activities.
+- Moran's I algorithm effectively identifies genes expressed in anatomically distinct regions, as validated from the correlation analysis with the DE genes from the annotated regions.
+
+```{r echo=FALSE,include=FALSE}
+save_seurat_object(obj = filter_st, file_prefix = 'de_testing')
+```
+
+:::::::::::::::::::::::::::::::::::::::::::::
