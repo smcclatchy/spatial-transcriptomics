@@ -24,6 +24,11 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(pheatmap))
+
+source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+
+filter_st <- load_seurat_object(file_prefix = 'deconvolve')
+DefaultAssay(filter_st) <- "SCT"
 ```
 
 ## Introduction to Differential Expression Testing
@@ -143,6 +148,6 @@ This observation underscores the spatial correlation of gene expression, highlig
 :::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-save_seurat_object(obj = filter_st, file_prefix = 'de_testing')
+save_seurat_object(obj = filter_st, file_prefix = 'detesting')
 ```
 
