@@ -297,7 +297,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Preprocessing</h1>
-        <p>Last updated on 2024-05-30 |
+        <p>Last updated on 2024-05-31 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -465,24 +465,6 @@ will load several useful functions.</p>
 <span></span>
 <span><span class="kw">source</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Loading required package: Matrix</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>
-Attaching package: 'Matrix'</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>The following objects are masked from 'package:tidyr':
-
-    expand, pack, unpack</code></pre>
-</div>
 <p>Note that the <a href="https://here.r-lib.org/" class="external-link">here library</a>
 helps you to find your files by taking care of the absolute path.</p>
 </section><section id="load-raw-and-filtered-spatial-expression-data"><h2 class="section-heading">Load Raw and Filtered Spatial Expression Data<a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a>
@@ -500,7 +482,7 @@ transcriptomics data.</p>
 function from Seurat to read in the spatial transcription data. These
 are the data which you downloaded in the setup section.</p>
 <p>First, we will read in the raw data for sample 151673.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -513,7 +495,7 @@ you should see an “raw_st” object in your “Environment” tab on the
 right.</p>
 
 <p>Let’s look at “raw_st”, which is a Seurat object.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -568,9 +550,9 @@ Can you find an HDF5 file (with an “.h5” suffix) that haw the word
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -582,7 +564,7 @@ Can you find an HDF5 file (with an “.h5” suffix) that haw the word
 </div>
 </div>
 <p>Once you have the filtered data loaded in, look at the object.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -625,7 +607,7 @@ computer to assign up/down and left/right to the image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution 2</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Look at the spots in each corner. In the upper-left, you will see the
 following patterns:</p>
@@ -643,7 +625,7 @@ spot is in the background or the tissue. This file does not contain
 column names, although the next version of <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link">SpaceRanger
 2.0</a>, which is used to process the data at the sequencing core,
 should add column names to this file.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -664,7 +646,7 @@ function. This is named for the earlier versions of Seurat, which
 processed single cell transcriptomic data. In this case, we are getting
 <strong>spot</strong> IDs, even though the function is called
 “Cells”.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -674,7 +656,7 @@ processed single cell transcriptomic data. In this case, we are getting
 <p>Now that we have aligned the barcodes between the Seurat object and
 the tissue positions, we can add the tissue positions to the Seurat
 object’s metadata.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -683,7 +665,7 @@ object’s metadata.</p>
 </div>
 <p>Next, we will plot the spot annotation, indicating spots that are in
 the tissue in blue and background spots in red.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -698,7 +680,7 @@ expect most of the UMI counts to be in the tissue spots. The Seurat
 object metadata contains the UMI count in each spot in a column called
 “nCount_Spatial”. Let’s plot the UMI counts in the tissue and background
 spots.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -715,7 +697,7 @@ UMI Counts in Tissue and Background
 <p>We can also plot the number of genes detected in each spot. Seurat
 calls genes “features”, so we will plot the “nFeature_Spatial” value.
 This is stored in the metadata of the Seurat object.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -748,7 +730,7 @@ occur in the background spots?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Solution 3</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>When the tissue section is lysed, some transcripts may leak out of
 the cells and into the background region of the slide.</li>
@@ -762,7 +744,7 @@ will work directly with the filtered file. From this point forward, we
 will work with the filtered data object.</p>
 <p>Let’s plot the spots in the tissue in the filtered object to verify
 that it is only using spots in the tissue.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -790,7 +772,7 @@ left.</p>
 function to look at these values. We can color the spots based on the
 spot metadata stored in the Seurat object. You can find these column
 names by looking at the “meta.data” slot of the Seurat object.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -816,7 +798,7 @@ AAACAGGGTCTATATT-1        47        13               8064               3665</co
 </div>
 <p>To plot the UMI counts, we will use the “nCount_Spatial” column in
 the spot metadata.</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -834,7 +816,7 @@ in the tissue. It is less clear why the expression is low in the
 lower-left corner.</p>
 <p>We can also look at the number of genes detected in each spot using
 “nFeature_Spatial”.</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -858,7 +840,7 @@ some variation in UMI counts in different layers of the brain.</p>
 data. To do this, we are going to filter out genes that have no
 expression across the cells.</p>
 <p>How many genes to we have before filtering?</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -872,7 +854,7 @@ expression across the cells.</p>
 <p>Next, we will get the raw counts, calculate the sum of each gene’s
 exprsssion across all spots, and filter the Seurat object to retain
 genes with summed counts greater than zero.</p>
-<div class="codewrapper sourceCode" id="cb24">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -904,7 +886,7 @@ Not validating FOV objects</code></pre>
 <pre class="warning" tabindex="0"><code>Warning: Not validating Seurat objects</code></pre>
 </div>
 <p>How many genes to we have after filtering?</p>
-<div class="codewrapper sourceCode" id="cb28">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1001,7 +983,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-05-30",
+  "dateModified": "2024-05-31",
   "datePublished": "2024-05-31"
 }
 

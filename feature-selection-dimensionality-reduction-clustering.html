@@ -210,11 +210,6 @@
       <div class="accordion-body">
         <ul><li><a href="#understanding-the-morphology-of-your-tissue.">Understanding the Morphology of your Tissue.</a></li>
 <li><a href="#understanding-feature-selection-in-spatial-transcriptomics">Understanding Feature Selection in Spatial Transcriptomics</a></li>
-<li><a href="#why-feature-selection">Why Feature Selection?</a></li>
-<li><a href="#feature-selection-methods">Feature Selection Methods</a></li>
-<li><a href="#understanding-dimensionality-reduction-in-spatial-transcriptomics">Understanding Dimensionality Reduction in Spatial
-Transcriptomics</a></li>
-<li><a href="#why-apply-dimensionality-reduction">Why Apply Dimensionality Reduction?</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -297,7 +292,7 @@ Transcriptomics</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Feature Selection, Dimensionality Reduction, and Spot Clustering</h1>
-        <p>Last updated on 2024-05-30 |
+        <p>Last updated on 2024-05-31 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/feature-selection-dimensionality-reduction-clustering.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -359,9 +354,6 @@ ideal to have an unbiased analysis that uses normalizations and
 clustering methods to automatically assign cell types and define tissue
 structure, in practice we adjust these parameters based on the tissue
 structure that we expect to find.</p>
-<blockquote>
-<p>DMG: figure showing expected tissue structure.</p>
-</blockquote>
 </section><section id="understanding-feature-selection-in-spatial-transcriptomics"><h2 class="section-heading">Understanding Feature Selection in Spatial Transcriptomics<a class="anchor" aria-label="anchor" href="#understanding-feature-selection-in-spatial-transcriptomics"></a>
 </h2>
 <hr class="half-width"><p>Feature selection in spatial transcriptomics is essential for
@@ -396,15 +388,62 @@ select in the range of 2,000 to 5,000 highly variable genes.</p>
 </div>
 <div class="section level3">
 <h3 id="feature-selection-with-sctransform">Feature Selection with SCTransform<a class="anchor" aria-label="anchor" href="#feature-selection-with-sctransform"></a></h3>
-<p>SCTransform, a normalization method, inherently adjusts gene
-expression data to stabilize variance, which often negates the need for
-subsequent feature selection. This method ensures that the genes
-retained are already adjusted for technical variability, highlighting
-those with biological significance.</p>
+<p>SCTransform, a normalization method, adjusts gene expression data to
+stabilize the variance, and it also provides default feature selection.
+This method ensures that the genes retained are already adjusted for
+technical variability, highlighting those with biological
+significance.</p>
 <p>The SCTransform selects 3,000 variable features by default. We will
 use those variable features to calculate principal components (PCs) of
 the gene expression data. As always, we must first scale (or
 standardize) the normalized counts data.</p>
+<div id="challenge-1-number-of-variable-genes" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-1-number-of-variable-genes" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Number of Variable Genes<a class="anchor" aria-label="anchor" href="#challenge-1-number-of-variable-genes"></a>
+</h3>
+<div class="callout-content">
+<p>How do you think that your results would be affected by selecting too
+few highly variable genes? What about too many highly variable
+genes?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<p>Too few variable genes may underestimate the variance between spots
+and tissue sections and would reduce our ability to discern tissue
+structure. Too many variable genes would increase computational time and
+might add noise to the analysis.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="dimensionality-reduction-using-principal-components">Dimensionality Reduction using Principal Components<a class="anchor" aria-label="anchor" href="#dimensionality-reduction-using-principal-components"></a></h3>
+<p>Dimensionality reduction is a crucial step in managing
+high-dimensional spatial transcriptomics data, enhancing analytical
+clarity, and reducing computational load. Linear methods like PCA and
+nonlinear methods like UMAP each play distinct roles in processing and
+interpreting complex datasets.</p>
+<p>Principal Component Analysis (PCA) is a linear technique that reduces
+dimensionality by transforming data into a set of uncorrelated variables
+called “principal components” (PCs). This method efficiently captures
+the main variance in the data, which is vital for preliminary data
+exploration and noise reduction.</p>
+<p>In order to cluster the spots by similarity, we use principal
+components (PCs) to reduce the number of dimensions in the data. Using a
+smaller number of PCs allows us to capture the variability in the data
+set while using a smaller number of dimensions. The PCs are then used to
+cluster the spots by similarity.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -564,20 +603,9 @@ cell type, so the clustering may not be as clear.</p>
 <code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">RunUMAP</span><span class="op">(</span><span class="va">filter_st</span>, </span>
 <span>                     reduction <span class="op">=</span> <span class="st">'pca'</span>, </span>
 <span>                     dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_pcs</span>, </span>
-<span>                     verbose   <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
-To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
-This message will be shown once per session</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb14">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">UMAPPlot</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<span>                     verbose   <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">UMAPPlot</span><span class="op">(</span><span class="va">filter_st</span>, </span>
 <span>         label      <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>         cols       <span class="op">=</span> <span class="va">color_pal</span>,</span>
 <span>         pt.size    <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -594,7 +622,7 @@ code which plots the tissue with different numbers of nearest neighbors,
 principal components, and cluster resolutions. We will not run this code
 because it takes a long time to run, but we show the output below this
 code block.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -646,12 +674,14 @@ code block.</p>
 <p>The plot below shows the clusters as colors overlayed on the tissue.
 Each row shows a different cluster resolutions and each column snows the
 number of PCs.</p>
-<figure><img src="fig/tissue_cluster_resol.png" alt="Tissue Clustering" class="figure mx-auto d-block"><div class="figcaption">Tissue Clustering</div>
+<figure><img src="fig/tissue_cluster_resol.png" alt="Tissue Clustering showing the tissue layers at different resolutions and number of PCs" class="figure mx-auto d-block"><div class="figcaption">Tissue Clustering with Different Numbers of PCs
+and Clustering Resolutions</div>
 </figure><p>The plot below shows the UMAP clustering for the same set of
 parameters in the same order. The cluster colors are the same in the
 plots above and below. Increasing the cluster resolution increases the
 number of clusters.</p>
-<figure><img src="fig/umap_cluster_resol.png" alt="UMAP Clustering" class="figure mx-auto d-block"><div class="figcaption">UMAP Clustering</div>
+<figure><img src="fig/umap_cluster_resol.png" alt="UMAP Clustering with Different Numbers of PCs and Clustering Resolutions" class="figure mx-auto d-block"><div class="figcaption">UMAP Clustering with Different Numbers of PCs
+and Clustering Resolutions</div>
 </figure><div id="challenge-1-select-cluster-resolution-and-number-of-pcs." class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -669,12 +699,12 @@ opinions about which settings to use.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -694,7 +724,7 @@ clusters, which is also close to the publication.</p>
 </div>
 <p>We selected a cluster resolution of 0.8 and 50 PCs for the following
 work.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -716,124 +746,14 @@ Maximum modularity in 10 random starts: 0.7408
 Number of communities: 9
 Elapsed time: 0 seconds</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">filter_st</span>, group.by <span class="op">=</span> <span class="st">"seurat_clusters"</span>, cols <span class="op">=</span> <span class="va">color_pal</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span>label <span class="op">=</span> <span class="st">"Tissue Clusters: 50 PCs, resol = 0.8"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></div>
-</section><section id="why-feature-selection"><h2 class="section-heading">Why Feature Selection?<a class="anchor" aria-label="anchor" href="#why-feature-selection"></a>
-</h2>
-<hr class="half-width"><div class="section level3">
-<h3 id="enhancing-data-interpretation-through-selective-gene-analysis">Enhancing Data Interpretation Through Selective Gene Analysis<a class="anchor" aria-label="anchor" href="#enhancing-data-interpretation-through-selective-gene-analysis"></a></h3>
-</div>
-<div class="section level3">
-<h3 id="optimization-of-computational-resources">Optimization of Computational Resources<a class="anchor" aria-label="anchor" href="#optimization-of-computational-resources"></a></h3>
-<div id="challenge-1-explore-different-hvg-selection-methods" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="challenge-1-explore-different-hvg-selection-methods" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Explore Different HVG Selection
-Methods<a class="anchor" aria-label="anchor" href="#challenge-1-explore-different-hvg-selection-methods"></a>
-</h3>
-<div class="callout-content">
-<p>Consider two feature selection methods, VST and mean-variance
-plotting, applied to the same spatial transcriptomics dataset normalized
-with NormalizeData. What differences would you expect in the clustering
-and PCA outcomes depending on the proportion of HVGs selected?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
-<div class="accordion-body">
-<p>Using different proportions of HVGs can alter the resolution of
-clusters and PCA components, highlighting the importance of methodical
-selection to capture true biological variability and not just technical
-noise.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section><section id="feature-selection-methods"><h2 class="section-heading">Feature Selection Methods<a class="anchor" aria-label="anchor" href="#feature-selection-methods"></a>
-</h2>
-<hr class="half-width"></section><section id="understanding-dimensionality-reduction-in-spatial-transcriptomics"><h2 class="section-heading">Understanding Dimensionality Reduction in Spatial
-Transcriptomics<a class="anchor" aria-label="anchor" href="#understanding-dimensionality-reduction-in-spatial-transcriptomics"></a>
-</h2>
-<hr class="half-width"><p>Dimensionality reduction is a crucial step in managing
-high-dimensional spatial transcriptomics data, enhancing analytical
-clarity, and reducing computational load. Linear methods like PCA and
-nonlinear methods like UMAP each play distinct roles in processing and
-interpreting complex datasets.</p>
-<div class="section level3">
-<h3 id="key-dimensionality-reduction-techniques">Key Dimensionality Reduction Techniques<a class="anchor" aria-label="anchor" href="#key-dimensionality-reduction-techniques"></a></h3>
-<div class="section level4">
-<h4 id="pca-principal-component-analysis">PCA (Principal Component Analysis)<a class="anchor" aria-label="anchor" href="#pca-principal-component-analysis"></a></h4>
-<p>PCA is a linear technique that reduces dimensionality by transforming
-data into a set of uncorrelated variables called principal components.
-This method efficiently captures the main variance directions in the
-data, which is vital for preliminary data exploration and noise
-reduction.</p>
-</div>
-<div class="section level4">
-<h4 id="umap-uniform-manifold-approximation-and-projection">UMAP (Uniform Manifold Approximation and Projection)<a class="anchor" aria-label="anchor" href="#umap-uniform-manifold-approximation-and-projection"></a></h4>
-<p>UMAP is a nonlinear technique that excels in preserving both local
-and global data structures, making it suitable for detailed feature
-exploration in large spatial datasets. It is often applied after PCA to
-focus on the refined dataset for deeper insights.</p>
-</div>
-</div>
-</section><section id="why-apply-dimensionality-reduction"><h2 class="section-heading">Why Apply Dimensionality Reduction?<a class="anchor" aria-label="anchor" href="#why-apply-dimensionality-reduction"></a>
-</h2>
-<hr class="half-width"><div class="section level3">
-<h3 id="linear-vs--nonlinear-techniques">Linear vs. Nonlinear Techniques<a class="anchor" aria-label="anchor" href="#linear-vs--nonlinear-techniques"></a></h3>
-<p>Linear methods like PCA are typically used in the initial stages of
-analysis to remove noise and reduce dimensionality without losing key
-information. This preprocessing step makes subsequent nonlinear
-reduction with UMAP more effective, as UMAP builds on the cleaner,
-simpler data structure provided by PCA to uncover intricate patterns
-that linear methods might miss.</p>
-</div>
-<div class="section level3">
-<h3 id="enhancing-data-interpretation-and-computational-efficiency">Enhancing Data Interpretation and Computational Efficiency<a class="anchor" aria-label="anchor" href="#enhancing-data-interpretation-and-computational-efficiency"></a></h3>
-<div id="challenge-1-implement-pca-and-umap-sequentially" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="challenge-1-implement-pca-and-umap-sequentially" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Implement PCA and UMAP
-Sequentially<a class="anchor" aria-label="anchor" href="#challenge-1-implement-pca-and-umap-sequentially"></a>
-</h3>
-<div class="callout-content">
-<p>Apply PCA followed by UMAP on the same spatial transcriptomics
-dataset. What distinct insights do each of these methods provide, and
-how does PCA preprocessing influence UMAP’s output?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
-<div class="accordion-body">
-<p>PCA will highlight the major variance and remove noise, preparing the
-data for UMAP, which will then reveal detailed spatial and molecular
-organization by preserving both local and global structures.</p>
-</div>
-</div>
-</div>
-</div>
-<div id="keypoints1" class="callout keypoints">
+<figure><img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
@@ -923,7 +843,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/feature-selection-dimensionality-reduction-clustering.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/feature-selection-dimensionality-reduction-clustering.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-05-30",
+  "dateModified": "2024-05-31",
   "datePublished": "2024-05-31"
 }
 
