@@ -48,8 +48,6 @@ an unbiased analysis that uses normalizations and clustering methods to
 automatically assign cell types and define tissue structure, in practice we
 adjust these parameters based on the tissue structure that we expect to find.
 
-> DMG: figure showing expected tissue structure.
-
 ## Understanding Feature Selection in Spatial Transcriptomics
 
 Feature selection in spatial transcriptomics is essential for reducing the 
@@ -82,14 +80,49 @@ highly variable genes.
 
 ### Feature Selection with SCTransform
 
-SCTransform, a normalization method, inherently adjusts gene expression data to 
-stabilize variance, which often negates the need for subsequent feature selection. 
+SCTransform, a normalization method, adjusts gene expression data to 
+stabilize the variance, and it also provides default feature selection. 
 This method ensures that the genes retained are already adjusted for technical 
 variability, highlighting those with biological significance.
 
 The SCTransform selects 3,000 variable features by default. We will use those 
 variable features to calculate principal components (PCs) of the gene expression
 data. As always, we must first scale (or standardize) the normalized counts data. 
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 1: Number of Variable Genes
+
+How do you think that your results would be affected by selecting too few 
+highly variable genes? What about too many highly variable genes?
+
+:::::::::::::::::::::::: solution 
+
+Too few variable genes may underestimate the variance between spots and tissue
+sections and would reduce our ability to discern tissue structure. Too many
+variable genes would increase computational time and might add noise to the 
+analysis.
+
+::::::::::::::::::::::::::::::::::
+  
+::::::::::::::::::::::::::::::::::::::::::::::
+
+### Dimensionality Reduction using Principal Components
+
+Dimensionality reduction is a crucial step in managing high-dimensional spatial 
+transcriptomics data, enhancing analytical clarity, and reducing computational 
+load. Linear methods like PCA and nonlinear methods like UMAP each play distinct
+roles in processing and interpreting complex datasets.
+
+Principal Component Analysis (PCA) is a linear technique that reduces 
+dimensionality by transforming data into a set of uncorrelated variables called 
+"principal components" (PCs). This method efficiently captures the main variance
+in the data, which is vital for preliminary data exploration and noise reduction.
+
+In order to cluster the spots by similarity, we use principal components (PCs) to
+reduce the number of dimensions in the data. Using a smaller number of PCs
+allows us to capture the variability in the data set while using a smaller 
+number of dimensions. The PCs are then used to cluster the spots by similarity.
 
 
 ``` r
@@ -251,15 +284,7 @@ filter_st <- RunUMAP(filter_st,
                      reduction = 'pca', 
                      dims      = 1:n_pcs, 
                      verbose   = FALSE)
-```
 
-``` warning
-Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
-To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
-This message will be shown once per session
-```
-
-``` r
 UMAPPlot(filter_st, 
          label      = TRUE,
          cols       = color_pal,
@@ -331,13 +356,13 @@ dev.off()
 The plot below shows the clusters as colors overlayed on the tissue. Each row
 shows a different cluster resolutions and each column snows the number of PCs. 
 
-![Tissue Clustering](fig/tissue_cluster_resol.png){alt="Tissue Clustering"}
+![Tissue Clustering with Different Numbers of PCs and Clustering Resolutions](fig/tissue_cluster_resol.png){alt="Tissue Clustering showing the tissue layers at different resolutions and number of PCs"}
 
 The plot below shows the UMAP clustering for the same set of parameters in the
 same order. The cluster colors are the same in the plots above and below. 
 Increasing the cluster resolution increases the number of clusters.
 
-![UMAP Clustering](fig/umap_cluster_resol.png){alt="UMAP Clustering"}
+![UMAP Clustering with Different Numbers of PCs and Clustering Resolutions](fig/umap_cluster_resol.png){alt="UMAP Clustering with Different Numbers of PCs and Clustering Resolutions"}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -397,64 +422,6 @@ SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
-
-## Why Feature Selection?
-
-### Enhancing Data Interpretation Through Selective Gene Analysis
-
-### Optimization of Computational Resources
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Explore Different HVG Selection Methods
-
-Consider two feature selection methods, VST and mean-variance plotting, applied to the same spatial transcriptomics dataset normalized with NormalizeData. What differences would you expect in the clustering and PCA outcomes depending on the proportion of HVGs selected?
-
-:::::::::::::::::::::::: solution 
-
-Using different proportions of HVGs can alter the resolution of clusters and PCA components, highlighting the importance of methodical selection to capture true biological variability and not just technical noise.
-
-::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::
-
-## Feature Selection Methods
-
-
-## Understanding Dimensionality Reduction in Spatial Transcriptomics
-
-Dimensionality reduction is a crucial step in managing high-dimensional spatial transcriptomics data, enhancing analytical clarity, and reducing computational load. Linear methods like PCA and nonlinear methods like UMAP each play distinct roles in processing and interpreting complex datasets.
-
-### Key Dimensionality Reduction Techniques
-
-#### PCA (Principal Component Analysis)
-PCA is a linear technique that reduces dimensionality by transforming data into a set of uncorrelated variables called principal components. This method efficiently captures the main variance directions in the data, which is vital for preliminary data exploration and noise reduction.
-
-#### UMAP (Uniform Manifold Approximation and Projection)
-UMAP is a nonlinear technique that excels in preserving both local and global data structures, making it suitable for detailed feature exploration in large spatial datasets. It is often applied after PCA to focus on the refined dataset for deeper insights.
-
-## Why Apply Dimensionality Reduction?
-
-### Linear vs. Nonlinear Techniques
-
-Linear methods like PCA are typically used in the initial stages of analysis to remove noise and reduce dimensionality without losing key information. This preprocessing step makes subsequent nonlinear reduction with UMAP more effective, as UMAP builds on the cleaner, simpler data structure provided by PCA to uncover intricate patterns that linear methods might miss.
-
-### Enhancing Data Interpretation and Computational Efficiency
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Implement PCA and UMAP Sequentially
-
-Apply PCA followed by UMAP on the same spatial transcriptomics dataset. What distinct insights do each of these methods provide, and how does PCA preprocessing influence UMAP’s output?
-
-:::::::::::::::::::::::: solution 
-
-PCA will highlight the major variance and remove noise, preparing the data for UMAP, which will then reveal detailed spatial and molecular organization by preserving both local and global structures.
-
-::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::
-
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 

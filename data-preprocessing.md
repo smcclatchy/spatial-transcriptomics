@@ -95,21 +95,6 @@ suppressPackageStartupMessages(library(Seurat))
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 ```
 
-``` output
-Loading required package: Matrix
-```
-
-``` output
-
-Attaching package: 'Matrix'
-```
-
-``` output
-The following objects are masked from 'package:tidyr':
-
-    expand, pack, unpack
-```
-
 Note that the [here library](https://here.r-lib.org/) helps you to find your files by taking
 care of the absolute path.
 
