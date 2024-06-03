@@ -222,6 +222,53 @@ format.rctd.output_ <- function(rctd, normalize = TRUE) {
   df
 }
 
+plot_RCTD_results <- function(obj, myRCTD.all) {
+  df <- format.rctd.output_(myRCTD.all, normalize=FALSE)
+  colnames(df) <- make.names(colnames(df))
+  colnames(df)[colnames(df) == "Oligodendrocytes"] <- "Oligo"
+  #regions <- c("AST.FB", "L2_3", "L4", "L5_6", "Oligo")
+  regions <- c("AST.FB", "L2.3", "L4", "L5.6", "Oligo")
+  #regions <- c("AST.FB", "L2_3", "L4", "L5_6", "Oligo")
+
+
+  rctd.prediction <- apply(df[, regions], 1, function(row)
+    names(row)[which.max(row)])
+  df$Prediction <- rctd.prediction
+  obj <- add.metadata.to.seurat.obj(obj, df) # 'objs' is replaced with 'seurat_object'
+
+  anno.col <- "Prediction"
+  flag <- is.na(obj[[]][,anno.col])
+  obj <- subset(obj, cells = Cells(obj)[!flag])
+  gt.col <- "layer_guess"
+  flag <- is.na(obj[[]][,gt.col])
+  obj <- subset(obj, cells = Cells(obj)[!flag])
+                           
+  gt.vals <- unique(obj[[]][, gt.col])
+  gt.cols <- setNames(carto_pal(length(gt.vals), "Safe"), gt.vals)
+  
+  vals <- unique(obj[[]][,anno.col])
+  cols <- setNames(carto_pal(length(vals), "Safe"), vals)
+                           
+  g1 <- SpatialDimPlot(obj, c(anno.col), cols = cols, label = TRUE, repel = TRUE, combine = FALSE)[[1]]
+  g1 <- g1 + guides(fill = guide_legend(override.aes = list(size=10)))
+  g1 <- g1 + theme(text = element_text(size = 20))
+
+  g2 <- SpatialDimPlot(obj, c(gt.col), cols = gt.cols, label = TRUE, repel = TRUE, combine = FALSE)[[1]]
+  g2 <- g2 + guides(fill = guide_legend(title = "Annotation", override.aes = list(size=10)))
+  g2 <- g2 + theme(text = element_text(size = 20))
+
+  df <- as.data.frame(table(obj[[]][,gt.col], obj[[]]$Prediction))
+  colnames(df) <- c("Annotation", "Prediction", "Freq")
+  df$Annotation <- factor(df$Annotation)
+  df$Prediction <- factor(df$Prediction)
+
+  g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
+  g <- g + theme(text = element_text(size = 20))
+
+  return(list("prediction_plot" = g1, "ground_truth_plot" = g2, "confusion_matrix" = g))
+}
+
+
 print_RCTD_results <- function(obj, myRCTD.all, prefix) {
   df <- format.rctd.output_(myRCTD.all, normalize=FALSE)
   colnames(df) <- make.names(colnames(df))
