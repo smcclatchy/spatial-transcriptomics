@@ -503,7 +503,7 @@ load_seurat_object <- function(file_prefix) {
 # rctd.results: RCTD results by run.RCTD
 # Returns: rctd.results with Reference counts replaced by small dummy matrix
 remove.RCTD.reference.counts <- function(rctd.results) {
-  dummy_cnts = matrix(data=0,nrow=2,ncol=2)
+  dummy_cnts = matrix(data=10000,nrow=2,ncol=2)
   rownames(dummy_cnts) <- rep(1:nrow(dummy_cnts))
   colnames(dummy_cnts) <- rep(1:ncol(dummy_cnts))
   cell_types <- as.factor(c("a","b"))
