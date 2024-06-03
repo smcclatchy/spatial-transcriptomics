@@ -101,7 +101,7 @@ Since we will apply it multiple times, let's write a wrapper function that
 performs RCTD deconvolution.
 
 ```{r}
-run.rctd <- function(reference, st.obj) {
+run.rctd <- function(reference, st.obj, do.parallel = FALSE) {
   
   # Get raw ST counts
   st.counts <- GetAssayData(st.obj, assay="Spatial", layer="counts")
@@ -114,7 +114,8 @@ run.rctd <- function(reference, st.obj) {
   puck <- SpatialRNA(st.coords, st.counts)
 
   # Set up parallel execution
-  max_cores <- min(5, detectCores() - 1)
+  max_cores <- 1
+  if(do.parallel) { max_cores <- min(5, detectCores() - 1) }
   
   myRCTD <- create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
 
