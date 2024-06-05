@@ -24,8 +24,6 @@ suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(spacexr))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(data.table))
-suppressPackageStartupMessages(library(parallel))
-suppressPackageStartupMessages(library(doMC))
 suppressPackageStartupMessages(library(rcartocolor))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
