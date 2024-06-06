@@ -1,7 +1,7 @@
 ---
 title: Spatially Resolved Transcriptomics in Life Sciences Research
-teaching: 30
-exercises: 10
+teaching: 10
+exercises: 5
 ---
 
 :::::: questions
@@ -66,8 +66,8 @@ detect genes efficiently.
 ### Imaging-based technologies
 Imaging-based technologies read transcriptomes in place using microscopy at 
 single-cell or even single-molecule resolution. They identify messenger 
-RNA (mRNA) species fluorescence in situ hybridization (FISH), i.e., by hybridizing
-mRNA to gene-specific fluorescent probes.
+RNA (mRNA) species fluorescence in situ hybridization (FISH), i.e., by 
+hybridizing mRNA to gene-specific fluorescent probes.
 
 ![Overview of fluorescence in situ hybridization (FISH). ](fig/FISH_Overview.png){alt='a general schematic showing fluorescence in situ hybridization'}
 
@@ -77,8 +77,9 @@ created with Biorender.com. Public domain, via Wikimedia Commons <a href="https:
 
 Current FISH methods employ multiple hybridization rounds, with risk of error 
 for each transcript growing exponentially with each round. FISH methods are 
-limited in the size of tissue that they can profile and most are applicable only to fresh-frozen (FF) tissue. They can also be time-consuming and expensive due to 
-microscopic imaging they require. Since they target specific genes, they can 
+limited in the size of tissue that they can profile and most are applicable only 
+to fresh-frozen (FF) tissue. They can also be time-consuming and expensive due 
+to microscopic imaging they require. Since they target specific genes, they can 
 only detect genes that are in the probe set. They have high spatial 
 resolution though, even delivering single-molecule resolution in single-molecule 
 FISH (smFISH).
@@ -152,12 +153,13 @@ cells often sit astride multiple capture areas.
 
 ![Workflow schematic of DBiT-seq on FFPE samples.](fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png){alt='a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue'}
 
-<a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png alt="FFPE workflow"/></a>
+<a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="FFPE workflow"></a>
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Other array-based methods capture mRNA with spatially-barcoded probes and 
 sequence them. They can profile larger tissue sections than can FISH or in situ 
-sequencing and they don't rely on time-consuming microscopic imaging. Spatial resolution is lower, however.
+sequencing and they don't rely on time-consuming microscopic imaging. Spatial 
+resolution is lower, however.
 
 In this lesson we will use data from positionally barcoded arrays.  
 
@@ -185,7 +187,8 @@ existing technologies. It is not intended to be comprehensive.
 :::::::::::::::::::::::::::::::::::::
 
 The diversity in spatial transcriptomics technologies is enormous and rapidly
-developing.  If you would like to learn more about spatial transcriptomics technologies, please see the
+developing.  If you would like to learn more about spatial transcriptomics 
+technologies, please see the
 <a href="./reference.html"><strong>list of references located here</strong></a>.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
@@ -224,10 +227,10 @@ Thin tissue sections are placed atop spots printed with spatial barcodes. For
 fresh-frozen (FF) tissues, tissue fixing and permeabilization discharges mRNA to 
 bind with spatially barcoded probes that indicate the position on the slide. 
 The assay is sensitive to permeabilization time, which is often optimized in a 
-separate experimental procedure. Captured mRNA is then reverse transcribed to cDNA 
-and sequencing libraries created from these. The formalin-fixed paraffin embedded (FFPE) 
-assay utilizes probe pairs that identify each gene in the probe set 
-and capture target genes by hybridizing to them. Permeabilization
+separate experimental procedure. Captured mRNA is then reverse transcribed to 
+cDNA and sequencing libraries created from these. The formalin-fixed paraffin 
+embedded (FFPE) assay utilizes probe pairs that identify each gene in the probe 
+set and capture target genes by hybridizing to them. Permeabilization
 discharges the captured mRNA to spatially barcoded probes on the slide, but does
 not require a separate optimization step as in the FF protocol. The capture mRNA
 is then extended to include complements of the spatial barcodes. 
@@ -241,10 +244,10 @@ spatially barcoded cDNA.
 Sequencing-based datasets have grown faster than have imaging-based datasets, 
 with Visium dominating published datasets. Unlike most other sequencing-based 
 technologies, Visium accommodates both FF or FFPE tissue. Each spot provides 
-average gene expression measurements from between one to a few tens of cells, approaching
-single-cell resolution. Average gene expression measurements are combined with
-histological images that couple molecular detail and tissue morphology and 
-structure. 
+average gene expression measurements from between one to a few tens of cells, 
+approaching single-cell resolution. Average gene expression measurements are 
+combined with histological images that couple molecular detail and tissue 
+morphology and structure. 
 
 :::::: keypoints
  - Spatial transcriptomics provides the location of cells relative to
