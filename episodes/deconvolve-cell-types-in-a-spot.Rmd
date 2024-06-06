@@ -203,5 +203,5 @@ robust and insightful analyses.
 ```{r echo=FALSE,include=FALSE}
 # Hmmm ... should we modify the object to include the RCTD results? We don't
 # currently do that, so the object hasn't changed in this session.
-save_seurat_object(obj = filter_st, file_prefix = 'deconvolve')
+save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
 ```
