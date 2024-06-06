@@ -190,7 +190,7 @@ df$Prediction <- factor(df$Prediction)
 g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
 g <- g + theme(text = element_text(size = 20))
 g
-```{r}
+```
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
 particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 4, and L2-3 and Layer 3.
