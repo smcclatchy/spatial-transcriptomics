@@ -408,10 +408,13 @@ need a sample size of approximately 70. Larger effect sizes require much smaller
 sample sizes. Very small effects such as .01 never reach the 80% power threshold
 without enormous samples sizes in the hundreds of thousands.
 
-![The null hypothesis states that there is no difference between treatment groups.](fig/Null-hypothesis.png){alt='A normal curve with a mean of zero showing the type 1 error rate in the far right tail and specificity in the left of the curve.'}
+```{r}
+#![The null hypothesis states that there is no difference between treatment groups.](fig/Null-hypothesis.png){alt='A normal curve with a mean of zero showing the type 1 error rate in the far right tail and specificity in the left of the curve.'}
+}
 
-![The alternative hypothesis states that there is a difference between treatment groups.](fig/Alternative-hypothesis.png){alt='A normal curve with a mean of approximately 3 showing the type 2 error rate in the left of the curve and sensitivity (also known as statistical power) in the far right tail of the curve. The effect size is shown as the difference in means between the null and alternative hypotheses.'}
-
+```{r}
+#![The alternative hypothesis states that there is a difference between treatment groups.](fig/Alternative-hypothesis.png){alt='A normal curve with a mean of approximately 3 showing the type 2 error rate in the left of the curve and sensitivity (also known as statistical power) in the far right tail of the curve. The effect size is shown as the difference in means between the null and alternative hypotheses.'}
+}
 The effect size is shown in the figure above as the difference in means between
 the null and alternative hypotheses. Statistical power, also known as 
 sensitivity, is the power to detect this effect.
