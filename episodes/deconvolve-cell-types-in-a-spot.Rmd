@@ -217,5 +217,5 @@ ls()
 
 
 ```{r echo=FALSE,include=FALSE}
-##save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
+save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
 ```
