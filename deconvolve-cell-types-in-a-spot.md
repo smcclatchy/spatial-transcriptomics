@@ -19,6 +19,13 @@ exercises: 10
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+``` error
+Error in readRDS(file_info$files[i]): unknown input format
+```
+
+``` error
+Error: object 'filter_st' not found
+```
 
 ## Deconvolution in Spatial Transcriptomics
 
@@ -116,34 +123,13 @@ reference <- Reference(sc.counts, sc.cell.types)
 Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ```
 
-RCTD is computationally expensive, so let's enable parallelism.
+
+Let's write a wrapper function that performs RCTD deconvolution. This will facilitate
+you running RCTD on other samples within this dataset.
 
 
 ``` r
-num.cores <- detectCores()
-```
-
-``` error
-Error in detectCores(): could not find function "detectCores"
-```
-
-``` r
-if(!is.na(num.cores) && (num.cores > 1)) {
-  registerDoMC(cores=(num.cores-1))
-  options(mc.cores=num.cores-1)
-}
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'num.cores' not found
-```
-
-Since we will apply it multiple times, let's write a wrapper function that
-performs RCTD deconvolution.
-
-
-``` r
-run.rctd <- function(reference, st.obj, do.parallel = FALSE) {
+run.rctd <- function(reference, st.obj) {
   
   # Get raw ST counts
   st.counts <- GetAssayData(st.obj, assay="Spatial", layer="counts")
@@ -155,105 +141,113 @@ run.rctd <- function(reference, st.obj, do.parallel = FALSE) {
   # Create the RCTD 'puck', representing the ST data
   puck <- SpatialRNA(st.coords, st.counts)
 
-  # Set up parallel execution
-  max_cores <- 1
-  if(do.parallel) { max_cores <- min(5, detectCores() - 1) }
-  
-  myRCTD <- create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
+  myRCTD <- create.RCTD(puck, reference, max_cores = 1, keep_reference = TRUE)
 
   # Run deconvolution -- note that we are using 'full' mode to devolve a spot into 
   # (potentially) all available cell types.
   myRCTD <- suppressWarnings(run.RCTD(myRCTD, doublet_mode = 'full'))
   
-  # Clean up memory
-  gc()
-
   myRCTD
 }
 ```
 ## Running Deconvolution on Brain Samples
 
-We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the spots and quantify the cell types. Here,
-two different samples are analyzed.
+We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the spots and quantify the cell types. This may take ~10 minutes. If you prefer, you can load the precomputed results directly.
 
 
 ``` r
-# Deconvolution for brain sample 1
-
-#brain1 = 151508
-#brain2 = 151673
-
+load.precomputed.results <- TRUE
 rds.file <- paste0("data/rctd-sample-1.rds")
-if(!file.exists(rds.file)) {
+if(!load.precomputed.results || !file.exists(rds.file)) {
   result_1 <- run.rctd(reference, filter_st)
   # The RCTD file is large. To save space, we will remove the reference counts.
   result_1 <- remove.RCTD.reference.counts(result_1)
   saveRDS(result_1, rds.file)
+} else {
+  result_1 <- readRDS(rds.file)
 }
-result_1 <- readRDS(rds.file)
 ```
 
 ``` error
 Error in readRDS(rds.file): unknown input format
 ```
 
-``` r
-#stop("Need to apply rctd to second object below.")
-
-# Deconvolution for brain sample 2
-#result_2 <- run.rctd(reference, brain2)
-#print_RCTD_results(brain2, result_2, 'brains_new2.png')
-```
 ## Interpreting Deconvolution Results
 
-The deconvolution process outputs the proportion of different cell types in each spatial spot, allowing for a detailed
-understanding of the tissue composition. These results can be visualized and further analyzed to draw biological insights
-about the tissue sections.
-
-# The followig function does some postprocessing of the results and plots them.
-# We should probably have the students right this code themselves. Plotting the annotations
-# has already been done in the feature selection section.
-
-``` r
-plts <- plot_RCTD_results(filter_st, result_1)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'result_1' not found
-```
-
-First, let's look at the ground truth annotations, as we have above.
+The deconvolution process outputs the proportion of different cell types in each spatial spot.
+Let's write a utility function to extract these proportions from the RCTD output. This function is also
+defined in code/spatial_utils.R.
 
 
 ``` r
-plts[[2]]
+format.rctd.output_ <- function(rctd, normalize = FALSE) {
+  barcodes <- colnames(rctd@spatialRNA@counts)
+  weights <- rctd@results$weights
+  if(normalize) {
+    weights <- normalize_weights(weights)
+  }
+  df <- as.data.frame(weights)
+  df$x <- rctd@spatialRNA@coords$x
+  df$y <- rctd@spatialRNA@coords$y
+  df
+}
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plts' not found
+And now let's see the predicted proportions in our sample:
+
+``` r
+##props <- format.rctd.output_(result_1, normalize = FALSE)
+##head(props)
 ```
 
-Let's compare those to our predictions visually. 
+Notice that the proportions don't sum exactly to one.
+
+``` r
+##head(rowSums(select(props, -c(x,y))))
+```
+
+Let's classify the spot according to the layer type with highest proportion
+
+``` r
+##props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
+```
+Let's add the deconvolution results to our Seurat object.
 
 
 ``` r
-plts[[1]]
+filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'plts' not found
+Error in eval(expr, envir, enclos): object 'filter_st' not found
 ```
 
-We can do that more formally using a confusion matrix.
+We can now visualize the predicted layer classifications and compare them alongside
+the ground truth annotations that we saw previously.
 
 
 ``` r
-plts[[3]]
+##g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
+##g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
+##g1 + g2
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plts' not found
+To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
+layers.
+
+``` r
+##df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
+##colnames(df) <- c("Annotation", "Prediction", "Freq")
+##df$Annotation <- factor(df$Annotation)
+##df$Prediction <- factor(df$Prediction)
+
+##g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
+##g <- g + theme(text = element_text(size = 20))
+##g
 ```
+
+Note that there is a fairly strong correlation between the predicted and observed layers,
+particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 4, and L2-3 and Layer 3.
 
 ## Summary
 

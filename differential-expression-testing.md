@@ -35,51 +35,33 @@ In bioinformatics, it's applied to detect genes whose expression patterns exhibi
 
 
 ``` r
-plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
+plot_filter_st <- filter_st[,!is.na(filter_st$layer_guess)]
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
+``` warning
+Warning: Not validating Centroids objects
+Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
 ```
 
 ``` r
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
-unique_clusters <- unique(plot_seurat_object$Layers)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
+plot_filter_st$Layers <- plot_filter_st$layer_guess
+unique_clusters <- unique(plot_filter_st$Layers)
 num_clusters <- length(unique_clusters)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
 palette <- carto_pal(num_clusters, "Safe")
-```
-
-``` error
-Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
-```
-
-``` r
 names(palette) <- unique_clusters
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
 ```
 
 ## Differential Expression Analysis
@@ -90,87 +72,90 @@ Based on the exprerts brain layers annotation, as it is indicated here:
 
 
 ``` r
-plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
+plot_filter_st <- filter_st[,!is.na(filter_st$layer_guess)]
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
+``` warning
+Warning: Not validating Centroids objects
+Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
 ```
 
 ``` r
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-```
+plot_filter_st$Layers <- plot_filter_st$layer_guess
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
-unique_clusters <- unique(plot_seurat_object$Layers)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
+unique_clusters <- unique(plot_filter_st$Layers)
 num_clusters <- length(unique_clusters)
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
 palette <- carto_pal(num_clusters, "Safe")
-```
-
-``` error
-Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
-```
-
-``` r
 names(palette) <- unique_clusters
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
-p <- SpatialDimPlot(plot_seurat_object, group.by = 'Layers', cols=palette) +
+p <- SpatialDimPlot(plot_filter_st, group.by = 'Layers', cols=palette) +
   theme(legend.position = "right")
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
 print(p)
 ```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'p' not found
-```
+<img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
 
 ``` r
-Idents(seurat_object) <- "layer_guess"
+Idents(filter_st) <- "layer_guess"
+brain2 <- FindAllMarkers(filter_st, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 ```
 
-``` error
-Error: object 'seurat_object' not found
+``` output
+Calculating cluster Layer3
 ```
 
-``` r
-brain2 <- FindAllMarkers(seurat_object, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+``` output
+For a (much!) faster implementation of the Wilcoxon Rank Sum Test,
+(default method for FindMarkers) please install the presto package
+--------------------------------------------
+install.packages('devtools')
+devtools::install_github('immunogenomics/presto')
+--------------------------------------------
+After installation of presto, Seurat will automatically use the more 
+efficient implementation (no further action necessary).
+This message will be shown once per session
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
+``` output
+Calculating cluster Layer1
+```
+
+``` output
+Calculating cluster WM
+```
+
+``` output
+Calculating cluster Layer5
+```
+
+``` output
+Calculating cluster Layer6
+```
+
+``` output
+Calculating cluster Layer2
+```
+
+``` output
+Calculating cluster Layer4
 ```
 
 ### Spatial Differential Expression Using Moran's I
@@ -179,11 +164,15 @@ We identify the genes whose expression patterns exhibit clear spatial structure 
 
 
 ``` r
-brain <- FindSpatiallyVariableFeatures(seurat_object, assay = "SCT", features = VariableFeatures(seurat_object)[1:1000], selection.method = "moransi")
+brain <- FindSpatiallyVariableFeatures(filter_st, assay = "SCT", features = VariableFeatures(filter_st)[1:1000], selection.method = "moransi")
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
+``` output
+Computing Moran's I
+```
+
+``` warning
+Warning in dist(x = pos): NAs introduced by coercion
 ```
 
 ## Correlation of Differnetially Expressed Genes in each Brain Region and genes with highset Moran's I value.
@@ -192,50 +181,23 @@ Error in eval(expr, envir, enclos): object 'seurat_object' not found
 
 
 ``` r
-library(pheatmap)
-library(dplyr)
-
 # Unique clusters
 unique_clusters <- unique(brain2$cluster)
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'brain2' not found
-```
-
-``` r
 # Create list of data frames filtered by cluster
 cluster_data_frames <- lapply(setNames(unique_clusters, unique_clusters), function(cluster) {
   brain2 %>% filter(cluster == !!as.character(cluster))
 })
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
 # Get and sort 'MoransI_observed' values
 wer_sorted <- brain@assays[["SCT"]]@meta.features %>%
   arrange(desc(MoransI_observed)) %>%
   slice_head(n = 100)
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'brain' not found
-```
-
-``` r
 # Initialize p-value adjustment matrix
 p_val_adj_matrix <- matrix(1, nrow = nrow(wer_sorted), ncol = length(cluster_data_frames), 
                            dimnames = list(rownames(wer_sorted), names(cluster_data_frames)))
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'wer_sorted' not found
-```
-
-``` r
 # Fill the matrix with adjusted p-values
 for (i in rownames(wer_sorted)) {
   for (j in seq_along(cluster_data_frames)) {
@@ -246,13 +208,7 @@ for (i in rownames(wer_sorted)) {
     }
   }
 }
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'wer_sorted' not found
-```
-
-``` r
 # Generate and save heatmap
 g <- pheatmap(p_val_adj_matrix, 
               cluster_rows = TRUE, 
@@ -260,19 +216,10 @@ g <- pheatmap(p_val_adj_matrix,
               display_numbers = FALSE, 
               color = colorRampPalette(c("navy", "white", "firebrick3"))(50), 
               main = "Heatmap of DE p-values of spatially DE genes ")
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'p_val_adj_matrix' not found
-```
-
-``` r
 print(g)
 ```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'g' not found
-```
+<img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" />
 
 The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
 This observation underscores the spatial correlation of gene expression, highlighting its potential relevance in understanding regional brain functions and pathologies.
