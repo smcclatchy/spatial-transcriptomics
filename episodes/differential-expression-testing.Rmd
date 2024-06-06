@@ -24,6 +24,7 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(pheatmap))
+suppressPackageStartupMessages(library(rcartocolor))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -44,9 +45,9 @@ In bioinformatics, it's applied to detect genes whose expression patterns exhibi
 ## Data Preparation
 
 ```{r data-prep}
-plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-unique_clusters <- unique(plot_seurat_object$Layers)
+plot_filter_st <- filter_st[,!is.na(filter_st$layer_guess)]
+plot_filter_st$Layers <- plot_filter_st$layer_guess
+unique_clusters <- unique(plot_filter_st$Layers)
 num_clusters <- length(unique_clusters)
 palette <- carto_pal(num_clusters, "Safe")
 names(palette) <- unique_clusters
@@ -59,16 +60,16 @@ names(palette) <- unique_clusters
 Based on the exprerts brain layers annotation, as it is indicated here:
 
 ```{r layers}
-plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+plot_filter_st <- filter_st[,!is.na(filter_st$layer_guess)]
+plot_filter_st$Layers <- plot_filter_st$layer_guess
 
-unique_clusters <- unique(plot_seurat_object$Layers)
+unique_clusters <- unique(plot_filter_st$Layers)
 num_clusters <- length(unique_clusters)
 
 palette <- carto_pal(num_clusters, "Safe")
 names(palette) <- unique_clusters
 
-p <- SpatialDimPlot(plot_seurat_object, group.by = 'Layers', cols=palette) +
+p <- SpatialDimPlot(plot_filter_st, group.by = 'Layers', cols=palette) +
   theme(legend.position = "right")
 
 print(p)
@@ -77,8 +78,8 @@ print(p)
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
 ```{r layer-de}
-Idents(seurat_object) <- "layer_guess"
-brain2 <- FindAllMarkers(seurat_object, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+Idents(filter_st) <- "layer_guess"
+brain2 <- FindAllMarkers(filter_st, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 ```
 
 ### Spatial Differential Expression Using Moran's I
@@ -86,7 +87,7 @@ brain2 <- FindAllMarkers(seurat_object, assay = "SCT", only.pos = TRUE, min.pct 
 We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
 
 ```{r moran-i}
-brain <- FindSpatiallyVariableFeatures(seurat_object, assay = "SCT", features = VariableFeatures(seurat_object)[1:1000], selection.method = "moransi")
+brain <- FindSpatiallyVariableFeatures(filter_st, assay = "SCT", features = VariableFeatures(filter_st)[1:1000], selection.method = "moransi")
 ```
 
 ## Correlation of Differnetially Expressed Genes in each Brain Region and genes with highset Moran's I value.
@@ -94,9 +95,6 @@ brain <- FindSpatiallyVariableFeatures(seurat_object, assay = "SCT", features = 
 ### Heatmap of Differential Expression
 
 ```{r heatmap-de}
-
-library(pheatmap)
-library(dplyr)
 
 # Unique clusters
 unique_clusters <- unique(brain2$cluster)

@@ -173,7 +173,7 @@ filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
 We can now visualize the predicted layer classifications and compare them alongside
 the ground truth annotations that we saw previously.
 
-```{r}
+```{r fig.width=8}
 g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
 g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
 g1 + g2
@@ -211,5 +211,5 @@ robust and insightful analyses.
 :::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-save_seurat_object(obj = filter_st, file_prefix = 'deconvolve')
+save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
 ```
