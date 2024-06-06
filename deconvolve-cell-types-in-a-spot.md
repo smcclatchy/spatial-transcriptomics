@@ -265,3 +265,29 @@ robust and insightful analyses.
 :::::::::::::::::::::::::::::::::::::::::::::
 
 
+``` r
+print("Objects in memory")
+```
+
+``` output
+[1] "Objects in memory"
+```
+
+``` r
+ls()
+```
+
+``` output
+ [1] "add.metadata.to.seurat.obj"   "apply_qc_threshold"          
+ [3] "format.rctd.output_"          "get.tissue.position.metadata"
+ [5] "load_seurat_object"           "load.precomputed.results"    
+ [7] "plot_and_save"                "plot_RCTD_results"           
+ [9] "plot_tissue_prc_merge"        "print_RCTD_results"          
+[11] "rctd.wrapper"                 "rds.file"                    
+[13] "remove.RCTD.reference.counts" "run.rctd"                    
+[15] "save_seurat_object"           "sc.cell.types"               
+[17] "sc.metadata"                  "SpatialDimPlotColorSafe"     
+```
+
+
+
