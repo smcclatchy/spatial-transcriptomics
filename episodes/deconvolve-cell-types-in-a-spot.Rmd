@@ -117,7 +117,7 @@ We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the
 
 ```{r}
 
-load.precomputed.results <- FALSE
+load.precomputed.results <- TRUE
 rds.file <- paste0("data/rctd-sample-1.rds")
 if(!load.precomputed.results || !file.exists(rds.file)) {
   result_1 <- run.rctd(reference, filter_st)
@@ -151,18 +151,18 @@ format.rctd.output_ <- function(rctd, normalize = FALSE) {
 
 And now let's see the predicted proportions in our sample:
 ```{r}
-props <- format.rctd.output_(result_1, normalize = FALSE)
-head(props)
+##props <- format.rctd.output_(result_1, normalize = FALSE)
+##head(props)
 ```
 
 Notice that the proportions don't sum exactly to one.
 ```{r}
-head(rowSums(select(props, -c(x,y))))
+##head(rowSums(select(props, -c(x,y))))
 ```
 
 Let's classify the spot according to the layer type with highest proportion
 ```{r}
-props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
+##props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
 ```
 Let's add the deconvolution results to our Seurat object.
 
@@ -174,22 +174,22 @@ We can now visualize the predicted layer classifications and compare them alongs
 the ground truth annotations that we saw previously.
 
 ```{r fig.width=8}
-g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
-g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
-g1 + g2
+##g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
+##g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
+##g1 + g2
 ```
 
 To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
 layers.
 ```{r}
-df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
-colnames(df) <- c("Annotation", "Prediction", "Freq")
-df$Annotation <- factor(df$Annotation)
-df$Prediction <- factor(df$Prediction)
+##df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
+##colnames(df) <- c("Annotation", "Prediction", "Freq")
+##df$Annotation <- factor(df$Annotation)
+##df$Prediction <- factor(df$Prediction)
 
-g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
-g <- g + theme(text = element_text(size = 20))
-g
+##g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
+##g <- g + theme(text = element_text(size = 20))
+##g
 ```
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
@@ -211,5 +211,5 @@ robust and insightful analyses.
 :::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
+##save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
 ```
