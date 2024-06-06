@@ -203,14 +203,25 @@ plot_tissue_prc_merge <-function(brain.merge){
   plot
 }
 
-#' Create a panel of plots, each showing deconvolved fractions of a particular population.
+#' Use a color safe palette in SpatialDimPlot
+SpatialDimPlotColorSafe <- function(obj, group.by, ...) {
+  vals <- unique(obj[[]][,group.by])
+  cols <- setNames(carto_pal(length(vals), "Safe"), vals)
+                           
+  g <- SpatialDimPlot(obj, group.by, cols = cols, label = TRUE, repel = TRUE, combine = FALSE, ...)[[1]]
+  g <- g + guides(fill = guide_legend(override.aes = list(size=10)))
+  g <- g + theme(text = element_text(size = 20))
+  g
+}
+
+#' Extract the deconvolved fractions from RCTD results.
 #'
 #' @param rctd An RCTD object, from the spacexr package.
 #' @param normalize Boolean indicating whether weights should be normalized to sum to 1.
 #' @return A data frame whose rows are spots, whose columns are deconvolved populations, and whose
 #'                    entries are the (predicted) fraction of a population in a given spot.
 #'                    Also adds columns x and y, holding spatial coordinates of spots.
-format.rctd.output_ <- function(rctd, normalize = TRUE) {
+format.rctd.output_ <- function(rctd, normalize = FALSE) {
   barcodes <- colnames(rctd@spatialRNA@counts)
   weights <- rctd@results$weights
   if(normalize) {
