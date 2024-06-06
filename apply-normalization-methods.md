@@ -26,6 +26,23 @@ absolute and relative cellular information.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+``` output
+[1] "removelqspots_meta_data.rds"      "removelqspots_seurat_obj.rds"    
+[3] "removelqspots_Spatial_counts.rds"
+[1] "removelqspots_seurat_obj.rds"
+[1] "removelqspots_meta_data.rds"      "removelqspots_Spatial_counts.rds"
+[1] "removelqspots_meta_data.rds"
+[1] "removelqspots_Spatial_counts.rds"
+[[1]]
+[1] "removelqspots" "Spatial"       "counts"       
+
+                             files   assay  layer
+1 removelqspots_Spatial_counts.rds Spatial counts
+[1] 1
+                             files   assay  layer
+1 removelqspots_Spatial_counts.rds Spatial counts
+[1] "removelqspots_Spatial_counts.rds"
+```
 
 ## Understanding Normalization in Spatial Transcriptomics
 
@@ -167,7 +184,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 20.40717 secs
+Wall clock passed: Time difference of 21.07892 secs
 ```
 
 ``` output

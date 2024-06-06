@@ -19,12 +19,50 @@ exercises: 10
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-``` error
-Error in readRDS(file_info$files[i]): unknown input format
-```
+``` output
+[1] "featselclust_meta_data.rds"      "featselclust_SCT_counts.rds"    
+[3] "featselclust_SCT_data.rds"       "featselclust_SCT_scale.data.rds"
+[5] "featselclust_seurat_obj.rds"     "featselclust_Spatial_counts.rds"
+[1] "featselclust_seurat_obj.rds"
+[1] "featselclust_meta_data.rds"      "featselclust_SCT_counts.rds"    
+[3] "featselclust_SCT_data.rds"       "featselclust_SCT_scale.data.rds"
+[5] "featselclust_Spatial_counts.rds"
+[1] "featselclust_meta_data.rds"
+[1] "featselclust_SCT_counts.rds"     "featselclust_SCT_data.rds"      
+[3] "featselclust_SCT_scale.data.rds" "featselclust_Spatial_counts.rds"
+[[1]]
+[1] "featselclust" "SCT"          "counts"      
 
-``` error
-Error: object 'filter_st' not found
+[[2]]
+[1] "featselclust" "SCT"          "data"        
+
+[[3]]
+[1] "featselclust" "SCT"          "scale.data"  
+
+[[4]]
+[1] "featselclust" "Spatial"      "counts"      
+
+                            files   assay      layer
+1     featselclust_SCT_counts.rds     SCT     counts
+2       featselclust_SCT_data.rds     SCT       data
+3 featselclust_SCT_scale.data.rds     SCT scale.data
+4 featselclust_Spatial_counts.rds Spatial     counts
+[1] 1
+                        files assay  layer
+1 featselclust_SCT_counts.rds   SCT counts
+[1] "featselclust_SCT_counts.rds"
+[1] 2
+                      files assay layer
+2 featselclust_SCT_data.rds   SCT  data
+[1] "featselclust_SCT_data.rds"
+[1] 3
+                            files assay      layer
+3 featselclust_SCT_scale.data.rds   SCT scale.data
+[1] "featselclust_SCT_scale.data.rds"
+[1] 4
+                            files   assay  layer
+4 featselclust_Spatial_counts.rds Spatial counts
+[1] "featselclust_Spatial_counts.rds"
 ```
 
 ## Deconvolution in Spatial Transcriptomics
@@ -169,7 +207,7 @@ if(!load.precomputed.results || !file.exists(rds.file)) {
 ```
 
 ``` error
-Error in readRDS(rds.file): unknown input format
+Error in eval(expr, envir, enclos): object 'reference' not found
 ```
 
 ## Interpreting Deconvolution Results
@@ -238,7 +276,7 @@ filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'filter_st' not found
+Error in eval(expr, envir, enclos): object 'props' not found
 ```
 
 We can now visualize the predicted layer classifications and compare them alongside
@@ -250,15 +288,34 @@ g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)],
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'filter_st' not found
+Error in `[.Seurat`(filter_st, , !is.na(filter_st[[]]$classification)): Incorrect number of logical values provided to subset cells
 ```
 
 ``` r
 g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'filter_st' not found
+``` warning
+Warning: Not validating Centroids objects
+Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
+```
+
+``` output
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
 ```
 
 ``` r
@@ -277,7 +334,7 @@ df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classificatio
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'filter_st' not found
+Error in table(filter_st[[]]$layer_guess, filter_st[[]]$classification): all arguments must have the same length
 ```
 
 ``` r
@@ -363,15 +420,16 @@ ls()
 
 ``` output
  [1] "add.metadata.to.seurat.obj"   "apply_qc_threshold"          
- [3] "df"                           "format.rctd.output_"         
- [5] "get.tissue.position.metadata" "load_seurat_object"          
- [7] "load.precomputed.results"     "plot_and_save"               
- [9] "plot_RCTD_results"            "plot_tissue_prc_merge"       
-[11] "print_RCTD_results"           "rctd.wrapper"                
-[13] "rds.file"                     "remove.RCTD.reference.counts"
-[15] "run.rctd"                     "save_seurat_object"          
-[17] "sc.cell.types"                "sc.metadata"                 
-[19] "SpatialDimPlotColorSafe"     
+ [3] "df"                           "filter_st"                   
+ [5] "format.rctd.output_"          "g2"                          
+ [7] "get.tissue.position.metadata" "load_seurat_object"          
+ [9] "load.precomputed.results"     "plot_and_save"               
+[11] "plot_RCTD_results"            "plot_tissue_prc_merge"       
+[13] "print_RCTD_results"           "rctd.wrapper"                
+[15] "rds.file"                     "remove.RCTD.reference.counts"
+[17] "run.rctd"                     "save_seurat_object"          
+[19] "sc.cell.types"                "sc.metadata"                 
+[21] "SpatialDimPlotColorSafe"     
 ```
 
 

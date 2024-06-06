@@ -20,6 +20,23 @@ exercises: 10
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+``` output
+[1] "datapreproc_meta_data.rds"      "datapreproc_seurat_obj.rds"    
+[3] "datapreproc_Spatial_counts.rds"
+[1] "datapreproc_seurat_obj.rds"
+[1] "datapreproc_meta_data.rds"      "datapreproc_Spatial_counts.rds"
+[1] "datapreproc_meta_data.rds"
+[1] "datapreproc_Spatial_counts.rds"
+[[1]]
+[1] "datapreproc" "Spatial"     "counts"     
+
+                           files   assay  layer
+1 datapreproc_Spatial_counts.rds Spatial counts
+[1] 1
+                           files   assay  layer
+1 datapreproc_Spatial_counts.rds Spatial counts
+[1] "datapreproc_Spatial_counts.rds"
+```
 
 ## Introduction
 
