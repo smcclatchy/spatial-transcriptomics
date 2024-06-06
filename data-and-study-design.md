@@ -1,7 +1,7 @@
 ---
 title: 'Data and Study Design'
 teaching: 10
-exercises: 2
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -170,7 +170,8 @@ chilled Visium slides, fixed and stained.
 This whole process might have depended on donor availability. All three donors
 were neurotypical, and it's not clear how they died (e.g. an accident, a 
 terminal illness, old age). Suffice it to say that it might not have been 
-possible to predict when samples would be available, so it might not have been possible to randomize the samples from each donor to different Visium
+possible to predict when samples would be available, so it might not have been 
+possible to randomize the samples from each donor to different Visium
 slides. The article doesn't clarify any of this, however, there undoubtedly 
 are complications in accessing human brain tissues.
 
@@ -191,6 +192,7 @@ represent the true value. This ideal doesn’t exist in the real world.
 Variability is a feature of natural systems and also a natural part of every
 experiment we undertake.
 
+#### Replication
 To figure out whether a difference in responses is real or inherently random, 
 replication applies the same treatment to multiple experimental units. The 
 variability of the responses within a set of replicates provides a measure 
@@ -303,6 +305,7 @@ experimental units.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+#### Randomization
 Randomized studies assign experimental units to treatment groups randomly by
 pulling a number out of a hat or using a computer's random number generator. The
 main purpose for randomization comes later during statistical analysis, where
@@ -353,14 +356,32 @@ equipment setup, personnel, and other extraneous variables.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+#### Statistical power
 Statistical power represents the probability of detecting a real treatment 
 effect. Review the following figure to explore the relationships between effect 
 size, sample size, and power. What is the relationship between effect size and 
 sample size? Between sample size and power?
 
 
+``` output
+
+Attaching package: 'dplyr'
+```
+
+``` output
+The following objects are masked from 'package:stats':
+
+    filter, lag
+```
+
+``` output
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+```
+
 ``` error
-Error in seq(0.01, 2, 0.49) %>% rev() %>% map(~power.t.test(n = seq(2, : could not find function "%>%"
+Error in ggplot(., aes(n, power, color = effect_size)): could not find function "ggplot"
 ```
 
 Code adapted from [How to Create Power Curves in ggplot](https://levibaguley.github.io/2020/06/22/how-to-create-power-curves-in-ggplot/) by Levi Baguley
@@ -369,6 +390,14 @@ Notice that to detect a standardized effect size of 0.5 at 80% power, you would
 need a sample size of approximately 70. Larger effect sizes require much smaller
 sample sizes. Very small effects such as .01 never reach the 80% power threshold
 without enormous samples sizes in the hundreds of thousands.
+
+![The null hypothesis states that there is no difference between treatment groups.](fig/Null-hypothesis.png){alt='A normal curve with a mean of zero showing the type 1 error rate in the far right tail and specificity in the left of the curve.'}
+
+![The alternative hypothesis states that there is a difference between treatment groups.](fig/Alternative-hypothesis.png){alt='A normal curve with a mean of approximately 3 showing the type 2 error rate in the left of the curve and sensitivity (also known as statistical power) in the far right tail of the curve. The effect size is shown as the difference in means between the null and alternative hypotheses.'}
+
+The effect size is shown in the figure above as the difference in means between
+the null and alternative hypotheses. Statistical power, also known as 
+sensitivity, is the power to detect this effect.
 
 To learn more about statistical power, effect sizes and sample size 
 calculations, see 
