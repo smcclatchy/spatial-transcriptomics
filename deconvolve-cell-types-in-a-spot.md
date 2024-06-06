@@ -196,20 +196,39 @@ format.rctd.output_ <- function(rctd, normalize = FALSE) {
 And now let's see the predicted proportions in our sample:
 
 ``` r
-##props <- format.rctd.output_(result_1, normalize = FALSE)
-##head(props)
+props <- format.rctd.output_(result_1, normalize = FALSE)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'result_1' not found
+```
+
+``` r
+head(props)
+```
+
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'props' not found
 ```
 
 Notice that the proportions don't sum exactly to one.
 
 ``` r
-##head(rowSums(select(props, -c(x,y))))
+head(rowSums(select(props, -c(x,y))))
+```
+
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': error in evaluating the argument 'x' in selecting a method for function 'rowSums': object 'props' not found
 ```
 
 Let's classify the spot according to the layer type with highest proportion
 
 ``` r
-##props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
+props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'props' not found
 ```
 Let's add the deconvolution results to our Seurat object.
 
@@ -227,23 +246,88 @@ the ground truth annotations that we saw previously.
 
 
 ``` r
-##g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
-##g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
-##g1 + g2
+g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'filter_st' not found
+```
+
+``` r
+g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'filter_st' not found
+```
+
+``` r
+g1 + g2
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'g1' not found
 ```
 
 To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
 layers.
 
 ``` r
-##df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
-##colnames(df) <- c("Annotation", "Prediction", "Freq")
-##df$Annotation <- factor(df$Annotation)
-##df$Prediction <- factor(df$Prediction)
+df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
+```
 
-##g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
-##g <- g + theme(text = element_text(size = 20))
-##g
+``` error
+Error in eval(expr, envir, enclos): object 'filter_st' not found
+```
+
+``` r
+colnames(df) <- c("Annotation", "Prediction", "Freq")
+```
+
+``` error
+Error in `colnames<-`(`*tmp*`, value = c("Annotation", "Prediction", "Freq": attempt to set 'colnames' on an object with less than two dimensions
+```
+
+``` r
+df$Annotation <- factor(df$Annotation)
+```
+
+``` error
+Error in df$Annotation: object of type 'closure' is not subsettable
+```
+
+``` r
+df$Prediction <- factor(df$Prediction)
+```
+
+``` error
+Error in df$Prediction: object of type 'closure' is not subsettable
+```
+
+``` r
+g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
+```
+
+``` error
+Error in `ggplot()`:
+! `data` cannot be a function.
+ℹ Have you misspelled the `data` argument in `ggplot()`
+```
+
+``` r
+g <- g + theme(text = element_text(size = 20))
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'g' not found
+```
+
+``` r
+g
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'g' not found
 ```
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
@@ -279,14 +363,15 @@ ls()
 
 ``` output
  [1] "add.metadata.to.seurat.obj"   "apply_qc_threshold"          
- [3] "format.rctd.output_"          "get.tissue.position.metadata"
- [5] "load_seurat_object"           "load.precomputed.results"    
- [7] "plot_and_save"                "plot_RCTD_results"           
- [9] "plot_tissue_prc_merge"        "print_RCTD_results"          
-[11] "rctd.wrapper"                 "rds.file"                    
-[13] "remove.RCTD.reference.counts" "run.rctd"                    
-[15] "save_seurat_object"           "sc.cell.types"               
-[17] "sc.metadata"                  "SpatialDimPlotColorSafe"     
+ [3] "df"                           "format.rctd.output_"         
+ [5] "get.tissue.position.metadata" "load_seurat_object"          
+ [7] "load.precomputed.results"     "plot_and_save"               
+ [9] "plot_RCTD_results"            "plot_tissue_prc_merge"       
+[11] "print_RCTD_results"           "rctd.wrapper"                
+[13] "rds.file"                     "remove.RCTD.reference.counts"
+[15] "run.rctd"                     "save_seurat_object"          
+[17] "sc.cell.types"                "sc.metadata"                 
+[19] "SpatialDimPlotColorSafe"     
 ```
 
 
