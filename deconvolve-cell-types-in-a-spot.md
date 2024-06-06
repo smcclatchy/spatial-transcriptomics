@@ -54,7 +54,7 @@ sc.counts <- as.data.frame(fread("data/scRNA-seq/sc_counts.tsv.gz"))
 ```
 
 ``` error
-Error: File 'data/scRNA-seq/sc_counts.tsv.gz' does not exist or is non-readable. getwd()=='/home/runner/work/spatial-transcriptomics/spatial-transcriptomics/site/built'
+Error: To read gz and bz2 files directly, fread() requires 'R.utils' package which cannot be found. Please install 'R.utils' using 'install.packages('R.utils')'.
 ```
 
 ``` r
@@ -76,26 +76,7 @@ Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ``` r
 # Load cell type annotations
 sc.metadata <- read.table("data/scRNA-seq/sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
-```
-
-``` warning
-Warning in file(file, "rt"): cannot open file
-'data/scRNA-seq/sc_cell_types.tsv': No such file or directory
-```
-
-``` error
-Error in file(file, "rt"): cannot open the connection
-```
-
-``` r
 sc.cell.types <- setNames(factor(sc.metadata$Value), sc.metadata$Name)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.metadata' not found
-```
-
-``` r
 shared.cells <- intersect(colnames(sc.counts), names(sc.cell.types))
 ```
 
@@ -108,7 +89,7 @@ sc.cell.types <- sc.cell.types[shared.cells]
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'sc.cell.types' not found
+Error in eval(expr, envir, enclos): object 'shared.cells' not found
 ```
 
 ``` r
@@ -140,10 +121,21 @@ RCTD is computationally expensive, so let's enable parallelism.
 
 ``` r
 num.cores <- detectCores()
+```
+
+``` error
+Error in detectCores(): could not find function "detectCores"
+```
+
+``` r
 if(!is.na(num.cores) && (num.cores > 1)) {
   registerDoMC(cores=(num.cores-1))
   options(mc.cores=num.cores-1)
 }
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'num.cores' not found
 ```
 
 Since we will apply it multiple times, let's write a wrapper function that
@@ -151,7 +143,7 @@ performs RCTD deconvolution.
 
 
 ``` r
-run.rctd <- function(reference, st.obj) {
+run.rctd <- function(reference, st.obj, do.parallel = FALSE) {
   
   # Get raw ST counts
   st.counts <- GetAssayData(st.obj, assay="Spatial", layer="counts")
@@ -164,7 +156,8 @@ run.rctd <- function(reference, st.obj) {
   puck <- SpatialRNA(st.coords, st.counts)
 
   # Set up parallel execution
-  max_cores <- min(5, detectCores() - 1)
+  max_cores <- 1
+  if(do.parallel) { max_cores <- min(5, detectCores() - 1) }
   
   myRCTD <- create.RCTD(puck, reference, max_cores = max_cores, keep_reference = TRUE)
 
@@ -190,50 +183,77 @@ two different samples are analyzed.
 #brain1 = 151508
 #brain2 = 151673
 
-result_1 <- run.rctd(reference, filter_st)
+rds.file <- paste0("data/rctd-sample-1.rds")
+if(!file.exists(rds.file)) {
+  result_1 <- run.rctd(reference, filter_st)
+  # The RCTD file is large. To save space, we will remove the reference counts.
+  result_1 <- remove.RCTD.reference.counts(result_1)
+  saveRDS(result_1, rds.file)
+}
+result_1 <- readRDS(rds.file)
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'reference' not found
+Error in readRDS(rds.file): unknown input format
 ```
 
 ``` r
-print_RCTD_results(filter_st, result_1, 'brains_new.png')
-```
+#stop("Need to apply rctd to second object below.")
 
-``` error
-Error in eval(expr, envir, enclos): object 'result_1' not found
-```
-
-``` r
-stop("Need to apply rctd to second object below.")
-```
-
-``` error
-Error in eval(expr, envir, enclos): Need to apply rctd to second object below.
-```
-
-``` r
 # Deconvolution for brain sample 2
-result_2 <- run.rctd(reference, brain2)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'brain2' not found
-```
-
-``` r
-print_RCTD_results(brain2, result_2, 'brains_new2.png')
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'result_2' not found
+#result_2 <- run.rctd(reference, brain2)
+#print_RCTD_results(brain2, result_2, 'brains_new2.png')
 ```
 ## Interpreting Deconvolution Results
 
 The deconvolution process outputs the proportion of different cell types in each spatial spot, allowing for a detailed
 understanding of the tissue composition. These results can be visualized and further analyzed to draw biological insights
 about the tissue sections.
+
+# The followig function does some postprocessing of the results and plots them.
+# We should probably have the students right this code themselves. Plotting the annotations
+# has already been done in the feature selection section.
+
+``` r
+plts <- plot_RCTD_results(filter_st, result_1)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'result_1' not found
+```
+
+First, let's look at the ground truth annotations, as we have above.
+
+
+``` r
+plts[[2]]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plts' not found
+```
+
+Let's compare those to our predictions visually. 
+
+
+``` r
+plts[[1]]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plts' not found
+```
+
+We can do that more formally using a confusion matrix.
+
+
+``` r
+plts[[3]]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plts' not found
+```
 
 ## Summary
 

@@ -35,7 +35,7 @@ In RStudio, copy and paste the following commands into the Console:
 install.packages(c("BiocManager", "data.table",  "ggExtra", "hdf5r",
                    "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
                    "plyr",        "rcartocolor", "remotes",
-                   "Rfast2",      "Seurat",      "tidyverse")
+                   "Rfast2",      "Seurat",      "tidyverse"))
 for(pkg in pkgs) {
   if(!require(pkg, character.only=TRUE)) {
     install.packages(pkg, dependencies = TRUE)
@@ -150,6 +150,12 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ydu
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/lasxuiq5wi3ms1jnokzmm7pp4hptr8ma.gz",
               destfile = "data/scRNA-seq/sc_counts.tsv.gz",
               mode     = "wb")
+
+download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/dt2chlmxtjajxfnlpfzolz1tvb6kic7p.rds",
+              destfile = "data/rctd-sample-1.rds",
+              mode     = "wb")
+
+
 ```
 
 ## Session Info

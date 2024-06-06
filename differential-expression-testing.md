@@ -1,126 +1,289 @@
 ---
 title: 'Differential Expression Testing'
-teaching: 10
-exercises: 2
+teaching: 60
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- What is the purpose of differential expression testing in bioinformatics?
+- Can Moran's I algorithm independently identify region-specific differential expressions that align with results obtained from expert annotations?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Identify differentially expressed genes across different layers using expert annotations.
+- Utilize Moran's I algorithm to find spatially variable genes.
+- Explore the correlation between genes identified through expert annotations and those detected by Moran's I algorithm.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-``` error
-Error in match.arg(arg = value, choices = Assays(object = object)): 'arg' should be one of "Spatial", "SCT"
-```
 
-``` error
-Error: object 'filter_st' not found
-```
+## Introduction to Differential Expression Testing
 
-## Introduction
+Differential expression testing is crucial in bioinformatics for identifying genes that show significant differences in expression across different samples or groups. 
+This method helps find genes that are upregulated or downregulated in specific contexts, providing insights into biological functions and disease mechanisms.
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+## Moran's I Statistic
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+Moran's I is a measure used to assess spatial autocorrelation in data, indicating whether similar values are clustered, dispersed, or random. 
+In bioinformatics, it's applied to detect genes whose expression patterns exhibit clear spatial structure, aiding in understanding spatially localized biological processes.
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
+## Data Preparation
 
 
 ``` r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
 ```
 
-<div class="figure" style="text-align: center">
-<img src="fig/differential-expression-testing-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
+```
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+``` r
+plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+```
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
 
-## Math
+``` r
+unique_clusters <- unique(plot_seurat_object$Layers)
+```
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+``` r
+num_clusters <- length(unique_clusters)
+```
 
-Cool, right?
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
 
-::::::::::::::::::::::::::::::::::::: keypoints 
+``` r
+palette <- carto_pal(num_clusters, "Safe")
+```
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+``` error
+Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
+```
 
-::::::::::::::::::::::::::::::::::::::::::::::::
+``` r
+names(palette) <- unique_clusters
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+## Differential Expression Analysis
+
+### Differential Expression Using Expert's Annotation
+
+Based on the exprerts brain layers annotation, as it is indicated here:
+
+
+``` r
+plot_seurat_object <- seurat_object[,!is.na(seurat_object$layer_guess)]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
+```
+
+``` r
+plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
+unique_clusters <- unique(plot_seurat_object$Layers)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
+num_clusters <- length(unique_clusters)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
+palette <- carto_pal(num_clusters, "Safe")
+```
+
+``` error
+Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
+```
+
+``` r
+names(palette) <- unique_clusters
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
+p <- SpatialDimPlot(plot_seurat_object, group.by = 'Layers', cols=palette) +
+  theme(legend.position = "right")
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
+print(p)
+```
+
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'p' not found
+```
+
+We identify genes that are upregulated in each brain region in comparison to other regions.
+
+
+``` r
+Idents(seurat_object) <- "layer_guess"
+```
+
+``` error
+Error: object 'seurat_object' not found
+```
+
+``` r
+brain2 <- FindAllMarkers(seurat_object, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
+```
+
+### Spatial Differential Expression Using Moran's I
+
+We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
+
+
+``` r
+brain <- FindSpatiallyVariableFeatures(seurat_object, assay = "SCT", features = VariableFeatures(seurat_object)[1:1000], selection.method = "moransi")
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
+```
+
+## Correlation of Differnetially Expressed Genes in each Brain Region and genes with highset Moran's I value.
+
+### Heatmap of Differential Expression
+
+
+``` r
+library(pheatmap)
+library(dplyr)
+
+# Unique clusters
+unique_clusters <- unique(brain2$cluster)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'brain2' not found
+```
+
+``` r
+# Create list of data frames filtered by cluster
+cluster_data_frames <- lapply(setNames(unique_clusters, unique_clusters), function(cluster) {
+  brain2 %>% filter(cluster == !!as.character(cluster))
+})
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
+# Get and sort 'MoransI_observed' values
+wer_sorted <- brain@assays[["SCT"]]@meta.features %>%
+  arrange(desc(MoransI_observed)) %>%
+  slice_head(n = 100)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'brain' not found
+```
+
+``` r
+# Initialize p-value adjustment matrix
+p_val_adj_matrix <- matrix(1, nrow = nrow(wer_sorted), ncol = length(cluster_data_frames), 
+                           dimnames = list(rownames(wer_sorted), names(cluster_data_frames)))
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'wer_sorted' not found
+```
+
+``` r
+# Fill the matrix with adjusted p-values
+for (i in rownames(wer_sorted)) {
+  for (j in seq_along(cluster_data_frames)) {
+    df <- cluster_data_frames[[j]]
+    if (i %in% df$gene) {
+      p_val_adj_value <- df$p_val_adj[df$gene == i]
+      p_val_adj_matrix[i, j] <- p_val_adj_value
+    }
+  }
+}
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'wer_sorted' not found
+```
+
+``` r
+# Generate and save heatmap
+g <- pheatmap(p_val_adj_matrix, 
+              cluster_rows = TRUE, 
+              cluster_cols = TRUE, 
+              display_numbers = FALSE, 
+              color = colorRampPalette(c("navy", "white", "firebrick3"))(50), 
+              main = "Heatmap of DE p-values of spatially DE genes ")
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'p_val_adj_matrix' not found
+```
+
+``` r
+print(g)
+```
+
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'g' not found
+```
+
+The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
+This observation underscores the spatial correlation of gene expression, highlighting its potential relevance in understanding regional brain functions and pathologies.
+
+:::::::::::::::::::::::::::::::::: keypoints
+
+- Differential expression testing pinpoints genes with significant expression variations across samples, helping to decode biological and disease mechanisms. 
+- Moran's I statistic is applied to reveal spatial autocorrelation in gene expression, critical for examining spatially dependent biological activities.
+- Moran's I algorithm effectively identifies genes expressed in anatomically distinct regions, as validated from the correlation analysis with the DE genes from the annotated regions.
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
+
 
