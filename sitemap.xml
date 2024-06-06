@@ -10,6 +10,9 @@
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/aio.html</loc>
+  </url>
+  <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html</loc>
   </url>
   <url>
@@ -28,6 +31,9 @@
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/feature-selection-dimensionality-reduction-clustering.html</loc>
   </url>
   <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/images.html</loc>
+  </url>
+  <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/index.html</loc>
   </url>
   <url>
@@ -38,6 +44,9 @@
   </url>
   <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/aio.html</loc>
   </url>
   <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/apply-normalization-methods.html</loc>
@@ -58,10 +67,19 @@
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/feature-selection-dimensionality-reduction-clustering.html</loc>
   </url>
   <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/images.html</loc>
+  </url>
+  <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/index.html</loc>
   </url>
   <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/key-points.html</loc>
   </url>
   <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/profiles.html</loc>
@@ -73,7 +91,13 @@
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor/remove-low-quality-spots.html</loc>
   </url>
   <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/instructor-notes.html</loc>
+  </url>
+  <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://smcclatchy.github.io/spatial-transcriptomics/key-points.html</loc>
   </url>
   <url>
     <loc>https://smcclatchy.github.io/spatial-transcriptomics/profiles.html</loc>
