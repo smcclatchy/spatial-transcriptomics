@@ -224,6 +224,7 @@
 <li><a href="#deconvolution-with-rctd-1">Deconvolution with RCTD</a></li>
 <li><a href="#running-deconvolution-on-brain-samples">Running Deconvolution on Brain Samples</a></li>
 <li><a href="#interpreting-deconvolution-results">Interpreting Deconvolution Results</a></li>
+<li><a href="#summary">Summary</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -338,6 +339,16 @@ spatial transcriptomics data.</li>
 </div>
 </div>
 </div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in readRDS(file_info$files[i]): unknown input format</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error: object 'filter_st' not found</code></pre>
+</div>
 <section id="deconvolution-in-spatial-transcriptomics"><h2 class="section-heading">Deconvolution in Spatial Transcriptomics<a class="anchor" aria-label="anchor" href="#deconvolution-in-spatial-transcriptomics"></a>
 </h2>
 <hr class="half-width"><p>Spatial transcriptomics (ST) provides valuable insights into the
@@ -376,7 +387,7 @@ Here, we will use “full” mode.</p>
 <hr class="half-width"><p>First, we load the single-cell RNA-seq data that will serve as a
 reference for deconvolution. This data is essential for mapping the gene
 expression profiles from the ST data to specific cell types.</p>
-<div class="codewrapper sourceCode" id="cb1">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -388,7 +399,7 @@ expression profiles from the ST data to specific cell types.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error: To read gz and bz2 files directly, fread() requires 'R.utils' package which cannot be found. Please install 'R.utils' using 'install.packages('R.utils')'.</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -399,7 +410,7 @@ expression profiles from the ST data to specific cell types.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sc.counts' not found</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -410,7 +421,7 @@ expression profiles from the ST data to specific cell types.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sc.counts' not found</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -424,7 +435,7 @@ expression profiles from the ST data to specific cell types.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sc.counts' not found</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -435,7 +446,7 @@ expression profiles from the ST data to specific cell types.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'shared.cells' not found</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -454,7 +465,7 @@ data, thereby quantifying the cell types present in each spatial
 spot.</p>
 <p>First, we will create the reference object encapsulating the
 scRNA-seq data.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -465,39 +476,14 @@ scRNA-seq data.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'sc.counts' not found</code></pre>
 </div>
-<p>RCTD is computationally expensive, so let’s enable parallelism.</p>
-<div class="codewrapper sourceCode" id="cb15">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">num.cores</span> <span class="op">&lt;-</span> <span class="fu">detectCores</span><span class="op">(</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in detectCores(): could not find function "detectCores"</code></pre>
-</div>
+<p>Let’s write a wrapper function that performs RCTD deconvolution. This
+will facilitate you running RCTD on other samples within this
+dataset.</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">num.cores</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">(</span><span class="va">num.cores</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">registerDoMC</span><span class="op">(</span>cores<span class="op">=</span><span class="op">(</span><span class="va">num.cores</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">options</span><span class="op">(</span>mc.cores<span class="op">=</span><span class="va">num.cores</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'num.cores' not found</code></pre>
-</div>
-<p>Since we will apply it multiple times, let’s write a wrapper function
-that performs RCTD deconvolution.</p>
-<div class="codewrapper sourceCode" id="cb19">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">run.rctd</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">reference</span>, <span class="va">st.obj</span>, <span class="va">do.parallel</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">run.rctd</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">reference</span>, <span class="va">st.obj</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="co"># Get raw ST counts</span></span>
 <span>  <span class="va">st.counts</span> <span class="op">&lt;-</span> <span class="fu">GetAssayData</span><span class="op">(</span><span class="va">st.obj</span>, assay<span class="op">=</span><span class="st">"Spatial"</span>, layer<span class="op">=</span><span class="st">"counts"</span><span class="op">)</span></span>
@@ -509,127 +495,129 @@ that performs RCTD deconvolution.</p>
 <span>  <span class="co"># Create the RCTD 'puck', representing the ST data</span></span>
 <span>  <span class="va">puck</span> <span class="op">&lt;-</span> <span class="fu">SpatialRNA</span><span class="op">(</span><span class="va">st.coords</span>, <span class="va">st.counts</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="co"># Set up parallel execution</span></span>
-<span>  <span class="va">max_cores</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span>  <span class="kw">if</span><span class="op">(</span><span class="va">do.parallel</span><span class="op">)</span> <span class="op">{</span> <span class="va">max_cores</span> <span class="op">&lt;-</span> <span class="fu">min</span><span class="op">(</span><span class="fl">5</span>, <span class="fu">detectCores</span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">}</span></span>
-<span>  </span>
-<span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">create.RCTD</span><span class="op">(</span><span class="va">puck</span>, <span class="va">reference</span>, max_cores <span class="op">=</span> <span class="va">max_cores</span>, keep_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">create.RCTD</span><span class="op">(</span><span class="va">puck</span>, <span class="va">reference</span>, max_cores <span class="op">=</span> <span class="fl">1</span>, keep_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="co"># Run deconvolution -- note that we are using 'full' mode to devolve a spot into </span></span>
 <span>  <span class="co"># (potentially) all available cell types.</span></span>
 <span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">suppressWarnings</span><span class="op">(</span><span class="fu">run.RCTD</span><span class="op">(</span><span class="va">myRCTD</span>, doublet_mode <span class="op">=</span> <span class="st">'full'</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="co"># Clean up memory</span></span>
-<span>  <span class="fu">gc</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
 <span>  <span class="va">myRCTD</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
 </section><section id="running-deconvolution-on-brain-samples"><h2 class="section-heading">Running Deconvolution on Brain Samples<a class="anchor" aria-label="anchor" href="#running-deconvolution-on-brain-samples"></a>
 </h2>
 <hr class="half-width"><p>We apply the RCTD wrapper to our spatial transcriptomics data to
-deconvolute the spots and quantify the cell types. Here, two different
-samples are analyzed.</p>
-<div class="codewrapper sourceCode" id="cb20">
+deconvolute the spots and quantify the cell types. This may take ~10
+minutes. If you prefer, you can load the precomputed results
+directly.</p>
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Deconvolution for brain sample 1</span></span>
-<span></span>
-<span><span class="co">#brain1 = 151508</span></span>
-<span><span class="co">#brain2 = 151673</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="va">load.precomputed.results</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span><span class="va">rds.file</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"data/rctd-sample-1.rds"</span><span class="op">)</span></span>
-<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu">file.exists</span><span class="op">(</span><span class="va">rds.file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="va">load.precomputed.results</span> <span class="op">||</span> <span class="op">!</span><span class="fu">file.exists</span><span class="op">(</span><span class="va">rds.file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">run.rctd</span><span class="op">(</span><span class="va">reference</span>, <span class="va">filter_st</span><span class="op">)</span></span>
 <span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference counts.</span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">remove.RCTD.reference.counts</span><span class="op">(</span><span class="va">result_1</span><span class="op">)</span></span>
 <span>  <span class="fu">saveRDS</span><span class="op">(</span><span class="va">result_1</span>, <span class="va">rds.file</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">readRDS</span><span class="op">(</span><span class="va">rds.file</span><span class="op">)</span></span></code></pre>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">readRDS</span><span class="op">(</span><span class="va">rds.file</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="error" tabindex="0"><code>Error in readRDS(rds.file): unknown input format</code></pre>
 </div>
+</section><section id="interpreting-deconvolution-results"><h2 class="section-heading">Interpreting Deconvolution Results<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a>
+</h2>
+<hr class="half-width"><p>The deconvolution process outputs the proportion of different cell
+types in each spatial spot. Let’s write a utility function to extract
+these proportions from the RCTD output. This function is also defined in
+code/spatial_utils.R.</p>
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">format.rctd.output_</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rctd</span>, <span class="va">normalize</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">barcodes</span> <span class="op">&lt;-</span> <span class="fu">colnames</span><span class="op">(</span><span class="va">rctd</span><span class="op">@</span><span class="va">spatialRNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span></span>
+<span>  <span class="va">weights</span> <span class="op">&lt;-</span> <span class="va">rctd</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">weights</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="va">normalize</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu">normalize_weights</span><span class="op">(</span><span class="va">weights</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">weights</span><span class="op">)</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">rctd</span><span class="op">@</span><span class="va">spatialRNA</span><span class="op">@</span><span class="va">coords</span><span class="op">$</span><span class="va">x</span></span>
+<span>  <span class="va">df</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">rctd</span><span class="op">@</span><span class="va">spatialRNA</span><span class="op">@</span><span class="va">coords</span><span class="op">$</span><span class="va">y</span></span>
+<span>  <span class="va">df</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>And now let’s see the predicted proportions in our sample:</p>
+<div class="codewrapper sourceCode" id="cb21">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">##props &lt;- format.rctd.output_(result_1, normalize = FALSE)</span></span>
+<span><span class="co">##head(props)</span></span></code></pre>
+</div>
+<p>Notice that the proportions don’t sum exactly to one.</p>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#stop("Need to apply rctd to second object below.")</span></span>
-<span></span>
-<span><span class="co"># Deconvolution for brain sample 2</span></span>
-<span><span class="co">#result_2 &lt;- run.rctd(reference, brain2)</span></span>
-<span><span class="co">#print_RCTD_results(brain2, result_2, 'brains_new2.png')</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co">##head(rowSums(select(props, -c(x,y))))</span></span></code></pre>
 </div>
-</section><section id="interpreting-deconvolution-results"><h2 class="section-heading">Interpreting Deconvolution Results<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a>
-</h2>
-<hr class="half-width"><p>The deconvolution process outputs the proportion of different cell
-types in each spatial spot, allowing for a detailed understanding of the
-tissue composition. These results can be visualized and further analyzed
-to draw biological insights about the tissue sections.</p>
-</section><div class="section level1">
-<h1 id="the-followig-function-does-some-postprocessing-of-the-results-and-plots-them-">The followig function does some postprocessing of the results and
-plots them.<a class="anchor" aria-label="anchor" href="#the-followig-function-does-some-postprocessing-of-the-results-and-plots-them-"></a></h1>
-</div>
-<div class="section level1">
-<h1 id="we-should-probably-have-the-students-right-this-code-themselves--plotting-the-annotations">We should probably have the students right this code themselves.
-Plotting the annotations<a class="anchor" aria-label="anchor" href="#we-should-probably-have-the-students-right-this-code-themselves--plotting-the-annotations"></a></h1>
-</div>
-<div class="section level1">
-<h1 id="has-already-been-done-in-the-feature-selection-section-">has already been done in the feature selection section.<a class="anchor" aria-label="anchor" href="#has-already-been-done-in-the-feature-selection-section-"></a></h1>
+<p>Let’s classify the spot according to the layer type with highest
+proportion</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plts</span> <span class="op">&lt;-</span> <span class="fu">plot_RCTD_results</span><span class="op">(</span><span class="va">filter_st</span>, <span class="va">result_1</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co">##props$classification &lt;- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'result_1' not found</code></pre>
-</div>
-<p>First, let’s look at the ground truth annotations, as we have
-above.</p>
-<div class="codewrapper sourceCode" id="cb25">
+<p>Let’s add the deconvolution results to our Seurat object.</p>
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plts</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">filter_st</span>, metadata <span class="op">=</span>  <span class="fu">select</span><span class="op">(</span><span class="va">props</span>, <span class="op">-</span><span class="fu">c</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'plts' not found</code></pre>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'filter_st' not found</code></pre>
 </div>
-<p>Let’s compare those to our predictions visually.</p>
+<p>We can now visualize the predicted layer classifications and compare
+them alongside the ground truth annotations that we saw previously.</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">##g1 &lt;- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")</span></span>
+<span><span class="co">##g2 &lt;- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")</span></span>
+<span><span class="co">##g1 + g2</span></span></code></pre>
+</div>
+<p>To be more quantitative, we can compute a confusion matrix comparing
+the predicted and observed layers.</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plts</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co">##df &lt;- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))</span></span>
+<span><span class="co">##colnames(df) &lt;- c("Annotation", "Prediction", "Freq")</span></span>
+<span><span class="co">##df$Annotation &lt;- factor(df$Annotation)</span></span>
+<span><span class="co">##df$Prediction &lt;- factor(df$Prediction)</span></span>
+<span></span>
+<span><span class="co">##g &lt;- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()</span></span>
+<span><span class="co">##g &lt;- g + theme(text = element_text(size = 20))</span></span>
+<span><span class="co">##g</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'plts' not found</code></pre>
-</div>
-<p>We can do that more formally using a confusion matrix.</p>
-<div class="codewrapper sourceCode" id="cb29">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plts</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'plts' not found</code></pre>
-</div>
-<div class="section level2">
-<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a></h2>
-<p>Incorporating deconvolution into the spatial transcriptomics workflow
+<p>Note that there is a fairly strong correlation between the predicted
+and observed layers, particularly for the pairs Oligodendrocytes and WM
+(White Matter), L4 and Layer 4, and L2-3 and Layer 3.</p>
+</section><section id="summary"><h2 class="section-heading">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<hr class="half-width"><p>Incorporating deconvolution into the spatial transcriptomics workflow
 enhances the ability to quantify the different cell types in each
 spatial spot, providing a richer and more detailed understanding of the
 tissue architecture. By following these steps, researchers can ensure
@@ -656,12 +644,7 @@ different cell types in spatial transcriptomics data.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
-</div>
-</div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/feature-selection-dimensionality-reduction-clustering.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/differential-expression-testing.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
