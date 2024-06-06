@@ -525,9 +525,7 @@ capture areas, though a disadvantage is that cells often sit astride
 multiple capture areas.</p>
 <figure><img src="fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue" class="figure mx-auto d-block"><div class="figcaption">Workflow schematic of DBiT-seq on FFPE
 samples.</div>
-</figure><p><a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659" class="external-link">&lt;img
-src=“</a><a href="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" class="external-link uri">https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png</a>
-alt=”FFPE workflow”/&gt;
+</figure><p><a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659" class="external-link"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="FFPE workflow" class="figure"></a>
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
 <p>Other array-based methods capture mRNA with spatially-barcoded probes
@@ -645,7 +643,7 @@ suited.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Varying - refer to strengths and weaknesses of each category, best
 uses of different technologies and how they have been used in research
@@ -993,6 +991,9 @@ something is measured many times, each measurement will give exactly the
 same result and will represent the true value. This ideal doesn’t exist
 in the real world. Variability is a feature of natural systems and also
 a natural part of every experiment we undertake.</p>
+<div class="section level4">
+<h4 id="replication">Replication<a class="anchor" aria-label="anchor" href="#replication"></a>
+</h4>
 <p>To figure out whether a difference in responses is real or inherently
 random, replication applies the same treatment to multiple experimental
 units. The variability of the responses within a set of replicates
@@ -1125,6 +1126,10 @@ are only two experimental units.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="section level4">
+<h4 id="randomization">Randomization<a class="anchor" aria-label="anchor" href="#randomization"></a>
+</h4>
 <p>Randomized studies assign experimental units to treatment groups
 randomly by pulling a number out of a hat or using a computer’s random
 number generator. The main purpose for randomization comes later during
@@ -1184,15 +1189,39 @@ extraneous variables.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="section level4">
+<h4 id="statistical-power">Statistical power<a class="anchor" aria-label="anchor" href="#statistical-power"></a>
+</h4>
 <p>Statistical power represents the probability of detecting a real
 treatment effect. Review the following figure to explore the
 relationships between effect size, sample size, and power. What is the
 relationship between effect size and sample size? Between sample size
 and power?</p>
 <div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in seq(0.01, 2, 0.49) %&gt;% rev() %&gt;% map(~power.t.test(n = seq(2, : could not find function "%&gt;%"</code></pre>
+<pre class="error" tabindex="0"><code>Error in ggplot(., aes(n, power, color = effect_size)): could not find function "ggplot"</code></pre>
 </div>
 <p>Code adapted from <a href="https://levibaguley.github.io/2020/06/22/how-to-create-power-curves-in-ggplot/" class="external-link">How
 to Create Power Curves in ggplot</a> by Levi Baguley</p>
@@ -1201,6 +1230,13 @@ you would need a sample size of approximately 70. Larger effect sizes
 require much smaller sample sizes. Very small effects such as .01 never
 reach the 80% power threshold without enormous samples sizes in the
 hundreds of thousands.</p>
+<figure><img src="fig/Null-hypothesis.png" alt="A normal curve with a mean of zero showing the type 1 error rate in the far right tail and specificity in the left of the curve." class="figure mx-auto d-block"><div class="figcaption">The null hypothesis states that there is no
+difference between treatment groups.</div>
+</figure><figure><img src="fig/Alternative-hypothesis.png" alt="A normal curve with a mean of approximately 3 showing the type 2 error rate in the left of the curve and sensitivity (also known as statistical power) in the far right tail of the curve. The effect size is shown as the difference in means between the null and alternative hypotheses." class="figure mx-auto d-block"><div class="figcaption">The alternative hypothesis states that there is
+a difference between treatment groups.</div>
+</figure><p>The effect size is shown in the figure above as the difference in
+means between the null and alternative hypotheses. Statistical power,
+also known as sensitivity, is the power to detect this effect.</p>
 <p>To learn more about statistical power, effect sizes and sample size
 calculations, see <a href="https://www.nature.com/articles/nmeth.2738" class="external-link">Power and sample size
 by Krzywinski &amp; Altman</a> , Nature Methods 10, pages 1139–1140
@@ -1230,6 +1266,7 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
+</div>
 </section></section><section id="aio-data-preprocessing"><p>Content from <a href="data-preprocessing.html">Data Preprocessing</a></p>
 <hr>
 <p>Last updated on 2024-06-06 |
@@ -2275,7 +2312,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2742,7 +2779,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -3003,7 +3040,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3333,7 +3370,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution 1</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
