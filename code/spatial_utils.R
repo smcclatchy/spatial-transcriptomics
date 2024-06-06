@@ -469,31 +469,41 @@ load_seurat_object <- function(file_prefix) {
 
   # Get the files that start with the prefix.
   files <- dir(path = '.', pattern = file_prefix)
-
+  print(files)
+  
   # Find the file containing the Seurat object and read it in.
   wh  <- grep("_seurat_obj.rds", files)
+  print(files[wh])
   obj <- readRDS(files[wh])
-
+  
   # Remove the Seurat object filename for the next part.
   files <- files[-wh]
-
+  print(files)
+  
   # Read in the cspot metadata and assign it to the Seurat object metadata.
   wh      <- grep("_meta_data.rds", files)
+  print(files[wh])
   obj[[]] <- readRDS(files[wh])
-
+  
   # Remove the metadata filename for the next part.
   files <- files[-wh]
-
+  print(files)
+  
   # Create a data.frame with the filenames, assay, and layer.
   file_parts <- strsplit(sub("\\.rds$", "", files), split = '_')
+  print(file_parts)
   file_info  <- data.frame(files = files,
                            assay = sapply(file_parts, '[', 2),
                            layer = sapply(file_parts, '[', 3))
-
+  print(file_info)
+  
   # Go through each row in the file data.frame, read in the file, and place
   # it's contents in the correct Assay and Layer.
   for(i in 1:nrow(file_info)) {
 
+    print(i)
+    print(file_info[i,])
+    print(file_info$files[i])
     current_assay <- file_info$assay[i]
     current_layer <- file_info$layer[i]
 
