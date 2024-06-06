@@ -210,6 +210,12 @@ robust and insightful analyses.
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
+```{r}
+print("Objects in memory")
+ls()
+```
+
+
 ```{r echo=FALSE,include=FALSE}
 save_seurat_object(obj = filter_st, file_prefix = 'deconcelltypes')
 ```
