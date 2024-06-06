@@ -35,7 +35,7 @@ In RStudio, copy and paste the following commands into the Console:
 pkgs <- c("BiocManager", "data.table",  "ggExtra", "hdf5r",
                    "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
                    "plyr",        "rcartocolor", "remotes",
-                   "Rfast2",      "Seurat",      "tidyverse")
+                   "Rfast2",      "Seurat",      "tidyverse", "R.utils")
 for(pkg in pkgs) {
   if(!require(pkg, character.only=TRUE)) {
     install.packages(pkg, dependencies = TRUE)
@@ -44,7 +44,6 @@ for(pkg in pkgs) {
 BiocManager::install(c("glmGamPoi", "rhdf5"))
 
 options(timeout = 1e6)
-remotes::install_github("immunogenomics/harmony", build_vignettes = FALSE)
 remotes::install_github("immunogenomics/presto",  build_vignettes = FALSE)
 remotes::install_github("dmcable/spacexr",        build_vignettes = FALSE)
 ```
