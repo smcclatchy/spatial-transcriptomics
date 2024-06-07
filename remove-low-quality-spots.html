@@ -330,25 +330,6 @@ analysis?</li>
 </div>
 </div>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[1] "datapreproc_meta_data.rds"      "datapreproc_seurat_obj.rds"    
-[3] "datapreproc_Spatial_counts.rds"
-[1] "datapreproc_seurat_obj.rds"
-[1] "datapreproc_meta_data.rds"      "datapreproc_Spatial_counts.rds"
-[1] "datapreproc_meta_data.rds"
-[1] "datapreproc_Spatial_counts.rds"
-[[1]]
-[1] "datapreproc" "Spatial"     "counts"     
-
-                           files   assay  layer
-1 datapreproc_Spatial_counts.rds Spatial counts
-[1] 1
-                           files   assay  layer
-1 datapreproc_Spatial_counts.rds Spatial counts
-[1] "datapreproc_Spatial_counts.rds"</code></pre>
-</div>
 <section id="introduction"><h2 class="section-heading">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <hr class="half-width"><p>Spatial transcriptomics involves a complex process that may involve
@@ -407,7 +388,7 @@ chromatin peaks. In this analysis, the Seurat object only contains gene
 counts. The different types of data are called “Layers” in Seurat and
 may be accessed using the <a href="https://satijalab.github.io/seurat-object/reference/Layers.html" class="external-link">Layers</a>
 function.</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -421,7 +402,7 @@ function.</p>
 <p>This tells us that the “filter_st” object only contains one data
 Layer called “counts”. We can access this using the <a href="https://satijalab.github.io/seurat-object/reference/Layers.html" class="external-link">LayerData</a>
 function using “counts” as an argument.</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -458,7 +439,7 @@ represents a position with zero counts.</p>
 
 <p>If we look at another part of the “counts” matrix, we can see
 numbers.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -486,7 +467,7 @@ OR7C1                   .                  .</code></pre>
 <p>As you can see in the table above, the gene symbols are stored in the
 rownames of “counts”. We will find find mitochondrial genes by searching
 for gene symbols which start with “MT”.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -505,7 +486,7 @@ estimate the percentage of gene counts expressed by mitochondrial genes
 in each cell and add this to the Seurat object. We will pass the
 mitochondrial gene symbols into <a href="https://satijalab.org/seurat/reference/percentagefeatureset" class="external-link">PercentageFeatureSet</a>,
 which will perform the calculation for us.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -513,7 +494,7 @@ which will perform the calculation for us.</p>
 </div>
 <p>This syntax adds a new column called “percent.mt” to the spot
 metadata.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -529,7 +510,7 @@ metadata.</p>
 
 <p>Let’s look at histograms of the ribosomal and mitochondrial gene
 percentages.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -544,7 +525,7 @@ subsets of cells with differing levels of mitochondrial gene
 expression.</p>
 <p>Let’s visually check whether the mitochondrial gene expression is
 normally distributed.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -560,7 +541,7 @@ than 35% mitochondrial counts.</p>
 spatially across the tissue. Let’s plot these values again, but this
 time as a histogram.</p>
 
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -577,7 +558,7 @@ add a “keep” column to the Seurat object metadata.</p>
 <p>First, we will create variables for each threshold. While we could
 type the numbers directly into the logical comparison statements,
 creating variables makes it clear what each number represents.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -587,7 +568,7 @@ creating variables makes it clear what each number represents.</p>
 </div>
 <p>Next, we will create a “keep” variable which will be TRUE for spots
 that we want to keep.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -599,7 +580,7 @@ that we want to keep.</p>
 </div>
 <p>Now let’s plot the spots on the tissue and color them based on
 whether we will keep them.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -640,7 +621,7 @@ the tissue structure?</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -659,7 +640,7 @@ judgement when filtering spots.</p>
 </div>
 </div>
 <p>Note that we will only remove a few spots in this filtering step.</p>
-<div class="codewrapper sourceCode" id="cb20">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -674,7 +655,7 @@ FALSE  TRUE
 </div>
 <p>We can remove the spots directly using the following syntax. In this
 case, the “columns” of the Seurat object correspond to the spots.</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
