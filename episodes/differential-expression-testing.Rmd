@@ -58,11 +58,11 @@ We identify genes that are upregulated in each brain region in comparison to oth
 
 ```{r layer-de}
 Idents(filter_st)  <- "layer_guess"
-brain2                  <- FindAllMarkers(filter_st, 
-                                          assay = "SCT", 
-                                          only.pos = TRUE, 
-                                          min.pct = 0.25, 
-                                          logfc.threshold = 0.25)
+de_genes           <- FindAllMarkers(filter_st, 
+                                     assay = "SCT", 
+                                     only.pos = TRUE, 
+                                     min.pct = 0.25, 
+                                     logfc.threshold = 0.25)
 
 ```
 
@@ -71,10 +71,11 @@ brain2                  <- FindAllMarkers(filter_st,
 We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
 
 ```{r moran-i}
-brain <- FindSpatiallyVariableFeatures(filter_st, 
-                                       assay            = "SCT", 
-                                       features         = VariableFeatures(filter_st)[1:1000], 
-                                       selection.method = "moransi")
+svg <- 
+  FindSpatiallyVariableFeatures(filter_st, 
+                                assay            = "SCT", 
+                                features         = VariableFeatures(filter_st)[1:1000], 
+                                selection.method = "moransi")
 ```
 
 ## Correlation of Differentially Expressed Genes in each Brain Region and genes with highset Moran's I value.
@@ -83,13 +84,13 @@ brain <- FindSpatiallyVariableFeatures(filter_st,
 
 ```{r heatmap-de}
 # Get and sort 'MoransI_observed' values
-morans_i_genes   <- brain@assays[["SCT"]]@meta.features %>%
+morans_i_genes   <- svg@assays[["SCT"]]@meta.features %>%
                        rownames_to_column("gene") %>%
                        arrange(desc(MoransI_observed)) %>%
                        slice_head(n = 100)
 
 # Merge the Moran's I values with the DE genes
-df <- merge(morans_i_genes, brain2, all.x = TRUE, by = "gene")
+df <- merge(morans_i_genes, de_genes, all.x = TRUE, by = "gene")
 df <- subset(df, !is.na(cluster))
 
 # Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),
