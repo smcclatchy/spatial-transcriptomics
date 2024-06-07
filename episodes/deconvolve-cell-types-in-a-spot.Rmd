@@ -62,9 +62,9 @@ mapping the gene expression profiles from the ST data to specific cell types.
 
 ```{r}
 # Load single-cell RNA-seq data
-sc.counts <- as.data.frame(fread("data/scRNA-seq/sc_counts.tsv.gz"))
+sc.counts           <- read.delim("data/scRNA-seq/sc_counts.tsv.gz")
 rownames(sc.counts) <- sc.counts[,1]
-sc.counts <- sc.counts[,-1]
+sc.counts           <- sc.counts[,-1]
 
 # Load cell type annotations
 sc.metadata <- read.table("data/scRNA-seq/sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
