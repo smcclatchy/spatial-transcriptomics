@@ -41,48 +41,22 @@ This method helps find genes that are upregulated or downregulated in specific c
 Moran's I is a measure used to assess spatial autocorrelation in data, indicating whether similar values are clustered, dispersed, or random. 
 In bioinformatics, it's applied to detect genes whose expression patterns exhibit clear spatial structure, aiding in understanding spatially localized biological processes.
 
-## Data Preparation
-
-```{r data-prep}
-plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-unique_clusters           <- unique(plot_seurat_object$Layers)
-num_clusters              <- length(unique_clusters)
-palette                   <- carto_pal(num_clusters, "Safe")
-names(palette)            <- unique_clusters
-
-```
-
 ## Differential Expression Analysis
 
 ### Differential Expression Using Expert's Annotation
 
-Based on the exprerts brain layers annotation, as it is indicated here:
+We will begin by performing differential expression across the annotated layers. 
+As a reminder, those look like:
 
 ```{r layers}
-plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-
-unique_clusters           <- unique(plot_seurat_object$Layers)
-num_clusters              <- length(unique_clusters)
-
-palette                   <- carto_pal(num_clusters, "Safe")
-names(palette)            <- unique_clusters
-
-p                         <- SpatialDimPlot(plot_seurat_object, 
-                                            group.by = 'Layers', 
-                                            cols=palette) +
-                                           theme(legend.position = "right")
-
-print(p)
-
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
 ```{r layer-de}
 Idents(seurat_object)  <- "layer_guess"
-brain2                  <- FindAllMarkers(seurat_object, 
+brain2                  <- FindAllMarkers(filter_st, 
                                           assay = "SCT", 
                                           only.pos = TRUE, 
                                           min.pct = 0.25, 
