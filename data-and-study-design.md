@@ -362,29 +362,10 @@ effect. Review the following figure to explore the relationships between effect
 size, sample size, and power. What is the relationship between effect size and 
 sample size? Between sample size and power?
 
+<img src="fig/data-and-study-design-rendered-power-curve-2-1.png" style="display: block; margin: auto;" />
 
-``` output
-
-Attaching package: 'dplyr'
-```
-
-``` output
-The following objects are masked from 'package:stats':
-
-    filter, lag
-```
-
-``` output
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-```
-
-``` error
-Error in ggplot(., aes(n, power, color = effect_size)): could not find function "ggplot"
-```
-
-Code adapted from [How to Create Power Curves in ggplot](https://levibaguley.github.io/2020/06/22/how-to-create-power-curves-in-ggplot/) by Levi Baguley
+Adapted from [How to Create Power Curves in ggplot](https://levibaguley.github.io/2020/06/22/how-to-create-power-curves-in-ggplot/) 
+by Levi Baguley
 
 Notice that to detect a standardized effect size of 0.5 at 80% power, you would 
 need a sample size of approximately 70. Larger effect sizes require much smaller
