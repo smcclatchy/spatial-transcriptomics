@@ -229,7 +229,6 @@
         <ul><li><a href="#introduction-to-differential-expression-testing">Introduction to Differential Expression Testing</a></li>
 <li><a href="#morans-i-statistic">Moran’s I Statistic</a></li>
 <li><a href="#data-preparation">Data Preparation</a></li>
-<li><a href="#differential-expression-analysis">Differential Expression Analysis</a></li>
 <li><a href="#correlation-of-differnetially-expressed-genes-in-each-brain-region-and-genes-with-highset-morans-i-value.">Correlation of Differnetially Expressed Genes in each Brain Region
 and genes with highset Moran’s I value.</a></li>
         </ul></div><!--/div.accordion-body-->
@@ -296,7 +295,7 @@ and genes with highset Moran’s I value.</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Differential Expression Testing</h1>
-        <p>Last updated on 2024-06-06 |
+        <p>Last updated on 2024-06-07 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -353,219 +352,108 @@ patterns exhibit clear spatial structure, aiding in understanding
 spatially localized biological processes.</p>
 </section><section id="data-preparation"><h2 class="section-heading">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plot_filter_st</span> <span class="op">&lt;-</span> <span class="va">filter_st</span><span class="op">[</span>,<span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Not validating Centroids objects
-Not validating Centroids objects</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Not validating Seurat objects</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plot_filter_st</span><span class="op">$</span><span class="va">Layers</span> <span class="op">&lt;-</span> <span class="va">plot_filter_st</span><span class="op">$</span><span class="va">layer_guess</span></span>
-<span><span class="va">unique_clusters</span> <span class="op">&lt;-</span> <span class="fu">unique</span><span class="op">(</span><span class="va">plot_filter_st</span><span class="op">$</span><span class="va">Layers</span><span class="op">)</span></span>
-<span><span class="va">num_clusters</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="va">unique_clusters</span><span class="op">)</span></span>
-<span><span class="va">palette</span> <span class="op">&lt;-</span> <span class="fu">carto_pal</span><span class="op">(</span><span class="va">num_clusters</span>, <span class="st">"Safe"</span><span class="op">)</span></span>
-<span><span class="fu">names</span><span class="op">(</span><span class="va">palette</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">unique_clusters</span></span></code></pre>
-</div>
-</section><section id="differential-expression-analysis"><h2 class="section-heading">Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-analysis"></a>
-</h2>
-<hr class="half-width"><div class="section level3">
-<h3 id="differential-expression-using-experts-annotation">Differential Expression Using Expert’s Annotation<a class="anchor" aria-label="anchor" href="#differential-expression-using-experts-annotation"></a></h3>
-<p>Based on the exprerts brain layers annotation, as it is indicated
-here:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plot_filter_st</span> <span class="op">&lt;-</span> <span class="va">filter_st</span><span class="op">[</span>,<span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Not validating Centroids objects
-Not validating Centroids objects</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: Not validating Seurat objects</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plot_filter_st</span><span class="op">$</span><span class="va">Layers</span> <span class="op">&lt;-</span> <span class="va">plot_filter_st</span><span class="op">$</span><span class="va">layer_guess</span></span>
-<span></span>
-<span><span class="va">unique_clusters</span> <span class="op">&lt;-</span> <span class="fu">unique</span><span class="op">(</span><span class="va">plot_filter_st</span><span class="op">$</span><span class="va">Layers</span><span class="op">)</span></span>
-<span><span class="va">num_clusters</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="va">unique_clusters</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">palette</span> <span class="op">&lt;-</span> <span class="fu">carto_pal</span><span class="op">(</span><span class="va">num_clusters</span>, <span class="st">"Safe"</span><span class="op">)</span></span>
-<span><span class="fu">names</span><span class="op">(</span><span class="va">palette</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">unique_clusters</span></span>
-<span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">plot_filter_st</span>, group.by <span class="op">=</span> <span class="st">'Layers'</span>, cols<span class="op">=</span><span class="va">palette</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">print</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre>
-</div>
-<figure><img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We identify genes that are upregulated in each brain region in
+<hr class="half-width"><p>```{{r data-prep}} plot_seurat_object &lt;-
+seurat_object[,!is.na(seurat_object<span class="math inline">\(layer_guess)]
+plot_seurat_object\)</span>Layers &lt;- plot_seurat_object<span class="math inline">\(layer_guess
+unique_clusters           &lt;-
+unique(plot_seurat_object\)</span>Layers) num_clusters &lt;-
+length(unique_clusters) palette &lt;- carto_pal(num_clusters, “Safe”)
+names(palette) &lt;- unique_clusters</p>
+<pre><code>
+## Differential Expression Analysis
+
+### Differential Expression Using Expert's Annotation
+
+Based on the exprerts brain layers annotation, as it is indicated here:
+
+```{{r layers}}
+plot_seurat_object        &lt;- seurat_object[,!is.na(seurat_object$layer_guess)]
+plot_seurat_object$Layers &lt;- plot_seurat_object$layer_guess
+
+unique_clusters           &lt;- unique(plot_seurat_object$Layers)
+num_clusters              &lt;- length(unique_clusters)
+
+palette                   &lt;- carto_pal(num_clusters, "Safe")
+names(palette)            &lt;- unique_clusters
+
+p                         &lt;- SpatialDimPlot(plot_seurat_object, 
+                                            group.by = 'Layers', 
+                                            cols=palette) +
+                                           theme(legend.position = "right")
+
+print(p)
+</code></pre>
+<p>We identify genes that are upregulated in each brain region in
 comparison to other regions.</p>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">Idents</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"layer_guess"</span></span>
-<span><span class="va">brain2</span> <span class="op">&lt;-</span> <span class="fu">FindAllMarkers</span><span class="op">(</span><span class="va">filter_st</span>, assay <span class="op">=</span> <span class="st">"SCT"</span>, only.pos <span class="op">=</span> <span class="cn">TRUE</span>, min.pct <span class="op">=</span> <span class="fl">0.25</span>, logfc.threshold <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster Layer3</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>For a (much!) faster implementation of the Wilcoxon Rank Sum Test,
-(default method for FindMarkers) please install the presto package
---------------------------------------------
-install.packages('devtools')
-devtools::install_github('immunogenomics/presto')
---------------------------------------------
-After installation of presto, Seurat will automatically use the more 
-efficient implementation (no further action necessary).
-This message will be shown once per session</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster Layer1</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster WM</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster Layer5</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster Layer6</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster Layer2</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating cluster Layer4</code></pre>
-</div>
-</div>
-<div class="section level3">
-<h3 id="spatial-differential-expression-using-morans-i">Spatial Differential Expression Using Moran’s I<a class="anchor" aria-label="anchor" href="#spatial-differential-expression-using-morans-i"></a></h3>
-<p>We identify the genes whose expression patterns exhibit clear spatial
-structure using Moran’s I algorithm.</p>
-<div class="codewrapper sourceCode" id="cb20">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">brain</span> <span class="op">&lt;-</span> <span class="fu">FindSpatiallyVariableFeatures</span><span class="op">(</span><span class="va">filter_st</span>, assay <span class="op">=</span> <span class="st">"SCT"</span>, features <span class="op">=</span> <span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span>, selection.method <span class="op">=</span> <span class="st">"moransi"</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Computing Moran's I</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in dist(x = pos): NAs introduced by coercion</code></pre>
-</div>
-</div>
+<p>```{{r layer-de}} Idents(seurat_object) &lt;- “layer_guess” brain2
+&lt;- FindAllMarkers(seurat_object, assay = “SCT”, only.pos = TRUE,
+min.pct = 0.25, logfc.threshold = 0.25)</p>
+<pre><code>
+### Spatial Differential Expression Using Moran's I
+
+We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
+
+```{{r moran-i}}
+brain                   &lt;- FindSpatiallyVariableFeatures(seurat_object, 
+                                                         assay = "SCT", 
+                                                         features = VariableFeatures(seurat_object)[1:1000],                                                                  selection.method = "moransi")</code></pre>
 </section><section id="correlation-of-differnetially-expressed-genes-in-each-brain-region-and-genes-with-highset-morans-i-value."><h2 class="section-heading">Correlation of Differnetially Expressed Genes in each Brain Region
 and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" href="#correlation-of-differnetially-expressed-genes-in-each-brain-region-and-genes-with-highset-morans-i-value."></a>
 </h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="heatmap-of-differential-expression">Heatmap of Differential Expression<a class="anchor" aria-label="anchor" href="#heatmap-of-differential-expression"></a></h3>
-<div class="codewrapper sourceCode" id="cb23">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Unique clusters</span></span>
-<span><span class="va">unique_clusters</span> <span class="op">&lt;-</span> <span class="fu">unique</span><span class="op">(</span><span class="va">brain2</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create list of data frames filtered by cluster</span></span>
-<span><span class="va">cluster_data_frames</span> <span class="op">&lt;-</span> <span class="fu">lapply</span><span class="op">(</span><span class="fu">setNames</span><span class="op">(</span><span class="va">unique_clusters</span>, <span class="va">unique_clusters</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">brain2</span> <span class="op">%&gt;%</span> <span class="fu">filter</span><span class="op">(</span><span class="va">cluster</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="fu">as.character</span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get and sort 'MoransI_observed' values</span></span>
-<span><span class="va">wer_sorted</span> <span class="op">&lt;-</span> <span class="va">brain</span><span class="op">@</span><span class="va">assays</span><span class="op">[[</span><span class="st">"SCT"</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">meta.features</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">MoransI_observed</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">slice_head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Initialize p-value adjustment matrix</span></span>
-<span><span class="va">p_val_adj_matrix</span> <span class="op">&lt;-</span> <span class="fu">matrix</span><span class="op">(</span><span class="fl">1</span>, nrow <span class="op">=</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">wer_sorted</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fu">length</span><span class="op">(</span><span class="va">cluster_data_frames</span><span class="op">)</span>, </span>
-<span>                           dimnames <span class="op">=</span> <span class="fu">list</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">wer_sorted</span><span class="op">)</span>, <span class="fu">names</span><span class="op">(</span><span class="va">cluster_data_frames</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fill the matrix with adjusted p-values</span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">rownames</span><span class="op">(</span><span class="va">wer_sorted</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu">seq_along</span><span class="op">(</span><span class="va">cluster_data_frames</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">cluster_data_frames</span><span class="op">[[</span><span class="va">j</span><span class="op">]</span><span class="op">]</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">i</span> <span class="op">%in%</span> <span class="va">df</span><span class="op">$</span><span class="va">gene</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">p_val_adj_value</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">p_val_adj</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">gene</span> <span class="op">==</span> <span class="va">i</span><span class="op">]</span></span>
-<span>      <span class="va">p_val_adj_matrix</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">p_val_adj_value</span></span>
-<span>    <span class="op">}</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># Generate and save heatmap</span></span>
-<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">pheatmap</span><span class="op">(</span><span class="va">p_val_adj_matrix</span>, </span>
-<span>              cluster_rows <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>              cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>              display_numbers <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span>              color <span class="op">=</span> <span class="fu">colorRampPalette</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"navy"</span>, <span class="st">"white"</span>, <span class="st">"firebrick3"</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>, </span>
-<span>              main <span class="op">=</span> <span class="st">"Heatmap of DE p-values of spatially DE genes "</span><span class="op">)</span></span>
-<span><span class="fu">print</span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span></code></pre>
+<p>```{{r heatmap-de}}</p>
 </div>
-<figure><img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The heatmap visualization reveals a key finding of our analysis:
+</section><div class="section level1">
+<h1 id="unique-clusters">Unique clusters<a class="anchor" aria-label="anchor" href="#unique-clusters"></a></h1>
+<p>unique_clusters &lt;- unique(brain2$cluster)</p>
+</div>
+<div class="section level1">
+<h1 id="create-list-of-data-frames-filtered-by-cluster">Create list of data frames filtered by cluster<a class="anchor" aria-label="anchor" href="#create-list-of-data-frames-filtered-by-cluster"></a></h1>
+<p>cluster_data_frames &lt;- lapply( setNames(unique_clusters,
+unique_clusters), function(cluster) { brain2 %&gt;% filter(cluster ==
+!!as.character(cluster)) } )</p>
+</div>
+<div class="section level1">
+<h1 id="get-and-sort-moransi_observed-values">Get and sort ‘MoransI_observed’ values<a class="anchor" aria-label="anchor" href="#get-and-sort-moransi_observed-values"></a></h1>
+<p>wer_sorted &lt;- <a href="mailto:brain@assays" class="email">brain@assays</a>[[“SCT”]]<span class="citation">@meta.features</span> %&gt;%
+arrange(desc(MoransI_observed)) %&gt;% slice_head(n = 100)</p>
+</div>
+<div class="section level1">
+<h1 id="initialize-p-value-adjustment-matrix">Initialize p-value adjustment matrix<a class="anchor" aria-label="anchor" href="#initialize-p-value-adjustment-matrix"></a></h1>
+<p>p_val_adj_matrix &lt;- matrix( 1, nrow = nrow(wer_sorted), ncol =
+length(cluster_data_frames), dimnames = list( rownames(wer_sorted),
+names(cluster_data_frames) ) )</p>
+</div>
+<div class="section level1">
+<h1 id="fill-the-matrix-with-adjusted-p-values">Fill the matrix with adjusted p-values<a class="anchor" aria-label="anchor" href="#fill-the-matrix-with-adjusted-p-values"></a></h1>
+<p>for (i in rownames(wer_sorted)) { for (j in
+seq_along(cluster_data_frames)) { df &lt;- cluster_data_frames[[j]] if
+(i %in% df<span class="math inline">\(gene) {
+      p_val_adj_value &lt;- df\)</span>p_val_adj[df$gene == i]
+p_val_adj_matrix[i, j] &lt;- p_val_adj_value } } }</p>
+</div>
+<div class="section level1">
+<h1 id="define-colors-using-a-color-ramp">Define colors using a color ramp<a class="anchor" aria-label="anchor" href="#define-colors-using-a-color-ramp"></a></h1>
+<p>color_palette &lt;- colorRamp2(c(0, 0.5, 1), c(“navy”, “white”,
+“firebrick3”))</p>
+</div>
+<div class="section level1">
+<h1 id="create-the-heatmap">Create the heatmap<a class="anchor" aria-label="anchor" href="#create-the-heatmap"></a></h1>
+<p>heatmap &lt;- Heatmap(p_val_adj_matrix, name = “DE p-values”, # Title
+for the heatmap legend cluster_rows = TRUE, cluster_cols = TRUE,
+show_row_names = FALSE, show_column_names = FALSE, show_row_dend = TRUE,
+show_column_dend = TRUE, cell_fun = function(j, i, x, y, width, height,
+fill) { if (!is.na(p_val_adj_matrix[i, j])) { grid.text(sprintf(“%.2f”,
+p_val_adj_matrix[i, j]), x, y) } }, # Optionally display numbers in
+cells col = color_palette)</p>
+</div>
+<div class="section level1">
+<h1 id="draw-the-heatmap">Draw the heatmap<a class="anchor" aria-label="anchor" href="#draw-the-heatmap"></a></h1>
+<p>draw(heatmap, main = “Heatmap of DE p-values of spatially DE
+genes”)</p>
+<p>```</p>
+<p>The heatmap visualization reveals a key finding of our analysis:
 genes displaying the highest Moran’s I values show distinct expression
 patterns that align with specific brain regions identified through
 expert annotations. This observation underscores the spatial correlation
@@ -596,7 +484,10 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </div>
-</section></div> <!-- / div.lesson-content -->
+
+
+
+      </div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="deconvolve-cell-types-in-a-spot.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -654,7 +545,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/differential-expression-testing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/differential-expression-testing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-06",
+  "dateModified": "2024-06-07",
   "datePublished": "2024-06-07"
 }
 
