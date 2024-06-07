@@ -74,7 +74,7 @@ from the ST data to specific cell types.
 
 ```{r}
 # Load single-cell RNA-seq data
-sc.counts           <- as.data.frame(fread("data/scRNA-seq/sc_counts.tsv.gz"))
+sc.counts           <- readRDS("data/scRNA-seq/sc_counts.rds")
 rownames(sc.counts) <- sc.counts[,1]
 sc.counts           <- sc.counts[,-1]
 
