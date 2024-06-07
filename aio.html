@@ -2311,7 +2311,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4159,18 +4159,9 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 <span><span class="va">p_val_adj_matrix</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">dcast</span><span class="op">(</span><span class="fu">as.data.table</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, <span class="va">gene</span> <span class="op">~</span> <span class="va">cluster</span>, value.var <span class="op">=</span> <span class="st">"p_val_adj"</span>, fill <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">column_to_rownames</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">as.matrix</span><span class="op">(</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'as.matrix': could not find function "dcast"</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb24">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create a heatmap of the DE pvalues of spatially variable genes</span></span>
+<span>  <span class="fu">as.matrix</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a heatmap of the DE pvalues of spatially variable genes</span></span>
 <span><span class="fu">Heatmap</span><span class="op">(</span><span class="va">p_val_adj_matrix</span>,</span>
 <span>        column_title      <span class="op">=</span> <span class="st">"Heatmap of DE p-values of spatially DE genes"</span>,</span>
 <span>        name              <span class="op">=</span> <span class="st">"DE p-values"</span>, <span class="co"># Title for the heatmap legend</span></span>
@@ -4182,12 +4173,7 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 <span>        show_row_dend     <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        show_column_dend  <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_val_adj_matrix' not found</code></pre>
-</div>
-<p>The heatmap visualization reveals a key finding of our analysis:
+<figure><img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The heatmap visualization reveals a key finding of our analysis:
 genes displaying the highest Moran’s I values show distinct expression
 patterns that align with specific brain regions identified through
 expert annotations. This observation underscores the spatial correlation
