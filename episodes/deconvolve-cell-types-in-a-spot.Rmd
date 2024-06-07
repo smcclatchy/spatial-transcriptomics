@@ -19,6 +19,7 @@ exercises: 10
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
+library(R.utils)
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(spacexr))
