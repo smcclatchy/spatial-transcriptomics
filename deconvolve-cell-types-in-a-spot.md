@@ -19,51 +19,6 @@ exercises: 10
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-``` output
-[1] "featselclust_meta_data.rds"      "featselclust_SCT_counts.rds"    
-[3] "featselclust_SCT_data.rds"       "featselclust_SCT_scale.data.rds"
-[5] "featselclust_seurat_obj.rds"     "featselclust_Spatial_counts.rds"
-[1] "featselclust_seurat_obj.rds"
-[1] "featselclust_meta_data.rds"      "featselclust_SCT_counts.rds"    
-[3] "featselclust_SCT_data.rds"       "featselclust_SCT_scale.data.rds"
-[5] "featselclust_Spatial_counts.rds"
-[1] "featselclust_meta_data.rds"
-[1] "featselclust_SCT_counts.rds"     "featselclust_SCT_data.rds"      
-[3] "featselclust_SCT_scale.data.rds" "featselclust_Spatial_counts.rds"
-[[1]]
-[1] "featselclust" "SCT"          "counts"      
-
-[[2]]
-[1] "featselclust" "SCT"          "data"        
-
-[[3]]
-[1] "featselclust" "SCT"          "scale.data"  
-
-[[4]]
-[1] "featselclust" "Spatial"      "counts"      
-
-                            files   assay      layer
-1     featselclust_SCT_counts.rds     SCT     counts
-2       featselclust_SCT_data.rds     SCT       data
-3 featselclust_SCT_scale.data.rds     SCT scale.data
-4 featselclust_Spatial_counts.rds Spatial     counts
-[1] 1
-                        files assay  layer
-1 featselclust_SCT_counts.rds   SCT counts
-[1] "featselclust_SCT_counts.rds"
-[1] 2
-                      files assay layer
-2 featselclust_SCT_data.rds   SCT  data
-[1] "featselclust_SCT_data.rds"
-[1] 3
-                            files assay      layer
-3 featselclust_SCT_scale.data.rds   SCT scale.data
-[1] "featselclust_SCT_scale.data.rds"
-[1] 4
-                            files   assay  layer
-4 featselclust_Spatial_counts.rds Spatial counts
-[1] "featselclust_Spatial_counts.rds"
-```
 
 ## Deconvolution in Spatial Transcriptomics
 

@@ -85,18 +85,6 @@ Calculating cluster Layer3
 ```
 
 ``` output
-For a (much!) faster implementation of the Wilcoxon Rank Sum Test,
-(default method for FindMarkers) please install the presto package
---------------------------------------------
-install.packages('devtools')
-devtools::install_github('immunogenomics/presto')
---------------------------------------------
-After installation of presto, Seurat will automatically use the more 
-efficient implementation (no further action necessary).
-This message will be shown once per session
-```
-
-``` output
 Calculating cluster Layer1
 ```
 

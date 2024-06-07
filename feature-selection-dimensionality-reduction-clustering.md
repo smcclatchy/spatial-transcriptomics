@@ -39,51 +39,6 @@ patterns within the data.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-``` output
-[1] "applynorm_meta_data.rds"      "applynorm_SCT_counts.rds"    
-[3] "applynorm_SCT_data.rds"       "applynorm_SCT_scale.data.rds"
-[5] "applynorm_seurat_obj.rds"     "applynorm_Spatial_counts.rds"
-[1] "applynorm_seurat_obj.rds"
-[1] "applynorm_meta_data.rds"      "applynorm_SCT_counts.rds"    
-[3] "applynorm_SCT_data.rds"       "applynorm_SCT_scale.data.rds"
-[5] "applynorm_Spatial_counts.rds"
-[1] "applynorm_meta_data.rds"
-[1] "applynorm_SCT_counts.rds"     "applynorm_SCT_data.rds"      
-[3] "applynorm_SCT_scale.data.rds" "applynorm_Spatial_counts.rds"
-[[1]]
-[1] "applynorm" "SCT"       "counts"   
-
-[[2]]
-[1] "applynorm" "SCT"       "data"     
-
-[[3]]
-[1] "applynorm"  "SCT"        "scale.data"
-
-[[4]]
-[1] "applynorm" "Spatial"   "counts"   
-
-                         files   assay      layer
-1     applynorm_SCT_counts.rds     SCT     counts
-2       applynorm_SCT_data.rds     SCT       data
-3 applynorm_SCT_scale.data.rds     SCT scale.data
-4 applynorm_Spatial_counts.rds Spatial     counts
-[1] 1
-                     files assay  layer
-1 applynorm_SCT_counts.rds   SCT counts
-[1] "applynorm_SCT_counts.rds"
-[1] 2
-                   files assay layer
-2 applynorm_SCT_data.rds   SCT  data
-[1] "applynorm_SCT_data.rds"
-[1] 3
-                         files assay      layer
-3 applynorm_SCT_scale.data.rds   SCT scale.data
-[1] "applynorm_SCT_scale.data.rds"
-[1] 4
-                         files   assay  layer
-4 applynorm_Spatial_counts.rds Spatial counts
-[1] "applynorm_Spatial_counts.rds"
-```
 
 ## Understanding the Morphology of your Tissue.
 
