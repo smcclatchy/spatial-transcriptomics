@@ -305,12 +305,7 @@ spot_metadata <- spot_metadata[Cells(filter_st),]
 
 filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess"), drop=FALSE])
 
-unique_layers <- unique(na.omit(filter_st[[]]$layer_guess))
-num_layers <- length(unique_layers)
-
-color_pal    <- setNames(carto_pal(num_layers, "Safe"), unique_layers)
-
-SpatialDimPlot(filter_st[, !is.na(filter_st[[]]$layer_guess)], group.by = 'layer_guess', cols=color_pal) 
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
 ``` warning
@@ -329,6 +324,11 @@ Not validating FOV objects
 
 ``` warning
 Warning: Not validating Seurat objects
+```
+
+``` output
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
