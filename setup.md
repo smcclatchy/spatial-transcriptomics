@@ -41,7 +41,7 @@ for(pkg in pkgs) {
     install.packages(pkg, dependencies = TRUE)
   }
 }
-BiocManager::install(c("glmGamPoi", "rhdf5"))
+BiocManager::install(c("glmGamPoi", "rhdf5", "ComplexHeatmap"))
 
 options(timeout = 1e6)
 remotes::install_github("immunogenomics/presto",  build_vignettes = FALSE)
@@ -52,18 +52,19 @@ Once the installation has finished, copy and paste the following commands into t
 console to verify that both packages installed correctly.
 
 ```r
-library(BiocManager)
-library(data.table)
-library(harmony)
-library(hdf5r)
-library(here)
-library(presto)
-library(rcartocolor)
-library(remotes)
-library(spacexr)
-library(sparseMatrixStats)
-library(Seurat)
-library(tidyverse)
+suppressPackageStartupMessages(library(BiocManager))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(R.utils))
+suppressPackageStartupMessages(library(hdf5r))
+suppressPackageStartupMessages(library(here))
+suppressPackageStartupMessages(library(presto))
+suppressPackageStartupMessages(library(rcartocolor))
+suppressPackageStartupMessages(library(remotes))
+suppressPackageStartupMessages(library(spacexr))
+suppressPackageStartupMessages(library(sparseMatrixStats))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(ComplexHeatmap))
 ```
 
 ## Project Setup
