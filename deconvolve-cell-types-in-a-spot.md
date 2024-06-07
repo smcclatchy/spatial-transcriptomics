@@ -110,7 +110,7 @@ from the ST data to specific cell types.
 sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz")
 sc.counts <- as.data.frame(sc.counts)
 rownames(sc.counts) <- sc.counts[,1]
-sc.counts           <- matrix(sc.counts[,-1])
+sc.counts           <- as.matrix(sc.counts[,-1])
 
 # Load cell type annotations
 sc.metadata   <- read.delim("data/scRNA-seq/sc_cell_types.tsv")
@@ -131,10 +131,6 @@ First, we will create the reference object encapsulating the scRNA-seq data.
 
 ``` r
 reference <- Reference(sc.counts, sc.cell.types)
-```
-
-``` error
-Error in .m2sparse(from, "dgC"): invalid type "list" in 'R_matrix_as_sparse'
 ```
 
 
@@ -192,8 +188,166 @@ if(!load.precomputed.results || !file.exists(rds.file)) {
 }
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'reference' not found
+``` output
+Begin: process_cell_type_info
+```
+
+``` output
+process_cell_type_info: number of cells in reference: 22840
+```
+
+``` output
+process_cell_type_info: number of genes in reference: 36194
+```
+
+``` output
+
+          AST-FB             L2-3               L4             L5-6 
+            2114             6085             3258             1780 
+Oligodendrocytes 
+            9603 
+```
+
+``` warning
+Warning in asMethod(object): sparse->dense coercion: allocating vector of size
+1.6 GiB
+```
+
+``` warning
+Warning in asMethod(object): sparse->dense coercion: allocating vector of size
+2.6 GiB
+```
+
+``` output
+End: process_cell_type_info
+```
+
+``` output
+create.RCTD: getting regression differentially expressed genes: 
+```
+
+``` output
+get_de_genes: AST-FB found DE genes: 308
+```
+
+``` output
+get_de_genes: L2-3 found DE genes: 70
+```
+
+``` output
+get_de_genes: L4 found DE genes: 85
+```
+
+``` output
+get_de_genes: L5-6 found DE genes: 79
+```
+
+``` output
+get_de_genes: Oligodendrocytes found DE genes: 423
+```
+
+``` output
+get_de_genes: total DE genes: 921
+```
+
+``` output
+create.RCTD: getting platform effect normalization differentially expressed genes: 
+```
+
+``` output
+get_de_genes: AST-FB found DE genes: 646
+```
+
+``` output
+get_de_genes: L2-3 found DE genes: 251
+```
+
+``` output
+get_de_genes: L4 found DE genes: 314
+```
+
+``` output
+get_de_genes: L5-6 found DE genes: 287
+```
+
+``` output
+get_de_genes: Oligodendrocytes found DE genes: 730
+```
+
+``` output
+get_de_genes: total DE genes: 1910
+```
+
+``` output
+fitBulk: decomposing bulk
+```
+
+``` output
+chooseSigma: using initial Q_mat with sigma =  1
+```
+
+``` output
+Likelihood value: 576730.619727545
+```
+
+``` output
+Sigma value:  0.84
+```
+
+``` output
+Likelihood value: 567512.405176169
+```
+
+``` output
+Sigma value:  0.69
+```
+
+``` output
+Likelihood value: 560265.273592648
+```
+
+``` output
+Sigma value:  0.61
+```
+
+``` output
+Likelihood value: 557090.803285066
+```
+
+``` output
+Sigma value:  0.53
+```
+
+``` output
+Likelihood value: 554476.11731431
+```
+
+``` output
+Sigma value:  0.45
+```
+
+``` output
+Likelihood value: 552480.967838626
+```
+
+``` output
+Sigma value:  0.37
+```
+
+``` output
+Likelihood value: 551158.784481129
+```
+
+``` output
+Sigma value:  0.29
+```
+
+``` output
+Likelihood value: 550546.551696275
+```
+
+``` output
+Sigma value:  0.27
 ```
 
 ## Interpreting Deconvolution Results
@@ -227,18 +381,24 @@ And now let's see the predicted proportions in our sample:
 
 ``` r
 props <- format.rctd.output_(result_1, normalize = FALSE)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'result_1' not found
-```
-
-``` r
 head(props)
 ```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'props' not found
+``` output
+                      AST-FB         L2-3           L4         L5-6
+AAACAAGTATCTCCCA-1 0.2906892 1.989539e-01 3.568361e-01 9.495123e-04
+AAACAATCTACTAGCA-1 0.3665241 4.652610e-04 4.652610e-04 4.601510e-01
+AAACACCAATAACTGC-1 0.1069532 5.473749e-05 5.473749e-05 5.473749e-05
+AAACAGAGCGACTCCT-1 0.3845201 4.758347e-01 3.256827e-04 3.256827e-04
+AAACAGCTTTCAGAAG-1 0.2411203 3.694851e-01 1.995963e-01 6.646586e-04
+AAACAGGGTCTATATT-1 0.2096408 3.256827e-04 3.624793e-04 5.117059e-01
+                   Oligodendrocytes   x  y
+AAACAAGTATCTCCCA-1       0.04291383 102 50
+AAACAATCTACTAGCA-1       0.12784650  43  3
+AAACACCAATAACTGC-1       1.25940541  19 59
+AAACAGAGCGACTCCT-1       0.06181266  94 14
+AAACAGCTTTCAGAAG-1       0.23374357   9 43
+AAACAGGGTCTATATT-1       0.46602478  13 47
 ```
 
 Notice that the proportions don't sum exactly to one.
@@ -248,8 +408,11 @@ Notice that the proportions don't sum exactly to one.
 head(rowSums(select(props, -c(x,y))))
 ```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': error in evaluating the argument 'x' in selecting a method for function 'rowSums': object 'props' not found
+``` output
+AAACAAGTATCTCCCA-1 AAACAATCTACTAGCA-1 AAACACCAATAACTGC-1 AAACAGAGCGACTCCT-1 
+         0.8903426          0.9554521          1.3665228          0.9228188 
+AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1 
+         1.0446099          1.1880596 
 ```
 
 Let's classify the spot according to the layer type with highest proportion
@@ -259,19 +422,11 @@ Let's classify the spot according to the layer type with highest proportion
 props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'props' not found
-```
-
 Let's add the deconvolution results to our Seurat object.
 
 
 ``` r
 filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'props' not found
 ```
 
 We can now visualize the predicted layer classifications and compare them alongside
@@ -282,8 +437,9 @@ the ground truth annotations that we saw previously.
 g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
 ```
 
-``` error
-Error in `[.Seurat`(filter_st, , !is.na(filter_st[[]]$classification)): Incorrect number of logical values provided to subset cells
+``` output
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
 ```
 
 ``` r
@@ -317,9 +473,7 @@ Adding another scale for fill, which will replace the existing scale.
 g1 + g2
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'g1' not found
-```
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
 layers.
@@ -327,61 +481,16 @@ layers.
 
 ``` r
 df            <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
-```
-
-``` error
-Error in table(filter_st[[]]$layer_guess, filter_st[[]]$classification): all arguments must have the same length
-```
-
-``` r
 colnames(df)  <- c("Annotation", "Prediction", "Freq")
-```
-
-``` error
-Error in `colnames<-`(`*tmp*`, value = c("Annotation", "Prediction", "Freq": attempt to set 'colnames' on an object with less than two dimensions
-```
-
-``` r
 df$Annotation <- factor(df$Annotation)
-```
-
-``` error
-Error in df$Annotation: object of type 'closure' is not subsettable
-```
-
-``` r
 df$Prediction <- factor(df$Prediction)
-```
 
-``` error
-Error in df$Prediction: object of type 'closure' is not subsettable
-```
-
-``` r
 g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
-```
-
-``` error
-Error in `ggplot()`:
-! `data` cannot be a function.
-ℹ Have you misspelled the `data` argument in `ggplot()`
-```
-
-``` r
 g <- g + theme(text = element_text(size = 20))
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'g' not found
-```
-
-``` r
 g
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'g' not found
-```
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
 particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 4, and L2-3 and Layer 3.
