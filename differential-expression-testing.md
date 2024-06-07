@@ -72,14 +72,7 @@ We identify genes that are upregulated in each brain region in comparison to oth
 
 
 ``` r
-Idents(seurat_object)  <- "layer_guess"
-```
-
-``` error
-Error: object 'seurat_object' not found
-```
-
-``` r
+Idents(filter_st)  <- "layer_guess"
 brain2                  <- FindAllMarkers(filter_st, 
                                           assay = "SCT", 
                                           only.pos = TRUE, 
@@ -88,7 +81,7 @@ brain2                  <- FindAllMarkers(filter_st,
 ```
 
 ``` output
-Calculating cluster 0
+Calculating cluster Layer3
 ```
 
 ``` output
@@ -104,35 +97,27 @@ This message will be shown once per session
 ```
 
 ``` output
-Calculating cluster 1
+Calculating cluster Layer1
 ```
 
 ``` output
-Calculating cluster 2
+Calculating cluster WM
 ```
 
 ``` output
-Calculating cluster 3
+Calculating cluster Layer5
 ```
 
 ``` output
-Calculating cluster 4
+Calculating cluster Layer6
 ```
 
 ``` output
-Calculating cluster 5
+Calculating cluster Layer2
 ```
 
 ``` output
-Calculating cluster 6
-```
-
-``` output
-Calculating cluster 7
-```
-
-``` output
-Calculating cluster 8
+Calculating cluster Layer4
 ```
 
 ### Spatial Differential Expression Using Moran's I
