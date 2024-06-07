@@ -2,6 +2,24 @@
 title: Setup
 ---
 
+Spatially resolved transcriptomics is a cutting-edge molecular profiling 
+technology that measures transcript expression and position within a tissue.
+This course will teach you how to analyze spatial transcriptomics data generated 
+by the [Visium 10X platform][visium]. By the end of this course, you will be 
+able to:
+
+- Describe different spatial transcriptomics technologies and the best uses of 
+each.
+- Identify important elements for good experimental design.
+- Analyze spatial transcriptomics data, including quality control, transcript quantification, and cell-type assignment within regions.
+
+## Prerequisites
+
+To succeed in this course, you need to have
+
+1.      proficiency in the R programming language;
+2.      knowledge of bulk RNA and single-cell sequence analysis.
+
 For this lesson, you will be working in the R programming language and the RStudio
 develpment environment. You will be installing this software on your laptop and
 downloading the data set.
@@ -14,7 +32,8 @@ You may be able to install the applications using JAX Self Service software. Ple
 before the workshop. We will not delay the start of the course while you install software. 
 We will help you in advance to make sure that you have everything that you need.
 
-If you do not already have R and RStudio installed, download and install the following software:
+If you do not already have R and RStudio installed, download and install the following 
+software:
 
     R/4.4.0: Select the installation for your operating system (Windows, Mac, or Linux).
     RStudio: Download the free Rstudio Desktop.
@@ -26,7 +45,8 @@ Once you have installed R and RStudio, open RStudio to verify that the installat
 successful.
 R Library Installation
 
-Next, we will install the required packages for this lesson. Note that the [spacexr](https://github.com/dmcable/spacexr) 
+Next, we will install the required packages for this lesson. Note that the 
+[spacexr](https://github.com/dmcable/spacexr) 
 package takes a long time to download. It may take up to 30 minutes for it to install.
 
 In RStudio, copy and paste the following commands into the Console:
@@ -165,3 +185,6 @@ sessionInfo()
 ```
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
+
+Development of this lesson was funded by the [Jackson Laboratory](https://www.jax.org/) 
+Director's Innovation Fund. Lesson authors are grateful for this support.

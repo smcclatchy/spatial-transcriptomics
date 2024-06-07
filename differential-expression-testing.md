@@ -180,13 +180,7 @@ p_val_adj_matrix <-
   dcast(as.data.table(df), gene ~ cluster, value.var = "p_val_adj", fill = 1) %>%
   column_to_rownames("gene") %>%
   as.matrix()
-```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'as.matrix': could not find function "dcast"
-```
-
-``` r
 # Create a heatmap of the DE pvalues of spatially variable genes
 Heatmap(p_val_adj_matrix,
         column_title      = "Heatmap of DE p-values of spatially DE genes",
@@ -200,9 +194,7 @@ Heatmap(p_val_adj_matrix,
         show_column_dend  = TRUE)
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'p_val_adj_matrix' not found
-```
+<img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" />
 
 The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
 This observation underscores the spatial correlation of gene expression, highlighting its potential relevance in understanding regional brain functions and pathologies.
