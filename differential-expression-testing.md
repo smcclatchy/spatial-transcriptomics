@@ -162,81 +162,45 @@ Also defined by 'BiocGenerics'
 
 
 ``` r
-# Unique clusters
-unique_clusters        <- unique(brain2$cluster)
-
-# Create list of data frames filtered by cluster
-cluster_data_frames    <- lapply(
-                            setNames(unique_clusters, unique_clusters), 
-                            function(cluster) {
-                              brain2 %>% filter(cluster == !!as.character(cluster))
-                            }
-                          )
-
 # Get and sort 'MoransI_observed' values
-wer_sorted             <- brain@assays[["SCT"]]@meta.features %>%
-                            arrange(desc(MoransI_observed)) %>%
-                            slice_head(n = 100)
+morans_i_genes   <- brain@assays[["SCT"]]@meta.features %>%
+                       rownames_to_column("gene") %>%
+                       arrange(desc(MoransI_observed)) %>%
+                       slice_head(n = 100)
 
-# Initialize p-value adjustment matrix
-p_val_adj_matrix       <- matrix(
-                            1, 
-                            nrow = nrow(wer_sorted), 
-                            ncol = length(cluster_data_frames), 
-                            dimnames = list(
-                              rownames(wer_sorted), 
-                              names(cluster_data_frames)
-                            )
-                          )
+# Merge the Moran's I values with the DE genes
+df <- merge(morans_i_genes, brain2, all.x = TRUE, by = "gene")
+df <- subset(df, !is.na(cluster))
 
-# Fill the matrix with adjusted p-values
-for (i in rownames(wer_sorted)) {
-  for (j in seq_along(cluster_data_frames)) {
-    df <- cluster_data_frames[[j]]
-    if (i %in% df$gene) {
-      p_val_adj_value <- df$p_val_adj[df$gene == i]
-      p_val_adj_matrix[i, j] <- p_val_adj_value
-    }
-  }
-}
-
-# Define colors using a color ramp
-color_palette <- colorRamp2(c(0, 0.5, 1), c("navy", "white", "firebrick3"))
+# Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),
+# whose columns are the clusters, and whose entries are the adjusted DE pvalue for the
+# corresponding gene and cluster.
+p_val_adj_matrix <- 
+  dcast(as.data.table(df), gene ~ cluster, value.var = "p_val_adj", fill = 1) %>%
+  column_to_rownames("gene") %>%
+  as.matrix()
 ```
 
 ``` error
-Error in colorRamp2(c(0, 0.5, 1), c("navy", "white", "firebrick3")): could not find function "colorRamp2"
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'as.matrix': could not find function "dcast"
 ```
 
 ``` r
-# Create the heatmap
-heatmap <- Heatmap(p_val_adj_matrix,
-                   name              = "DE p-values", # Title for the heatmap legend
-                   cluster_rows      = TRUE, 
-                   cluster_cols      = TRUE,
-                   show_row_names    = FALSE, 
-                   show_column_names = FALSE,
-                   show_row_dend     = TRUE, 
-                   show_column_dend  = TRUE,
-                   cell_fun          = function(j, i, x, y, width, height, fill) {
-                                       if (!is.na(p_val_adj_matrix[i, j])) {
-                                           grid.text(sprintf("%.2f", p_val_adj_matrix[i, j]), x, y)
-                                       }
-                                   }, # Optionally display numbers in cells
-                   col               = color_palette)
+# Create a heatmap of the DE pvalues of spatially variable genes
+Heatmap(p_val_adj_matrix,
+        column_title      = "Heatmap of DE p-values of spatially DE genes",
+        name              = "DE p-values", # Title for the heatmap legend
+        row_title         = "Spatially variable genes",
+        cluster_rows      = TRUE, 
+        cluster_columns   = TRUE,
+        show_row_names    = FALSE, 
+        show_column_names = TRUE,
+        show_row_dend     = FALSE, 
+        show_column_dend  = TRUE)
 ```
 
 ``` error
-Error in Heatmap(p_val_adj_matrix, name = "DE p-values", cluster_rows = TRUE, : unused argument (cluster_cols = TRUE)
-```
-
-``` r
-# Draw the heatmap
-draw(heatmap, main = "Heatmap of DE p-values of spatially DE genes")
-```
-
-``` error
-Error: unable to find an inherited method for function 'draw' for signature 'object = "function"'
+Error in eval(expr, envir, enclos): object 'p_val_adj_matrix' not found
 ```
 
 The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
