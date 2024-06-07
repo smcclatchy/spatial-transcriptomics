@@ -107,11 +107,35 @@ from the ST data to specific cell types.
 
 ``` r
 # Load single-cell RNA-seq data
-sc.counts     <- readRDS("data/scRNA-seq/sc_counts.rds")
+sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz")
 ```
 
 ``` error
-Error in readRDS("data/scRNA-seq/sc_counts.rds"): unknown input format
+Error: To read gz and bz2 files directly, fread() requires 'R.utils' package which cannot be found. Please install 'R.utils' using 'install.packages('R.utils')'.
+```
+
+``` r
+sc.counts <- as.data.frame(sc.counts)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'sc.counts' not found
+```
+
+``` r
+rownames(sc.counts) <- sc.counts[,1]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'sc.counts' not found
+```
+
+``` r
+sc.counts           <- matrix(sc.counts[,-1])
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ```
 
 ``` r
