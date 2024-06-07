@@ -33,9 +33,9 @@ In RStudio, copy and paste the following commands into the Console:
 
 ```r
 pkgs <- c("BiocManager", "data.table",  "ggExtra", "hdf5r",
-                   "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
-                   "plyr",        "rcartocolor", "remotes",
-                   "Rfast2",      "Seurat",      "tidyverse", "R.utils")
+          "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
+          "plyr",        "rcartocolor", "remotes",
+          "Rfast2",      "Seurat",      "tidyverse", "R.utils")
 for(pkg in pkgs) {
   if(!require(pkg, character.only=TRUE)) {
     install.packages(pkg, dependencies = TRUE)
