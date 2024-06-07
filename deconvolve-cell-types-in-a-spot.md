@@ -107,27 +107,11 @@ from the ST data to specific cell types.
 
 ``` r
 # Load single-cell RNA-seq data
-sc.counts           <- readRDS("data/scRNA-seq/sc_counts.rds")
+sc.counts     <- readRDS("data/scRNA-seq/sc_counts.rds")
 ```
 
 ``` error
 Error in readRDS("data/scRNA-seq/sc_counts.rds"): unknown input format
-```
-
-``` r
-rownames(sc.counts) <- sc.counts[,1]
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
-```
-
-``` r
-sc.counts           <- sc.counts[,-1]
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ```
 
 ``` r
