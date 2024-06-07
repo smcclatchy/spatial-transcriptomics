@@ -43,7 +43,7 @@ In bioinformatics, it's applied to detect genes whose expression patterns exhibi
 
 ## Data Preparation
 
-```{{r data-prep}}
+```{r data-prep}
 plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
 plot_seurat_object$Layers <- plot_seurat_object$layer_guess
 unique_clusters           <- unique(plot_seurat_object$Layers)
@@ -59,7 +59,7 @@ names(palette)            <- unique_clusters
 
 Based on the exprerts brain layers annotation, as it is indicated here:
 
-```{{r layers}}
+```{r layers}
 plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
 plot_seurat_object$Layers <- plot_seurat_object$layer_guess
 
@@ -80,7 +80,7 @@ print(p)
 
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
-```{{r layer-de}}
+```{r layer-de}
 Idents(seurat_object)  <- "layer_guess"
 brain2                  <- FindAllMarkers(seurat_object, 
                                           assay = "SCT", 
