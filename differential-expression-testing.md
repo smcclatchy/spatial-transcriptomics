@@ -31,130 +31,42 @@ This method helps find genes that are upregulated or downregulated in specific c
 Moran's I is a measure used to assess spatial autocorrelation in data, indicating whether similar values are clustered, dispersed, or random. 
 In bioinformatics, it's applied to detect genes whose expression patterns exhibit clear spatial structure, aiding in understanding spatially localized biological processes.
 
-## Data Preparation
-
-
-``` r
-plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
-```
-
-``` r
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
-unique_clusters           <- unique(plot_seurat_object$Layers)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
-num_clusters              <- length(unique_clusters)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
-palette                   <- carto_pal(num_clusters, "Safe")
-```
-
-``` error
-Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
-```
-
-``` r
-names(palette)            <- unique_clusters
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
 ## Differential Expression Analysis
 
 ### Differential Expression Using Expert's Annotation
 
-Based on the exprerts brain layers annotation, as it is indicated here:
+We will begin by performing differential expression across the annotated layers. 
+As a reminder, those look like:
 
 
 ``` r
-plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
+``` warning
+Warning: Not validating Centroids objects
+Not validating Centroids objects
 ```
 
-``` r
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+``` warning
+Warning: Not validating Seurat objects
 ```
 
-``` r
-unique_clusters           <- unique(plot_seurat_object$Layers)
+``` output
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
-num_clusters              <- length(unique_clusters)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
-palette                   <- carto_pal(num_clusters, "Safe")
-```
-
-``` error
-Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
-```
-
-``` r
-names(palette)            <- unique_clusters
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
-p                         <- SpatialDimPlot(plot_seurat_object, 
-                                            group.by = 'Layers', 
-                                            cols=palette) +
-                                           theme(legend.position = "right")
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
-```
-
-``` r
-print(p)
-```
-
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'p' not found
-```
+<img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
@@ -168,15 +80,59 @@ Error: object 'seurat_object' not found
 ```
 
 ``` r
-brain2                  <- FindAllMarkers(seurat_object, 
+brain2                  <- FindAllMarkers(filter_st, 
                                           assay = "SCT", 
                                           only.pos = TRUE, 
                                           min.pct = 0.25, 
                                           logfc.threshold = 0.25)
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'seurat_object' not found
+``` output
+Calculating cluster 0
+```
+
+``` output
+For a (much!) faster implementation of the Wilcoxon Rank Sum Test,
+(default method for FindMarkers) please install the presto package
+--------------------------------------------
+install.packages('devtools')
+devtools::install_github('immunogenomics/presto')
+--------------------------------------------
+After installation of presto, Seurat will automatically use the more 
+efficient implementation (no further action necessary).
+This message will be shown once per session
+```
+
+``` output
+Calculating cluster 1
+```
+
+``` output
+Calculating cluster 2
+```
+
+``` output
+Calculating cluster 3
+```
+
+``` output
+Calculating cluster 4
+```
+
+``` output
+Calculating cluster 5
+```
+
+``` output
+Calculating cluster 6
+```
+
+``` output
+Calculating cluster 7
+```
+
+``` output
+Calculating cluster 8
 ```
 
 ### Spatial Differential Expression Using Moran's I
@@ -223,13 +179,7 @@ Also defined by 'BiocGenerics'
 ``` r
 # Unique clusters
 unique_clusters        <- unique(brain2$cluster)
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'brain2' not found
-```
-
-``` r
 # Create list of data frames filtered by cluster
 cluster_data_frames    <- lapply(
                             setNames(unique_clusters, unique_clusters), 
@@ -237,13 +187,7 @@ cluster_data_frames    <- lapply(
                               brain2 %>% filter(cluster == !!as.character(cluster))
                             }
                           )
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'unique_clusters' not found
-```
-
-``` r
 # Get and sort 'MoransI_observed' values
 wer_sorted             <- brain@assays[["SCT"]]@meta.features %>%
                             arrange(desc(MoransI_observed)) %>%
@@ -259,13 +203,7 @@ p_val_adj_matrix       <- matrix(
                               names(cluster_data_frames)
                             )
                           )
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'cluster_data_frames' not found
-```
-
-``` r
 # Fill the matrix with adjusted p-values
 for (i in rownames(wer_sorted)) {
   for (j in seq_along(cluster_data_frames)) {
@@ -276,13 +214,7 @@ for (i in rownames(wer_sorted)) {
     }
   }
 }
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'cluster_data_frames' not found
-```
-
-``` r
 # Define colors using a color ramp
 color_palette <- colorRamp2(c(0, 0.5, 1), c("navy", "white", "firebrick3"))
 ```
