@@ -33,14 +33,53 @@ In bioinformatics, it's applied to detect genes whose expression patterns exhibi
 
 ## Data Preparation
 
-```{{r data-prep}}
-plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
-plot_seurat_object$Layers <- plot_seurat_object$layer_guess
-unique_clusters           <- unique(plot_seurat_object$Layers)
-num_clusters              <- length(unique_clusters)
-palette                   <- carto_pal(num_clusters, "Safe")
-names(palette)            <- unique_clusters
 
+``` r
+plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
+```
+
+``` r
+plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
+unique_clusters           <- unique(plot_seurat_object$Layers)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
+num_clusters              <- length(unique_clusters)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
+palette                   <- carto_pal(num_clusters, "Safe")
+```
+
+``` error
+Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
+```
+
+``` r
+names(palette)            <- unique_clusters
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
 ```
 
 ## Differential Expression Analysis
@@ -49,56 +88,148 @@ names(palette)            <- unique_clusters
 
 Based on the exprerts brain layers annotation, as it is indicated here:
 
-```{{r layers}}
+
+``` r
 plot_seurat_object        <- seurat_object[,!is.na(seurat_object$layer_guess)]
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
+```
+
+``` r
 plot_seurat_object$Layers <- plot_seurat_object$layer_guess
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
 unique_clusters           <- unique(plot_seurat_object$Layers)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
 num_clusters              <- length(unique_clusters)
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
 palette                   <- carto_pal(num_clusters, "Safe")
-names(palette)            <- unique_clusters
+```
 
+``` error
+Error in carto_pal(num_clusters, "Safe"): could not find function "carto_pal"
+```
+
+``` r
+names(palette)            <- unique_clusters
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
 p                         <- SpatialDimPlot(plot_seurat_object, 
                                             group.by = 'Layers', 
                                             cols=palette) +
                                            theme(legend.position = "right")
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'plot_seurat_object' not found
+```
+
+``` r
 print(p)
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'p' not found
 ```
 
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
-```{{r layer-de}}
+
+``` r
 Idents(seurat_object)  <- "layer_guess"
+```
+
+``` error
+Error: object 'seurat_object' not found
+```
+
+``` r
 brain2                  <- FindAllMarkers(seurat_object, 
                                           assay = "SCT", 
                                           only.pos = TRUE, 
                                           min.pct = 0.25, 
                                           logfc.threshold = 0.25)
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'seurat_object' not found
 ```
 
 ### Spatial Differential Expression Using Moran's I
 
 We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
 
-```{{r moran-i}}
-brain                   <- FindSpatiallyVariableFeatures(seurat_object, 
-                                                         assay = "SCT", 
-                                                         features = VariableFeatures(seurat_object)[1:1000],                                                                  selection.method = "moransi")
+
+``` r
+brain <- FindSpatiallyVariableFeatures(filter_st, 
+                                       assay            = "SCT", 
+                                       features         = VariableFeatures(filter_st)[1:1000], 
+                                       selection.method = "moransi")
 ```
 
-## Correlation of Differnetially Expressed Genes in each Brain Region and genes with highset Moran's I value.
+``` output
+Computing Moran's I
+```
+
+``` warning
+Warning in dist(x = pos): NAs introduced by coercion
+```
+
+``` output
+Found more than one class "dist" in cache; using the first, from namespace 'spam'
+```
+
+``` output
+Also defined by 'BiocGenerics'
+```
+
+``` output
+Found more than one class "dist" in cache; using the first, from namespace 'spam'
+```
+
+``` output
+Also defined by 'BiocGenerics'
+```
+
+## Correlation of Differentially Expressed Genes in each Brain Region and genes with highset Moran's I value.
 
 ### Heatmap of Differential Expression
 
-```{{r heatmap-de}}
 
+``` r
 # Unique clusters
 unique_clusters        <- unique(brain2$cluster)
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'brain2' not found
+```
+
+``` r
 # Create list of data frames filtered by cluster
 cluster_data_frames    <- lapply(
                             setNames(unique_clusters, unique_clusters), 
@@ -106,7 +237,13 @@ cluster_data_frames    <- lapply(
                               brain2 %>% filter(cluster == !!as.character(cluster))
                             }
                           )
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'unique_clusters' not found
+```
+
+``` r
 # Get and sort 'MoransI_observed' values
 wer_sorted             <- brain@assays[["SCT"]]@meta.features %>%
                             arrange(desc(MoransI_observed)) %>%
@@ -122,7 +259,13 @@ p_val_adj_matrix       <- matrix(
                               names(cluster_data_frames)
                             )
                           )
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'cluster_data_frames' not found
+```
+
+``` r
 # Fill the matrix with adjusted p-values
 for (i in rownames(wer_sorted)) {
   for (j in seq_along(cluster_data_frames)) {
@@ -133,10 +276,22 @@ for (i in rownames(wer_sorted)) {
     }
   }
 }
+```
 
+``` error
+Error in eval(expr, envir, enclos): object 'cluster_data_frames' not found
+```
+
+``` r
 # Define colors using a color ramp
 color_palette <- colorRamp2(c(0, 0.5, 1), c("navy", "white", "firebrick3"))
+```
 
+``` error
+Error in colorRamp2(c(0, 0.5, 1), c("navy", "white", "firebrick3")): could not find function "colorRamp2"
+```
+
+``` r
 # Create the heatmap
 heatmap <- Heatmap(p_val_adj_matrix,
                    name              = "DE p-values", # Title for the heatmap legend
@@ -152,10 +307,19 @@ heatmap <- Heatmap(p_val_adj_matrix,
                                        }
                                    }, # Optionally display numbers in cells
                    col               = color_palette)
+```
 
+``` error
+Error in Heatmap(p_val_adj_matrix, name = "DE p-values", cluster_rows = TRUE, : unused argument (cluster_cols = TRUE)
+```
+
+``` r
 # Draw the heatmap
 draw(heatmap, main = "Heatmap of DE p-values of spatially DE genes")
+```
 
+``` error
+Error: unable to find an inherited method for function 'draw' for signature 'object = "function"'
 ```
 
 The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 

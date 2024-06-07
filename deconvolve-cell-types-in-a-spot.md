@@ -108,61 +108,16 @@ from the ST data to specific cell types.
 ``` r
 # Load single-cell RNA-seq data
 sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz")
-```
-
-``` error
-Error: To read gz and bz2 files directly, fread() requires 'R.utils' package which cannot be found. Please install 'R.utils' using 'install.packages('R.utils')'.
-```
-
-``` r
 sc.counts <- as.data.frame(sc.counts)
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
-```
-
-``` r
 rownames(sc.counts) <- sc.counts[,1]
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
-```
-
-``` r
 sc.counts           <- matrix(sc.counts[,-1])
-```
 
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
-```
-
-``` r
 # Load cell type annotations
 sc.metadata   <- read.delim("data/scRNA-seq/sc_cell_types.tsv")
 sc.cell.types <- setNames(factor(sc.metadata$Value), sc.metadata$Name)
 shared.cells  <- intersect(colnames(sc.counts), names(sc.cell.types))
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
-```
-
-``` r
 sc.cell.types <- sc.cell.types[shared.cells]
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'shared.cells' not found
-```
-
-``` r
 sc.counts     <- sc.counts[, shared.cells]
-```
-
-``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ```
 
 ## Deconvolution with RCTD
@@ -179,7 +134,7 @@ reference <- Reference(sc.counts, sc.cell.types)
 ```
 
 ``` error
-Error in eval(expr, envir, enclos): object 'sc.counts' not found
+Error in .m2sparse(from, "dgC"): invalid type "list" in 'R_matrix_as_sparse'
 ```
 
 
