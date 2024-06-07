@@ -23,7 +23,7 @@ exercises: 20
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(pheatmap))
+suppressPackageStartupMessages(library(ComplexHeatmap))
 suppressPackageStartupMessages(library(rcartocolor))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
@@ -42,44 +42,27 @@ This method helps find genes that are upregulated or downregulated in specific c
 Moran's I is a measure used to assess spatial autocorrelation in data, indicating whether similar values are clustered, dispersed, or random. 
 In bioinformatics, it's applied to detect genes whose expression patterns exhibit clear spatial structure, aiding in understanding spatially localized biological processes.
 
-## Data Preparation
-
-```{r data-prep}
-plot_filter_st <- filter_st[,!is.na(filter_st$layer_guess)]
-plot_filter_st$Layers <- plot_filter_st$layer_guess
-unique_clusters <- unique(plot_filter_st$Layers)
-num_clusters <- length(unique_clusters)
-palette <- carto_pal(num_clusters, "Safe")
-names(palette) <- unique_clusters
-```
-
 ## Differential Expression Analysis
 
 ### Differential Expression Using Expert's Annotation
 
-Based on the exprerts brain layers annotation, as it is indicated here:
+We will begin by performing differential expression across the annotated layers. 
+As a reminder, those look like:
 
 ```{r layers}
-plot_filter_st <- filter_st[,!is.na(filter_st$layer_guess)]
-plot_filter_st$Layers <- plot_filter_st$layer_guess
-
-unique_clusters <- unique(plot_filter_st$Layers)
-num_clusters <- length(unique_clusters)
-
-palette <- carto_pal(num_clusters, "Safe")
-names(palette) <- unique_clusters
-
-p <- SpatialDimPlot(plot_filter_st, group.by = 'Layers', cols=palette) +
-  theme(legend.position = "right")
-
-print(p)
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
 ```{r layer-de}
-Idents(filter_st) <- "layer_guess"
-brain2 <- FindAllMarkers(filter_st, assay = "SCT", only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+Idents(filter_st)  <- "layer_guess"
+brain2                  <- FindAllMarkers(filter_st, 
+                                          assay = "SCT", 
+                                          only.pos = TRUE, 
+                                          min.pct = 0.25, 
+                                          logfc.threshold = 0.25)
+
 ```
 
 ### Spatial Differential Expression Using Moran's I
@@ -87,31 +70,44 @@ brain2 <- FindAllMarkers(filter_st, assay = "SCT", only.pos = TRUE, min.pct = 0.
 We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
 
 ```{r moran-i}
-brain <- FindSpatiallyVariableFeatures(filter_st, assay = "SCT", features = VariableFeatures(filter_st)[1:1000], selection.method = "moransi")
+brain <- FindSpatiallyVariableFeatures(filter_st, 
+                                       assay            = "SCT", 
+                                       features         = VariableFeatures(filter_st)[1:1000], 
+                                       selection.method = "moransi")
 ```
 
-## Correlation of Differnetially Expressed Genes in each Brain Region and genes with highset Moran's I value.
+## Correlation of Differentially Expressed Genes in each Brain Region and genes with highset Moran's I value.
 
 ### Heatmap of Differential Expression
 
 ```{r heatmap-de}
 
 # Unique clusters
-unique_clusters <- unique(brain2$cluster)
+unique_clusters        <- unique(brain2$cluster)
 
 # Create list of data frames filtered by cluster
-cluster_data_frames <- lapply(setNames(unique_clusters, unique_clusters), function(cluster) {
-  brain2 %>% filter(cluster == !!as.character(cluster))
-})
+cluster_data_frames    <- lapply(
+                            setNames(unique_clusters, unique_clusters), 
+                            function(cluster) {
+                              brain2 %>% filter(cluster == !!as.character(cluster))
+                            }
+                          )
 
 # Get and sort 'MoransI_observed' values
-wer_sorted <- brain@assays[["SCT"]]@meta.features %>%
-  arrange(desc(MoransI_observed)) %>%
-  slice_head(n = 100)
+wer_sorted             <- brain@assays[["SCT"]]@meta.features %>%
+                            arrange(desc(MoransI_observed)) %>%
+                            slice_head(n = 100)
 
 # Initialize p-value adjustment matrix
-p_val_adj_matrix <- matrix(1, nrow = nrow(wer_sorted), ncol = length(cluster_data_frames), 
-                           dimnames = list(rownames(wer_sorted), names(cluster_data_frames)))
+p_val_adj_matrix       <- matrix(
+                            1, 
+                            nrow = nrow(wer_sorted), 
+                            ncol = length(cluster_data_frames), 
+                            dimnames = list(
+                              rownames(wer_sorted), 
+                              names(cluster_data_frames)
+                            )
+                          )
 
 # Fill the matrix with adjusted p-values
 for (i in rownames(wer_sorted)) {
@@ -124,14 +120,28 @@ for (i in rownames(wer_sorted)) {
   }
 }
 
-# Generate and save heatmap
-g <- pheatmap(p_val_adj_matrix, 
-              cluster_rows = TRUE, 
-              cluster_cols = TRUE, 
-              display_numbers = FALSE, 
-              color = colorRampPalette(c("navy", "white", "firebrick3"))(50), 
-              main = "Heatmap of DE p-values of spatially DE genes ")
-print(g)
+# Define colors using a color ramp
+color_palette <- colorRamp2(c(0, 0.5, 1), c("navy", "white", "firebrick3"))
+
+# Create the heatmap
+heatmap <- Heatmap(p_val_adj_matrix,
+                   name              = "DE p-values", # Title for the heatmap legend
+                   cluster_rows      = TRUE, 
+                   cluster_cols      = TRUE,
+                   show_row_names    = FALSE, 
+                   show_column_names = FALSE,
+                   show_row_dend     = TRUE, 
+                   show_column_dend  = TRUE,
+                   cell_fun          = function(j, i, x, y, width, height, fill) {
+                                       if (!is.na(p_val_adj_matrix[i, j])) {
+                                           grid.text(sprintf("%.2f", p_val_adj_matrix[i, j]), x, y)
+                                       }
+                                   }, # Optionally display numbers in cells
+                   col               = color_palette)
+
+# Draw the heatmap
+draw(heatmap, main = "Heatmap of DE p-values of spatially DE genes")
+
 ```
 
 The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
