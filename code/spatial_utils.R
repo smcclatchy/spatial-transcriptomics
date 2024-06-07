@@ -207,7 +207,7 @@ plot_tissue_prc_merge <-function(brain.merge){
 SpatialDimPlotColorSafe <- function(obj, group.by, ...) {
   vals <- unique(obj[[]][,group.by])
   cols <- setNames(carto_pal(length(vals), "Safe"), vals)
-                           
+
   g <- SpatialDimPlot(obj, group.by, cols = cols, label = TRUE, repel = TRUE, combine = FALSE, ...)[[1]]
   g <- g + guides(fill = guide_legend(override.aes = list(size=10)))
   g <- g + theme(text = element_text(size = 20))
@@ -253,13 +253,13 @@ plot_RCTD_results <- function(obj, myRCTD.all) {
   gt.col <- "layer_guess"
   flag <- is.na(obj[[]][,gt.col])
   obj <- subset(obj, cells = Cells(obj)[!flag])
-                           
+
   gt.vals <- unique(obj[[]][, gt.col])
   gt.cols <- setNames(carto_pal(length(gt.vals), "Safe"), gt.vals)
-  
+
   vals <- unique(obj[[]][,anno.col])
   cols <- setNames(carto_pal(length(vals), "Safe"), vals)
-                           
+
   g1 <- SpatialDimPlot(obj, c(anno.col), cols = cols, label = TRUE, repel = TRUE, combine = FALSE)[[1]]
   g1 <- g1 + guides(fill = guide_legend(override.aes = list(size=10)))
   g1 <- g1 + theme(text = element_text(size = 20))
@@ -469,41 +469,31 @@ load_seurat_object <- function(file_prefix) {
 
   # Get the files that start with the prefix.
   files <- dir(path = '.', pattern = file_prefix)
-  print(files)
-  
+
   # Find the file containing the Seurat object and read it in.
   wh  <- grep("_seurat_obj.rds", files)
-  print(files[wh])
   obj <- readRDS(files[wh])
-  
+
   # Remove the Seurat object filename for the next part.
   files <- files[-wh]
-  print(files)
-  
+
   # Read in the cspot metadata and assign it to the Seurat object metadata.
   wh      <- grep("_meta_data.rds", files)
-  print(files[wh])
   obj[[]] <- readRDS(files[wh])
-  
+
   # Remove the metadata filename for the next part.
   files <- files[-wh]
-  print(files)
-  
+
   # Create a data.frame with the filenames, assay, and layer.
   file_parts <- strsplit(sub("\\.rds$", "", files), split = '_')
-  print(file_parts)
   file_info  <- data.frame(files = files,
                            assay = sapply(file_parts, '[', 2),
                            layer = sapply(file_parts, '[', 3))
-  print(file_info)
-  
+
   # Go through each row in the file data.frame, read in the file, and place
   # it's contents in the correct Assay and Layer.
   for(i in 1:nrow(file_info)) {
 
-    print(i)
-    print(file_info[i,])
-    print(file_info$files[i])
     current_assay <- file_info$assay[i]
     current_layer <- file_info$layer[i]
 
@@ -516,6 +506,7 @@ load_seurat_object <- function(file_prefix) {
   return(obj)
 
 } # load_seurat_object()
+
 
 ################################################################################
 # Given an RCTD object, zero out the Reference counts (by replacing them with
