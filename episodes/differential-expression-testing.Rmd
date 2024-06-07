@@ -56,7 +56,7 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_g
 We identify genes that are upregulated in each brain region in comparison to other regions.
 
 ```{r layer-de}
-Idents(seurat_object)  <- "layer_guess"
+Idents(filter_st)  <- "layer_guess"
 brain2                  <- FindAllMarkers(filter_st, 
                                           assay = "SCT", 
                                           only.pos = TRUE, 
