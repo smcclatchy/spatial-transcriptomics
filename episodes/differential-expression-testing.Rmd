@@ -27,7 +27,7 @@ suppressPackageStartupMessages(library(ComplexHeatmap))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
-filter_st <- load_seurat_object(file_prefix = 'deconvolve')
+filter_st <- load_seurat_object(file_prefix = 'deconcelltypes')
 DefaultAssay(filter_st) <- "SCT"
 ```
 
