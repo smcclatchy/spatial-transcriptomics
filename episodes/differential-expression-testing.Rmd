@@ -26,6 +26,7 @@ suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(ComplexHeatmap))
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(plyr))
+suppressPackageStartupMessages(library(data.table))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
