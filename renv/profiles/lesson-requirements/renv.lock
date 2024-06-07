@@ -3,26 +3,6 @@
     "Version": "4.4.0",
     "Repositories": [
       {
-        "Name": "BioCsoft",
-        "URL": "https://bioconductor.org/packages/3.19/bioc"
-      },
-      {
-        "Name": "BioCann",
-        "URL": "https://bioconductor.org/packages/3.19/data/annotation"
-      },
-      {
-        "Name": "BioCexp",
-        "URL": "https://bioconductor.org/packages/3.19/data/experiment"
-      },
-      {
-        "Name": "BioCworkflows",
-        "URL": "https://bioconductor.org/packages/3.19/workflows"
-      },
-      {
-        "Name": "BioCbooks",
-        "URL": "https://bioconductor.org/packages/3.19/books"
-      },
-      {
         "Name": "CRAN",
         "URL": "https://cran.rstudio.com"
       }
@@ -152,7 +132,7 @@
     },
     "GenomeInfoDb": {
       "Package": "GenomeInfoDb",
-      "Version": "1.40.0",
+      "Version": "1.40.1",
       "Source": "Bioconductor",
       "Repository": "Bioconductor 3.19",
       "Requirements": [
@@ -167,7 +147,7 @@
         "stats4",
         "utils"
       ],
-      "Hash": "614124bc9fb80d222cfa0d2e3e76c339"
+      "Hash": "171e9becd9bb948b9e64eb3759208c94"
     },
     "GenomeInfoDbData": {
       "Package": "GenomeInfoDbData",
@@ -289,6 +269,45 @@
         "methods"
       ],
       "Hash": "152dbbcde6a9a7c7f3beef79b68cd76a"
+    },
+    "R.methodsS3": {
+      "Package": "R.methodsS3",
+      "Version": "1.8.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "278c286fd6e9e75d0c2e8f731ea445c8"
+    },
+    "R.oo": {
+      "Package": "R.oo",
+      "Version": "1.26.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R.methodsS3",
+        "methods",
+        "utils"
+      ],
+      "Hash": "4fed809e53ddb5407b3da3d0f572e591"
+    },
+    "R.utils": {
+      "Package": "R.utils",
+      "Version": "2.12.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R.methodsS3",
+        "R.oo",
+        "methods",
+        "tools",
+        "utils"
+      ],
+      "Hash": "3dc2829b790254bfba21e60965787651"
     },
     "R6": {
       "Package": "R6",
@@ -675,7 +694,7 @@
     },
     "SparseArray": {
       "Package": "SparseArray",
-      "Version": "1.4.5",
+      "Version": "1.4.8",
       "Source": "Bioconductor",
       "Repository": "Bioconductor 3.19",
       "Requirements": [
@@ -692,7 +711,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "c3a929f64891a53c31f4b35c3d06a056"
+      "Hash": "97f70ff11c14edd379ee2429228cbb60"
     },
     "SummarizedExperiment": {
       "Package": "SummarizedExperiment",
@@ -1332,7 +1351,7 @@
     },
     "dqrng": {
       "Package": "dqrng",
-      "Version": "0.4.0",
+      "Version": "0.4.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1341,7 +1360,7 @@
         "Rcpp",
         "sitmo"
       ],
-      "Hash": "b31198e6268008976689b196bf9d883f"
+      "Hash": "6d7b942d8f615705f89a7883998fc839"
     },
     "dtplyr": {
       "Package": "dtplyr",
@@ -1853,32 +1872,6 @@
       ],
       "Hash": "588d091c35389f1f4a9d533c8d709b35"
     },
-    "harmony": {
-      "Package": "harmony",
-      "Version": "1.2.0",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "harmony",
-      "RemoteUsername": "immunogenomics",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "f054b030b5d503e7c385dac6290604013ab9f81b",
-      "Requirements": [
-        "Matrix",
-        "R",
-        "Rcpp",
-        "RcppArmadillo",
-        "RcppProgress",
-        "RhpcBLASctl",
-        "cowplot",
-        "dplyr",
-        "ggplot2",
-        "methods",
-        "rlang",
-        "tibble"
-      ],
-      "Hash": "48e74fd5d0b07df7d8d1e830f94e84ae"
-    },
     "haven": {
       "Package": "haven",
       "Version": "2.5.4",
@@ -1926,14 +1919,14 @@
     },
     "highr": {
       "Package": "highr",
-      "Version": "0.10",
+      "Version": "0.11",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "xfun"
       ],
-      "Hash": "06230136b2d2b9ba5805e1963fa6e890"
+      "Hash": "d65ba49117ca223614f71b60d85b8ab7"
     },
     "hms": {
       "Package": "hms",
@@ -2136,7 +2129,7 @@
     },
     "knitr": {
       "Package": "knitr",
-      "Version": "1.46",
+      "Version": "1.47",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -2148,7 +2141,7 @@
         "xfun",
         "yaml"
       ],
-      "Hash": "6e008ab1d696a5283c79765fa7b56b47"
+      "Hash": "7c99b2d55584b982717fcc0950378612"
     },
     "labeling": {
       "Package": "labeling",
@@ -2560,14 +2553,8 @@
     "pegboard": {
       "Package": "pegboard",
       "Version": "0.7.5",
-      "Source": "GitHub",
-      "Remotes": "ropensci/tinkr",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "pegboard",
-      "RemoteUsername": "carpentries",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "a32a7836d4455f407c3cafe8ab95edc636e5e919",
+      "Source": "Repository",
+      "Repository": "https://carpentries.r-universe.dev",
       "Requirements": [
         "R6",
         "commonmark",
@@ -2579,7 +2566,7 @@
         "xslt",
         "yaml"
       ],
-      "Hash": "0e9fa6c8bd7deb0911731c2fdffa7432"
+      "Hash": "5932ced143a6e7a4b85446ef5eb48514"
     },
     "pheatmap": {
       "Package": "pheatmap",
@@ -3000,6 +2987,16 @@
         "utils"
       ],
       "Hash": "3ee025083e66f18db6cf27b56e23e141"
+    },
+    "renv": {
+      "Package": "renv",
+      "Version": "1.0.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "397b7b2a265bc5a7a06852524dabae20"
     },
     "reprex": {
       "Package": "reprex",
@@ -3772,11 +3769,12 @@
         "glue",
         "magrittr",
         "purrr",
+        "rlang",
         "xml2",
         "xslt",
         "yaml"
       ],
-      "Hash": "aa0f824f0f817488641fa0919578e2d3"
+      "Hash": "e6c979e1e6ec0578ef06c1580baae712"
     },
     "tinytex": {
       "Package": "tinytex",
