@@ -67,35 +67,47 @@ exercises: 10
 
 ## Deconvolution in Spatial Transcriptomics
 
-Spatial transcriptomics (ST) provides valuable insights into the spatial distribution of gene expression within tissue
-sections. However, each spatial spot in an ST experiment generally contains multiple cells, leading to mixed gene expression
-signals. Deconvolution is needed to resolve these mixed signals into individual cell type contributions, allowing for a
-more accurate interpretation of the spatial gene expression data.
+Spatial transcriptomics (ST) provides valuable insights into the spatial 
+distribution of gene expression within tissue sections. However, each spatial 
+spot in an ST experiment generally contains multiple cells, leading to mixed 
+gene expression signals. Deconvolution is needed to resolve these mixed signals 
+into individual cell type contributions, allowing for a more accurate
+interpretation of the spatial gene expression data.
 
 ## Why Deconvolution is Needed
 
-Mixed cell populations in each spot of an ST dataset can lead to complex, mixed gene expression profiles. Deconvolution
-helps quantify the different cell types within each spot, enabling more precise biological insights and downstream analyses
+Mixed cell populations in each spot of an ST dataset can lead to complex, mixed 
+gene expression profiles. Deconvolution helps quantify the different cell types 
+within each spot, enabling more precise biological insights and downstream analyses
 such as cell type-specific expression patterns and interactions.
 
 ## Deconvolution with RCTD
 
-RCTD (Robust Cell Type Decomposition) (Cable, D. M., et al., Nature Biotechnology, 2021) is a popular deconvolution
-algorithm designed to handle the complexities of mixed cell populations in spatial transcriptomics data. The algorithm uses
-single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolute the spatial transcriptomics data, estimating the
-proportions of different cell types in each spatial spot. The RCTD algorithm models the observed gene expression in each
-spatial spot as a mixture of the gene expression profiles of different cell types and estimates the proportion of each cell
-type in each spot using a non-negative least squares (NNLS) approach. RCTD can operate in two modes: in "doublet" mode it fits at most two cell types per spot, in "full" mode it fits potentially all cell types in the reference per spot, and in "multi" mode it again fits more than two cell types per spot by extending the "doublet" approach. Here, we will use "full" mode.
+RCTD (Robust Cell Type Decomposition) 
+[Cable, D. M., et al., Nature Biotechnology, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190)
+is a popular deconvolution algorithm designed to handle the complexities of 
+mixed cell populations in spatial transcriptomics data. The algorithm uses
+single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolute the 
+spatial transcriptomics data, estimating the proportions of different cell types
+in each spatial spot. The RCTD algorithm models the observed gene expression in 
+each spatial spot as a mixture of the gene expression profiles of different cell
+types and estimates the proportion of each cell type in each spot using a 
+non-negative least squares (NNLS) approach. RCTD can operate in two modes: 
+in "doublet" mode it fits at most two cell types per spot, in "full" mode it 
+fits potentially all cell types in the reference per spot, and in "multi" mode 
+it again fits more than two cell types per spot by extending the "doublet" 
+approach. Here, we will use "full" mode.
 
 ## Loading Single Cell RNA-Seq Data
 
-First, we load the single-cell RNA-seq data that will serve as a reference for deconvolution. This data is essential for
-mapping the gene expression profiles from the ST data to specific cell types.
+First, we load the single-cell RNA-seq data that will serve as a reference for
+deconvolution. This data is essential for mapping the gene expression profiles 
+from the ST data to specific cell types.
 
 
 ``` r
 # Load single-cell RNA-seq data
-sc.counts <- as.data.frame(fread("data/scRNA-seq/sc_counts.tsv.gz"))
+sc.counts           <- as.data.frame(fread("data/scRNA-seq/sc_counts.tsv.gz"))
 ```
 
 ``` error
@@ -111,7 +123,7 @@ Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ```
 
 ``` r
-sc.counts <- sc.counts[,-1]
+sc.counts           <- sc.counts[,-1]
 ```
 
 ``` error
@@ -120,9 +132,9 @@ Error in eval(expr, envir, enclos): object 'sc.counts' not found
 
 ``` r
 # Load cell type annotations
-sc.metadata <- read.table("data/scRNA-seq/sc_cell_types.tsv", sep = "\t", header = TRUE, quote = "", stringsAsFactors = FALSE)
+sc.metadata   <- read.delim("data/scRNA-seq/sc_cell_types.tsv")
 sc.cell.types <- setNames(factor(sc.metadata$Value), sc.metadata$Name)
-shared.cells <- intersect(colnames(sc.counts), names(sc.cell.types))
+shared.cells  <- intersect(colnames(sc.counts), names(sc.cell.types))
 ```
 
 ``` error
@@ -138,7 +150,7 @@ Error in eval(expr, envir, enclos): object 'shared.cells' not found
 ```
 
 ``` r
-sc.counts <- sc.counts[, shared.cells]
+sc.counts     <- sc.counts[, shared.cells]
 ```
 
 ``` error
@@ -147,8 +159,9 @@ Error in eval(expr, envir, enclos): object 'sc.counts' not found
 
 ## Deconvolution with RCTD
 
-RCTD (Robust Cell Type Decomposition) is a powerful tool that uses scRNA-seq reference data to deconvolute the spatial
-transcriptomics data, thereby quantifying the cell types present in each spatial spot.
+RCTD (Robust Cell Type Decomposition) is a powerful tool that uses scRNA-seq 
+reference data to deconvolute the spatial transcriptomics data, thereby 
+quantifying the cell types present in each spatial spot.
 
 First, we will create the reference object encapsulating the scRNA-seq data.
 
@@ -162,8 +175,8 @@ Error in eval(expr, envir, enclos): object 'sc.counts' not found
 ```
 
 
-Let's write a wrapper function that performs RCTD deconvolution. This will facilitate
-you running RCTD on other samples within this dataset.
+Let's write a wrapper function that performs RCTD deconvolution. This will 
+facilitate running RCTD on other samples within this dataset.
 
 
 ``` r
@@ -190,19 +203,29 @@ run.rctd <- function(reference, st.obj) {
 ```
 ## Running Deconvolution on Brain Samples
 
-We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the spots and quantify the cell types. This may take ~10 minutes. If you prefer, you can load the precomputed results directly.
+We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the 
+spots and quantify the cell types. This may take ~10 minutes. If you prefer, 
+you can load the precomputed results directly.
 
 
 ``` r
+# Change this variable to TRUE to load precomputed results, or FALSE to compute
+# the results here.
 load.precomputed.results <- TRUE
+
 rds.file <- paste0("data/rctd-sample-1.rds")
+
 if(!load.precomputed.results || !file.exists(rds.file)) {
+
   result_1 <- run.rctd(reference, filter_st)
   # The RCTD file is large. To save space, we will remove the reference counts.
   result_1 <- remove.RCTD.reference.counts(result_1)
   saveRDS(result_1, rds.file)
+
 } else {
+
   result_1 <- readRDS(rds.file)
+
 }
 ```
 
@@ -212,19 +235,24 @@ Error in eval(expr, envir, enclos): object 'reference' not found
 
 ## Interpreting Deconvolution Results
 
-The deconvolution process outputs the proportion of different cell types in each spatial spot.
-Let's write a utility function to extract these proportions from the RCTD output. This function is also
-defined in code/spatial_utils.R.
+The deconvolution process outputs the proportion of different cell types in each
+spatial spot. Let's write a utility function to extract these proportions from 
+the RCTD output. This function is also defined in code/spatial_utils.R.
 
 
 ``` r
 format.rctd.output_ <- function(rctd, normalize = FALSE) {
+
   barcodes <- colnames(rctd@spatialRNA@counts)
-  weights <- rctd@results$weights
+  weights  <- rctd@results$weights
+
   if(normalize) {
+
     weights <- normalize_weights(weights)
+
   }
-  df <- as.data.frame(weights)
+
+  df   <- as.data.frame(weights)
   df$x <- rctd@spatialRNA@coords$x
   df$y <- rctd@spatialRNA@coords$y
   df
@@ -232,6 +260,7 @@ format.rctd.output_ <- function(rctd, normalize = FALSE) {
 ```
 
 And now let's see the predicted proportions in our sample:
+
 
 ``` r
 props <- format.rctd.output_(result_1, normalize = FALSE)
@@ -251,6 +280,7 @@ Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in sele
 
 Notice that the proportions don't sum exactly to one.
 
+
 ``` r
 head(rowSums(select(props, -c(x,y))))
 ```
@@ -261,6 +291,7 @@ Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in sele
 
 Let's classify the spot according to the layer type with highest proportion
 
+
 ``` r
 props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
 ```
@@ -268,6 +299,7 @@ props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row
 ``` error
 Error in eval(expr, envir, enclos): object 'props' not found
 ```
+
 Let's add the deconvolution results to our Seurat object.
 
 
@@ -329,8 +361,9 @@ Error in eval(expr, envir, enclos): object 'g1' not found
 To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
 layers.
 
+
 ``` r
-df <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
+df            <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
 ```
 
 ``` error
@@ -338,7 +371,7 @@ Error in table(filter_st[[]]$layer_guess, filter_st[[]]$classification): all arg
 ```
 
 ``` r
-colnames(df) <- c("Annotation", "Prediction", "Freq")
+colnames(df)  <- c("Annotation", "Prediction", "Freq")
 ```
 
 ``` error
@@ -404,33 +437,6 @@ robust and insightful analyses.
 - The RCTD method is effective for quantifying the proportion of different cell types in spatial transcriptomics data.
 
 :::::::::::::::::::::::::::::::::::::::::::::
-
-
-``` r
-print("Objects in memory")
-```
-
-``` output
-[1] "Objects in memory"
-```
-
-``` r
-ls()
-```
-
-``` output
- [1] "add.metadata.to.seurat.obj"   "apply_qc_threshold"          
- [3] "df"                           "filter_st"                   
- [5] "format.rctd.output_"          "g2"                          
- [7] "get.tissue.position.metadata" "load_seurat_object"          
- [9] "load.precomputed.results"     "plot_and_save"               
-[11] "plot_RCTD_results"            "plot_tissue_prc_merge"       
-[13] "print_RCTD_results"           "rctd.wrapper"                
-[15] "rds.file"                     "remove.RCTD.reference.counts"
-[17] "run.rctd"                     "save_seurat_object"          
-[19] "sc.cell.types"                "sc.metadata"                 
-[21] "SpatialDimPlotColorSafe"     
-```
 
 
 
