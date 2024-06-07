@@ -140,11 +140,17 @@ won't need to worry about the time point confounding the results.
 :::::::::::::::::::::::::::::::::::::
 
 We will use data from [Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex by Maynard et al, Nat Neurosci 24, 425–436 (2021).](https://doi.org/10.1038/s41593-020-00787-0)
+These data come from sections of the dorsolateral prefrontal cortex that contain
+six cortical layers plus white matter.
 
 ![Tissue blocks were excised from human dorsolateral prefrontal cortex. Tissue blocks include six cortical layers and underlying white matter (wm).](fig/tissue-block-with-layers.png){alt='A human brain showing a section of dorsolateral prefrontal cortex extracted. A block of tissue containing six cortical layers and an underlying layer of white matter is excised from the section.'}
 
 Adapted from 
 <a href="https://doi.org/10.1038/s41593-020-00787-0">Maynard et al,  Nat Neurosci 24, 425–436 (2021)</a>. <a href="https://www.biorender.com">Created with BioRender.com</a>.
+
+Two pairs of spatially adjacent replicates were taken from three neurotypical 
+donors. The second pair of replicates was taken from 300 microns posterior to 
+the first pair of replicates.
 
 ![Slides contain tissue samples from three neurotypical adult subjects. Each slide contains two pairs of replicates containing directly adjacent tissue sections 10 microns in size. The second pair of replicates is located 300 microns posterior to the first pair. A total of 12 samples were assayed with Visium.](fig/experimental-design.png){alt='Three Visium slides showing four spatial capture areas each. Each slide contains directly adjacent serial tissue sections for one subject. The second pair of samples contains tissue sections that are 300 microns posterior to the first pair of samples.'}
 
@@ -161,7 +167,7 @@ Is there anything that can be done about this?
 
 :::::::::::::::::::::::: solution 
 Human brain tissues start to deteriorate at death. Brain banks that provide 
-tissue for studies that require intact mRNA will quickly remove the brain and
+tissue for studies requiring intact mRNA will quickly remove the brain and
 rapidly weigh, examine, dissect and freeze it to optimize mRNA integrity. For
 this study, dorsolateral prefrontal cortex samples were embedded in a medium
 (see Methods section) and then cryosectioned. Sections were then placed on 
@@ -372,15 +378,9 @@ need a sample size of approximately 70. Larger effect sizes require much smaller
 sample sizes. Very small effects such as .01 never reach the 80% power threshold
 without enormous samples sizes in the hundreds of thousands.
 
+![The null hypothesis states that there is no difference between treatment groups.](fig/Null-hypothesis.png){alt='A normal curve with a mean of zero showing the type 1 error rate in the far right tail and specificity in the left of the curve.'}
 
-``` r
-#![The null hypothesis states that there is no difference between treatment groups.](fig/Null-hypothesis.png){alt='A normal curve with a mean of zero showing the type 1 error rate in the far right tail and specificity in the left of the curve.'}
-```
-
-
-``` r
-#![The alternative hypothesis states that there is a difference between treatment groups.](fig/Alternative-hypothesis.png){alt='A normal curve with a mean of approximately 3 showing the type 2 error rate in the left of the curve and sensitivity (also known as statistical power) in the far right tail of the curve. The effect size is shown as the difference in means between the null and alternative hypotheses.'}
-```
+![The alternative hypothesis states that there is a difference between treatment groups.](fig/Alternative-hypothesis.png){alt='A normal curve with a mean of approximately 3 showing the type 2 error rate in the left of the curve and sensitivity (also known as statistical power) in the far right tail of the curve. The effect size is shown as the difference in means between the null and alternative hypotheses.'}
 
 The effect size is shown in the figure above as the difference in means between
 the null and alternative hypotheses. Statistical power, also known as 

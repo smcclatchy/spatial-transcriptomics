@@ -73,11 +73,11 @@ We identify genes that are upregulated in each brain region in comparison to oth
 
 ``` r
 Idents(filter_st)  <- "layer_guess"
-brain2                  <- FindAllMarkers(filter_st, 
-                                          assay = "SCT", 
-                                          only.pos = TRUE, 
-                                          min.pct = 0.25, 
-                                          logfc.threshold = 0.25)
+de_genes           <- FindAllMarkers(filter_st, 
+                                     assay = "SCT", 
+                                     only.pos = TRUE, 
+                                     min.pct = 0.25, 
+                                     logfc.threshold = 0.25)
 ```
 
 ``` output
@@ -126,10 +126,11 @@ We identify the genes whose expression patterns exhibit clear spatial structure 
 
 
 ``` r
-brain <- FindSpatiallyVariableFeatures(filter_st, 
-                                       assay            = "SCT", 
-                                       features         = VariableFeatures(filter_st)[1:1000], 
-                                       selection.method = "moransi")
+svg <- 
+  FindSpatiallyVariableFeatures(filter_st, 
+                                assay            = "SCT", 
+                                features         = VariableFeatures(filter_st)[1:1000], 
+                                selection.method = "moransi")
 ```
 
 ``` output
@@ -163,13 +164,13 @@ Also defined by 'BiocGenerics'
 
 ``` r
 # Get and sort 'MoransI_observed' values
-morans_i_genes   <- brain@assays[["SCT"]]@meta.features %>%
+morans_i_genes   <- svg@assays[["SCT"]]@meta.features %>%
                        rownames_to_column("gene") %>%
                        arrange(desc(MoransI_observed)) %>%
                        slice_head(n = 100)
 
 # Merge the Moran's I values with the DE genes
-df <- merge(morans_i_genes, brain2, all.x = TRUE, by = "gene")
+df <- merge(morans_i_genes, de_genes, all.x = TRUE, by = "gene")
 df <- subset(df, !is.na(cluster))
 
 # Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),
