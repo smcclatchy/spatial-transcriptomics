@@ -74,7 +74,10 @@ from the ST data to specific cell types.
 
 ```{r}
 # Load single-cell RNA-seq data
-sc.counts     <- readRDS("data/scRNA-seq/sc_counts.rds")
+sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz")
+sc.counts <- as.data.frame(sc.counts)
+rownames(sc.counts) <- sc.counts[,1]
+sc.counts           <- matrix(sc.counts[,-1])
 
 # Load cell type annotations
 sc.metadata   <- read.delim("data/scRNA-seq/sc_cell_types.tsv")
