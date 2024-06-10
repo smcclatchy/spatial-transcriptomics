@@ -430,14 +430,18 @@ this before the workshop so that you are able to participate at the
 start of the course.</p>
 <section id="software-setup"><h2 class="section-heading">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a>
 </h2>
-<hr class="half-width"><p>Please download and install R version 4.4.0 (Puppy Cup). To interact
-with R, we use RStudio. You can also download the latest stable version
-of RStudio, although this is not as critical as the latest R version is.
-If you don’t have administrative rights to your laptop, please ask the
-IT help desk to install software for you. Once you have installed R and
-RStudio, open RStudio to verify that the installation was
-successful.</p>
-<p>R Library Installation</p>
+<hr class="half-width"><div class="section level3">
+<h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a></h3>
+<p>Please download and install <a href="https://cran.r-project.org/" class="external-link">R
+version 4.4.0 (Puppy Cup)</a>. To interact with R, we use <a href="https://posit.co/download/rstudio-desktop/" class="external-link">RStudio</a>. You can
+also download the latest stable version of RStudio, although this is not
+as critical as the latest R version is. If you don’t have administrative
+rights to your laptop, please ask the IT help desk to install software
+for you. Once you have installed R and RStudio, open RStudio to verify
+that the installation was successful.</p>
+</div>
+<div class="section level3">
+<h3 id="r-package-installation">R Package Installation<a class="anchor" aria-label="anchor" href="#r-package-installation"></a></h3>
 <p>Next, we will install the required packages for this lesson. Note
 that the <a href="https://github.com/dmcable/spacexr" class="external-link">spacexr</a>
 package takes a long time to download.</p>
@@ -463,7 +467,7 @@ Console:</p>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dmcable/spacexr"</span>,        build_vignettes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Once the installation has finished, copy and paste the following
-commands into the console to verify that both packages installed
+commands into the console to verify that packages installed
 correctly.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -482,6 +486,7 @@ correctly.</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">ComplexHeatmap</span><span class="op">)</span></span></code></pre>
+</div>
 </div>
 </section><section id="project-setup"><h2 class="section-heading">Project Setup<a class="anchor" aria-label="anchor" href="#project-setup"></a>
 </h2>
@@ -572,14 +577,6 @@ download the data into your <code>data</code> directory.</p>
 <span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/dt2chlmxtjajxfnlpfzolz1tvb6kic7p.rds"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/rctd-sample-1.rds"</span>,</span>
 <span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span></code></pre>
-</div>
-</section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sessionInfo</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
 <p>Development of this lesson was funded by a <a href="https://www.jax.org/" class="external-link">Jackson Laboratory</a> Director’s Innovation
