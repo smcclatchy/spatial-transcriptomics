@@ -205,8 +205,11 @@ think it's best suited.
 
 :::::::::::::::::::::::: solution 
 
-Varying - refer to strengths and weaknesses of each category, best uses of 
-different technologies and how they have been used in research to date.
+Which technology you use depends on your experimental aim. If you are testing
+hypotheses about specific genes, you can profile those genes at high resolution
+and sensitivity with an imaging-based method. If instead you aim to generate
+hypotheses, next generation sequencing-based methods that profile many genes in 
+an unbiased manner would be best.
 
 ::::::::::::::::::::::::
 
