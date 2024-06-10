@@ -75,14 +75,15 @@ hybridizing mRNA to gene-specific fluorescent probes.
 Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a> Image 
 created with Biorender.com. Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
-Current FISH methods employ multiple hybridization rounds, with risk of error 
-for each transcript growing exponentially with each round. FISH methods are 
-limited in the size of tissue that they can profile and most are applicable only 
-to fresh-frozen (FF) tissue. They can also be time-consuming and expensive due 
-to microscopic imaging they require. Since they target specific genes, they can 
-only detect genes that are in the probe set. They have high spatial 
-resolution though, even delivering single-molecule resolution in single-molecule 
-FISH (smFISH).
+RNA can be visualized in place in the original tissue environment by hybridizing
+labeled probes to their specific targets. Current FISH methods employ multiple
+hybridization rounds, with risk of error for each transcript growing 
+exponentially with each round. FISH methods are limited in the size of tissue 
+that they can profile and most are applicable only to fresh-frozen (FF) tissue. 
+They can also be time-consuming and expensive due to microscopic imaging they
+require. Since they target specific genes, they can only detect genes that are 
+in the probe set. They have high spatial resolution though, even delivering
+single-molecule resolution in single-molecule FISH (smFISH).
 
 Conventional FISH methods have few distinct color channels that limit the number 
 of genes that can be simultaneously analyzed. Multiplexed error-robust FISH 
@@ -105,26 +106,24 @@ created with Biorender.com. Public domain, via Wikimedia Commons <a href="https:
 
 Messenger RNA (mRNA) is reverse transcribed to complementary DNA (cDNA) within 
 tissue sections. A "padlock" probe binds to the cDNA, which is then 
-circularized. Following circularization, the cDNA is amplified (copied) by 
-rolling-circle amplification (RCA), then sequenced by ligation (joining). Probes 
-profile one or two bases at a time using different fluorophores, eventually 
-revealing the identity of the cDNA through imaging. Since it requires imaging,
-in situ sequencing is an imaging-based method even though it involves 
+circularized. Following circularization, the cDNA is amplified by 
+rolling-circle amplification (RCA), then sequenced by ligation for decoding. 
+Probes profile one or two bases at a time using different fluorophores, 
+eventually revealing the identity of the cDNA through imaging. Since it requires imaging, in situ sequencing is an imaging-based method even though it involves 
 sequencing. In situ sequencing can accommodate larger tissue sections than can 
 FISH, though FISH methods are more efficient at detecting mRNA of genes in the 
 probe set. Like FISH, in situ sequencing requires considerable imaging time on a 
-microscope but delivers high spatial resolution. 
+microscope but delivers high spatial resolution. Both methods require a priori
+knowledge of target mRNA.
 
 ### Sequencing-based technologies
-Sequencing-based methods capture, sequence, and count mRNA in situ using 
-next-generation sequencing while retaining positional information. This is 
-distinct from in situ sequencing because next-generation sequencing is employed. 
-Sequencing-based methods may be "unbiased" (i.e., using poly-A capture of genes), 
-in which they capture the entire transcriptome, or probe-based, in which
-they typically capture the majority of protein-coding genes.
-Sequencing-based methods retain spatial information 
-through laser-capture microdissection (LCM), microfluidics, or through 
-ligation of mRNAs to arrays of barcoded probes that record position. 
+Sequencing-based methods capture, sequence, and count mRNA using next-generation
+sequencing while retaining positional information. This is distinct from in situ
+sequencing because next-generation sequencing is employed. Sequencing-based 
+methods may be unbiased, in which they capture the entire transcriptome, or probe-based, in which they typically capture the majority of protein-coding 
+genes. Sequencing-based methods retain spatial information through laser-capture
+microdissection (LCM), microfluidics, or through ligation of mRNAs to arrays of
+barcoded probes that record position. 
 
 LCM-based methods employ lasers to cut a tissue slice or fuse tissue to a 
 membrane followed by sequencing of individual cells. 
@@ -153,7 +152,7 @@ cells often sit astride multiple capture areas.
 
 ![Workflow schematic of DBiT-seq on FFPE samples.](fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png){alt='a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue'}
 
-<a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="FFPE workflow"></a>
+<a href="https://www.researchgate.net/publication/346261659_Spatial_transcriptome_sequencing_of_FFPE_tissues_at_cellular_level"><Liu Y, Enninful A, Deng Y, & Fan R (2020). Spatial transcriptome sequencing of FFPE tissues at cellular level. Preprint.></a>
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Other array-based methods capture mRNA with spatially-barcoded probes and 
@@ -172,7 +171,7 @@ In this lesson we will use data from positionally barcoded arrays.
 | ------------ | :------: | :------: | :------: | :------: |
 | FISH                | +        | -        | +        | -        |
 | In situ sequencing  | -        | -        | +        | +        |
-| LCM-based           |          | +        | -        | -        |
+| LCM-based           | +        | +        | -        | -        |
 | Microfluidics       | -        | +        | -        | +        |
 | Array-based         | -        | +        | -        | +        |
 Table 1. Relative strengths and weaknesses of spatial transcriptomics
