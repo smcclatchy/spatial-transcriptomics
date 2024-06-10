@@ -31,17 +31,22 @@ same spot, and a partial read for library preparation and sequencing.
 
 ![Visium spatial gene expression slide](fig/visium-slide.png){alt='A graphic showing printed spots on a glass slide that are identified by a barcode and that contain oligonucleotides to capture messenger RNA from the tissue laid on top of them'}
 
-In spatial transcriptomics the barcode indicates the spot. Barcodes are generic
-identifiers that identify different things in different technologies. A barcode
-in single-cell transcriptomics, for example, refers to a single cell, not to a 
-spot on a slide. When you see barcodes in ST data, think "spot", not "single 
-cell". In fact, one spot can capture mRNA from many cells. This is a feature of 
-ST experiments that is distinct from single-cell transcriptomics experiments. As 
-a result, many single-cell methods won't work with ST data. Later we will look 
-at methods to 
+In spatial transcriptomics the barcode indicates the x-y coordinates of the 
+spot. Barcodes are generic identifiers that identify different things in 
+different technologies. A barcode in single-cell transcriptomics, for example, 
+refers to a single cell, not to a spot on a slide. When you see barcodes in ST 
+data, think "spot", not "single cell". In fact, one spot can capture mRNA from 
+many cells. This is a feature of ST experiments that is distinct from 
+single-cell transcriptomics experiments. As a result, many single-cell methods 
+won't work with ST data. Later we will look at methods to 
 ["deconvolve" cell types per spot](deconvolve-cell-types-in-a-spot.Rmd) 
 to determine the number and types of cells in each spot. Spots can contain zero,
 one, or many cells.
+
+The graphic below shows a Visium workflow for fresh-frozen tissues.
+
+![Visium spatial transcriptomics workflow with fresh-frozen tissue. Optimal Cutting Temperature (OCT), immunofluorescence (IF), hematoxylin and eosin (H&E), reverse transcription (RT), quantitative polymerase chain reaction (qPCR), quality control (QC), adenosine tailing (A-tailing), single index PCR (SI-PCR).](fig/fresh-frozen-workflow.png){alt='A Visium spatial transcriptomics workflow with fresh-frozen tissue'}
+Graphic from <a href="https://www.10xgenomics.com/library/6f2b8a"><i>Grant application resources for Visium products</i></a> at 10X Genomics
 
 Count data for each mRNA are mapped back to spots on the slide to indicate the
 tissue position of gene expression. An image of the tissue overlaid on the array 
@@ -85,60 +90,6 @@ sum('data[ , 1]')
 
 
 ## Study design
-Good experimental design plays a critical role in obtaining reliable and 
-meaningful results and is an essential feature of rigorous, reproducible
-experiments. Randomization minimizes bias, moderates experimental error 
-(a.k.a. noise), and ensures that our comparisons between treatment groups are 
-valid. Randomization  also accounts for or cancels out effects of “nuisance” 
-variables like the time or day of the experiment, the investigator or 
-technician carrying out the work, equipment calibration, exposure to light or 
-ventilation in animal rooms, or other variables that are not being studied but 
-that do influence the responses. Randomization balances out the effects of 
-nuisance variables between treatment groups by giving an equal probability for 
-an experimental unit to be assigned to any treatment group.
-
-The graphic below shows a Visium workflow for fresh-frozen tissues.
-
-![Visium spatial transcriptomics workflow with fresh-frozen tissue. Optimal Cutting Temperature (OCT), immunofluorescence (IF), hematoxylin and eosin (H&E), reverse transcription (RT), quantitative polymerase chain reaction (qPCR), quality control (QC), adenosine tailing (A-tailing), single index PCR (SI-PCR).](fig/fresh-frozen-workflow.png){alt='A Visium spatial transcriptomics workflow with fresh-frozen tissue'}
-Graphic from <a href="https://www.10xgenomics.com/library/6f2b8a"><i>Grant application resources for Visium products</i></a> at 10X Genomics
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 2: Treatment and control samples
-You plan to place samples of treated tissue on one slide and samples of the 
-controls on another slide. 
-What will happen when it is time for data analysis?
-What could you have done differently?
-
-:::::::::::::::::::::::: solution 
-
-
-::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 3: Time points
-Your study requires data collection at three time points: 5, 10, and 15 weeks. 
-At the end of 5 weeks, you will run samples through the entire Visium workflow. 
-You will repeat this for the 10- and 15-week samples when each of those time 
-points is reached.
-What will happen when it is time for data analysis?
-What could you have done differently?
-
-:::::::::::::::::::::::: solution 
-The issue is that time point is now confounded. A better approach would be to 
-start the 15-week samples, then 5 weeks later start the 10-week samples, then
-5 weeks later start the 5-week samples. This way you can run all of your samples
-at the same time. None of your samples will have spent a long time in the 
-freezer, so you won't need to worry about the variation that might cause. You 
-won't need to worry about the time point confounding the results.
-
-::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::
-
 We will use data from [Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex by Maynard et al, Nat Neurosci 24, 425–436 (2021).](https://doi.org/10.1038/s41593-020-00787-0)
 These data come from sections of the dorsolateral prefrontal cortex that contain
 six cortical layers plus white matter.
@@ -153,13 +104,12 @@ donors. The second pair of replicates was taken from 300 microns posterior to
 the first pair of replicates.
 
 ![Slides contain tissue samples from three neurotypical adult subjects. Each slide contains two pairs of replicates containing directly adjacent tissue sections 10 microns in size. The second pair of replicates is located 300 microns posterior to the first pair. A total of 12 samples were assayed with Visium.](fig/experimental-design.png){alt='Three Visium slides showing four spatial capture areas each. Each slide contains directly adjacent serial tissue sections for one subject. The second pair of samples contains tissue sections that are 300 microns posterior to the first pair of samples.'}
-
 Adapted from 
 <a href="https://doi.org/10.1038/s41593-020-00787-0">Maynard et al,  Nat Neurosci 24, 425–436 (2021)</a>. <a href="https://www.biorender.com">Created with BioRender.com</a>.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 4: What do you notice?
+## Challenge 2: What do you notice?
 What do you notice about the experimental design that might create issues during 
 data analysis? 
 Why might the authors have done the experiment this way? 
@@ -188,15 +138,56 @@ occurred.
 ::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::
-## Important considerations for rigorous, reproducible experiments
 
-Variability is natural in the real world. A medication given to a group of 
-patients will affect each of them differently. A specific diet given to a cage 
-of mice will affect each mouse differently. Ideally if something is measured 
-many times, each measurement will give exactly the same result and will 
-represent the true value. This ideal doesn’t exist in the real world. 
-Variability is a feature of natural systems and also a natural part of every
-experiment we undertake.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 3: Treatment and control samples
+You plan to place samples of treated tissue on one slide and samples of the 
+controls on another slide. 
+What will happen when it is time for data analysis?
+What could you have done differently?
+
+:::::::::::::::::::::::: solution 
+
+
+::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 4: Time points
+Your study requires data collection at three time points: 5, 10, and 15 weeks. 
+At the end of 5 weeks, you will run samples through the entire Visium workflow. 
+You will repeat this for the 10- and 15-week samples when each of those time 
+points is reached.
+What will happen when it is time for data analysis?
+What could you have done differently?
+
+:::::::::::::::::::::::: solution 
+The issue is that time point is now confounded. A better approach would be to 
+start the 15-week samples, then 5 weeks later start the 10-week samples, then
+5 weeks later start the 5-week samples. This way you can run all of your samples
+at the same time. None of your samples will have spent a long time in the 
+freezer, so you won't need to worry about the variation that might cause. You 
+won't need to worry about the time point confounding the results.
+
+::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::
+
+## Important considerations for rigorous, reproducible experiments
+Good experimental design plays a critical role in obtaining reliable and 
+meaningful results and is an essential feature of rigorous, reproducible
+experiments. Designed experiments aim to describe and explain variability under
+experimental conditions. Variability is natural in the real world. A medication 
+given to a group of patients will affect each of them differently. A specific 
+diet given to a cage of mice will affect each mouse differently. Ideally if 
+something is measured many times, each measurement will give exactly the same 
+result and will represent the true value. This ideal doesn’t exist in the real 
+world. Variability is a feature of natural systems and also a natural part of 
+every experiment we undertake.
 
 #### Replication
 To figure out whether a difference in responses is real or inherently random, 
@@ -312,16 +303,16 @@ experimental units.
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 #### Randomization
-Randomized studies assign experimental units to treatment groups randomly by
-pulling a number out of a hat or using a computer's random number generator. The
-main purpose for randomization comes later during statistical analysis, where
-we compare the data we have with the data distribution we might have obtained
-by random chance. Randomization provides us a way to compare the data we have 
-with the data distribution we might have obtained by random chance. Random 
-assignment (*allocation*) of experimental units to treatment groups prevents the 
-subjective bias that might be introduced by an experimenter who selects, even in 
-good faith and with good intention, which experimental units should get which 
-treatment. 
+Randomization minimizes bias, moderates experimental error 
+(a.k.a. noise), and ensures that our comparisons between treatment groups are 
+valid. Randomized studies assign experimental units to treatment groups randomly 
+by pulling a number out of a hat or using a computer's random number generator. 
+The main purpose for randomization comes later during statistical analysis, 
+where we compare the data we have with the data distribution we might have 
+obtained by random chance. Random assignment (*allocation*) of experimental 
+units to treatment groups prevents the subjective bias that might be introduced 
+by an experimenter who selects, even in good faith and with good intention, 
+which experimental units should get which treatment. 
 
 Randomization also accounts for or cancels out effects of “nuisance” variables 
 like the time or day of the experiment, the investigator or technician, 

@@ -151,8 +151,8 @@ avoid diffusion of mRNA away from capture areas, though a disadvantage is that
 cells often sit astride multiple capture areas.
 
 ![Workflow schematic of DBiT-seq on FFPE samples.](fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png){alt='a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue'}
-
-<a href="https://www.researchgate.net/publication/346261659_Spatial_transcriptome_sequencing_of_FFPE_tissues_at_cellular_level"><Liu Y, Enninful A, Deng Y, & Fan R (2020). Spatial transcriptome sequencing of FFPE tissues at cellular level. Preprint.></a>
+Adapted from 
+<a href="https://www.researchgate.net/publication/346261659_Spatial_transcriptome_sequencing_of_FFPE_tissues_at_cellular_level">Liu Y, Enninful A, Deng Y, & Fan R (2020). Spatial transcriptome sequencing of FFPE tissues at cellular level. Preprint.</a>
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Other array-based methods capture mRNA with spatially-barcoded probes and 
