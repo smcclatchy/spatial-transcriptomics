@@ -8,14 +8,18 @@ may take 2-3 hours. Please take care of this before the workshop so that you are
 able to participate at the start of the course.
 
 ## Software Setup
-Please download and install R version 4.4.0 (Puppy Cup). To interact with R, 
-we use RStudio. You can also download the latest stable version of RStudio, 
-although this is not as critical as the latest R version is. If you don't have
-administrative rights to your laptop, please ask the IT help desk to install 
-software for you. Once you have installed R and RStudio, open RStudio to verify 
-that the installation was successful.
 
-R Library Installation
+### R
+
+Please download and install [R version 4.4.0 (Puppy Cup)](https://cran.r-project.org/).
+To interact with R, we use [RStudio](https://posit.co/download/rstudio-desktop/).
+You can also download the latest stable version of RStudio, although this is not 
+as critical as the latest R version is. If you don't have administrative rights 
+to your laptop, please ask the IT help desk to install software for you. Once 
+you have installed R and RStudio, open RStudio to verify that the installation 
+was successful.
+
+### R Package Installation
 
 Next, we will install the required packages for this lesson. Note that the 
 [spacexr](https://github.com/dmcable/spacexr) package takes a long time to 
@@ -41,7 +45,7 @@ remotes::install_github("dmcable/spacexr",        build_vignettes = FALSE)
 ```
 
 Once the installation has finished, copy and paste the following commands into 
-the console to verify that both packages installed correctly.
+the console to verify that packages installed correctly.
 
 ```r
 library(BiocManager)
@@ -146,12 +150,6 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/las
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/dt2chlmxtjajxfnlpfzolz1tvb6kic7p.rds",
               destfile = "data/rctd-sample-1.rds",
               mode     = "wb")
-```
-
-## Session Info
-
-```r
-sessionInfo()
 ```
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
