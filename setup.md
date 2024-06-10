@@ -22,32 +22,23 @@ To succeed in this course, you need to have
 
 For this lesson, you will be working in the R programming language and the RStudio
 develpment environment. You will be installing this software on your laptop and
-downloading the data set.
+downloading the data set. Installing software and downloading data may take 2-3
+hours. Please take care of this before the workshop so that you are able to 
+participate at the start of the course.
 
 ## Software Setup
+Please download and install R version 4.4.0 (Puppy Cup). To interact with R, 
+we use RStudio. You can also download the latest stable version of RStudio, 
+although this is not as critical as the latest R version is. If you don't have
+administrative rights to your laptop, please ask the IT help desk to install 
+software for you. Once you have installed R and RStudio, open RStudio to verify 
+that the installation was successful.
 
-Installing the software may take up to 30 minutes. You may also need to contact your local 
-Information Technology Help Desk to get permission or assistance installing the software. 
-You may be able to install the applications using JAX Self Service software. Please do this 
-before the workshop. We will not delay the start of the course while you install software. 
-We will help you in advance to make sure that you have everything that you need.
-
-If you do not already have R and RStudio installed, download and install the following 
-software:
-
-    R/4.4.0: Select the installation for your operating system (Windows, Mac, or Linux).
-    RStudio: Download the free Rstudio Desktop.
-
-You do not need to install this exact version of R, but it would be good to make sure your R 
-is relatively recent (say, updated within the past year).
-
-Once you have installed R and RStudio, open RStudio to verify that the installation was 
-successful.
 R Library Installation
 
 Next, we will install the required packages for this lesson. Note that the 
 [spacexr](https://github.com/dmcable/spacexr) 
-package takes a long time to download. It may take up to 30 minutes for it to install.
+package takes a long time to download.
 
 In RStudio, copy and paste the following commands into the Console:
 
@@ -68,8 +59,8 @@ remotes::install_github("immunogenomics/presto",  build_vignettes = FALSE)
 remotes::install_github("dmcable/spacexr",        build_vignettes = FALSE)
 ```
 
-Once the installation has finished, copy and paste the following commands into the 
-console to verify that both packages installed correctly.
+Once the installation has finished, copy and paste the following commands into 
+the console to verify that both packages installed correctly.
 
 ```r
 suppressPackageStartupMessages(library(BiocManager))
@@ -89,21 +80,21 @@ suppressPackageStartupMessages(library(ComplexHeatmap))
 
 ## Project Setup
 
-    Create a new project called "spatialRNA".
-        Click the File menu button, then New Project.
-        Click New Directory.
-        Click New Project.
-        Type spatialRNA as the directory name. Create the project anywhere you like, but don't 
-        forget where you put it!
-        Click the Create Project button. This will create a file called "spatialRNA.Rproj" in the 
-        directory you just created. In the future you can double-click on this file to open 
-        RStudio in this directory. This will be the easiest way to interact with the files/code 
-        you produce in this workshop.
+1. Create a new project called `spatialRNA`.
+  Click the File menu button, then New Project.
+  Click New Directory.
+  Click New Project.
+  Type spatialRNA as the directory name. Create the project anywhere you like, 
+  but don't forget where you put it!
+  Click the Create Project button. This will create a file called 
+  `spatialRNA.Rproj` in the directory you just created. In the future you can 
+  double-click on this file to open RStudio in this directory. This will be the 
+  easiest way to interact with the files/code you produce in this workshop.
 
-    Use the Files tab to create a data folder to hold the data, a scripts folder to house 
-    your scripts, and a results folder to hold results. Alternatively, you can copy and paste 
-    the following commands into the R console for step 2 only. You still need to create a 
-    project with step 1.
+2. Use the Files tab to create a `data` folder to hold the data, a `scripts` 
+folder to house your scripts, and a `results` folder to hold results. 
+Alternatively, you can copy and paste the following commands into the R console 
+for step 2 only. You still need to create a project with step 1.
 
 ```r
 dir.create("data")
@@ -115,9 +106,9 @@ dir.create("results")
 
 We will be working with brain data from 
 [Maynard et al., Nature Neuroscience, 2021](https://www.nature.com/articles/s41593-020-00787-0). 
-We have created links on Box from which you can download the data. Once you have opened your
-"spatialRNA" project in RStudio, run the code below to download the data into your "data" 
-directory.
+We have created links on Box from which you can download the data. Once you have 
+opened your `spatialRNA` project in RStudio, run the code below to download the 
+data into your `data` directory.
 
 ```r
 dir.create("data/151508/spatial", recursive = TRUE)
@@ -186,5 +177,6 @@ sessionInfo()
 
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
 
-Development of this lesson was funded by the [Jackson Laboratory](https://www.jax.org/) 
-Director's Innovation Fund. Lesson authors are grateful for this support.
+Development of this lesson was funded by a [Jackson Laboratory](https://www.jax.org/) 
+Director's Innovation Fund award to Dr. Gary Churchill. Lesson authors are 
+grateful for this support.
