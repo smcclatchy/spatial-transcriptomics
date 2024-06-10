@@ -14,17 +14,16 @@ each.
 - Analyze spatial transcriptomics data, including quality control, transcript quantification, and cell-type assignment within regions.
 
 ## Prerequisites
-
 To succeed in this course, you need to have
 
-1.      proficiency in the R programming language;
-2.      knowledge of bulk RNA and single-cell sequence analysis.
+- proficiency in the R programming language;
+- knowledge of bulk RNA and single-cell sequence analysis.
 
-For this lesson, you will be working in the R programming language and the RStudio
-develpment environment. You will be installing this software on your laptop and
-downloading the data set. Installing software and downloading data may take 2-3
-hours. Please take care of this before the workshop so that you are able to 
-participate at the start of the course.
+For this lesson, you will be working in the R programming language and the 
+RStudio development environment. You will be installing this software on your 
+laptop and downloading the data set. Installing software and downloading data 
+may take 2-3 hours. Please take care of this before the workshop so that you are 
+able to participate at the start of the course.
 
 ## Software Setup
 Please download and install R version 4.4.0 (Puppy Cup). To interact with R, 
@@ -37,8 +36,8 @@ that the installation was successful.
 R Library Installation
 
 Next, we will install the required packages for this lesson. Note that the 
-[spacexr](https://github.com/dmcable/spacexr) 
-package takes a long time to download.
+[spacexr](https://github.com/dmcable/spacexr) package takes a long time to 
+download.
 
 In RStudio, copy and paste the following commands into the Console:
 
@@ -63,19 +62,19 @@ Once the installation has finished, copy and paste the following commands into
 the console to verify that both packages installed correctly.
 
 ```r
-suppressPackageStartupMessages(library(BiocManager))
-suppressPackageStartupMessages(library(data.table))
-suppressPackageStartupMessages(library(R.utils))
-suppressPackageStartupMessages(library(hdf5r))
-suppressPackageStartupMessages(library(here))
-suppressPackageStartupMessages(library(presto))
-suppressPackageStartupMessages(library(rcartocolor))
-suppressPackageStartupMessages(library(remotes))
-suppressPackageStartupMessages(library(spacexr))
-suppressPackageStartupMessages(library(sparseMatrixStats))
-suppressPackageStartupMessages(library(Seurat))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(ComplexHeatmap))
+library(BiocManager)
+library(data.table)
+library(R.utils)
+library(hdf5r)
+library(here)
+library(presto)
+library(rcartocolor)
+library(remotes)
+library(spacexr)
+library(sparseMatrixStats)
+library(Seurat)
+library(tidyverse)
+library(ComplexHeatmap)
 ```
 
 ## Project Setup
@@ -165,8 +164,6 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/las
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/dt2chlmxtjajxfnlpfzolz1tvb6kic7p.rds",
               destfile = "data/rctd-sample-1.rds",
               mode     = "wb")
-
-
 ```
 
 ## Session Info
