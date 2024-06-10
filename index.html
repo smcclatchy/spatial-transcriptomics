@@ -331,36 +331,26 @@ transcript quantification, and cell-type assignment within regions.</li>
 </div></li>
 </ol><p>For this lesson, you will be working in the R programming language
 and the RStudio develpment environment. You will be installing this
-software on your laptop and downloading the data set.</p>
+software on your laptop and downloading the data set. Installing
+software and downloading data may take 2-3 hours. Please take care of
+this before the workshop so that you are able to participate at the
+start of the course.</p>
 </section><section id="software-setup"><h2 class="section-heading">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a>
 </h2>
-<hr class="half-width"><p>Installing the software may take up to 30 minutes. You may also need
-to contact your local Information Technology Help Desk to get permission
-or assistance installing the software. You may be able to install the
-applications using JAX Self Service software. Please do this before the
-workshop. We will not delay the start of the course while you install
-software. We will help you in advance to make sure that you have
-everything that you need.</p>
-<p>If you do not already have R and RStudio installed, download and
-install the following software:</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">R/4.4.0:</span> Select the installation for your operating system <span class="er">(</span><span class="ex">Windows,</span> Mac, or Linux<span class="kw">)</span><span class="bu">.</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">RStudio:</span> Download the free Rstudio Desktop.</span></code></pre>
-</div>
-<p>You do not need to install this exact version of R, but it would be
-good to make sure your R is relatively recent (say, updated within the
-past year).</p>
-<p>Once you have installed R and RStudio, open RStudio to verify that
-the installation was successful. R Library Installation</p>
+<hr class="half-width"><p>Please download and install R version 4.4.0 (Puppy Cup). To interact
+with R, we use RStudio. You can also download the latest stable version
+of RStudio, although this is not as critical as the latest R version is.
+If you don’t have administrative rights to your laptop, please ask the
+IT help desk to install software for you. Once you have installed R and
+RStudio, open RStudio to verify that the installation was
+successful.</p>
+<p>R Library Installation</p>
 <p>Next, we will install the required packages for this lesson. Note
 that the <a href="https://github.com/dmcable/spacexr" class="external-link">spacexr</a>
-package takes a long time to download. It may take up to 30 minutes for
-it to install.</p>
+package takes a long time to download.</p>
 <p>In RStudio, copy and paste the following commands into the
 Console:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -382,7 +372,7 @@ Console:</p>
 <p>Once the installation has finished, copy and paste the following
 commands into the console to verify that both packages installed
 correctly.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -402,26 +392,21 @@ correctly.</p>
 </div>
 </section><section id="project-setup"><h2 class="section-heading">Project Setup<a class="anchor" aria-label="anchor" href="#project-setup"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">Create</span> a new project called <span class="st">"spatialRNA"</span>.</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="ex">Click</span> the File menu button, then New Project.</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="ex">Click</span> New Directory.</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="ex">Click</span> New Project.</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="ex">Type</span> spatialRNA as the directory name. Create the project anywhere you like, but don<span class="st">'t </span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="st">    forget where you put it!</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="st">    Click the Create Project button. This will create a file called "spatialRNA.Rproj" in the </span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="st">    directory you just created. In the future you can double-click on this file to open </span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="st">    RStudio in this directory. This will be the easiest way to interact with the files/code </span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="st">    you produce in this workshop.</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="st">Use the Files tab to create a data folder to hold the data, a scripts folder to house </span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="st">your scripts, and a results folder to hold results. Alternatively, you can copy and paste </span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="st">the following commands into the R console for step 2 only. You still need to create a </span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="st">project with step 1.</span></span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb7">
+<hr class="half-width"><ol style="list-style-type: decimal"><li><p>Create a new project called <code>spatialRNA</code>. Click the
+File menu button, then New Project. Click New Directory. Click New
+Project. Type spatialRNA as the directory name. Create the project
+anywhere you like, but don’t forget where you put it! Click the Create
+Project button. This will create a file called
+<code>spatialRNA.Rproj</code> in the directory you just created. In the
+future you can double-click on this file to open RStudio in this
+directory. This will be the easiest way to interact with the files/code
+you produce in this workshop.</p></li>
+<li><p>Use the Files tab to create a <code>data</code> folder to hold
+the data, a <code>scripts</code> folder to house your scripts, and a
+<code>results</code> folder to hold results. Alternatively, you can copy
+and paste the following commands into the R console for step 2 only. You
+still need to create a project with step 1.</p></li>
+</ol><div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -433,10 +418,10 @@ correctly.</p>
 </h2>
 <hr class="half-width"><p>We will be working with brain data from <a href="https://www.nature.com/articles/s41593-020-00787-0" class="external-link">Maynard et
 al., Nature Neuroscience, 2021</a>. We have created links on Box from
-which you can download the data. Once you have opened your “spatialRNA”
-project in RStudio, run the code below to download the data into your
-“data” directory.</p>
-<div class="codewrapper sourceCode" id="cb8">
+which you can download the data. Once you have opened your
+<code>spatialRNA</code> project in RStudio, run the code below to
+download the data into your <code>data</code> directory.</p>
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -497,15 +482,16 @@ project in RStudio, run the code below to download the data into your
 </div>
 </section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb9">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sessionInfo</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
-<p>Development of this lesson was funded by the <a href="https://www.jax.org/" class="external-link">Jackson Laboratory</a> Director’s Innovation
-Fund. Lesson authors are grateful for this support.</p>
+<p>Development of this lesson was funded by a <a href="https://www.jax.org/" class="external-link">Jackson Laboratory</a> Director’s Innovation
+Fund award to Dr. Gary Churchill. Lesson authors are grateful for this
+support.</p>
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
@@ -559,8 +545,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/index.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/index.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-07",
-  "datePublished": "2024-06-07"
+  "dateModified": "2024-06-10",
+  "datePublished": "2024-06-10"
 }
 
   </script><script>

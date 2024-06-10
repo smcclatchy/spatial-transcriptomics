@@ -334,7 +334,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></p>
 <hr>
-<p>Last updated on 2024-06-07 |
+<p>Last updated on 2024-06-10 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -441,10 +441,12 @@ Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a>
 Image created with Biorender.com. Public domain, via Wikimedia Commons
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
-<p>Current FISH methods employ multiple hybridization rounds, with risk
-of error for each transcript growing exponentially with each round. FISH
-methods are limited in the size of tissue that they can profile and most
-are applicable only to fresh-frozen (FF) tissue. They can also be
+<p>RNA can be visualized in place in the original tissue environment by
+hybridizing labeled probes to their specific targets. Current FISH
+methods employ multiple hybridization rounds, with risk of error for
+each transcript growing exponentially with each round. FISH methods are
+limited in the size of tissue that they can profile and most are
+applicable only to fresh-frozen (FF) tissue. They can also be
 time-consuming and expensive due to microscopic imaging they require.
 Since they target specific genes, they can only detect genes that are in
 the probe set. They have high spatial resolution though, even delivering
@@ -476,29 +478,29 @@ BY-SA 4.0 DEED</a></p>
 <p>Messenger RNA (mRNA) is reverse transcribed to complementary DNA
 (cDNA) within tissue sections. A “padlock” probe binds to the cDNA,
 which is then circularized. Following circularization, the cDNA is
-amplified (copied) by rolling-circle amplification (RCA), then sequenced
-by ligation (joining). Probes profile one or two bases at a time using
+amplified by rolling-circle amplification (RCA), then sequenced by
+ligation for decoding. Probes profile one or two bases at a time using
 different fluorophores, eventually revealing the identity of the cDNA
 through imaging. Since it requires imaging, in situ sequencing is an
 imaging-based method even though it involves sequencing. In situ
 sequencing can accommodate larger tissue sections than can FISH, though
 FISH methods are more efficient at detecting mRNA of genes in the probe
 set. Like FISH, in situ sequencing requires considerable imaging time on
-a microscope but delivers high spatial resolution.</p>
+a microscope but delivers high spatial resolution. Both methods require
+a priori knowledge of target mRNA.</p>
 </div>
 <div class="section level3">
 <h3 id="sequencing-based-technologies">Sequencing-based technologies<a class="anchor" aria-label="anchor" href="#sequencing-based-technologies"></a>
 </h3>
-<p>Sequencing-based methods capture, sequence, and count mRNA in situ
-using next-generation sequencing while retaining positional information.
-This is distinct from in situ sequencing because next-generation
-sequencing is employed. Sequencing-based methods may be “unbiased”
-(i.e., using poly-A capture of genes), in which they capture the entire
-transcriptome, or probe-based, in which they typically capture the
-majority of protein-coding genes. Sequencing-based methods retain
-spatial information through laser-capture microdissection (LCM),
-microfluidics, or through ligation of mRNAs to arrays of barcoded probes
-that record position.</p>
+<p>Sequencing-based methods capture, sequence, and count mRNA using
+next-generation sequencing while retaining positional information. This
+is distinct from in situ sequencing because next-generation sequencing
+is employed. Sequencing-based methods may be unbiased, in which they
+capture the entire transcriptome, or probe-based, in which they
+typically capture the majority of protein-coding genes. Sequencing-based
+methods retain spatial information through laser-capture microdissection
+(LCM), microfluidics, or through ligation of mRNAs to arrays of barcoded
+probes that record position.</p>
 <p>LCM-based methods employ lasers to cut a tissue slice or fuse tissue
 to a membrane followed by sequencing of individual cells.</p>
 <p><img src="fig/LCM_Overview.png" alt="a general schematic showing laser-capture microdissection " class="figure"><a href="https://commons.wikimedia.org/wiki/File:Spatial_Transcriptomics_Overview.png" class="external-link">
@@ -525,7 +527,9 @@ capture areas, though a disadvantage is that cells often sit astride
 multiple capture areas.</p>
 <figure><img src="fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue" class="figure mx-auto d-block"><div class="figcaption">Workflow schematic of DBiT-seq on FFPE
 samples.</div>
-</figure><p><a href="https://www.researchgate.net/figure/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples_fig2_346261659" class="external-link"><img src="https://www.researchgate.net/publication/346261659/figure/fig2/AS:961767006040117@1606314531966/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="FFPE workflow" class="figure"></a>
+</figure><p><a href="https://www.researchgate.net/publication/346261659_Spatial_transcriptome_sequencing_of_FFPE_tissues_at_cellular_level" class="external-link">&lt;Liu
+Y, Enninful A, Deng Y, &amp; Fan R (2020). Spatial transcriptome
+sequencing of FFPE tissues at cellular level. Preprint.&gt;</a>
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
 <p>Other array-based methods capture mRNA with spatially-barcoded probes
@@ -574,7 +578,7 @@ BY-SA 4.0</a></p>
 </tr>
 <tr class="odd">
 <td>LCM-based</td>
-<td align="center"></td>
+<td align="center">+</td>
 <td align="center">+</td>
 <td align="center">-</td>
 <td align="center">-</td>
@@ -643,7 +647,7 @@ suited.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Varying - refer to strengths and weaknesses of each category, best
 uses of different technologies and how they have been used in research
@@ -3020,7 +3024,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3354,7 +3358,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Solution 1</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -4109,8 +4113,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-07",
-  "datePublished": "2024-06-07"
+  "dateModified": "2024-06-10",
+  "datePublished": "2024-06-10"
 }
 
   </script><script>
