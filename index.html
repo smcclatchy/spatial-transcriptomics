@@ -319,18 +319,10 @@ transcript quantification, and cell-type assignment within regions.</li>
 </ul><section id="prerequisites"><h2 class="section-heading">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
 </h2>
 <hr class="half-width"><p>To succeed in this course, you need to have</p>
-<ol style="list-style-type: decimal"><li><div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a> <span class="ex">proficiency</span> in the R programming language<span class="kw">;</span></span></code></pre>
-</div></li>
-<li><div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a> <span class="ex">knowledge</span> of bulk RNA and single-cell sequence analysis.</span></code></pre>
-</div></li>
-</ol><p>For this lesson, you will be working in the R programming language
-and the RStudio develpment environment. You will be installing this
+<ul><li>proficiency in the R programming language;</li>
+<li>knowledge of bulk RNA and single-cell sequence analysis.</li>
+</ul><p>For this lesson, you will be working in the R programming language
+and the RStudio development environment. You will be installing this
 software on your laptop and downloading the data set. Installing
 software and downloading data may take 2-3 hours. Please take care of
 this before the workshop so that you are able to participate at the
@@ -350,7 +342,7 @@ that the <a href="https://github.com/dmcable/spacexr" class="external-link">spac
 package takes a long time to download.</p>
 <p>In RStudio, copy and paste the following commands into the
 Console:</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -372,23 +364,23 @@ Console:</p>
 <p>Once the installation has finished, copy and paste the following
 commands into the console to verify that both packages installed
 correctly.</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">BiocManager</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">data.table</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">R.utils</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">hdf5r</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">presto</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">rcartocolor</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">remotes</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">spacexr</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">sparseMatrixStats</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">suppressPackageStartupMessages</span><span class="op">(</span><span class="kw">library</span><span class="op">(</span><span class="va">ComplexHeatmap</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">BiocManager</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">data.table</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">R.utils</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">hdf5r</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">presto</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">rcartocolor</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">remotes</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">spacexr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">sparseMatrixStats</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">ComplexHeatmap</span><span class="op">)</span></span></code></pre>
 </div>
 </section><section id="project-setup"><h2 class="section-heading">Project Setup<a class="anchor" aria-label="anchor" href="#project-setup"></a>
 </h2>
@@ -406,7 +398,7 @@ the data, a <code>scripts</code> folder to house your scripts, and a
 <code>results</code> folder to hold results. Alternatively, you can copy
 and paste the following commands into the R console for step 2 only. You
 still need to create a project with step 1.</p></li>
-</ol><div class="codewrapper sourceCode" id="cb5">
+</ol><div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -421,7 +413,7 @@ al., Nature Neuroscience, 2021</a>. We have created links on Box from
 which you can download the data. Once you have opened your
 <code>spatialRNA</code> project in RStudio, run the code below to
 download the data into your <code>data</code> directory.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -482,7 +474,7 @@ download the data into your <code>data</code> directory.</p>
 </div>
 </section><section id="session-info"><h2 class="section-heading">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<hr class="half-width"><div class="codewrapper sourceCode" id="cb7">
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
