@@ -45,7 +45,7 @@ one, or many cells.
 
 The graphic below shows a Visium workflow for fresh-frozen tissues.
 
-![Visium spatial transcriptomics workflow with fresh-frozen tissue. Optimal Cutting Temperature (OCT), immunofluorescence (IF), hematoxylin and eosin (H&E), reverse transcription (RT), quantitative polymerase chain reaction (qPCR), quality control (QC), adenosine tailing (A-tailing), single index PCR (SI-PCR).](fig/fresh-frozen-workflow.png){alt='A Visium spatial transcriptomics workflow with fresh-frozen tissue'}
+![Visium spatial transcriptomics workflow with fresh-frozen tissue. Optimal Cutting Temperature (OCT), immunofluorescence (IF), hematoxylin and eosin (H&E), reverse transcription (RT), quantitative polymerase chain reaction (qPCR), quality control (QC), adenosine tailing (A-tailing), single index PCR (SI-PCR)](fig/fresh-frozen-workflow.png){alt='A Visium spatial transcriptomics workflow with fresh-frozen tissue'}
 Graphic from <a href="https://www.10xgenomics.com/library/6f2b8a"><i>Grant application resources for Visium products</i></a> at 10X Genomics
 
 Count data for each mRNA are mapped back to spots on the slide to indicate the
