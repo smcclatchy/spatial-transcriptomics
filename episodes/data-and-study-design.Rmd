@@ -139,44 +139,6 @@ occurred.
 
 :::::::::::::::::::::::::::::::::::::
 
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 3: Treatment and control samples
-You plan to place samples of treated tissue on one slide and samples of the 
-controls on another slide. 
-What will happen when it is time for data analysis?
-What could you have done differently?
-
-:::::::::::::::::::::::: solution 
-
-
-::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 4: Time points
-Your study requires data collection at three time points: 5, 10, and 15 weeks. 
-At the end of 5 weeks, you will run samples through the entire Visium workflow. 
-You will repeat this for the 10- and 15-week samples when each of those time 
-points is reached.
-What will happen when it is time for data analysis?
-What could you have done differently?
-
-:::::::::::::::::::::::: solution 
-The issue is that time point is now confounded. A better approach would be to 
-start the 15-week samples, then 5 weeks later start the 10-week samples, then
-5 weeks later start the 5-week samples. This way you can run all of your samples
-at the same time. None of your samples will have spent a long time in the 
-freezer, so you won't need to worry about the variation that might cause. You 
-won't need to worry about the time point confounding the results.
-
-::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::
-
 ## Important considerations for rigorous, reproducible experiments
 Good experimental design plays a critical role in obtaining reliable and 
 meaningful results and is an essential feature of rigorous, reproducible
@@ -223,7 +185,7 @@ error.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge 5: Which kind of error?
+## Challenge 3: Which kind of error?
 
 A study used to determine the effect of a drug on weight loss
 could have the following sources of experimental error.
@@ -238,7 +200,7 @@ readings, animal behavior, and indoor relative humidity.
 
 :::::::::::::::  solution
 
-## Solution to Challenge 5
+## Solution to Challenge 3
 
 1\). random, because the scale is broken and provides any kind of random reading 
 it comes up with (inconsistent reading)  
@@ -252,7 +214,7 @@ it comes up with (inconsistent reading)
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Challenge 6: How many technical and biological replicates?
+## Challenge 4: How many technical and biological replicates?
 
 In each scenario described below, identify how many technical and how many
 biological replicates are represented. What conclusions can be drawn about 
@@ -274,7 +236,7 @@ replicates, can you identify how many experimental units there are?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 6
+## Solution to Challenge 4
 
 1\). One biological sample (not replicated) with five technical replicates. The
 only conclusion to be drawn from the measurements would be better 
@@ -322,6 +284,42 @@ Randomization balances out the effects of nuisance variables between treatment
 groups by giving an equal probability for an experimental unit to be assigned to 
 any treatment group.
 
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 5: Treatment and control samples
+You plan to place samples of treated tissue on one slide and samples of the 
+controls on another slide. 
+What will happen when it is time for data analysis?
+What could you have done differently?
+
+:::::::::::::::::::::::: solution 
+
+
+::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 6: Time points
+Your study requires data collection at three time points: 5, 10, and 15 weeks. 
+At the end of 5 weeks, you will run samples through the entire Visium workflow. 
+You will repeat this for the 10- and 15-week samples when each of those time 
+points is reached.
+What will happen when it is time for data analysis?
+What could you have done differently?
+
+:::::::::::::::::::::::: solution 
+The issue is that time point is now confounded. A better approach would be to 
+start the 15-week samples, then 5 weeks later start the 10-week samples, then
+5 weeks later start the 5-week samples. This way you can run all of your samples
+at the same time. None of your samples will have spent a long time in the 
+freezer, so you won't need to worry about the variation that might cause. You 
+won't need to worry about the time point confounding the results.
+
+::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 7: The efficient technician
@@ -340,7 +338,7 @@ Can you foresee any problems with the experimental results?
 
 :::::::::::::::  solution
 
-## Solution to Challenge 7
+## Solution to Challenge 6
 
 Since each treatment is run on only one day, the day effectively becomes
 the experimental unit (explain this). Each experimental unit (day) has five
