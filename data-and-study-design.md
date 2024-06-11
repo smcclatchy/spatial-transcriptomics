@@ -292,6 +292,7 @@ controls on another slide.
 What will happen when it is time for data analysis?
 What could you have done differently?
 ![Treated and controls on separate slides](fig/treated-and-control-slides.png){alt='An experiment with treated samples on one slide and control samples on another.'}
+
 :::::::::::::::::::::::: solution 
 
 
@@ -320,8 +321,8 @@ freezer, so you won't need to worry about the variation that might cause. You
 won't need to worry about the time point confounding the results.
 
 ::::::::::::::::::::::::
-
 :::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Challenge 7: The efficient technician
