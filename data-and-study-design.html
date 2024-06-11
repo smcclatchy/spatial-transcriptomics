@@ -293,7 +293,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data and Study Design</h1>
-        <p>Last updated on 2024-06-10 |
+        <p>Last updated on 2024-06-11 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -395,7 +395,7 @@ What does the sum of a single column signify?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The row sum is the total expression of one gene across all spots on
 the slide.</p>
@@ -458,7 +458,7 @@ experiment this way? Is there anything that can be done about this?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Human brain tissues start to deteriorate at death. Brain banks that
 provide tissue for studies requiring intact mRNA will quickly remove the
@@ -478,67 +478,6 @@ human brain tissues.</p>
 <p>Sometimes you might have to confound variables in your study due to
 sample availability or other factors. The key thing is to know that
 confounding has occurred.</p>
-</div>
-</div>
-</div>
-</div>
-<div id="challenge-3-treatment-and-control-samples" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="challenge-3-treatment-and-control-samples" class="callout-inner">
-<h3 class="callout-title">Challenge 3: Treatment and control
-samples<a class="anchor" aria-label="anchor" href="#challenge-3-treatment-and-control-samples"></a>
-</h3>
-<div class="callout-content">
-<p>You plan to place samples of treated tissue on one slide and samples
-of the controls on another slide. What will happen when it is time for
-data analysis? What could you have done differently?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
-<div class="accordion-body">
-
-</div>
-</div>
-</div>
-</div>
-<div id="challenge-4-time-points" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="challenge-4-time-points" class="callout-inner">
-<h3 class="callout-title">Challenge 4: Time points<a class="anchor" aria-label="anchor" href="#challenge-4-time-points"></a>
-</h3>
-<div class="callout-content">
-<p>Your study requires data collection at three time points: 5, 10, and
-15 weeks. At the end of 5 weeks, you will run samples through the entire
-Visium workflow. You will repeat this for the 10- and 15-week samples
-when each of those time points is reached. What will happen when it is
-time for data analysis? What could you have done differently?</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
-</button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
-<div class="accordion-body">
-<p>The issue is that time point is now confounded. A better approach
-would be to start the 15-week samples, then 5 weeks later start the
-10-week samples, then 5 weeks later start the 5-week samples. This way
-you can run all of your samples at the same time. None of your samples
-will have spent a long time in the freezer, so you won’t need to worry
-about the variation that might cause. You won’t need to worry about the
-time point confounding the results.</p>
 </div>
 </div>
 </div>
@@ -589,12 +528,12 @@ is necessary to ensure reproducible results. Note that increasing the
 number of technical replicates will not help to characterize biological
 variability! It is used to characterize systematic error, not
 experimental error.</p>
-<div id="challenge-5-which-kind-of-error" class="callout challenge">
+<div id="challenge-3-which-kind-of-error" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-5-which-kind-of-error" class="callout-inner">
-<h3 class="callout-title">Challenge 5: Which kind of error?<a class="anchor" aria-label="anchor" href="#challenge-5-which-kind-of-error"></a>
+<div id="challenge-3-which-kind-of-error" class="callout-inner">
+<h3 class="callout-title">Challenge 3: Which kind of error?<a class="anchor" aria-label="anchor" href="#challenge-3-which-kind-of-error"></a>
 </h3>
 <div class="callout-content">
 <p>A study used to determine the effect of a drug on weight loss could
@@ -610,12 +549,12 @@ instrument readings, animal behavior, and indoor relative humidity.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">Solution to Challenge 5</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3">Solution to Challenge 3</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>1). random, because the scale is broken and provides any kind of
 random reading it comes up with (inconsistent reading)<br>
@@ -626,13 +565,13 @@ random reading it comes up with (inconsistent reading)<br>
 </div>
 </div>
 </div>
-<div id="challenge-6-how-many-technical-and-biological-replicates" class="callout challenge">
+<div id="challenge-4-how-many-technical-and-biological-replicates" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-6-how-many-technical-and-biological-replicates" class="callout-inner">
-<h3 class="callout-title">Challenge 6: How many technical and biological
-replicates?<a class="anchor" aria-label="anchor" href="#challenge-6-how-many-technical-and-biological-replicates"></a>
+<div id="challenge-4-how-many-technical-and-biological-replicates" class="callout-inner">
+<h3 class="callout-title">Challenge 4: How many technical and biological
+replicates?<a class="anchor" aria-label="anchor" href="#challenge-4-how-many-technical-and-biological-replicates"></a>
 </h3>
 <div class="callout-content">
 <p>In each scenario described below, identify how many technical and how
@@ -656,12 +595,12 @@ experimental units there are?</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution6" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
-  <h4 class="accordion-header" id="headingSolution6">Solution to Challenge 6</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4">Solution to Challenge 4</h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>1). One biological sample (not replicated) with five technical
 replicates. The only conclusion to be drawn from the measurements would
@@ -712,6 +651,67 @@ influence the responses. Randomization balances out the effects of
 nuisance variables between treatment groups by giving an equal
 probability for an experimental unit to be assigned to any treatment
 group.</p>
+<div id="challenge-5-treatment-and-control-samples" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-5-treatment-and-control-samples" class="callout-inner">
+<h3 class="callout-title">Challenge 5: Treatment and control
+samples<a class="anchor" aria-label="anchor" href="#challenge-5-treatment-and-control-samples"></a>
+</h3>
+<div class="callout-content">
+<p>You plan to place samples of treated tissue on one slide and samples
+of the controls on another slide. What will happen when it is time for
+data analysis? What could you have done differently?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
+  <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
+</button>
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div class="accordion-body">
+
+</div>
+</div>
+</div>
+</div>
+<div id="challenge-6-time-points" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-6-time-points" class="callout-inner">
+<h3 class="callout-title">Challenge 6: Time points<a class="anchor" aria-label="anchor" href="#challenge-6-time-points"></a>
+</h3>
+<div class="callout-content">
+<p>Your study requires data collection at three time points: 5, 10, and
+15 weeks. At the end of 5 weeks, you will run samples through the entire
+Visium workflow. You will repeat this for the 10- and 15-week samples
+when each of those time points is reached. What will happen when it is
+time for data analysis? What could you have done differently?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution6" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
+  <h4 class="accordion-header" id="headingSolution6">Show me the solution</h4>
+</button>
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div class="accordion-body">
+<p>The issue is that time point is now confounded. A better approach
+would be to start the 15-week samples, then 5 weeks later start the
+10-week samples, then 5 weeks later start the 5-week samples. This way
+you can run all of your samples at the same time. None of your samples
+will have spent a long time in the freezer, so you won’t need to worry
+about the variation that might cause. You won’t need to worry about the
+time point confounding the results.</p>
+</div>
+</div>
+</div>
+</div>
 <div id="challenge-7-the-efficient-technician" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -737,9 +737,9 @@ Can you foresee any problems with the experimental results?</p>
 <div id="accordionSolution7" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
-  <h4 class="accordion-header" id="headingSolution7">Solution to Challenge 7</h4>
+  <h4 class="accordion-header" id="headingSolution7">Solution to Challenge 6</h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
 <div class="accordion-body">
 <p>Since each treatment is run on only one day, the day effectively
 becomes the experimental unit (explain this). Each experimental unit
@@ -860,7 +860,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/data-and-study-design.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-and-study-design.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-10",
+  "dateModified": "2024-06-11",
   "datePublished": "2024-06-11"
 }
 
