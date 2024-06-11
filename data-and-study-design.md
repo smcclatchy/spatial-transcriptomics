@@ -291,7 +291,7 @@ You plan to place samples of treated tissue on one slide and samples of the
 controls on another slide. 
 What will happen when it is time for data analysis?
 What could you have done differently?
-
+![Treated and controls on separate slides](fig/treated-and-control-slides.png){alt='An experiment with treated samples on one slide and control samples on another.'}
 :::::::::::::::::::::::: solution 
 
 
@@ -309,6 +309,8 @@ points is reached.
 What will happen when it is time for data analysis?
 What could you have done differently?
 
+![Three time points in an experiment](fig/timepoints.png){alt='An experiment with three timepoints at 5, 10 and 15 weeks. At the end of the first 5 weeks, those samples are run through Visium. This is repeated at 10 and 15 weeks.'}
+
 :::::::::::::::::::::::: solution 
 The issue is that time point is now confounded. A better approach would be to 
 start the 15-week samples, then 5 weeks later start the 10-week samples, then
@@ -321,8 +323,6 @@ won't need to worry about the time point confounding the results.
 
 :::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::  challenge
-
-![Four different wheel running treatments each applied once per day to five mice, for a total of 20 mice treated.](fig/wheel-running-experiment.png){alt='Four different wheel running treatments applied to 5 mice each. Treatment 1 is applied on day 1, treatment 2 on day 2, and so on.'}
 
 ## Challenge 7: The efficient technician
 
@@ -337,6 +337,8 @@ each day but the experiment would be completed in only four days, and then
 they can take Friday off!
 Does this adjustment make sense to you?  
 Can you foresee any problems with the experimental results?
+
+![Four different wheel running treatments each applied once per day to five mice, for a total of 20 mice treated.](fig/wheel-running-experiment.png){alt='Four different wheel running treatments applied to 5 mice each. Treatment 1 is applied on day 1, treatment 2 on day 2, and so on.'}
 
 :::::::::::::::  solution
 
