@@ -322,6 +322,8 @@ won't need to worry about the time point confounding the results.
 :::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::  challenge
 
+![Four different wheel running treatments each applied once per day to five mice, for a total of 20 mice treated.](fig/wheel-running-experiment.png){alt='Four different wheel running treatments applied to 5 mice each. Treatment 1 is applied on day 1, treatment 2 on day 2, and so on.'}
+
 ## Challenge 7: The efficient technician
 
 Your technician colleague finds a way to simplify and expedite an experiment.
