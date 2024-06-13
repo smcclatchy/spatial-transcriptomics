@@ -441,10 +441,10 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get and sort 'MoransI_observed' values</span></span>
-<span><span class="va">morans_i_genes</span>   <span class="op">&lt;-</span> <span class="va">svg</span><span class="op">@</span><span class="va">assays</span><span class="op">[[</span><span class="st">"SCT"</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">meta.features</span> <span class="op">%&gt;%</span></span>
-<span>                       <span class="fu">rownames_to_column</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>                       <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">MoransI_observed</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>                       <span class="fu">slice_head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">morans_i_genes</span> <span class="op">&lt;-</span> <span class="va">svg</span><span class="op">@</span><span class="va">assays</span><span class="op">[[</span><span class="st">"SCT"</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">meta.features</span> <span class="op">%&gt;%</span></span>
+<span>                    <span class="fu">rownames_to_column</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                    <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">MoransI_observed</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                    <span class="fu">slice_head</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Merge the Moran's I values with the DE genes</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">merge</span><span class="op">(</span><span class="va">morans_i_genes</span>, <span class="va">de_genes</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span>, by <span class="op">=</span> <span class="st">"gene"</span><span class="op">)</span></span>
@@ -453,13 +453,14 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 <span><span class="co"># Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),</span></span>
 <span><span class="co"># whose columns are the clusters, and whose entries are the adjusted DE pvalue for the</span></span>
 <span><span class="co"># corresponding gene and cluster.</span></span>
-<span><span class="va">p_val_adj_matrix</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">dcast</span><span class="op">(</span><span class="fu">as.data.table</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, <span class="va">gene</span> <span class="op">~</span> <span class="va">cluster</span>, value.var <span class="op">=</span> <span class="st">"p_val_adj"</span>, fill <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">column_to_rownames</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">as.matrix</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">p_val_adj_matrix</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span></span>
+<span>                       <span class="fu">select</span><span class="op">(</span><span class="va">gene</span>, <span class="va">cluster</span>,<span class="va">p_val_adj</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                       <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">cluster</span>, values_from <span class="op">=</span> <span class="va">p_val_adj</span>, values_fill <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                       <span class="fu">column_to_rownames</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                       <span class="fu">as.matrix</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a heatmap of the DE pvalues of spatially variable genes</span></span>
-<span><span class="fu">Heatmap</span><span class="op">(</span><span class="va">p_val_adj_matrix</span>,</span>
+<span><span class="fu">Heatmap</span><span class="op">(</span><span class="va">p_val_adj_matrix2</span>,</span>
 <span>        column_title      <span class="op">=</span> <span class="st">"Heatmap of DE p-values of spatially DE genes"</span>,</span>
 <span>        name              <span class="op">=</span> <span class="st">"DE p-values"</span>, <span class="co"># Title for the heatmap legend</span></span>
 <span>        row_title         <span class="op">=</span> <span class="st">"Spatially variable genes"</span>,</span>
@@ -470,7 +471,12 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 <span>        show_row_dend     <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        show_column_dend  <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The heatmap visualization reveals a key finding of our analysis:
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_val_adj_matrix2' not found</code></pre>
+</div>
+<p>The heatmap visualization reveals a key finding of our analysis:
 genes displaying the highest Moran’s I values show distinct expression
 patterns that align with specific brain regions identified through
 expert annotations. This observation underscores the spatial correlation
