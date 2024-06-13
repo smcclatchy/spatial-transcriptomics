@@ -119,10 +119,10 @@ svg <-
 
 ``` r
 # Get and sort 'MoransI_observed' values
-morans_i_genes   <- svg@assays[["SCT"]]@meta.features %>%
-                       rownames_to_column("gene") %>%
-                       arrange(desc(MoransI_observed)) %>%
-                       slice_head(n = 100)
+morans_i_genes <- svg@assays[["SCT"]]@meta.features %>%
+                    rownames_to_column("gene") %>%
+                    arrange(desc(MoransI_observed)) %>%
+                    slice_head(n = 100)
 
 # Merge the Moran's I values with the DE genes
 df <- merge(morans_i_genes, de_genes, all.x = TRUE, by = "gene")
@@ -131,13 +131,14 @@ df <- subset(df, !is.na(cluster))
 # Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),
 # whose columns are the clusters, and whose entries are the adjusted DE pvalue for the
 # corresponding gene and cluster.
-p_val_adj_matrix <- 
-  dcast(as.data.table(df), gene ~ cluster, value.var = "p_val_adj", fill = 1) %>%
-  column_to_rownames("gene") %>%
-  as.matrix()
+p_val_adj_matrix <- df %>%
+                       select(gene, cluster,p_val_adj) %>%
+                       pivot_wider(names_from = cluster, values_from = p_val_adj, values_fill = 1.0) %>%
+                       column_to_rownames("gene") %>%
+                       as.matrix()
 
 # Create a heatmap of the DE pvalues of spatially variable genes
-Heatmap(p_val_adj_matrix,
+Heatmap(p_val_adj_matrix2,
         column_title      = "Heatmap of DE p-values of spatially DE genes",
         name              = "DE p-values", # Title for the heatmap legend
         row_title         = "Spatially variable genes",
@@ -149,7 +150,9 @@ Heatmap(p_val_adj_matrix,
         show_column_dend  = TRUE)
 ```
 
-<img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'p_val_adj_matrix2' not found
+```
 
 The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
 This observation underscores the spatial correlation of gene expression, highlighting its potential relevance in understanding regional brain functions and pathologies.
