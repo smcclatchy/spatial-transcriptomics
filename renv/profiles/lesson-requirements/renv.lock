@@ -3,6 +3,26 @@
     "Version": "4.4.0",
     "Repositories": [
       {
+        "Name": "BioCsoft",
+        "URL": "https://bioconductor.org/packages/3.19/bioc"
+      },
+      {
+        "Name": "BioCann",
+        "URL": "https://bioconductor.org/packages/3.19/data/annotation"
+      },
+      {
+        "Name": "BioCexp",
+        "URL": "https://bioconductor.org/packages/3.19/data/experiment"
+      },
+      {
+        "Name": "BioCworkflows",
+        "URL": "https://bioconductor.org/packages/3.19/workflows"
+      },
+      {
+        "Name": "BioCbooks",
+        "URL": "https://bioconductor.org/packages/3.19/books"
+      },
+      {
         "Name": "CRAN",
         "URL": "https://cran.rstudio.com"
       }
@@ -3111,16 +3131,6 @@
       ],
       "Hash": "3ee025083e66f18db6cf27b56e23e141"
     },
-    "renv": {
-      "Package": "renv",
-      "Version": "1.0.7",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "utils"
-      ],
-      "Hash": "397b7b2a265bc5a7a06852524dabae20"
-    },
     "reprex": {
       "Package": "reprex",
       "Version": "2.1.0",
@@ -3915,12 +3925,11 @@
         "glue",
         "magrittr",
         "purrr",
-        "rlang",
         "xml2",
         "xslt",
         "yaml"
       ],
-      "Hash": "e6c979e1e6ec0578ef06c1580baae712"
+      "Hash": "aa0f824f0f817488641fa0919578e2d3"
     },
     "tinytex": {
       "Package": "tinytex",
