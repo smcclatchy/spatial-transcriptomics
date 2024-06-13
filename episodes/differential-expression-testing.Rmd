@@ -119,7 +119,7 @@ p_val_adj_matrix <- df %>%
                        as.matrix()
 
 # Create a heatmap of the DE pvalues of spatially variable genes
-Heatmap(p_val_adj_matrix2,
+Heatmap(p_val_adj_matrix,
         column_title      = "Heatmap of DE p-values of spatially DE genes",
         name              = "DE p-values", # Title for the heatmap legend
         row_title         = "Spatially variable genes",
