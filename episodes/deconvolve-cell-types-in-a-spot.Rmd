@@ -19,7 +19,7 @@ exercises: 10
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
-library(R.utils)
+suppressPackageStartupMessages(library(R.utils))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(spacexr))
@@ -73,7 +73,7 @@ First, we load the single-cell RNA-seq data that will serve as a reference for
 deconvolution. This data is essential for mapping the gene expression profiles 
 from the ST data to specific cell types.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 # Load single-cell RNA-seq data
 sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz")
 sc.counts <- as.data.frame(sc.counts)
@@ -95,9 +95,12 @@ reference data to deconvolute the spatial transcriptomics data, thereby
 quantifying the cell types present in each spatial spot.
 
 First, we will create the reference object encapsulating the scRNA-seq data.
+We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html)
+function from the [spacexr](https://github.com/dmcable/spacexr) package, which
+will organize and store the single cell RNASeq data for the next steps.
 
-```{r}
-reference <- Reference(sc.counts, sc.cell.types)
+```{r warning=FALSE,message=FALSE}
+sc_reference <- Reference(sc.counts, sc.cell.types)
 ```
 
 
@@ -108,14 +111,14 @@ facilitate running RCTD on other samples within this dataset.
 run.rctd <- function(reference, st.obj) {
   
   # Get raw ST counts
-  st.counts <- GetAssayData(st.obj, assay="Spatial", layer="counts")
+  st.counts <- GetAssayData(st.obj, assay = "Spatial", layer = "counts")
   
   # Get the spot coordinates
-  st.coords <- st.obj[[]][, c("array_col", "array_row")]
+  st.coords           <- st.obj[[]][, c("array_col", "array_row")]
   colnames(st.coords) <- c("x","y")
     
   # Create the RCTD 'puck', representing the ST data
-  puck <- SpatialRNA(st.coords, st.counts)
+  puck   <- SpatialRNA(st.coords, st.counts)
 
   myRCTD <- create.RCTD(puck, reference, max_cores = 1, keep_reference = TRUE)
 
@@ -126,13 +129,14 @@ run.rctd <- function(reference, st.obj) {
   myRCTD
 }
 ```
+
 ## Running Deconvolution on Brain Samples
 
 We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the 
 spots and quantify the cell types. This may take ~10 minutes. If you prefer, 
 you can load the precomputed results directly.
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 # Change this variable to TRUE to load precomputed results, or FALSE to compute
 # the results here.
 load.precomputed.results <- TRUE
@@ -141,7 +145,7 @@ rds.file <- paste0("data/rctd-sample-1.rds")
 
 if(!load.precomputed.results || !file.exists(rds.file)) {
 
-  result_1 <- run.rctd(reference, filter_st)
+  result_1 <- run.rctd(sc_reference, filter_st)
   # The RCTD file is large. To save space, we will remove the reference counts.
   result_1 <- remove.RCTD.reference.counts(result_1)
   saveRDS(result_1, rds.file)
@@ -206,24 +210,27 @@ filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
 We can now visualize the predicted layer classifications and compare them alongside
 the ground truth annotations that we saw previously.
 
-```{r fig.width=8}
-g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
-g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
-g1 + g2
+```{r warning=FALSE,message=FALSE,fig.width=6}
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
 ```
+
+```{r warning=FALSE,message=FALSE,fig.width=6}
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
+```
+
 
 To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
 layers.
 
-```{r}
+```{r fig.width=6}
 df            <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
 colnames(df)  <- c("Annotation", "Prediction", "Freq")
 df$Annotation <- factor(df$Annotation)
 df$Prediction <- factor(df$Prediction)
 
-g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
-g <- g + theme(text = element_text(size = 20))
-g
+ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + 
+  geom_tile() +
+  theme(text = element_text(size = 20))
 ```
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
