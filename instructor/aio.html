@@ -2131,7 +2131,7 @@ represents a position with zero counts.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>You don’t have to have the students type out the next block. It may
 be better to let them focus on the concept rather than typing.</p>
@@ -2215,7 +2215,7 @@ metadata.</p>
   <h3 class="accordion-header" id="headingInstructor2">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor2" class="accordion-collapse collapse" aria-labelledby="headingInstructor2" data-bs-parent="#accordionInstructor2">
+<div id="collapseInstructor2" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor2" aria-labelledby="headingInstructor2">
 <div class="accordion-body">
 <p>There is no need to have students type out the figure titles and axis
 labels.</p>
@@ -2262,7 +2262,7 @@ time as a histogram.</p>
   <h3 class="accordion-header" id="headingInstructor3">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor3" class="accordion-collapse collapse" aria-labelledby="headingInstructor3" data-bs-parent="#accordionInstructor3">
+<div id="collapseInstructor3" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor3" aria-labelledby="headingInstructor3">
 <div class="accordion-body">
 <p>There is no need to have students type out the figure titles and axis
 labels.</p>
@@ -2350,7 +2350,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2818,7 +2818,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -2842,7 +2842,7 @@ the SCT transform.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Don’t have the students type this. Show the plots and discuss
 them.</p>
@@ -3738,7 +3738,7 @@ AAACAGGGTCTATATT-1       0.46602478</code></pre>
 AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1 
          1.0446099          1.1880596 </code></pre>
 </div>
-<p>Let’s classify the spot according to the layer type with highest
+<p>Let’s classify each spot according to the layer type with highest
 proportion:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3796,6 +3796,13 @@ cell types across a sample, heterogeneity of cell types across the
 sample, or co-localization analyses of cell types within the sample.
 Supervised (i.e., reference-based) and unsupervised approaches have been
 developed.</p>
+<p>Here, we applied deconvolution supervised by scRNA-seq annotations,
+as implemented in RCTD, to a brain sample. The highly structured
+organization of the brain allows clear visual confirmation of
+deconvolution results. Other tissues may have less structure and more
+intermingling of cell types. For example, a typical use of deconvolution
+in a cancer setting is to explore co-localization of tumor and immune
+cells.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -3807,10 +3814,10 @@ developed.</p>
 <ul>
 <li>Deconvolution enhances spatial transcriptomics by quantifying the
 different cell types within spatial spots.</li>
-<li>Integrating scRNA-seq data with spatial transcriptomics data is
-essential for accurate deconvolution.</li>
-<li>The RCTD method is effective for quantifying the proportion of
-different cell types in spatial transcriptomics data.</li>
+<li>Integrating scRNA-seq data with spatial transcriptomics data
+facilitates accurate deconvolution.</li>
+<li>RCTD is a supervised deconvolution method that quantifies the
+proportion of different cell types in spatial transcriptomics data.</li>
 </ul>
 </div>
 </div>

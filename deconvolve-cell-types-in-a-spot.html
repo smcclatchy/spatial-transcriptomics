@@ -518,7 +518,7 @@ AAACAGGGTCTATATT-1       0.46602478</code></pre>
 AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1 
          1.0446099          1.1880596 </code></pre>
 </div>
-<p>Let’s classify the spot according to the layer type with highest
+<p>Let’s classify each spot according to the layer type with highest
 proportion:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -575,6 +575,13 @@ cell types across a sample, heterogeneity of cell types across the
 sample, or co-localization analyses of cell types within the sample.
 Supervised (i.e., reference-based) and unsupervised approaches have been
 developed.</p>
+<p>Here, we applied deconvolution supervised by scRNA-seq annotations,
+as implemented in RCTD, to a brain sample. The highly structured
+organization of the brain allows clear visual confirmation of
+deconvolution results. Other tissues may have less structure and more
+intermingling of cell types. For example, a typical use of deconvolution
+in a cancer setting is to explore co-localization of tumor and immune
+cells.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -585,10 +592,10 @@ developed.</p>
 <div class="callout-content">
 <ul><li>Deconvolution enhances spatial transcriptomics by quantifying the
 different cell types within spatial spots.</li>
-<li>Integrating scRNA-seq data with spatial transcriptomics data is
-essential for accurate deconvolution.</li>
-<li>The RCTD method is effective for quantifying the proportion of
-different cell types in spatial transcriptomics data.</li>
+<li>Integrating scRNA-seq data with spatial transcriptomics data
+facilitates accurate deconvolution.</li>
+<li>RCTD is a supervised deconvolution method that quantifies the
+proportion of different cell types in spatial transcriptomics data.</li>
 </ul></div>
 </div>
 </div>
