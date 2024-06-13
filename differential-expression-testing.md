@@ -32,14 +32,6 @@ or groups.
 This method helps find genes that are upregulated or downregulated in specific 
 contexts, providing insights into biological functions and disease mechanisms.
 
-## Moran's I Statistic
-
-Moran's I is a measure used to assess spatial autocorrelation in data, 
-indicating whether similar values are clustered, dispersed, or random. 
-In bioinformatics, it's applied to detect genes whose expression patterns 
-exhibit clear spatial structure, aiding in understanding spatially localized 
-biological processes.
-
 ## Differential Expression Analysis
 
 ### Differential Expression Using Expert's Annotation
@@ -55,46 +47,29 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_g
 
 <img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
-We identify genes that are upregulated in each brain region in comparison to 
-other regions.
+We identify genes that are upregulated in each annotated brain region using the `FindAllMarkers` function from the Seurat toolkit, utilized with the Presto library, by comparing their expression levels against all other regions. Presto significantly enhances the computational speed of this analysis, delivering quicker results. For more details on the function and its parameters, see the [Seurat FindAllMarkers documentation](https://satijalab.org/seurat/reference/findallmarkers).
 
 
 ``` r
 Idents(filter_st)  <- "layer_guess"
 de_genes           <- FindAllMarkers(filter_st, 
-                                     assay    = "SCT", 
+                                     assay    = "SCT",
+                                     verbose  = FALSE,
                                      only.pos = TRUE, 
                                      min.pct  = 0.25, 
                                      logfc.threshold = 0.25)
 ```
+## Moran's I Statistic
 
-``` output
-Calculating cluster Layer3
-```
+Moran's I is a measure used to assess spatial autocorrelation in data, 
+indicating whether similar values are clustered, dispersed, or random. 
+In bioinformatics, it's applied to detect genes whose expression patterns 
+exhibit clear spatial structure, aiding in understanding spatially localized 
+biological processes.
 
-``` output
-Calculating cluster Layer1
-```
-
-``` output
-Calculating cluster WM
-```
-
-``` output
-Calculating cluster Layer5
-```
-
-``` output
-Calculating cluster Layer6
-```
-
-``` output
-Calculating cluster Layer2
-```
-
-``` output
-Calculating cluster Layer4
-```
+![Moran's I statistic visualized across four different spatial patterns.](https://en.wikipedia.org/wiki/File:Moran%27s_I_example.png)
+**Top Left:** Checkerboard pattern results in negative Moran's I, indicating anti-correlation. **Top Right:** Linear gradient shows a high positive Moran's I, reflecting a strong spatial gradient. **Bottom Left:** Random pattern leads to a Moran's I near zero, suggesting no significant spatial autocorrelation. **Bottom Right:** 'Ink blot' pattern demonstrates positive autocorrelation, indicative of a clustered or spreading pattern. Relationships are calculated using direct, equally weighted neighbors, normalized for each cell.
+Image by <a href="https://commons.wikimedia.org/wiki/File:Moran%27s_I_example.png">WikiNukalito</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons.
 
 ### Spatial Differential Expression Using Moran's I
 
@@ -143,7 +118,7 @@ Heatmap(p_val_adj_matrix2,
         name              = "DE p-values", # Title for the heatmap legend
         row_title         = "Spatially variable genes",
         cluster_rows      = TRUE, 
-        cluster_columns   = TRUE,
+        cluster_columns   = FALSE,
         show_row_names    = FALSE, 
         show_column_names = TRUE,
         show_row_dend     = FALSE, 
