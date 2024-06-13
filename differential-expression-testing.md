@@ -67,8 +67,7 @@ In bioinformatics, it's applied to detect genes whose expression patterns
 exhibit clear spatial structure, aiding in understanding spatially localized 
 biological processes.
 
-![Moran's I statistic visualized across four different spatial patterns.](https://en.wikipedia.org/wiki/File:Moran%27s_I_example.png)
-**Top Left:** Checkerboard pattern results in negative Moran's I, indicating anti-correlation. **Top Right:** Linear gradient shows a high positive Moran's I, reflecting a strong spatial gradient. **Bottom Left:** Random pattern leads to a Moran's I near zero, suggesting no significant spatial autocorrelation. **Bottom Right:** 'Ink blot' pattern demonstrates positive autocorrelation, indicative of a clustered or spreading pattern. Relationships are calculated using direct, equally weighted neighbors, normalized for each cell.
+![Moran's I statistic quantifies spatial correlation. **Top Left:** Checkerboard pattern results in negative Moran's I, indicating anti-correlation. **Top Right:** Linear gradient shows a high positive Moran's I, reflecting a strong spatial gradient. **Bottom Left:** Random pattern leads to a Moran's I near zero, suggesting no significant spatial autocorrelation. **Bottom Right:** 'Ink blot' pattern demonstrates positive autocorrelation, indicative of a clustered or spreading pattern. Relationships are calculated using direct, equally weighted neighbors, normalized for each cell.](https://upload.wikimedia.org/wikipedia/commons/f/f0/Moran%27s_I_example.png){alt='Moran's I statistic quantifies spatial correlation.'}
 Image by <a href="https://commons.wikimedia.org/wiki/File:Moran%27s_I_example.png">WikiNukalito</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons.
 
 ### Spatial Differential Expression Using Moran's I
