@@ -48,10 +48,10 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_g
 <img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
 We identify genes that are upregulated in each annotated brain region using the 
-[FindAllMarkers](https://satijalab.org/seurat/reference/findallmarkers) function in Seurat toolkit. 
+[FindAllMarkers](https://satijalab.org/seurat/reference/findallmarkers) function in Seurat. 
 This performs a "one versus rest" comparison of a gene's expression in one region relative to that
 gene's expression in all other regions. The default test used here, the Wilcoxon Rank Sum test, 
-will use an efficient implementation with the presto library, if installed. The speedup over the
+will use an efficient implementation within the presto library, if installed. The speedup over the
 default implementation is substantial, and we highly recommend installing presto and using Seurat v5, which
 leverages it.
 
@@ -68,13 +68,16 @@ de_genes           <- FindAllMarkers(filter_st,
 ## Moran's I Statistic
 
 Moran's I is a measure used to assess spatial autocorrelation in data, 
-indicating whether similar values of a feature are clustered, 
-dispersed, or random ([Jackson, M. C., et al., Int. J. Health Geogr., 2010](https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33)). 
+indicating whether similar values of a feature (e.g., expression levels of
+a gene) are clustered, dispersed, or random 
+([Jackson, M. C., et al., Int. J. Health Geogr., 2010](https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33)). These correspond to Moran's I values that 
+are positive, negative, or near zero, respectively.
 
 Here, we can apply it to detect genes whose expression patterns 
-exhibit spatial structure, which may reflect region-specific function.
-In some cases, as in the brain samples were are analyzing, regions may
-be apparent.
+exhibit spatial structure, which may reflect region-specific, biological function.
+That is, we anticipate that spatially variable genes will exhibit region-specific
+expression. Let's check that hypothesis by first computing spatially variable genes
+and then assessing whether they are differentially expressed across regions.
 
 ![Moran's I statistic quantifies spatial correlation. **Top Left:** Checkerboard pattern results in negative Moran's I, indicating anti-correlation. **Top Right:** Linear gradient shows a high positive Moran's I, reflecting a strong spatial gradient. **Bottom Left:** Random pattern leads to a Moran's I near zero, suggesting no significant spatial autocorrelation. **Bottom Right:** 'Ink blot' pattern demonstrates positive autocorrelation, indicative of a clustered or spreading pattern. Relationships are calculated using direct, equally weighted neighbors, normalized for each cell. ](https://upload.wikimedia.org/wikipedia/commons/f/f0/Moran%27s_I_example.png){alt="Moran's I statistic quantifies spatial correlation."}
 
