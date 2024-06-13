@@ -67,6 +67,7 @@ episodes:
 - feature-selection-dimensionality-reduction-clustering.Rmd
 - deconvolve-cell-types-in-a-spot.Rmd
 - differential-expression-testing.Rmd
+- final-exercise.Rmd
 
 # Information for Learners
 learners:
@@ -85,5 +86,5 @@ profiles:
 # sandpaper and varnish versions) should live
 
 # this is carpentries/sandpaper#533 in a fork so it can be kept it up to date with main
-sandpaper: epiverse-trace/sandpaper@patch-renv-github-bug 
+sandpaper: epiverse-trace/sandpaper@patch-renv-github-bug
 
