@@ -339,15 +339,15 @@ spatial transcriptomics data.</li>
 </h2>
 <hr class="half-width"><p>Each spatial spot in an ST experiment generally contains multiple
 cells. For example, spots in the Visium assay are 55 microns in
-diameter, whereas a typical T cells is ~10 microns. As such, the
-expression read out from the spot mixes together the expression of the
-individual cells encompassed by it. Deconvolution is the approach for
-unmixing this combined expression signal. Most often, deconvolution
-methods predict the fraction of each spot’s expression derived from each
-particular cell type. Supervised methods deconvolve spot expression
-using cell type expression profiles (e.g., from scRNA-seq) or marker
-genes. Unsupervised approaches instead infer the expression of the cell
-types first.</p>
+diameter, whereas a typical T cell has a diameter of ~10 microns. As
+such, the expression read out from the spot mixes together the
+expression of the individual cells encompassed by it. Deconvolution is
+the approach for unmixing this combined expression signal. Most often,
+deconvolution methods predict the fraction of each spot’s expression
+derived from each particular cell type. Supervised methods deconvolve
+spot expression using cell type expression profiles (e.g., from
+scRNA-seq) or marker genes. Unsupervised approaches instead infer the
+expression of the cell types first.</p>
 <p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg" alt="alt text for accessibility purposes" class="figure"><a href="https://www.sciencedirect.com/science/article/pii/S200103702200558X#f0015" class="external-link">Zhang
 et al, Comput Struct Biotechnol J 21, 176–184 (2023)</a>
 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license" class="external-link">CC
@@ -459,37 +459,14 @@ directly.</p>
 </div>
 </section><section id="interpreting-deconvolution-results"><h2 class="section-heading">Interpreting Deconvolution Results<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a>
 </h2>
-<hr class="half-width"><p>The deconvolution process outputs the proportion of different cell
-types in each spatial spot. Let’s write a utility function to extract
-these proportions from the RCTD output. This function is also defined in
-code/spatial_utils.R.</p>
+<hr class="half-width"><p>RCTD outputs the proportion of different cell types in each spatial
+spot. These are held in the <a href="mailto:spatialRNA@counts" class="email">spatialRNA@counts</a> slot. Let’s see the proportions it
+predicts for this sample:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">format.rctd.output_</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rctd</span>, <span class="va">normalize</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span></span>
-<span>  <span class="va">barcodes</span> <span class="op">&lt;-</span> <span class="fu">colnames</span><span class="op">(</span><span class="va">rctd</span><span class="op">@</span><span class="va">spatialRNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span></span>
-<span>  <span class="va">weights</span>  <span class="op">&lt;-</span> <span class="va">rctd</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">weights</span></span>
-<span></span>
-<span>  <span class="kw">if</span><span class="op">(</span><span class="va">normalize</span><span class="op">)</span> <span class="op">{</span></span>
-<span></span>
-<span>    <span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu">normalize_weights</span><span class="op">(</span><span class="va">weights</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="va">df</span>   <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">weights</span><span class="op">)</span></span>
-<span>  <span class="va">df</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">rctd</span><span class="op">@</span><span class="va">spatialRNA</span><span class="op">@</span><span class="va">coords</span><span class="op">$</span><span class="va">x</span></span>
-<span>  <span class="va">df</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">rctd</span><span class="op">@</span><span class="va">spatialRNA</span><span class="op">@</span><span class="va">coords</span><span class="op">$</span><span class="va">y</span></span>
-<span>  <span class="va">df</span></span>
-<span><span class="op">}</span></span></code></pre>
-</div>
-<p>And now let’s see the predicted proportions in our sample:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">props</span> <span class="op">&lt;-</span> <span class="fu">format.rctd.output_</span><span class="op">(</span><span class="va">result_1</span>, normalize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">props</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">result_1</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">weights</span><span class="op">)</span></span>
 <span><span class="fu">head</span><span class="op">(</span><span class="va">props</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -502,20 +479,20 @@ AAACACCAATAACTGC-1 0.1069532 5.473749e-05 5.473749e-05 5.473749e-05
 AAACAGAGCGACTCCT-1 0.3845201 4.758347e-01 3.256827e-04 3.256827e-04
 AAACAGCTTTCAGAAG-1 0.2411203 3.694851e-01 1.995963e-01 6.646586e-04
 AAACAGGGTCTATATT-1 0.2096408 3.256827e-04 3.624793e-04 5.117059e-01
-                   Oligodendrocytes   x  y
-AAACAAGTATCTCCCA-1       0.04291383 102 50
-AAACAATCTACTAGCA-1       0.12784650  43  3
-AAACACCAATAACTGC-1       1.25940541  19 59
-AAACAGAGCGACTCCT-1       0.06181266  94 14
-AAACAGCTTTCAGAAG-1       0.23374357   9 43
-AAACAGGGTCTATATT-1       0.46602478  13 47</code></pre>
+                   Oligodendrocytes
+AAACAAGTATCTCCCA-1       0.04291383
+AAACAATCTACTAGCA-1       0.12784650
+AAACACCAATAACTGC-1       1.25940541
+AAACAGAGCGACTCCT-1       0.06181266
+AAACAGCTTTCAGAAG-1       0.23374357
+AAACAGGGTCTATATT-1       0.46602478</code></pre>
 </div>
-<p>Notice that the proportions don’t sum exactly to one.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<p>Notice that the proportions don’t sum exactly to one:</p>
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="fu">rowSums</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">props</span>, <span class="op">-</span><span class="fu">c</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="fu">rowSums</span><span class="op">(</span><span class="va">props</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -526,37 +503,37 @@ AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1
          1.0446099          1.1880596 </code></pre>
 </div>
 <p>Let’s classify the spot according to the layer type with highest
-proportion</p>
+proportion:</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">apply</span><span class="op">(</span><span class="va">props</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu">names</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">[</span><span class="fu">which.max</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Let’s add the deconvolution results to our Seurat object.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">apply</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">props</span>, <span class="op">-</span><span class="fu">c</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu">names</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">[</span><span class="fu">which.max</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre>
-</div>
-<p>Let’s add the deconvolution results to our Seurat object.</p>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">filter_st</span>, metadata <span class="op">=</span>  <span class="fu">select</span><span class="op">(</span><span class="va">props</span>, <span class="op">-</span><span class="fu">c</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">filter_st</span>, metadata <span class="op">=</span>  <span class="va">props</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We can now visualize the predicted layer classifications and compare
 them alongside the ground truth annotations that we saw previously.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb13">
+<figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To be more quantitative, we can compute a confusion matrix comparing
-the predicted and observed layers.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To be more quantitative, we can compute a confusion matrix comparing
+the layers predicted by RCTD with those annotated by the authors.</p>
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -567,9 +544,9 @@ the predicted and observed layers.</p>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Annotation</span>, y <span class="op">=</span> <span class="va">Prediction</span>, fill <span class="op">=</span> <span class="va">Freq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_tile</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that there is a fairly strong correlation between the predicted
+<figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that there is a fairly strong correlation between the predicted
 and observed layers, particularly for the pairs Oligodendrocytes and WM
 (White Matter), L4 and Layer 4, and L2-3 and Layer 3.</p>
 </section><section id="summary"><h2 class="section-heading">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
