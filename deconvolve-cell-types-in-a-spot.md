@@ -46,7 +46,7 @@ in each spatial spot. RCTD models the observed gene expression in
 each spatial spot as a mixture of the gene expression profiles of different cell
 types, where the estimated proportions are the coefficients of the expression profiles
 in a linear model. Its procedure guarantees the <em>estimated</em> proportions are non-negative, but
-not that they sum to one. RCTD can operate in two modes: 
+not that they sum to one. RCTD can operate in several modes: 
 in "doublet" mode it fits at most two cell types per spot, in "full" mode it 
 fits potentially all cell types in the reference per spot, and in "multi" mode 
 it again fits more than two cell types per spot by extending the "doublet" 
@@ -57,7 +57,10 @@ approach. Here, we will use "full" mode.
 First, we load the scRNA-seq data that will serve as a reference for
 deconvolution. Individual cells are assumed to be annotated according to their type.
 RCTD will use these cell type-specific expression profiles to deconvolve each spot's
-expression.
+expression. Please note the use of 
+[fread](https://www.rdocumentation.org/packages/data.table/versions/1.15.4/topics/fread) from
+the data.table package. This provides an efficient means of loading large data tables
+in csv and tsv format.
 
 
 ``` r
@@ -76,7 +79,7 @@ sc.counts     <- sc.counts[, shared.cells]
 ```
 
 Next, we will create the reference object encapsulating this scRNA-seq data.
-We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html), which
+We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html) function, which
 will organize and store the scRNA-seq data for the next steps.
 
 
@@ -87,7 +90,12 @@ sc_reference <- Reference(sc.counts, sc.cell.types)
 ## Applying RCTD for spot deconvolution
 
 Let's write a wrapper function that performs RCTD deconvolution. This will 
-facilitate running RCTD on other samples within this dataset.
+facilitate running RCTD on other samples within this dataset. 
+It calls [SpatialRNA](https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html)
+to create an object representing the ST data, much as we did for the
+scRNA-seq data with Reference above. It then links the ST and scRNA-seq in an
+RCTD object created with [create.RCTD](https://rdrr.io/github/dmcable/RCTD/man/create.RCTD.html)
+and finally performs deconvolution by calling [run.RCTD](https://rdrr.io/github/dmcable/RCTD/man/run.RCTD.html).
 
 
 ``` r
@@ -130,8 +138,14 @@ rds.file <- paste0("data/rctd-sample-1.rds")
 if(!load.precomputed.results || !file.exists(rds.file)) {
 
   result_1 <- run.rctd(sc_reference, filter_st)
+  
   # The RCTD file is large. To save space, we will remove the reference counts.
+  # This is necessary owing to constraints on sizes of files uploaded to github
+  # during the automated build of this site. It will not be required for your
+  # own analyses.
+  # We use the remove.RCTD.reference.counts utility function defined in code/spatial_utils.R.
   result_1 <- remove.RCTD.reference.counts(result_1)
+  
   saveRDS(result_1, rds.file)
 
 } else {
@@ -191,7 +205,8 @@ Let's classify the spot according to the layer type with highest proportion:
 props$classification <- apply(props, 1, function(row) names(row)[which.max(row)])
 ```
 
-Let's add the deconvolution results to our Seurat object.
+Let's add the deconvolution results to our Seurat object, so that they can be 
+visualized and analyzed alongside other data organized there.
 
 
 ``` r
@@ -238,10 +253,10 @@ particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 
 
 ## Summary
 
-Incorporating deconvolution into the spatial transcriptomics workflow enhances the ability to quantify the different cell
-types in each spatial spot, providing a richer and more detailed understanding of the tissue architecture. By following
-these steps, researchers can ensure that their spatial transcriptomics data is accurately deconvolved, leading to more
-robust and insightful analyses.
+Deconvolution quantifies the cell type composition of each spot. Doing so enables downstream
+analyses, such as the proportion of various cell types across a sample, heterogeneity of cell types
+across the sample, or co-localization analyses of cell types within the sample. 
+Supervised (i.e., reference-based) and unsupervised approaches have been developed. 
 
 :::::::::::::::::::::::::::::::::: keypoints
 
