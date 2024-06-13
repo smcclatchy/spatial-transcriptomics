@@ -42,7 +42,6 @@ patterns within the data.
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
-suppressPackageStartupMessages(library(presto))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
