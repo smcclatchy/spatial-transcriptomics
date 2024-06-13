@@ -210,11 +210,11 @@ filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
 We can now visualize the predicted layer classifications and compare them alongside
 the ground truth annotations that we saw previously.
 
-```{r warning=FALSE,message=FALSE,fig.width=6}
+```{r warning=FALSE,message=FALSE,fig.width=8}
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
 ```
 
-```{r warning=FALSE,message=FALSE,fig.width=6}
+```{r warning=FALSE,message=FALSE,fig.width=8}
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
 ```
 
