@@ -37,7 +37,7 @@ DefaultAssay(filter_st) <- "SCT"
 ## Deconvolution in Spatial Transcriptomics
 
 Each spatial spot in an ST experiment generally contains multiple cells. For example, 
-spots in the Visium assay are 55 microns in diameter, whereas a typical T cells is ~10 microns.
+spots in the Visium assay are 55 microns in diameter, whereas a typical T cell has a diameter of ~10 microns.
 As such, the expression read out from the spot mixes together the expression of the individual
 cells encompassed by it. Deconvolution is the approach for unmixing this combined
 expression signal. Most often, deconvolution methods predict the fraction of each spot's
@@ -152,52 +152,31 @@ if(!load.precomputed.results || !file.exists(rds.file)) {
 
 ## Interpreting Deconvolution Results
 
-The deconvolution process outputs the proportion of different cell types in each
-spatial spot. Let's write a utility function to extract these proportions from 
-the RCTD output. This function is also defined in code/spatial_utils.R.
+RCTD outputs the proportion of different cell types in each
+spatial spot. These are held in the spatialRNA@counts slot. 
+Let's see the proportions it predicts for this sample:
 
 ```{r}
-format.rctd.output_ <- function(rctd, normalize = FALSE) {
-
-  barcodes <- colnames(rctd@spatialRNA@counts)
-  weights  <- rctd@results$weights
-
-  if(normalize) {
-
-    weights <- normalize_weights(weights)
-
-  }
-
-  df   <- as.data.frame(weights)
-  df$x <- rctd@spatialRNA@coords$x
-  df$y <- rctd@spatialRNA@coords$y
-  df
-}
-```
-
-And now let's see the predicted proportions in our sample:
-
-```{r}
-props <- format.rctd.output_(result_1, normalize = FALSE)
+props <- as.data.frame(result_1@results$weights)
 head(props)
 ```
 
-Notice that the proportions don't sum exactly to one.
+Notice that the proportions don't sum exactly to one:
 
 ```{r}
-head(rowSums(select(props, -c(x,y))))
+head(rowSums(props))
 ```
 
-Let's classify the spot according to the layer type with highest proportion
+Let's classify the spot according to the layer type with highest proportion:
 
 ```{r}
-props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
+props$classification <- apply(props, 1, function(row) names(row)[which.max(row)])
 ```
 
 Let's add the deconvolution results to our Seurat object.
 
 ```{r}
-filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
+filter_st <- AddMetaData(object = filter_st, metadata =  props)
 ```
 
 We can now visualize the predicted layer classifications and compare them alongside
@@ -212,8 +191,8 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_g
 ```
 
 
-To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
-layers.
+To be more quantitative, we can compute a confusion matrix comparing the layers predicted by RCTD with
+those annotated by the authors. 
 
 ```{r fig.width=6}
 df            <- as.data.frame(table(filter_st[[]]$layer_guess, filter_st[[]]$classification))
@@ -223,7 +202,7 @@ df$Prediction <- factor(df$Prediction)
 
 ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + 
   geom_tile() +
-  theme(text = element_text(size = 20))
+  theme(text = element_text(size = 20), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
