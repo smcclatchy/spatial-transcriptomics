@@ -23,7 +23,7 @@ exercises: 10
 ## Deconvolution in Spatial Transcriptomics
 
 Each spatial spot in an ST experiment generally contains multiple cells. For example, 
-spots in the Visium assay are 55 microns in diameter, whereas a typical T cells is ~10 microns.
+spots in the Visium assay are 55 microns in diameter, whereas a typical T cell has a diameter of ~10 microns.
 As such, the expression read out from the spot mixes together the expression of the individual
 cells encompassed by it. Deconvolution is the approach for unmixing this combined
 expression signal. Most often, deconvolution methods predict the fraction of each spot's
@@ -142,35 +142,13 @@ if(!load.precomputed.results || !file.exists(rds.file)) {
 
 ## Interpreting Deconvolution Results
 
-The deconvolution process outputs the proportion of different cell types in each
-spatial spot. Let's write a utility function to extract these proportions from 
-the RCTD output. This function is also defined in code/spatial_utils.R.
+RCTD outputs the proportion of different cell types in each
+spatial spot. These are held in the spatialRNA@counts slot. 
+Let's see the proportions it predicts for this sample:
 
 
 ``` r
-format.rctd.output_ <- function(rctd, normalize = FALSE) {
-
-  barcodes <- colnames(rctd@spatialRNA@counts)
-  weights  <- rctd@results$weights
-
-  if(normalize) {
-
-    weights <- normalize_weights(weights)
-
-  }
-
-  df   <- as.data.frame(weights)
-  df$x <- rctd@spatialRNA@coords$x
-  df$y <- rctd@spatialRNA@coords$y
-  df
-}
-```
-
-And now let's see the predicted proportions in our sample:
-
-
-``` r
-props <- format.rctd.output_(result_1, normalize = FALSE)
+props <- as.data.frame(result_1@results$weights)
 head(props)
 ```
 
@@ -182,20 +160,20 @@ AAACACCAATAACTGC-1 0.1069532 5.473749e-05 5.473749e-05 5.473749e-05
 AAACAGAGCGACTCCT-1 0.3845201 4.758347e-01 3.256827e-04 3.256827e-04
 AAACAGCTTTCAGAAG-1 0.2411203 3.694851e-01 1.995963e-01 6.646586e-04
 AAACAGGGTCTATATT-1 0.2096408 3.256827e-04 3.624793e-04 5.117059e-01
-                   Oligodendrocytes   x  y
-AAACAAGTATCTCCCA-1       0.04291383 102 50
-AAACAATCTACTAGCA-1       0.12784650  43  3
-AAACACCAATAACTGC-1       1.25940541  19 59
-AAACAGAGCGACTCCT-1       0.06181266  94 14
-AAACAGCTTTCAGAAG-1       0.23374357   9 43
-AAACAGGGTCTATATT-1       0.46602478  13 47
+                   Oligodendrocytes
+AAACAAGTATCTCCCA-1       0.04291383
+AAACAATCTACTAGCA-1       0.12784650
+AAACACCAATAACTGC-1       1.25940541
+AAACAGAGCGACTCCT-1       0.06181266
+AAACAGCTTTCAGAAG-1       0.23374357
+AAACAGGGTCTATATT-1       0.46602478
 ```
 
-Notice that the proportions don't sum exactly to one.
+Notice that the proportions don't sum exactly to one:
 
 
 ``` r
-head(rowSums(select(props, -c(x,y))))
+head(rowSums(props))
 ```
 
 ``` output
@@ -205,18 +183,18 @@ AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1
          1.0446099          1.1880596 
 ```
 
-Let's classify the spot according to the layer type with highest proportion
+Let's classify the spot according to the layer type with highest proportion:
 
 
 ``` r
-props$classification <- apply(select(props, -c(x,y)), 1, function(row) names(row)[which.max(row)])
+props$classification <- apply(props, 1, function(row) names(row)[which.max(row)])
 ```
 
 Let's add the deconvolution results to our Seurat object.
 
 
 ``` r
-filter_st <- AddMetaData(object = filter_st, metadata =  select(props, -c(x,y)))
+filter_st <- AddMetaData(object = filter_st, metadata =  props)
 ```
 
 We can now visualize the predicted layer classifications and compare them alongside
@@ -227,18 +205,18 @@ the ground truth annotations that we saw previously.
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
 ```
 
-<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
 ```
 
-<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 
-To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
-layers.
+To be more quantitative, we can compute a confusion matrix comparing the layers predicted by RCTD with
+those annotated by the authors. 
 
 
 ``` r
@@ -249,10 +227,10 @@ df$Prediction <- factor(df$Prediction)
 
 ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + 
   geom_tile() +
-  theme(text = element_text(size = 20))
+  theme(text = element_text(size = 20), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
-<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
 particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 4, and L2-3 and Layer 3.
