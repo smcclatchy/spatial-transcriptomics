@@ -438,7 +438,7 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 <span>                       <span class="fu">as.matrix</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a heatmap of the DE pvalues of spatially variable genes</span></span>
-<span><span class="fu">Heatmap</span><span class="op">(</span><span class="va">p_val_adj_matrix2</span>,</span>
+<span><span class="fu">Heatmap</span><span class="op">(</span><span class="va">p_val_adj_matrix</span>,</span>
 <span>        column_title      <span class="op">=</span> <span class="st">"Heatmap of DE p-values of spatially DE genes"</span>,</span>
 <span>        name              <span class="op">=</span> <span class="st">"DE p-values"</span>, <span class="co"># Title for the heatmap legend</span></span>
 <span>        row_title         <span class="op">=</span> <span class="st">"Spatially variable genes"</span>,</span>
@@ -449,12 +449,7 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 <span>        show_row_dend     <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        show_column_dend  <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'p_val_adj_matrix2' not found</code></pre>
-</div>
-<p>The heatmap visualization reveals a key finding of our analysis:
+<figure><img src="../fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The heatmap visualization reveals a key finding of our analysis:
 genes displaying the highest Moran’s I values show distinct expression
 patterns that align with specific brain regions identified through
 expert annotations. This observation underscores the spatial correlation
