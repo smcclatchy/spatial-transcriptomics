@@ -647,7 +647,7 @@ suited.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Which technology you use depends on your experimental aim. If you are
 testing hypotheses about specific genes, you can profile those genes at
@@ -2291,7 +2291,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2758,7 +2758,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -3817,10 +3817,10 @@ annotated layers. As a reminder, those look like:</p>
 </div>
 <figure><img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We identify genes that are upregulated in each annotated brain region
 using the <a href="https://satijalab.org/seurat/reference/findallmarkers" class="external-link">FindAllMarkers</a>
-function in Seurat toolkit. This performs a “one versus rest” comparison
-of a gene’s expression in one region relative to that gene’s expression
-in all other regions. The default test used here, the Wilcoxon Rank Sum
-test, will use an efficient implementation with the presto library, if
+function in Seurat. This performs a “one versus rest” comparison of a
+gene’s expression in one region relative to that gene’s expression in
+all other regions. The default test used here, the Wilcoxon Rank Sum
+test, will use an efficient implementation within the presto library, if
 installed. The speedup over the default implementation is substantial,
 and we highly recommend installing presto and using Seurat v5, which
 leverages it.</p>
@@ -3841,13 +3841,17 @@ leverages it.</p>
 </h2>
 <hr class="half-width">
 <p>Moran’s I is a measure used to assess spatial autocorrelation in
-data, indicating whether similar values of a feature are clustered,
-dispersed, or random (<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33" class="external-link">Jackson,
-M. C., et al., Int. J. Health Geogr., 2010</a>).</p>
+data, indicating whether similar values of a feature (e.g., expression
+levels of a gene) are clustered, dispersed, or random (<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33" class="external-link">Jackson,
+M. C., et al., Int. J. Health Geogr., 2010</a>). These correspond to
+Moran’s I values that are positive, negative, or near zero,
+respectively.</p>
 <p>Here, we can apply it to detect genes whose expression patterns
-exhibit spatial structure, which may reflect region-specific function.
-In some cases, as in the brain samples were are analyzing, regions may
-be apparent.</p>
+exhibit spatial structure, which may reflect region-specific, biological
+function. That is, we anticipate that spatially variable genes will
+exhibit region-specific expression. Let’s check that hypothesis by first
+computing spatially variable genes and then assessing whether they are
+differentially expressed across regions.</p>
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Moran%27s_I_example.png" alt="Moran's I statistic quantifies spatial correlation." class="figure mx-auto d-block"><div class="figcaption">Moran’s I statistic quantifies spatial
 correlation. <strong>Top Left:</strong> Checkerboard pattern results in
 negative Moran’s I, indicating anti-correlation. <strong>Top
