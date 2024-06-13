@@ -364,17 +364,19 @@ spatial spot as a mixture of the gene expression profiles of different
 cell types, where the estimated proportions are the coefficients of the
 expression profiles in a linear model. Its procedure guarantees the
 <em>estimated</em> proportions are non-negative, but not that they sum
-to one. RCTD can operate in two modes: in “doublet” mode it fits at most
-two cell types per spot, in “full” mode it fits potentially all cell
-types in the reference per spot, and in “multi” mode it again fits more
-than two cell types per spot by extending the “doublet” approach. Here,
-we will use “full” mode.</p>
+to one. RCTD can operate in several modes: in “doublet” mode it fits at
+most two cell types per spot, in “full” mode it fits potentially all
+cell types in the reference per spot, and in “multi” mode it again fits
+more than two cell types per spot by extending the “doublet” approach.
+Here, we will use “full” mode.</p>
 </section><section id="loading-scrna-seq-reference-data"><h2 class="section-heading">Loading scRNA-seq reference data<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a>
 </h2>
 <hr class="half-width"><p>First, we load the scRNA-seq data that will serve as a reference for
 deconvolution. Individual cells are assumed to be annotated according to
 their type. RCTD will use these cell type-specific expression profiles
-to deconvolve each spot’s expression.</p>
+to deconvolve each spot’s expression. Please note the use of <a href="https://www.rdocumentation.org/packages/data.table/versions/1.15.4/topics/fread" class="external-link">fread</a>
+from the data.table package. This provides an efficient means of loading
+large data tables in csv and tsv format.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -393,8 +395,9 @@ to deconvolve each spot’s expression.</p>
 <span><span class="va">sc.counts</span>     <span class="op">&lt;-</span> <span class="va">sc.counts</span><span class="op">[</span>, <span class="va">shared.cells</span><span class="op">]</span></span></code></pre>
 </div>
 <p>Next, we will create the reference object encapsulating this
-scRNA-seq data. We will use the <a href="https://rdrr.io/github/dmcable/RCTD/man/Reference.html" class="external-link">Reference</a>,
-which will organize and store the scRNA-seq data for the next steps.</p>
+scRNA-seq data. We will use the <a href="https://rdrr.io/github/dmcable/RCTD/man/Reference.html" class="external-link">Reference</a>
+function, which will organize and store the scRNA-seq data for the next
+steps.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -404,7 +407,12 @@ which will organize and store the scRNA-seq data for the next steps.</p>
 </section><section id="applying-rctd-for-spot-deconvolution"><h2 class="section-heading">Applying RCTD for spot deconvolution<a class="anchor" aria-label="anchor" href="#applying-rctd-for-spot-deconvolution"></a>
 </h2>
 <hr class="half-width"><p>Let’s write a wrapper function that performs RCTD deconvolution. This
-will facilitate running RCTD on other samples within this dataset.</p>
+will facilitate running RCTD on other samples within this dataset. It
+calls <a href="https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html" class="external-link">SpatialRNA</a>
+to create an object representing the ST data, much as we did for the
+scRNA-seq data with Reference above. It then links the ST and scRNA-seq
+in an RCTD object created with <a href="https://rdrr.io/github/dmcable/RCTD/man/create.RCTD.html" class="external-link">create.RCTD</a>
+and finally performs deconvolution by calling <a href="https://rdrr.io/github/dmcable/RCTD/man/run.RCTD.html" class="external-link">run.RCTD</a>.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -449,8 +457,14 @@ directly.</p>
 <span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="va">load.precomputed.results</span> <span class="op">||</span> <span class="op">!</span><span class="fu">file.exists</span><span class="op">(</span><span class="va">rds.file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">run.rctd</span><span class="op">(</span><span class="va">sc_reference</span>, <span class="va">filter_st</span><span class="op">)</span></span>
+<span>  </span>
 <span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference counts.</span></span>
+<span>  <span class="co"># This is necessary owing to constraints on sizes of files uploaded to github</span></span>
+<span>  <span class="co"># during the automated build of this site. It will not be required for your</span></span>
+<span>  <span class="co"># own analyses.</span></span>
+<span>  <span class="co"># We use the remove.RCTD.reference.counts utility function defined in code/spatial_utils.R.</span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">remove.RCTD.reference.counts</span><span class="op">(</span><span class="va">result_1</span><span class="op">)</span></span>
+<span>  </span>
 <span>  <span class="fu">saveRDS</span><span class="op">(</span><span class="va">result_1</span>, <span class="va">rds.file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
@@ -512,7 +526,9 @@ proportion:</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">apply</span><span class="op">(</span><span class="va">props</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu">names</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">[</span><span class="fu">which.max</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Let’s add the deconvolution results to our Seurat object.</p>
+<p>Let’s add the deconvolution results to our Seurat object, so that
+they can be visualized and analyzed alongside other data organized
+there.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -553,12 +569,12 @@ and observed layers, particularly for the pairs Oligodendrocytes and WM
 (White Matter), L4 and Layer 4, and L2-3 and Layer 3.</p>
 </section><section id="summary"><h2 class="section-heading">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<hr class="half-width"><p>Incorporating deconvolution into the spatial transcriptomics workflow
-enhances the ability to quantify the different cell types in each
-spatial spot, providing a richer and more detailed understanding of the
-tissue architecture. By following these steps, researchers can ensure
-that their spatial transcriptomics data is accurately deconvolved,
-leading to more robust and insightful analyses.</p>
+<hr class="half-width"><p>Deconvolution quantifies the cell type composition of each spot.
+Doing so enables downstream analyses, such as the proportion of various
+cell types across a sample, heterogeneity of cell types across the
+sample, or co-localization analyses of cell types within the sample.
+Supervised (i.e., reference-based) and unsupervised approaches have been
+developed.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
