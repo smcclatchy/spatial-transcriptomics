@@ -36,27 +36,24 @@ DefaultAssay(filter_st) <- "SCT"
 
 ## Deconvolution in Spatial Transcriptomics
 
-Spatial transcriptomics (ST) provides valuable insights into the spatial 
-distribution of gene expression within tissue sections. However, each spatial 
-spot in an ST experiment generally contains multiple cells, leading to mixed 
-gene expression signals. Deconvolution is needed to resolve these mixed signals 
-into individual cell type contributions, allowing for a more accurate
-interpretation of the spatial gene expression data.
+Each spatial spot in an ST experiment generally contains multiple cells. For example, 
+spots in the Visium assay are 55 microns in diameter, whereas a typical T cells is ~10 microns.
+As such, the expression read out from the spot mixes together the expression of the individual
+cells encompassed by it. Deconvolution is the approach for unmixing this combined
+expression signal. Most often, deconvolution methods predict the fraction of each spot's
+expression derived from each particular cell type. Supervised methods deconvolve 
+spot expression using cell type expression profiles (e.g., from scRNA-seq) or marker genes.
+Unsupervised approaches instead infer the expression of the cell types first.
 
-## Why Deconvolution is Needed
-
-Mixed cell populations in each spot of an ST dataset can lead to complex, mixed 
-gene expression profiles. Deconvolution helps quantify the different cell types 
-within each spot, enabling more precise biological insights and downstream analyses
-such as cell type-specific expression patterns and interactions.
-
+![Deconvolving spatial transcriptomics spots into their constituent cell types.](https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg){alt='alt text for accessibility purposes'}
+<a href="https://www.sciencedirect.com/science/article/pii/S200103702200558X#f0015">Zhang et al,  Comput Struct Biotechnol J 21, 176–184 (2023)</a>
+<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license">CC BY-NC-ND 4.0</a>
 ## Deconvolution with RCTD
 
 RCTD (Robust Cell Type Decomposition) 
-[Cable, D. M., et al., Nature Biotechnology, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190)
-is a popular deconvolution algorithm designed to handle the complexities of 
-mixed cell populations in spatial transcriptomics data. The algorithm uses
-single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolute the 
+We will apply RCTD (Robust Cell Type Decomposition) 
+[Cable, D. M., et al., Nature Biotechnology, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190). 
+The algorithm uses single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolve the 
 spatial transcriptomics data, estimating the proportions of different cell types
 in each spatial spot. The RCTD algorithm models the observed gene expression in 
 each spatial spot as a mixture of the gene expression profiles of different cell
@@ -89,10 +86,6 @@ sc.counts     <- sc.counts[, shared.cells]
 ```
 
 ## Deconvolution with RCTD
-
-RCTD (Robust Cell Type Decomposition) is a powerful tool that uses scRNA-seq 
-reference data to deconvolute the spatial transcriptomics data, thereby 
-quantifying the cell types present in each spatial spot.
 
 First, we will create the reference object encapsulating the scRNA-seq data.
 We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html)
