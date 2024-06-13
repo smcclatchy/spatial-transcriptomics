@@ -6,15 +6,15 @@ exercises: 10
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How does deconvolution enhance the analysis of spatial transcriptomics data?
-- What are the steps to integrate single-cell RNA-seq data for deconvolution in spatial transcriptomics?
+- How can we bring single-cell resolution to multi-cellular spatial transcriptomics spots?
+- What are different algorithmic approaches for doing so?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Perform deconvolution to quantify different cell types in spatial transcriptomics spots using single-cell RNA-seq data.
-- Understand the process of integrating single-cell RNA-seq data with spatial transcriptomics data.
+- Understand deconvolution.
+- Perform deconvolution to quantify different cell types in spatial transcriptomics spots using scRNA-seq data.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -48,30 +48,33 @@ Unsupervised approaches instead infer the expression of the cell types first.
 ![Deconvolving spatial transcriptomics spots into their constituent cell types.](https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg){alt='alt text for accessibility purposes'}
 <a href="https://www.sciencedirect.com/science/article/pii/S200103702200558X#f0015">Zhang et al,  Comput Struct Biotechnol J 21, 176–184 (2023)</a>
 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license">CC BY-NC-ND 4.0</a>
-## Deconvolution with RCTD
 
-RCTD (Robust Cell Type Decomposition) 
-We will apply RCTD (Robust Cell Type Decomposition) 
-[Cable, D. M., et al., Nature Biotechnology, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190). 
-The algorithm uses single-cell RNA sequencing (scRNA-seq) data as a reference to deconvolve the 
+## Deconvolution with RCTD (Robust Cell Type Decomposition) 
+
+We will deconvolve spots by applying Robust Cell Type Decomposition (RCTD; 
+[Cable, D. M., et al., Nature Biotechnology, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190)),
+which is implemented in the [spacexr](https://github.com/dmcable/spacexr) package.
+The algorithm uses scRNA-seq data as a reference to deconvolve the 
 spatial transcriptomics data, estimating the proportions of different cell types
-in each spatial spot. The RCTD algorithm models the observed gene expression in 
+in each spatial spot. RCTD models the observed gene expression in 
 each spatial spot as a mixture of the gene expression profiles of different cell
-types and estimates the proportion of each cell type in each spot using a 
-non-negative least squares (NNLS) approach. RCTD can operate in two modes: 
+types, where the estimated proportions are the coefficients of the expression profiles
+in a linear model. Its procedure guarantees the <em>estimated</em> proportions are non-negative, but
+not that they sum to one. RCTD can operate in two modes: 
 in "doublet" mode it fits at most two cell types per spot, in "full" mode it 
 fits potentially all cell types in the reference per spot, and in "multi" mode 
 it again fits more than two cell types per spot by extending the "doublet" 
 approach. Here, we will use "full" mode.
 
-## Loading Single Cell RNA-Seq Data
+## Loading scRNA-seq reference data
 
-First, we load the single-cell RNA-seq data that will serve as a reference for
-deconvolution. This data is essential for mapping the gene expression profiles 
-from the ST data to specific cell types.
+First, we load the scRNA-seq data that will serve as a reference for
+deconvolution. Individual cells are assumed to be annotated according to their type.
+RCTD will use these cell type-specific expression profiles to deconvolve each spot's
+expression.
 
 ```{r warning=FALSE,message=FALSE}
-# Load single-cell RNA-seq data
+# Load scRNA-seq data
 sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz")
 sc.counts <- as.data.frame(sc.counts)
 rownames(sc.counts) <- sc.counts[,1]
@@ -85,17 +88,15 @@ sc.cell.types <- sc.cell.types[shared.cells]
 sc.counts     <- sc.counts[, shared.cells]
 ```
 
-## Deconvolution with RCTD
-
-First, we will create the reference object encapsulating the scRNA-seq data.
-We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html)
-function from the [spacexr](https://github.com/dmcable/spacexr) package, which
-will organize and store the single cell RNASeq data for the next steps.
+Next, we will create the reference object encapsulating this scRNA-seq data.
+We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html), which
+will organize and store the scRNA-seq data for the next steps.
 
 ```{r warning=FALSE,message=FALSE}
 sc_reference <- Reference(sc.counts, sc.cell.types)
 ```
 
+## Applying RCTD for spot deconvolution
 
 Let's write a wrapper function that performs RCTD deconvolution. This will 
 facilitate running RCTD on other samples within this dataset.
@@ -125,7 +126,7 @@ run.rctd <- function(reference, st.obj) {
 
 ## Running Deconvolution on Brain Samples
 
-We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the 
+We apply the RCTD wrapper to our spatial transcriptomics data to deconvolve the 
 spots and quantify the cell types. This may take ~10 minutes. If you prefer, 
 you can load the precomputed results directly.
 
@@ -180,7 +181,7 @@ filter_st <- AddMetaData(object = filter_st, metadata =  props)
 ```
 
 We can now visualize the predicted layer classifications and compare them alongside
-the ground truth annotations that we saw previously.
+the authors' annotations that we saw previously.
 
 ```{r warning=FALSE,message=FALSE,fig.width=8}
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
@@ -212,13 +213,13 @@ particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 
 
 Incorporating deconvolution into the spatial transcriptomics workflow enhances the ability to quantify the different cell
 types in each spatial spot, providing a richer and more detailed understanding of the tissue architecture. By following
-these steps, researchers can ensure that their spatial transcriptomics data is accurately deconvoluted, leading to more
+these steps, researchers can ensure that their spatial transcriptomics data is accurately deconvolved, leading to more
 robust and insightful analyses.
 
 :::::::::::::::::::::::::::::::::: keypoints
 
 - Deconvolution enhances spatial transcriptomics by quantifying the different cell types within spatial spots.
-- Integrating single-cell RNA-seq data with spatial transcriptomics data is essential for accurate deconvolution.
+- Integrating scRNA-seq data with spatial transcriptomics data is essential for accurate deconvolution.
 - The RCTD method is effective for quantifying the proportion of different cell types in spatial transcriptomics data.
 
 :::::::::::::::::::::::::::::::::::::::::::::
