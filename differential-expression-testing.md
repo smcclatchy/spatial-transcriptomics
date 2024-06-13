@@ -7,15 +7,18 @@ exercises: 20
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - What is the purpose of differential expression testing in bioinformatics?
-- Can Moran's I algorithm independently identify region-specific differential expressions that align with results obtained from expert annotations?
+- Can Moran's I algorithm independently identify region-specific differential
+expressions that align with results obtained from expert annotations?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Identify differentially expressed genes across different layers using expert annotations.
+- Identify differentially expressed genes across different layers using expert 
+annotations.
 - Utilize Moran's I algorithm to find spatially variable genes.
-- Explore the correlation between genes identified through expert annotations and those detected by Moran's I algorithm.
+- Explore the correlation between genes identified through expert annotations 
+and those detected by Moran's I algorithm.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -23,13 +26,19 @@ exercises: 20
 
 ## Introduction to Differential Expression Testing
 
-Differential expression testing is crucial in bioinformatics for identifying genes that show significant differences in expression across different samples or groups. 
-This method helps find genes that are upregulated or downregulated in specific contexts, providing insights into biological functions and disease mechanisms.
+Differential expression testing is crucial in bioinformatics for identifying 
+genes that show significant differences in expression across different samples 
+or groups. 
+This method helps find genes that are upregulated or downregulated in specific 
+contexts, providing insights into biological functions and disease mechanisms.
 
 ## Moran's I Statistic
 
-Moran's I is a measure used to assess spatial autocorrelation in data, indicating whether similar values are clustered, dispersed, or random. 
-In bioinformatics, it's applied to detect genes whose expression patterns exhibit clear spatial structure, aiding in understanding spatially localized biological processes.
+Moran's I is a measure used to assess spatial autocorrelation in data, 
+indicating whether similar values are clustered, dispersed, or random. 
+In bioinformatics, it's applied to detect genes whose expression patterns 
+exhibit clear spatial structure, aiding in understanding spatially localized 
+biological processes.
 
 ## Differential Expression Analysis
 
@@ -40,43 +49,22 @@ As a reminder, those look like:
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
-```
-
-``` warning
-Warning: Not validating Centroids objects
-Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-```
-
-``` warning
-Warning: Not validating Seurat objects
-```
-
-``` output
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + 
+  labs(fill = "Layer") 
 ```
 
 <img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
-We identify genes that are upregulated in each brain region in comparison to other regions.
+We identify genes that are upregulated in each brain region in comparison to 
+other regions.
 
 
 ``` r
 Idents(filter_st)  <- "layer_guess"
 de_genes           <- FindAllMarkers(filter_st, 
-                                     assay = "SCT", 
+                                     assay    = "SCT", 
                                      only.pos = TRUE, 
-                                     min.pct = 0.25, 
+                                     min.pct  = 0.25, 
                                      logfc.threshold = 0.25)
 ```
 
@@ -110,7 +98,10 @@ Calculating cluster Layer4
 
 ### Spatial Differential Expression Using Moran's I
 
-We identify the genes whose expression patterns exhibit clear spatial structure using Moran's I algorithm.
+We identify the genes whose expression patterns exhibit clear spatial structure 
+using Moran's I algorithm.
+
+> DMG: Can one of you elaborate on what Moran's I is? And possibly add a reference?
 
 
 ``` r
@@ -119,30 +110,6 @@ svg <-
                                 assay            = "SCT", 
                                 features         = VariableFeatures(filter_st)[1:1000], 
                                 selection.method = "moransi")
-```
-
-``` output
-Computing Moran's I
-```
-
-``` warning
-Warning in dist(x = pos): NAs introduced by coercion
-```
-
-``` output
-Found more than one class "dist" in cache; using the first, from namespace 'spam'
-```
-
-``` output
-Also defined by 'BiocGenerics'
-```
-
-``` output
-Found more than one class "dist" in cache; using the first, from namespace 'spam'
-```
-
-``` output
-Also defined by 'BiocGenerics'
 ```
 
 ## Correlation of Differentially Expressed Genes in each Brain Region and genes with highset Moran's I value.

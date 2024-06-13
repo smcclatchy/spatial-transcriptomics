@@ -82,10 +82,13 @@ reference data to deconvolute the spatial transcriptomics data, thereby
 quantifying the cell types present in each spatial spot.
 
 First, we will create the reference object encapsulating the scRNA-seq data.
+We will use the [Reference](https://rdrr.io/github/dmcable/RCTD/man/Reference.html)
+function from the [spacexr](https://github.com/dmcable/spacexr) package, which
+will organize and store the single cell RNASeq data for the next steps.
 
 
 ``` r
-reference <- Reference(sc.counts, sc.cell.types)
+sc_reference <- Reference(sc.counts, sc.cell.types)
 ```
 
 
@@ -97,14 +100,14 @@ facilitate running RCTD on other samples within this dataset.
 run.rctd <- function(reference, st.obj) {
   
   # Get raw ST counts
-  st.counts <- GetAssayData(st.obj, assay="Spatial", layer="counts")
+  st.counts <- GetAssayData(st.obj, assay = "Spatial", layer = "counts")
   
   # Get the spot coordinates
-  st.coords <- st.obj[[]][, c("array_col", "array_row")]
+  st.coords           <- st.obj[[]][, c("array_col", "array_row")]
   colnames(st.coords) <- c("x","y")
     
   # Create the RCTD 'puck', representing the ST data
-  puck <- SpatialRNA(st.coords, st.counts)
+  puck   <- SpatialRNA(st.coords, st.counts)
 
   myRCTD <- create.RCTD(puck, reference, max_cores = 1, keep_reference = TRUE)
 
@@ -115,6 +118,7 @@ run.rctd <- function(reference, st.obj) {
   myRCTD
 }
 ```
+
 ## Running Deconvolution on Brain Samples
 
 We apply the RCTD wrapper to our spatial transcriptomics data to deconvolute the 
@@ -131,7 +135,7 @@ rds.file <- paste0("data/rctd-sample-1.rds")
 
 if(!load.precomputed.results || !file.exists(rds.file)) {
 
-  result_1 <- run.rctd(reference, filter_st)
+  result_1 <- run.rctd(sc_reference, filter_st)
   # The RCTD file is large. To save space, we will remove the reference counts.
   result_1 <- remove.RCTD.reference.counts(result_1)
   saveRDS(result_1, rds.file)
@@ -227,46 +231,18 @@ the ground truth annotations that we saw previously.
 
 
 ``` r
-g1 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
-```
-
-``` output
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
-```
-
-``` r
-g2 <- SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
-```
-
-``` warning
-Warning: Not validating Centroids objects
-Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-```
-
-``` warning
-Warning: Not validating Seurat objects
-```
-
-``` output
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
-```
-
-``` r
-g1 + g2
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], "classification")
 ```
 
 <img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+
+
+``` r
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess")
+```
+
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+
 
 To be more quantitative, we can compute a confusion matrix comparing the predicted and observed
 layers.
@@ -278,12 +254,12 @@ colnames(df)  <- c("Annotation", "Prediction", "Freq")
 df$Annotation <- factor(df$Annotation)
 df$Prediction <- factor(df$Prediction)
 
-g <- ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + geom_tile()
-g <- g + theme(text = element_text(size = 20))
-g
+ggplot(data = df, aes(x = Annotation, y = Prediction, fill = Freq)) + 
+  geom_tile() +
+  theme(text = element_text(size = 20))
 ```
 
-<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Note that there is a fairly strong correlation between the predicted and observed layers,
 particularly for the pairs Oligodendrocytes and WM (White Matter), L4 and Layer 4, and L2-3 and Layer 3.
