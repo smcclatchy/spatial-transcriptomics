@@ -469,34 +469,6 @@ clusters. We will do so using a confusion matrix.</p>
 <figure><img src="../fig/differential-expression-testing-rendered-de-comparison-confusion-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s visualize the overlap between genes differentially expressed
 across annotated layers and those differentially expressed across
 clusters. We will do so using an alluvial diagram.</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span><span class="va">de_genes_all</span> <span class="op">&lt;-</span> <span class="fu">merge</span><span class="op">(</span><span class="fu">subset</span><span class="op">(</span><span class="va">de_genes</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                      <span class="fu">subset</span><span class="op">(</span><span class="va">de_genes_cluster</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                      by<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span>, all<span class="op">=</span><span class="cn">TRUE</span>, suffixes <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">".anno"</span>, <span class="st">".cluster"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">layer.order</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"WM"</span>, <span class="st">"Layer1"</span>, <span class="st">"Layer2"</span>, <span class="st">"Layer3"</span>, <span class="st">"Layer4"</span>, <span class="st">"Layer5"</span>, <span class="st">"Layer6"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">de_genes_all</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>cluster.anno <span class="op">=</span> <span class="fu">factor</span><span class="op">(</span><span class="va">cluster.anno</span>, levels <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"NA"</span>, <span class="va">layer.order</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>cluster.cluster <span class="op">=</span> <span class="fu">as.factor</span><span class="op">(</span><span class="va">cluster.cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span></span>
-<span>    <span class="fu">aes</span><span class="op">(</span></span>
-<span>      axis1 <span class="op">=</span> <span class="va">cluster.anno</span>, </span>
-<span>      axis2 <span class="op">=</span> <span class="va">cluster.cluster</span>,</span>
-<span>      fill <span class="op">=</span> <span class="va">cluster.anno</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_alluvium</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_stratum</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_text</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"stratum"</span>, <span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="fu">after_stat</span><span class="op">(</span><span class="va">stratum</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_x_discrete</span><span class="op">(</span>limits <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Annotation DE Genes"</span>, <span class="st">"Cluster DE Genes"</span><span class="op">)</span>, </span>
-<span>                   expand <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Layer"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre>
-</div>
 <p>The above plot shows only marginal overlap between the
 annotation-derived DE genes on the x axis and the cluster-derived DE
 genes on the y axis. This might indicate that the two approaches are
@@ -539,7 +511,7 @@ structure using Moran’s I algorithm, as implemented in <a href="https://satija
 We have selected the top 1,000 genes, which should be sufficient to
 identify brain regions. The following will take several minutes to
 run.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -555,7 +527,7 @@ function to query those results. But, there is a bug in that function as
 described <a href="https://github.com/satijalab/seurat/issues/7422" class="external-link">here</a>. So,
 instead we will manually extract the top 100 ranked spatially variable
 genes, along with their Moran’s I values and associated p-values:</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -596,7 +568,7 @@ variable genes are likely to show regional differential expression. To
 do this, we will plot a heatmap of the <em>differential expression</em>
 p-values for the top 100 spatially variable genes, organized by brain
 region.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
