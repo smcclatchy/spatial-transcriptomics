@@ -247,7 +247,8 @@ Below, we show the tissue layer structure deduced by experts in brain morphology
 and described in 
 [Maynard et al](https://www.nature.com/articles/s41593-020-00787-0){alt.text="Maynard et al"}. 
 The authors provide these annotations. Let's add them to our Seurat object and plot
-them. We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat function SpatialDimPlot. This is defined in code/spatial_utils.R and uses a color-blind safe palette.
+them. We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat 
+function SpatialDimPlot. This is defined in code/spatial_utils.R and uses a color-blind safe palette.
 
 
 ``` r
