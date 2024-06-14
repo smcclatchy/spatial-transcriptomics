@@ -264,29 +264,6 @@ filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
-``` warning
-Warning: Not validating Centroids objects
-Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-```
-
-``` warning
-Warning: Not validating Seurat objects
-```
-
-``` output
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
-```
-
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 The authors describe six layers arranged from the upper right to the lower left,
@@ -303,11 +280,6 @@ identities by looking for the clarity of the stripes forming each layer.
 SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill="Cluster") 
 ```
 
-``` output
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
-```
-
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 How many layers do we have compared to the publication? What do you think about
@@ -321,6 +293,9 @@ of more than one cell type, so the clustering may not be as clear.
 
 
 ``` r
+num_clusters <- length(unique(filter_st[[]]$seurat_clusters))
+color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
+
 filter_st <- RunUMAP(filter_st, 
                      reduction = 'pca', 
                      dims      = 1:n_pcs, 
@@ -333,9 +308,7 @@ UMAPPlot(filter_st,
          label.size = 6)
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'color_pal' not found
-```
+<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 We have made some decisions above which might affect the quality of out spot 
 clusters, including the number of nearest neighbors, the number of variable 
@@ -466,11 +439,6 @@ Elapsed time: 0 seconds
 SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
   ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8") +
   labs(fill = "Cluster")
-```
-
-``` output
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
