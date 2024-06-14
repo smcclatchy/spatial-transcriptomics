@@ -304,7 +304,7 @@ and genes with highset Moran’s I value.</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Differential Expression Testing</h1>
-        <p>Last updated on 2024-06-13 |
+        <p>Last updated on 2024-06-14 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -359,7 +359,9 @@ into biological functions and disease mechanisms.</p>
 <hr class="half-width"><div class="section level3">
 <h3 id="differential-expression-using-experts-annotation">Differential Expression Using Expert’s Annotation<a class="anchor" aria-label="anchor" href="#differential-expression-using-experts-annotation"></a></h3>
 <p>We will begin by performing differential expression across the
-annotated layers. As a reminder, those look like:</p>
+annotated layers. We will use the source publication’s spot annotation,
+which is stored in the “layer_guess” column of the metadata. As a
+reminder, those look like:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -372,7 +374,7 @@ using the <a href="https://satijalab.org/seurat/reference/findallmarkers" class=
 function in Seurat. This performs a “one versus rest” comparison of a
 gene’s expression in one region relative to that gene’s expression in
 all other regions. The default test used here, the Wilcoxon Rank Sum
-test, will use an efficient implementation within the presto library, if
+test, will use an efficient implementation within the <a href="https://github.com/immunogenomics/presto" class="external-link">presto</a> library, if
 installed. The speedup over the default implementation is substantial,
 and we highly recommend installing presto and using Seurat v5, which
 leverages it.</p>
@@ -394,9 +396,8 @@ leverages it.</p>
 <hr class="half-width"><p>Moran’s I is a measure used to assess spatial autocorrelation in
 data, indicating whether similar values of a feature (e.g., expression
 levels of a gene) are clustered, dispersed, or random (<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33" class="external-link">Jackson,
-M. C., et al., Int. J. Health Geogr., 2010</a>). These correspond to
-Moran’s I values that are positive, negative, or near zero,
-respectively.</p>
+et al. 2010</a>). These correspond to Moran’s I values that are
+positive, negative, or near zero, respectively.</p>
 <p>Here, we can apply it to detect genes whose expression patterns
 exhibit spatial structure, which may reflect region-specific, biological
 function. That is, we anticipate that spatially variable genes will
@@ -420,7 +421,8 @@ weighted neighbors, normalized for each cell.</div>
 <div class="section level3">
 <h3 id="spatial-differential-expression-using-morans-i">Spatial Differential Expression Using Moran’s I<a class="anchor" aria-label="anchor" href="#spatial-differential-expression-using-morans-i"></a></h3>
 <p>We identify the genes whose expression patterns exhibit clear spatial
-structure using Moran’s I algorithm.</p>
+structure using Moran’s I algorithm. We have selected the top 1,000
+genes, which should be sufficient to identify brain regions.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -437,6 +439,12 @@ and genes with highset Moran’s I value.<a class="anchor" aria-label="anchor" h
 </h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="heatmap-of-differential-expression">Heatmap of Differential Expression<a class="anchor" aria-label="anchor" href="#heatmap-of-differential-expression"></a></h3>
+<p>In this case, we have spot annotation for this tissue section from
+the author publication. Let’s check the degree of correlation between
+the author’s brain region annotation and the spatially differentially
+expressed genes. To do this, we will plot a heatmap of the p-values of
+the most spatially differentially expressed genes, organized by brain
+region.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -561,7 +569,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-13",
+  "dateModified": "2024-06-14",
   "datePublished": "2024-06-14"
 }
 
