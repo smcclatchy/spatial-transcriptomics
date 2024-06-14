@@ -6,35 +6,22 @@ exercises: 20
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- What is the purpose of differential expression testing in bioinformatics?
-- Can Moran's I algorithm independently identify region-specific differential
-expressions that align with results obtained from expert annotations?
-
+- How can we access region-specific gene expression using differential expression?
+- How can we access spatially varying gene expression using spatial statistics?
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Identify differentially expressed genes across different layers using expert 
+- Identify differentially expressed genes across different layers defined by expert 
 annotations.
-- Utilize Moran's I algorithm to find spatially variable genes.
-- Explore the correlation between genes identified through expert annotations 
-and those detected by Moran's I algorithm.
+- Utilize the Moran's I statistic to find spatially variable genes.
+- Explore the relationship between layer-specific genes identified by differential expression and spatially varying genes identified by Moran's I.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 
-## Introduction to Differential Expression Testing
-
-Differential expression testing is crucial in bioinformatics for identifying 
-genes that show significant differences in expression across different samples 
-or groups. 
-This method helps find genes that are upregulated or downregulated in specific 
-contexts, providing insights into biological functions and disease mechanisms.
-
-## Differential Expression Analysis
-
-### Differential Expression Using Expert's Annotation
+## Spot-level Differential Expression Using Expert Annotation
 
 We will begin by performing differential expression across the annotated layers. 
 We will use the source publication's spot annotation, which is stored in the
@@ -69,8 +56,43 @@ de_genes           <- FindAllMarkers(filter_st,
                                      logfc.threshold = 0.25)
 ```
 
+The resulting table indicates DE p-values and adjusted p-values for each gene,
+along with the percentage of spots in which the gene was detected (pct.1) 
+in the corresponding cluster and the percentage of spots in which it was
+detected in all <em>other</em> clusters (pct.2):
+
+
+``` r
+head(de_genes)
+```
+
+``` output
+                p_val avg_log2FC pct.1 pct.2     p_val_adj cluster    gene
+MT-CO1  7.105768e-163  0.3732786 1.000 1.000 1.278754e-158  Layer3  MT-CO1
+ENC1    1.654660e-142  0.8693181 0.998 0.929 2.977725e-138  Layer3    ENC1
+MT-ATP6 6.825005e-127  0.3333658 1.000 1.000 1.228228e-122  Layer3 MT-ATP6
+MT-CYB  8.895560e-118  0.3290618 1.000 1.000 1.600845e-113  Layer3  MT-CYB
+MT-CO2  3.349139e-116  0.2869993 1.000 1.000 6.027110e-112  Layer3  MT-CO2
+MT-CO3  5.357942e-105  0.2766345 1.000 1.000 9.642152e-101  Layer3  MT-CO3
+```
+
+It is not uncommon to have pathologist annotations of regions. The Visium assay is performed
+on a tissue that is also stained for hematoxylin and eosin (H&E) -- a routine practice in
+pathology for diagnosing cancer, for example. A pathologist could manually annotate this H&E
+image using a histology viewer, such as QuPath.
+
+In cases where we do not have expert annotations, we could perform the analysis above across
+clusters. Indeed, this is often the first step to interpreting a cluster -- comparing its marker
+genes to those of regions expected within the tissue. It is important to remember, however,
+that these markers are for clusters of spots -- aggregations of cells -- not individual cells, as
+would be the case in scRNA-seq. Those aggregations may be of cells with similar types, in which
+case analysis may be similar to that of scRNA-seq, or of different cell types, in which case the
+interpretation would be quite different than with scRNA-seq.
+
 ## Moran's I Statistic
 
+We next consider an alternative to the above approach that relies on defined regions -- either
+through expert annotation or via clustering. Instead, we will apply the Moran's I statistic.
 Moran's I is a measure used to assess spatial autocorrelation in data, 
 indicating whether similar values of a feature (e.g., expression levels of
 a gene) are clustered, dispersed, or random 
@@ -91,8 +113,9 @@ Image by <a href="https://commons.wikimedia.org/wiki/File:Moran%27s_I_example.pn
 ### Spatial Differential Expression Using Moran's I
 
 We identify the genes whose expression patterns exhibit clear spatial structure 
-using Moran's I algorithm. We have selected the top 1,000 genes, which should
-be sufficient to identify brain regions.
+using Moran's I algorithm, as implemented in [FindSpatiallyVariableFeatures](https://satijalab.org/seurat/reference/findspatiallyvariablefeatures). 
+We have selected the top 1,000 genes, which should
+be sufficient to identify brain regions. The following will take several minutes to run.
 
 
 ``` r
@@ -103,7 +126,7 @@ svg <-
                                 selection.method = "moransi")
 ```
 
-## Correlation of Differentially Expressed Genes in each Brain Region and genes with highset Moran's I value.
+## Correlation of Region-specific Differentially Expressed Genes and Spatially Variable Genes
 
 ### Heatmap of Differential Expression
 
