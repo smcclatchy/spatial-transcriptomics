@@ -169,7 +169,7 @@ Let's plot the mean versus the variance of the genes using the
 [VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) 
 function. 
 
-```{r}
+```{r warning=FALSE,message=FALSE}
 VariableFeaturePlot(filter_st, log = NULL) + 
   ggtitle("Variable Features - SCT")
 ```
