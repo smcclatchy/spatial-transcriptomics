@@ -26,7 +26,6 @@ suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ComplexHeatmap))
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(data.table))
-#suppressPackageStartupMessages(library(ggalluvial))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -131,32 +130,6 @@ ggplot(data = df, aes(x = de.anno, y = de.cluster, fill = Freq)) +
 
 Let's visualize the overlap between genes differentially expressed across annotated layers
 and those differentially expressed across clusters. We will do so using an alluvial diagram.
-
-```{r de-comparison-alluvial}
-if(FALSE) {
-de_genes_all <- merge(subset(de_genes, p_val_adj < 0.05),
-                      subset(de_genes_cluster, p_val_adj < 0.05),
-                      by=c("gene"), all=TRUE, suffixes = c(".anno", ".cluster"))
-layer.order <- c("WM", "Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6")
-
-de_genes_all %>% 
-  mutate(cluster.anno = factor(cluster.anno, levels = c("NA", layer.order))) %>% 
-  mutate(cluster.cluster = as.factor(cluster.cluster)) %>% 
-  ggplot(
-    aes(
-      axis1 = cluster.anno, 
-      axis2 = cluster.cluster,
-      fill = cluster.anno
-    )
-  ) +
-  geom_alluvium() +
-  geom_stratum() +
-  geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
-  scale_x_discrete(limits = c("Annotation DE Genes", "Cluster DE Genes"), 
-                   expand = c(0.15, 0.05)) +
-  labs(fill = "Layer")
-}
-```
 
 The above plot shows only marginal overlap between the annotation-derived DE genes
 on the x axis and the cluster-derived DE genes on the y axis. This might indicate that
