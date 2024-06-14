@@ -37,7 +37,8 @@ contexts, providing insights into biological functions and disease mechanisms.
 ### Differential Expression Using Expert's Annotation
 
 We will begin by performing differential expression across the annotated layers. 
-As a reminder, those look like:
+We will use the source publication's spot annotation, which is stored in the
+"layer_guess" column of the metadata. As a reminder, those look like:
 
 
 ``` r
@@ -48,12 +49,14 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_g
 <img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
 We identify genes that are upregulated in each annotated brain region using the 
-[FindAllMarkers](https://satijalab.org/seurat/reference/findallmarkers) function in Seurat. 
-This performs a "one versus rest" comparison of a gene's expression in one region relative to that
-gene's expression in all other regions. The default test used here, the Wilcoxon Rank Sum test, 
-will use an efficient implementation within the presto library, if installed. The speedup over the
-default implementation is substantial, and we highly recommend installing presto and using Seurat v5, which
-leverages it.
+[FindAllMarkers](https://satijalab.org/seurat/reference/findallmarkers) function 
+in Seurat. This performs a "one versus rest" comparison of a gene's expression 
+in one region relative to that gene's expression in all other regions. The 
+default test used here, the Wilcoxon Rank Sum test, 
+will use an efficient implementation within the 
+[presto](https://github.com/immunogenomics/presto) library, if installed. The 
+speedup over the default implementation is substantial, and we highly recommend 
+installing presto and using Seurat v5, which leverages it.
 
 
 ``` r
@@ -65,13 +68,15 @@ de_genes           <- FindAllMarkers(filter_st,
                                      min.pct  = 0.25, 
                                      logfc.threshold = 0.25)
 ```
+
 ## Moran's I Statistic
 
 Moran's I is a measure used to assess spatial autocorrelation in data, 
 indicating whether similar values of a feature (e.g., expression levels of
 a gene) are clustered, dispersed, or random 
-([Jackson, M. C., et al., Int. J. Health Geogr., 2010](https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33)). These correspond to Moran's I values that 
-are positive, negative, or near zero, respectively.
+([Jackson, et al. 2010](https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33)). 
+These correspond to Moran's I values that are positive, negative, or near zero, 
+respectively.
 
 Here, we can apply it to detect genes whose expression patterns 
 exhibit spatial structure, which may reflect region-specific, biological function.
@@ -86,7 +91,8 @@ Image by <a href="https://commons.wikimedia.org/wiki/File:Moran%27s_I_example.pn
 ### Spatial Differential Expression Using Moran's I
 
 We identify the genes whose expression patterns exhibit clear spatial structure 
-using Moran's I algorithm.
+using Moran's I algorithm. We have selected the top 1,000 genes, which should
+be sufficient to identify brain regions.
 
 
 ``` r
@@ -100,6 +106,12 @@ svg <-
 ## Correlation of Differentially Expressed Genes in each Brain Region and genes with highset Moran's I value.
 
 ### Heatmap of Differential Expression
+
+In this case, we have spot annotation for this tissue section from the author
+publication. Let's check the degree of correlation between the author's 
+brain region annotation and the spatially differentially expressed genes. To do
+this, we will plot a heatmap of the p-values of the most spatially 
+differentially expressed genes, organized by brain region.
 
 
 ``` r
@@ -137,14 +149,21 @@ Heatmap(p_val_adj_matrix,
 
 <img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" />
 
-The heatmap visualization reveals a key finding of our analysis: genes displaying the highest Moran's I values show distinct expression patterns that align with specific brain regions identified through expert annotations. 
-This observation underscores the spatial correlation of gene expression, highlighting its potential relevance in understanding regional brain functions and pathologies.
+The heatmap visualization reveals a key finding of our analysis: genes displaying 
+the highest Moran's I values show distinct expression patterns that align with 
+specific brain regions identified through expert annotations. This observation 
+underscores the spatial correlation of gene expression, highlighting its 
+potential relevance in understanding regional brain functions and pathologies.
 
 :::::::::::::::::::::::::::::::::: keypoints
 
-- Differential expression testing pinpoints genes with significant expression variations across samples, helping to decode biological and disease mechanisms. 
-- Moran's I statistic is applied to reveal spatial autocorrelation in gene expression, critical for examining spatially dependent biological activities.
-- Moran's I algorithm effectively identifies genes expressed in anatomically distinct regions, as validated from the correlation analysis with the DE genes from the annotated regions.
+- Differential expression testing pinpoints genes with significant expression 
+variations across samples, helping to decode biological and disease mechanisms. 
+- Moran's I statistic is applied to reveal spatial autocorrelation in gene 
+expression, critical for examining spatially dependent biological activities.
+- Moran's I algorithm effectively identifies genes expressed in anatomically 
+distinct regions, as validated from the correlation analysis with the DE genes 
+from the annotated regions.
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
