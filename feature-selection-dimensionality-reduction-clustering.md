@@ -300,11 +300,12 @@ identities by looking for the clarity of the stripes forming each layer.
 
 
 ``` r
-num_clusters <- length(unique(filter_st[[]]$seurat_clusters))
-color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
-SpatialDimPlot(filter_st, 
-               group.by = "seurat_clusters", 
-               cols     = color_pal)
+SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill="Cluster") 
+```
+
+``` output
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
@@ -332,7 +333,9 @@ UMAPPlot(filter_st,
          label.size = 6)
 ```
 
-<img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+``` error
+Error in eval(expr, envir, enclos): object 'color_pal' not found
+```
 
 We have made some decisions above which might affect the quality of out spot 
 clusters, including the number of nearest neighbors, the number of variable 
@@ -351,6 +354,9 @@ output below this code block.
 resol <- c(0.5, 1, 2)
 # Set several numbers of principal components.
 npcs  <- c(25, 50, 75)
+
+num_clusters <- 12
+color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
 
 umap_plots <- vector('list', length(resol) * length(npcs))
 plots      <- vector('list', length(resol) * length(npcs))
@@ -457,8 +463,14 @@ Elapsed time: 0 seconds
 
 
 ``` r
-SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
-  ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8")
+SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
+  ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8") +
+  labs(fill = "Cluster")
+```
+
+``` output
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
