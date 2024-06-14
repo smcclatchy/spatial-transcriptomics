@@ -128,13 +128,10 @@ ggplot(data = df, aes(x = de.anno, y = de.cluster, fill = Freq)) +
   xlab("Annotation-based DE Genes") + ylab("Cluster-based DE Genes")
 ```
 
-Let's visualize the overlap between genes differentially expressed across annotated layers
-and those differentially expressed across clusters. We will do so using an alluvial diagram.
-
 The above plot shows only marginal overlap between the annotation-derived DE genes
 on the x axis and the cluster-derived DE genes on the y axis. This might indicate that
 the two approaches are complementary. In fact, they could be used in conjunction.
-We could have performed clustering <em>within<\em> the annotated regions to assess
+We could have performed clustering <em>within</em> the annotated regions to assess
 intra-layer heterogeneity.
 
 ## Moran's I Statistic
@@ -246,6 +243,7 @@ potential relevance in understanding regional brain functions and pathologies.
 
 We here explored the very basics of differential expression analysis. We note here
 just a few additional complications that may arise in your own analyses.
+
 - Here we explored spot-level analysis within one sample. However, most studies
 (including the published one that furnished the data we used here) include multiple
 samples. This has some similarities to single cell-level DE analysis in scRNA-seq.
@@ -269,7 +267,7 @@ or by incorporating a batch factor in a linear modeling framework (e.g., of DESe
 Those approaches could be applied to spatial transcriptomics data, as well.
 - Batch correction procedures, such as those just mentioned, may remove biological
 variability along with technical variability. An alternative approach is to perform
-analyses <em>within<\em> samples and then to perform meta-analysis across them.
+analyses <em>within</em> samples and then to perform meta-analysis across them.
 One intriguing possibility is to compare rank-based statistics across samples, which
 should be less susceptible to batch effects. Another is to cluster across samples
 based on overlapping sets of genes within intra-cluster samples. Such an approach
