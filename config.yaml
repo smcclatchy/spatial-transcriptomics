@@ -67,7 +67,7 @@ episodes:
 - feature-selection-dimensionality-reduction-clustering.Rmd
 - deconvolve-cell-types-in-a-spot.Rmd
 - differential-expression-testing.Rmd
-# - final-exercise.Rmd
+- final-exercise.Rmd
 
 # Information for Learners
 learners:
