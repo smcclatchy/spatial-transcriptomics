@@ -198,7 +198,7 @@ The authors provide these annotations. Let's add them to our Seurat object and p
 them. We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat 
 function SpatialDimPlot. This is defined in code/spatial_utils.R and uses a color-blind safe palette.
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
 # Subset to our sample
 spot_metadata <- subset(spot_metadata, sample_name == 151673)
@@ -220,7 +220,7 @@ We will now plot the spots in the tissue, colored by the clusters which we
 have identified in "seurat_clusters" to evaluate the quality of the cluster 
 identities by looking for the clarity of the stripes forming each layer.
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill="Cluster") 
 ```
 
@@ -234,6 +234,9 @@ RNASeq to identify different cell types. Here, each spot is potentially composed
 of more than one cell type, so the clustering may not be as clear.
 
 ```{r fig.width=4,fig.height=4,warning=FALSE}
+num_clusters <- length(unique(filter_st[[]]$seurat_clusters))
+color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
+
 filter_st <- RunUMAP(filter_st, 
                      reduction = 'pca', 
                      dims      = 1:n_pcs, 
@@ -357,7 +360,7 @@ filter_st <- FindNeighbors(filter_st,
                FindClusters(resolution = 0.8)
 ```
 
-```{r}
+```{r message=FALSE,warning=FALSE}
 SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
   ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8") +
   labs(fill = "Cluster")
