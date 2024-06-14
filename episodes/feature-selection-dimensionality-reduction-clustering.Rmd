@@ -221,11 +221,7 @@ have identified in "seurat_clusters" to evaluate the quality of the cluster
 identities by looking for the clarity of the stripes forming each layer.
 
 ```{r}
-num_clusters <- length(unique(filter_st[[]]$seurat_clusters))
-color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
-SpatialDimPlot(filter_st, 
-               group.by = "seurat_clusters", 
-               cols     = color_pal)
+SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill="Cluster") 
 ```
 
 How many layers do we have compared to the publication? What do you think about
@@ -266,6 +262,9 @@ output below this code block.
 resol <- c(0.5, 1, 2)
 # Set several numbers of principal components.
 npcs  <- c(25, 50, 75)
+
+num_clusters <- 12
+color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
 
 umap_plots <- vector('list', length(resol) * length(npcs))
 plots      <- vector('list', length(resol) * length(npcs))
@@ -359,8 +358,9 @@ filter_st <- FindNeighbors(filter_st,
 ```
 
 ```{r}
-SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
-  ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8")
+SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
+  ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8") +
+  labs(fill = "Cluster")
 ```
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
