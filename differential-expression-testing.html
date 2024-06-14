@@ -324,9 +324,9 @@ Spatially Variable Genes</a></li>
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How can we access region-specific gene expression using differential
+<ul><li>How can we assess region-specific gene expression using differential
 expression?</li>
-<li>How can we access spatially varying gene expression using spatial
+<li>How can we assess spatially varying gene expression using spatial
 statistics?</li>
 </ul></div>
 </div>
@@ -480,12 +480,6 @@ whether similar values of a feature (e.g., expression levels of a gene)
 are clustered, dispersed, or random (<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33" class="external-link">Jackson,
 et al. 2010</a>). These correspond to Moran’s I values that are
 positive, negative, or near zero, respectively.</p>
-<p>Here, we can apply it to detect genes whose expression patterns
-exhibit spatial structure, which may reflect region-specific, biological
-function. That is, we anticipate that spatially variable genes will
-exhibit region-specific expression. Let’s check that hypothesis by first
-computing spatially variable genes and then assessing whether they are
-differentially expressed across regions.</p>
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Moran%27s_I_example.png" alt="Moran's I statistic quantifies spatial correlation." class="figure mx-auto d-block"><div class="figcaption">Moran’s I statistic quantifies spatial
 correlation. <strong>Top Left:</strong> Checkerboard pattern results in
 negative Moran’s I, indicating anti-correlation. <strong>Top
@@ -500,6 +494,12 @@ weighted neighbors, normalized for each cell.</div>
 <a href="https://commons.wikimedia.org/wiki/File:Moran%27s_I_example.png" class="external-link">WikiNukalito</a>,
 <a href="https://creativecommons.org/licenses/by-sa/4.0" class="external-link">CC BY-SA
 4.0</a>, via Wikimedia Commons.</p>
+<p>Here, we can apply it to detect genes whose expression patterns
+exhibit spatial structure, which may reflect region-specific, biological
+function. That is, we anticipate that spatially variable genes will
+exhibit region-specific expression. Let’s check that hypothesis by first
+computing spatially variable genes and then assessing whether they are
+differentially expressed across regions.</p>
 <div class="section level3">
 <h3 id="spatial-differential-expression-using-morans-i">Spatial Differential Expression Using Moran’s I<a class="anchor" aria-label="anchor" href="#spatial-differential-expression-using-morans-i"></a></h3>
 <p>We identify the genes whose expression patterns exhibit clear spatial
