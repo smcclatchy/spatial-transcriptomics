@@ -126,15 +126,12 @@ svg <-
                                 selection.method = "moransi")
 ```
 
-## Correlation of Region-specific Differentially Expressed Genes and Spatially Variable Genes
-
-### Heatmap of Differential Expression
-
-In this case, we have spot annotation for this tissue section from the author
-publication. Let's check the degree of correlation between the author's 
-brain region annotation and the spatially differentially expressed genes. To do
-this, we will plot a heatmap of the p-values of the most spatially 
-differentially expressed genes, organized by brain region.
+FindSpatiallyVariableFeatures returns a Seurat object, populated with Moran's I-derived
+results. Normally, we would use the 
+[SpatiallyVariableFeatures](https://satijalab.github.io/seurat-object/reference/VariableFeatures.html) function to query those results. But, there is a bug in that
+function as described [here](https://github.com/satijalab/seurat/issues/7422). So, instead
+we will manually extract the top 100 ranked spatially variable genes, along with their 
+Moran's I values and associated p-values:
 
 
 ``` r
@@ -143,24 +140,64 @@ morans_i_genes <- svg@assays[["SCT"]]@meta.features %>%
                     rownames_to_column("gene") %>%
                     arrange(desc(MoransI_observed)) %>%
                     slice_head(n = 100)
+head(morans_i_genes)
+```
 
+``` output
+    gene MoransI_observed MoransI_p.value moransi.spatially.variable
+1    MBP        0.6824006    0.0009756098                       TRUE
+2   PLP1        0.6075391    0.0009756098                       TRUE
+3 MT-CO1        0.5627272    0.0009756098                       TRUE
+4   MOBP        0.5447334    0.0009756098                       TRUE
+5   GFAP        0.5407996    0.0009756098                       TRUE
+6    CNP        0.5249332    0.0009756098                       TRUE
+  moransi.spatially.variable.rank
+1                               1
+2                               2
+3                               3
+4                               4
+5                               5
+6                               6
+```
+
+## Correlation of Region-specific Differentially Expressed Genes and Spatially Variable Genes
+
+### Heatmap of Differential Expression
+
+As a sanity check of both the region-specific differential expression and the
+Moran's I approaches, let's check out hypothesis that spatially variable genes
+are likely to show regional differential expression. To do
+this, we will plot a heatmap of the <em>differential expression</em> p-values 
+for the top 100 spatially variable genes, organized by brain region.
+
+
+``` r
 # Merge the Moran's I values with the DE genes
 df <- merge(morans_i_genes, de_genes, all.x = TRUE, by = "gene")
 df <- subset(df, !is.na(cluster))
+
+# We will plot the -log2 pvalues. Compute this and adjust for taking log of 0.
+df$log_p_val_adj <- -log2(df$p_val_adj)
+df$log_p_val_adj[is.infinite(df$log_p_val_adj)] <- 
+  max(df$log_p_val_adj[!is.infinite(df$log_p_val_adj)])
 
 # Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),
 # whose columns are the clusters, and whose entries are the adjusted DE pvalue for the
 # corresponding gene and cluster.
 p_val_adj_matrix <- df %>%
-                       select(gene, cluster,p_val_adj) %>%
-                       pivot_wider(names_from = cluster, values_from = p_val_adj, values_fill = 1.0) %>%
+                       select(gene, cluster,log_p_val_adj) %>%
+                       pivot_wider(names_from = cluster, values_from = log_p_val_adj, values_fill = 0) %>%
                        column_to_rownames("gene") %>%
                        as.matrix()
 
-# Create a heatmap of the DE pvalues of spatially variable genes
+# Order the regions according to their spatial organization from inner to outer layers
+p_val_adj_matrix <- 
+  p_val_adj_matrix[, c("WM", "Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6")]
+
+# Create a heatmap of the DE p-values of spatially variable genes
 Heatmap(p_val_adj_matrix,
-        column_title      = "Heatmap of DE p-values of spatially DE genes",
-        name              = "DE p-values", # Title for the heatmap legend
+        column_title      = "Heatmap of DE p-values of spatially variable genes",
+        name              = "DE -log2(p-values)", # Title for the heatmap legend
         row_title         = "Spatially variable genes",
         cluster_rows      = TRUE, 
         cluster_columns   = FALSE,
@@ -181,8 +218,8 @@ potential relevance in understanding regional brain functions and pathologies.
 :::::::::::::::::::::::::::::::::: keypoints
 
 - Differential expression testing pinpoints genes with significant expression 
-variations across samples, helping to decode biological and disease mechanisms. 
-- Moran's I statistic is applied to reveal spatial autocorrelation in gene 
+variations across regions or clusters. 
+- Moran's I statistic reveals spatial autocorrelation in gene 
 expression, critical for examining spatially dependent biological activities.
 - Moran's I algorithm effectively identifies genes expressed in anatomically 
 distinct regions, as validated from the correlation analysis with the DE genes 
