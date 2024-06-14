@@ -26,6 +26,7 @@ suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ComplexHeatmap))
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(data.table))
+#suppressPackageStartupMessages(library(ggalluvial))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -33,7 +34,7 @@ filter_st <- load_seurat_object(file_prefix = 'deconcelltypes')
 DefaultAssay(filter_st) <- "SCT"
 ```
 
-## Spot-level Differential Expression Using Expert Annotation
+## Spot-level Differential Expression Across Annotated Regions
 
 We will begin by performing differential expression across the annotated layers. 
 We will use the source publication's spot annotation, which is stored in the
@@ -78,18 +79,96 @@ on a tissue that is also stained for hematoxylin and eosin (H&E) -- a routine pr
 pathology for diagnosing cancer, for example. A pathologist could manually annotate this H&E
 image using a histology viewer, such as QuPath.
 
+## Spot-level Differential Expression Across Clusters
+
 In cases where we do not have expert annotations, we could perform the analysis above across
 clusters. Indeed, this is often the first step to interpreting a cluster -- comparing its marker
 genes to those of regions expected within the tissue. It is important to remember, however,
 that these markers are for clusters of spots -- aggregations of cells -- not individual cells, as
 would be the case in scRNA-seq. Those aggregations may be of cells with similar types, in which
 case analysis may be similar to that of scRNA-seq, or of different cell types, in which case the
-interpretation would be quite different than with scRNA-seq.
+interpretation would be quite different than with scRNA-seq. Let's try this.
+
+First, let's remind ourselves what the clusters look like:
+
+```{r clusters,warning=FALSE,message=FALSE}
+SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill = "Cluster") 
+```
+
+Now, we will use nearly identical code as above to perform the differential expression
+analysis. We only change each cell's identity class with the 
+[Idents](https://satijalab.github.io/seurat-object/reference/Idents.html) function,
+to associate each cell with its cluster.
+
+```{r layer-de-cluster}
+Idents(filter_st)  <- "seurat_clusters"
+de_genes_cluster   <- FindAllMarkers(filter_st, 
+                                     assay    = "SCT",
+                                     verbose  = FALSE,
+                                     only.pos = TRUE, 
+                                     min.pct  = 0.25, 
+                                     logfc.threshold = 0.25)
+```
+
+Let's visualize the overlap between genes differentially expressed across annotated layers
+and those differentially expressed across clusters. We will do so using a confusion matrix.
+
+```{r de-comparison-confusion}
+de_genes_all <- merge(subset(de_genes, p_val_adj < 0.05),
+                      subset(de_genes_cluster, p_val_adj < 0.05),
+                      by=c("gene"), all=TRUE, suffixes = c(".anno", ".cluster"))
+layer.order <- c("WM", "Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6")
+df            <- as.data.frame(table(de_genes_all$cluster.anno, de_genes_all$cluster.cluster))
+colnames(df)  <- c("de.anno", "de.cluster", "Freq")
+df$de.anno <- factor(df$de.anno, levels = c("NA", layer.order))
+df$de.cluster <- factor(df$de.cluster)
+
+ggplot(data = df, aes(x = de.anno, y = de.cluster, fill = Freq)) +
+  geom_tile() +
+  theme(text = element_text(size = 20), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  xlab("Annotation-based DE Genes") + ylab("Cluster-based DE Genes")
+```
+
+Let's visualize the overlap between genes differentially expressed across annotated layers
+and those differentially expressed across clusters. We will do so using an alluvial diagram.
+
+```{r de-comparison-alluvial}
+if(FALSE) {
+de_genes_all <- merge(subset(de_genes, p_val_adj < 0.05),
+                      subset(de_genes_cluster, p_val_adj < 0.05),
+                      by=c("gene"), all=TRUE, suffixes = c(".anno", ".cluster"))
+layer.order <- c("WM", "Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6")
+
+de_genes_all %>% 
+  mutate(cluster.anno = factor(cluster.anno, levels = c("NA", layer.order))) %>% 
+  mutate(cluster.cluster = as.factor(cluster.cluster)) %>% 
+  ggplot(
+    aes(
+      axis1 = cluster.anno, 
+      axis2 = cluster.cluster,
+      fill = cluster.anno
+    )
+  ) +
+  geom_alluvium() +
+  geom_stratum() +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+  scale_x_discrete(limits = c("Annotation DE Genes", "Cluster DE Genes"), 
+                   expand = c(0.15, 0.05)) +
+  labs(fill = "Layer")
+}
+```
+
+The above plot shows only marginal overlap between the annotation-derived DE genes
+on the x axis and the cluster-derived DE genes on the y axis. This might indicate that
+the two approaches are complementary. In fact, they could be used in conjunction.
+We could have performed clustering <em>within<\em> the annotated regions to assess
+intra-layer heterogeneity.
 
 ## Moran's I Statistic
 
-We next consider an alternative to the above approach that relies on defined regions -- either
-through expert annotation or via clustering. Instead, we will apply the Moran's I statistic.
+We next consider an alternative to the above approaches that both rely on defined 
+regions -- be they defined from expert annotation or via clustering. 
+Instead, we will apply the Moran's I statistic.
 Moran's I is a measure used to assess spatial autocorrelation in data, 
 indicating whether similar values of a feature (e.g., expression levels of
 a gene) are clustered, dispersed, or random 
@@ -168,8 +247,7 @@ p_val_adj_matrix <- df %>%
                        as.matrix()
 
 # Order the regions according to their spatial organization from inner to outer layers
-p_val_adj_matrix <- 
-  p_val_adj_matrix[, c("WM", "Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6")]
+p_val_adj_matrix <- p_val_adj_matrix[, layer.order]
 
 # Create a heatmap of the DE p-values of spatially variable genes
 Heatmap(p_val_adj_matrix,
@@ -190,6 +268,44 @@ the highest Moran's I values show distinct expression patterns that align with
 specific brain regions identified through expert annotations. This observation 
 underscores the spatial correlation of gene expression, highlighting its 
 potential relevance in understanding regional brain functions and pathologies.
+
+## Other Considerations
+
+We here explored the very basics of differential expression analysis. We note here
+just a few additional complications that may arise in your own analyses.
+- Here we explored spot-level analysis within one sample. However, most studies
+(including the published one that furnished the data we used here) include multiple
+samples. This has some similarities to single cell-level DE analysis in scRNA-seq.
+In the scRNA-seq setting, several studies, including one by [Squair, et al.](https://www.nature.com/articles/s41467-021-25960-2), have emphasized drawbacks of performing
+DE on individual cells. Single-cell DE may be caused by technical variability across
+single cells, biological variability that may not be of interest across conditions
+studied (e.g., transcriptional bursting), or simply by the large number of individual
+cells that inflate false positives. One solution is to perform "pseudobulking" of
+the scRNA-seq and then to use conventional bulk RNA-seq DE tools (e.g., DESeq2) to
+compare the pseudobulks. A Seurat 
+[vignette](https://satijalab.org/seurat/articles/de_vignette) describing the 
+approach for scRNA-seq should likewise be applicable for spatial transcriptomics.
+However, we note the caveat that spots are not cells -- the former may have
+considerably more intra- and inter-spot biological heterogeneity. Hence, pseudobulking
+should be done with caution.
+- Any comparison across samples will necessitate accounting for batch effects. In
+bulk or single-cell RNA-seq studies, batch effects would typically be mitigated by
+applying regression-based tools such as 
+[Harmony](https://portals.broadinstitute.org/harmony/articles/quickstart.html) 
+or by incorporating a batch factor in a linear modeling framework (e.g., of DESeq2).
+Those approaches could be applied to spatial transcriptomics data, as well.
+- Batch correction procedures, such as those just mentioned, may remove biological
+variability along with technical variability. An alternative approach is to perform
+analyses <em>within<\em> samples and then to perform meta-analysis across them.
+One intriguing possibility is to compare rank-based statistics across samples, which
+should be less susceptible to batch effects. Another is to cluster across samples
+based on overlapping sets of genes within intra-cluster samples. Such an approach
+has been applied in the "meta-programs" defined in cancer by [Gavish and
+colleagues](https://pubmed.ncbi.nlm.nih.gov/37258682/).
+
+There is unlikely to be one turn-key approach to addressing the above issues.
+You will likely need to explore the data -- and that exploration should be
+guided by some biological expectations that anchor your choices.
 
 :::::::::::::::::::::::::::::::::: keypoints
 
