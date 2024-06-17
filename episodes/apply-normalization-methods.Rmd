@@ -30,6 +30,7 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(hdf5r))
 suppressPackageStartupMessages(library(sparseMatrixStats))
 suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(rcartocolor))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -60,15 +61,77 @@ is because many statistical tests require that the within-group variance be the
 same. As you'll see below, there is a relationship between the mean and
 variance of genes that will allow us to correct for this difference.
 
-### Assessing Normalization Needs
-
-#### Using H&E Staining to Guide Normalization
+### Using Raw Data to Guide Interpretation Prior to Normalization
 
 Hematoxylin and Eosin (H&E) staining is critical for preliminary assessments of
 tissue sections. It highlights structural and pathological features, guiding the
 interpretation of transcriptomic data. For example, high RNA counts in a 
 necrotic region, typically characterized by reduced cellular material, might 
 suggest technical artifacts, indicating a need for normalization.
+
+
+Maynard and colleagues used the information encoded in the H&E, in particular
+cellular organization, morphology, and density, in conjunction with expression data
+to annotate the six layers and the white matter of the neocortex. Additionally,
+they applied standard image processing techniques to the H&E image to segment and
+count nuclei under each spot. They provide this as metadata. Let's load that layer
+annotation and cell count metadata and add it to our Seurat object.
+
+```{r message=FALSE,warning=FALSE}
+spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
+# Subset to our sample
+spot_metadata <- subset(spot_metadata, sample_name == 151673)
+rownames(spot_metadata) <- spot_metadata$barcode
+stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
+spot_metadata <- spot_metadata[Cells(filter_st),]
+
+filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
+
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
+```
+
+Now, we can plot the layer annotations to understand the structure of the tissue.
+We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat function SpatialDimPlot.
+This is defined in code/spatial_utils.R and uses a color-blind safe palette.
+
+```{r message=FALSE,warning=FALSE}
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
+```
+
+We noted that the authors used cellular density to aid in discerning layers. Let's see those H&E-derived
+cell counts vary across layers.
+
+```{r message=FALSE,warning=FALSE}
+g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), aes(x = layer_guess, y = cell_count))
+g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
+print(g)
+```
+
+We see that the white matter (WM) has increased cells per spot, whereas Layer 1 has fewer cells per spot.
+
+We can also plot these cell counts spatially.
+
+```{r message=FALSE,warning=FALSE}
+SpatialFeaturePlot(filter_st, "cell_count")
+```
+
+The cell counts partially reflect the banding of the layers.
+
+As a potential surrogate for cell count, let's plot the number of UMIs per spot as a function of layer.
+
+```{r message=FALSE,warning=FALSE}
+g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), aes(x = layer_guess, y = nCount_Spatial))
+g <- g + geom_boxplot()
+print(g)
+```
+
+Layer 1 has fewer UMIs, consitent with its lower cell count. An increase in UMIs consistent with that in cell count
+is not observed for the white matter, however. Despite this imperfect correlation between UMI and cell counts,
+we wish the emphasie that UMI (i.e., read) counts, as well as feature (i.e., gene) counts, can encode biological information.
+That certainly
+occurs here. As such, we strongly recommend visualizing raw UMI and features counts prior to normalization.
+
+### Assessing Normalization Needs
 
 #### Total Counts per Spot
 
