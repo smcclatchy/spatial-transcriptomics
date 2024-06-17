@@ -50,15 +50,92 @@ is because many statistical tests require that the within-group variance be the
 same. As you'll see below, there is a relationship between the mean and
 variance of genes that will allow us to correct for this difference.
 
-### Assessing Normalization Needs
-
-#### Using H&E Staining to Guide Normalization
+### Using Raw Data to Guide Interpretation Prior to Normalization
 
 Hematoxylin and Eosin (H&E) staining is critical for preliminary assessments of
 tissue sections. It highlights structural and pathological features, guiding the
 interpretation of transcriptomic data. For example, high RNA counts in a 
 necrotic region, typically characterized by reduced cellular material, might 
 suggest technical artifacts, indicating a need for normalization.
+
+
+Maynard and colleagues used the information encoded in the H&E, in particular
+cellular organization, morphology, and density, in conjunction with expression data
+to annotate the six layers and the white matter of the neocortex. Additionally,
+they applied standard image processing techniques to the H&E image to segment and
+count nuclei under each spot. They provide this as metadata. Let's load that layer
+annotation and cell count metadata and add it to our Seurat object.
+
+
+``` r
+spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
+# Subset to our sample
+spot_metadata <- subset(spot_metadata, sample_name == 151673)
+rownames(spot_metadata) <- spot_metadata$barcode
+stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
+spot_metadata <- spot_metadata[Cells(filter_st),]
+
+filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
+
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+
+Now, we can plot the layer annotations to understand the structure of the tissue.
+We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat function SpatialDimPlot.
+This is defined in code/spatial_utils.R and uses a color-blind safe palette.
+
+
+``` r
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+
+We noted that the authors used cellular density to aid in discerning layers. Let's see those H&E-derived
+cell counts vary across layers.
+
+
+``` r
+g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), aes(x = layer_guess, y = cell_count))
+g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
+print(g)
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
+We see that the white matter (WM) has increased cells per spot, whereas Layer 1 has fewer cells per spot.
+
+We can also plot these cell counts spatially.
+
+
+``` r
+SpatialFeaturePlot(filter_st, "cell_count")
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
+The cell counts partially reflect the banding of the layers.
+
+As a potential surrogate for cell count, let's plot the number of UMIs per spot as a function of layer.
+
+
+``` r
+g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), aes(x = layer_guess, y = nCount_Spatial))
+g <- g + geom_boxplot()
+print(g)
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+
+Layer 1 has fewer UMIs, consitent with its lower cell count. An increase in UMIs consistent with that in cell count
+is not observed for the white matter, however. Despite this imperfect correlation between UMI and cell counts,
+we wish the emphasie that UMI (i.e., read) counts, as well as feature (i.e., gene) counts, can encode biological information.
+That certainly
+occurs here. As such, we strongly recommend visualizing raw UMI and features counts prior to normalization.
+
+### Assessing Normalization Needs
 
 #### Total Counts per Spot
 
@@ -73,7 +150,7 @@ hist(colSums2(counts), breaks = 100,
      main = "Histogram of Counts per Spot")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 As you can see, the total counts per spot ranges cross three orders of 
 magnitude. Some of this may be due to the biology of the tissue, i.e. some cells
@@ -167,7 +244,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 20.29006 secs
+Wall clock passed: Time difference of 21.12774 secs
 ```
 
 ``` output
@@ -241,7 +318,7 @@ corrected_counts_sct <- LayerData(filter_st, layer = "data", assay = "SCT")
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Let's plot the mean versus the variance of the genes using the 
 [VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) 
@@ -253,7 +330,7 @@ VariableFeaturePlot(filter_st, log = NULL) +
   ggtitle("Variable Features - SCT")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
 residual variance is on the Y-axis. Each point shows one gene. By default, Seurat selects a set
@@ -324,7 +401,7 @@ Warning: Removed 1 row containing missing values or values outside the scale ran
 (`geom_point()`).
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 It is not entirely clear what is plotted on each axis. As best we can tell,
 the mean is on the X-axis and the standardized variance is on the Y-axis.
@@ -381,7 +458,7 @@ counts_sct <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 Notice that the log-normalization has a range of total counts per spot that
 ranges across several orders of magnitude. The SCT transform has a more uniform
@@ -421,13 +498,13 @@ Warning: Removed 1 row containing missing values or values outside the scale ran
 (`geom_point()`).
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plot2
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-14-2.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-2.png" style="display: block; margin: auto;" />
 
 ### No One-Size-Fits-All Approach
 
