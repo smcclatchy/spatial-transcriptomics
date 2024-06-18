@@ -37,27 +37,53 @@ need to adjust for:
 1. the difference in total counts across spots, and
 2. the difference in variance across genes.
 
-For the first point, each spot may have a different number of total counts, 
-which makes it difficult to compare gene expression levels between spots. On the
-other hand, different spots may contain different types of cells, which may 
+For the first gloal, each spot may have a different number of total counts.
+This is termed the "library size". Since each spot has a different number of counts,
+it will be difficult to compare gene expression values between them in a
+meaningful way because the denominator (total spot counts) is different in each
+spot.
+On the other hand, different spots may contain different types of cells, which may 
 express differing numbers of transcripts. So there is a balance between 
 normalizing all spots to have the same total counts and leaving some variation
 in total counts which may be due to the biology of the tissue.
 
-For the second point, in order to compare gene expression values between 
+For the second goal, in order to compare gene expression values between 
 different genes, the within-gene variance should be similar between genes. This
 is because many statistical tests require that the within-group variance be the
 same. As you'll see below, there is a relationship between the mean and
-variance of genes that will allow us to correct for this difference.
+variance of genes that will allow us to correct for this difference. Hence,
+we seek to "stabilize the variance" -- expression variance should be independent of 
+mean expression.
 
-### Using Raw Data to Guide Interpretation Prior to Normalization
+### Total Counts per Spot are Variable 
+
+Let's first assess the variability in the total counts per spot.
+
+The spots are arranged in column in the data matrix. We will look at the 
+distribution of total counts per spot by summing the counts in each column and
+making a histogram.
+
+
+``` r
+counts <- LayerData(filter_st, layer = 'counts')
+hist(colSums2(counts), breaks = 100, 
+     main = "Histogram of Counts per Spot")
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+
+As you can see, the total counts per spot ranges cross three orders of 
+magnitude. Some of this may be due to the biology of the tissue, i.e. some cells
+may express more transcripts. But some of this may be due to technical issues.
+Let's explore each of these two considerations further.
+
+### Sources of Biological Variation in Total Counts
 
 Hematoxylin and Eosin (H&E) staining is critical for preliminary assessments of
 tissue sections. It highlights structural and pathological features, guiding the
 interpretation of transcriptomic data. For example, high RNA counts in a 
 necrotic region, typically characterized by reduced cellular material, might 
 suggest technical artifacts, indicating a need for normalization.
-
 
 Maynard and colleagues used the information encoded in the H&E, in particular
 cellular organization, morphology, and density, in conjunction with expression data
@@ -76,11 +102,7 @@ stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
 spot_metadata <- spot_metadata[Cells(filter_st),]
 
 filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
-
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
 ```
-
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
 Now, we can plot the layer annotations to understand the structure of the tissue.
 We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat function SpatialDimPlot.
@@ -91,7 +113,7 @@ This is defined in code/spatial_utils.R and uses a color-blind safe palette.
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
 We noted that the authors used cellular density to aid in discerning layers. Let's see those H&E-derived
 cell counts vary across layers.
@@ -103,7 +125,7 @@ g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
 print(g)
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 We see that the white matter (WM) has increased cells per spot, whereas Layer 1 has fewer cells per spot.
 
@@ -114,7 +136,7 @@ We can also plot these cell counts spatially.
 SpatialFeaturePlot(filter_st, "cell_count")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 The cell counts partially reflect the banding of the layers.
 
@@ -127,7 +149,7 @@ g <- g + geom_boxplot()
 print(g)
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 Layer 1 has fewer UMIs, consitent with its lower cell count. An increase in UMIs consistent with that in cell count
 is not observed for the white matter, however. Despite this imperfect correlation between UMI and cell counts,
@@ -137,26 +159,7 @@ occurs here. As such, we strongly recommend visualizing raw UMI and features cou
 
 ### Assessing Normalization Needs
 
-#### Total Counts per Spot
-
-The spots are arranged in column in the data matrix. We will look at the 
-distribution of total counts per spot by summing the counts in each column and
-making a histogram.
-
-
-``` r
-counts <- LayerData(filter_st, layer = 'counts')
-hist(colSums2(counts), breaks = 100, 
-     main = "Histogram of Counts per Spot")
-```
-
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
-
-As you can see, the total counts per spot ranges cross three orders of 
-magnitude. Some of this may be due to the biology of the tissue, i.e. some cells
-may express more transcripts. But some of this may be due to technical issues.
-
-#### Mean-Variance Plotting
+### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
 Mean-variance plots are an essential tool for assessing gene expression 
 variability relative to the mean expression levels across different spots. By 
@@ -167,13 +170,100 @@ particularly useful for spotting genes that are overly influenced by technical
 artifacts or biological outliers, suggesting the corresponding normalization 
 choices.
 
-In the raw counts, each spot will have different total number of counts. This 
-is termed the "library size". Since each spot has a different number of counts,
-it will be difficult to compare gene expression values between them in a
-meaningful way because the denominator (total spot counts) is different in each
-spot.
 
-### Normalization Techniques and Their Implications
+
+#### LogNormalize
+
+One common approach that attempts to meet our about two objectives is log-transformation
+of normalized counts. The resulting values are often ambiguously referred to as log-normalized counts,
+which elides stating that the raw counts are first normalized or scaled and then log transformed.
+Scaling accounts for the differences in spot-specific RNA counts. The log transformation reduces
+skewness caused by highly expressed genes and stabilizes the variance, at least for certain mean-variance relationships.
+In practice, the log transformation is applied to 1+x, where x is the scaled expression value -- the so-called
+log1p transformation.
+
+In Seurat, we can apply this transformation via the NormalizeData function:
+
+
+``` r
+lognorm_st <- NormalizeData(filter_st, 
+                           assay                = "Spatial", 
+                           normalization.method = "LogNormalize", 
+                           scale.factor         = 1e6)
+```
+
+``` output
+Normalizing layer: counts
+```
+
+This function first normalizes the raw counts by scale.factor before appplying the log1p transformation.
+The "scale.factor" argument has a default of 10,000. Here, we selected 1,000,000 because it made the mean-
+variance relationship somewhat flatter. The normalized counts, in this case, are CPMs -- counts per million. 
+
+Log normalization adds a "data" object to the Seurat object. 
+
+
+``` r
+Layers(lognorm_st)
+```
+
+``` output
+[1] "counts" "data"  
+```
+
+Our goal is that the variance should be stabilized -- i.e., independent of the mean.
+Let's plot this "mean-variance" relationship with the
+[VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) function. 
+We aim for a flat line, indicating no trend between mean and variance. We can compare this diagnostic
+plot across normalization methods to compare them on our given dataset. Additionally,
+let's highlight highly variables genes on this plot. 
+
+
+``` r
+top15        <- head(VariableFeatures(lognorm_st), 15)
+plot_lognorm <- VariableFeaturePlot(lognorm_st, log) + 
+                  ggtitle("Variable Features - Log normalization")
+```
+
+``` error
+Error in VariableFeaturePlot(lognorm_st, log): 'cols' must be of length 2
+```
+
+``` r
+plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_lognorm' not found
+```
+
+``` r
+plot_lognorm
+```
+
+``` error
+Error in eval(expr, envir, enclos): object 'plot_lognorm' not found
+```
+
+As a sanity check that the normalization is going something sensible,
+let's look at the expression of two, known layer-restricted marker genes -- MOBP and PCP4
+MOBP is restricted to the white matter, while PCP4 is expressed in Layer 5.
+
+
+``` r
+SpatialFeaturePlot(lognorm_st, slot="data", c("MOBP"))
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+
+
+``` r
+SpatialFeaturePlot(lognorm_st, slot="data", c("PCP4"))
+```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+
+Indeed, this is what we observe.
 
 #### SCTransform
 
@@ -190,8 +280,7 @@ facilitating more accurate downstream analyses like clustering.
 
 
 ``` r
-filter_st <- SCTransform(filter_st, 
-                         assay = "Spatial")
+filter_st <- SCTransform(filter_st, assay = "Spatial")
 ```
 
 ``` output
@@ -244,7 +333,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 21.12774 secs
+Wall clock passed: Time difference of 19.9984 secs
 ```
 
 ``` output
@@ -293,7 +382,7 @@ Layers(filter_st)
 ```
 
 As you can see by reading its documentation, these new Layers are "counts" (counts corrected
-for differences in sequencing depth between cells), "data" (`log1p` transformation or (log(1+x)) of the corrected counts), 
+for differences in sequencing depth between cells), "data" (`log1p` transformation of the corrected counts), 
 and "scale.data" (scaled Pearson residuals, i.e., the difference between an observed count
 and its expected value under the model used by SCTransform, divided by the standard deviation
 in that count under the model).
@@ -318,98 +407,42 @@ corrected_counts_sct <- LayerData(filter_st, layer = "data", assay = "SCT")
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
-Let's plot the mean versus the variance of the genes using the 
-[VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) 
-function. 
+Let's plot the mean-variance relationship.
 
 
 ``` r
-VariableFeaturePlot(filter_st, log = NULL) + 
-  ggtitle("Variable Features - SCT")
+top15SCT    <- head(VariableFeatures(filter_st), 15)
+plot_sct    <- VariableFeaturePlot(filter_st) + 
+                 ggtitle("Variable Features - SCT")
+plot_sct    <- LabelPoints(plot = plot_sct, points = top15SCT, repel = TRUE)
+plot_sct
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
 residual variance is on the Y-axis. Each point shows one gene. By default, Seurat selects a set
 of 3,000 variable genes which are colored in red. The variance is largely
 stable across a range of mean expression values.
 
-#### LogNormalize
-
-LogNormalize is a specific normalization method that scales gene expression data
-to account for differences in spot-specific total RNA counts. This process 
-involves dividing the raw gene expression counts in each spot by the total
-counts in that cell, multiplying by a scale factor, and then applying a natural
-logarithm transformation using log1p (log(x+1)). This method helps in reducing
-the skewness caused by highly expressed genes and stabilizes the variance across
-the dataset, making it more suitable for downstream analytical comparisons.
+Let's again check that the two marker genes show the appropriate layer-restricted expression.
 
 
 ``` r
-lognorm_st <- NormalizeData(filter_st, 
-                           assay                = "Spatial", 
-                           normalization.method = "LogNormalize", 
-                           scale.factor         = 1e6)
+SpatialFeaturePlot(filter_st, slot="data", c("MOBP"))
 ```
 
-``` output
-Normalizing layer: counts
-```
-
-In this normalization, feature counts for each spot are divided by the total 
-counts for that spot and multiplied by the scale.factor. This is then 
-natural-log transformed using log1p (log(x + 1)). The "scale.factor" argument
-has a default of 10,000. Here, we selected 1,000,000 because it made the mean-
-variance relationship somewhat flatter.
-
-The Log Normalization adds a "data" object to the Seurat object. Note that,
-unlike SCTransform, NormalizeData does not set the DefaultAssay, so we need to do
-explicitly.
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
-DefaultAssay(lognorm_st) <- "Spatial"
-Layers(lognorm_st)
+SpatialFeaturePlot(filter_st, slot="data", c("PCP4"))
 ```
 
-``` output
-[1] "counts" "data"  
-```
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
-
-``` r
-lognorm_st <- FindVariableFeatures(lognorm_st,  
-                                  assay            = 'Spatial', 
-                                  selection.method = "mean.var.plot",
-                                  nfeatures        = 3000)
-```
-
-``` output
-Finding variable features for layer data
-```
-
-``` r
-VariableFeaturePlot(lognorm_st, log = NULL) + 
-  ggtitle("Variable Features - Log-norm")
-```
-
-``` warning
-Warning: Removed 1 row containing missing values or values outside the scale range
-(`geom_point()`).
-```
-
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
-
-It is not entirely clear what is plotted on each axis. As best we can tell,
-the mean is on the X-axis and the standardized variance is on the Y-axis.
-
-Our goal is to maintain consistent variance across average gene expression 
-levels. Ideally, when plotting variance against mean expression, we aim for a 
-straight, flat line. This comparison helps us determine which normalization 
-method best suits our data. 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -458,7 +491,7 @@ counts_sct <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 Notice that the log-normalization has a range of total counts per spot that
 ranges across several orders of magnitude. The SCT transform has a more uniform
@@ -468,43 +501,18 @@ Next, we will compare the mean-variance plots between the two methods.
 
 
 ``` r
-top15 <- head(VariableFeatures(lognorm_st), 15)
-plot1 <- VariableFeaturePlot(lognorm_st, log = NULL) + 
-           ggtitle("Variable Features - Log normalization")
-plot1 <- LabelPoints(plot = plot1, points = top15, repel = TRUE)
+plot_lognorm
 ```
 
-``` output
-When using repel, set xnudge and ynudge to 0 for optimal results
+``` error
+Error in eval(expr, envir, enclos): object 'plot_lognorm' not found
 ```
 
 ``` r
-top15SCT <- head(VariableFeatures(filter_st), 15)
-plot2    <- VariableFeaturePlot(filter_st) + 
-              ggtitle("Variable Features - SCT")
-plot2    <- LabelPoints(plot = plot2, points = top15SCT, repel = TRUE)
+plot_sct
 ```
 
-``` output
-When using repel, set xnudge and ynudge to 0 for optimal results
-```
-
-``` r
-plot1
-```
-
-``` warning
-Warning: Removed 1 row containing missing values or values outside the scale range
-(`geom_point()`).
-```
-
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
-
-``` r
-plot2
-```
-
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-2.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 ### No One-Size-Fits-All Approach
 
