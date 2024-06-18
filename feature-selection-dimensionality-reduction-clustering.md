@@ -226,48 +226,37 @@ AAACACCAATAACTGC-1        59        19               9505               4068
 AAACAGAGCGACTCCT-1        14        94               4151               9271
 AAACAGCTTTCAGAAG-1        43         9               7583               3393
 AAACAGGGTCTATATT-1        47        13               8064               3665
-                   percent.mt keep keep_counts nCount_SCT nFeature_SCT
-AAACAAGTATCTCCCA-1   16.63514 TRUE        TRUE       5159         3183
-AAACAATCTACTAGCA-1   12.23755 TRUE       FALSE       3400         1264
-AAACACCAATAACTGC-1   11.40886 TRUE        TRUE       3828         1941
-AAACAGAGCGACTCCT-1   24.22234 TRUE        TRUE       4682         2393
-AAACAGCTTTCAGAAG-1   15.21739 TRUE        TRUE       4228         2239
-AAACAGGGTCTATATT-1   15.50949 TRUE        TRUE       3991         2148
-                   SCT_snn_res.1 seurat_clusters
-AAACAAGTATCTCCCA-1             1               1
-AAACAATCTACTAGCA-1             4               4
-AAACACCAATAACTGC-1             6               6
-AAACAGAGCGACTCCT-1             5               5
-AAACAGCTTTCAGAAG-1             0               0
-AAACAGGGTCTATATT-1             3               3
+                   percent.mt keep keep_counts layer_guess cell_count
+AAACAAGTATCTCCCA-1   16.63514 TRUE        TRUE      Layer3          6
+AAACAATCTACTAGCA-1   12.23755 TRUE       FALSE      Layer1         16
+AAACACCAATAACTGC-1   11.40886 TRUE        TRUE          WM          5
+AAACAGAGCGACTCCT-1   24.22234 TRUE        TRUE      Layer3          2
+AAACAGCTTTCAGAAG-1   15.21739 TRUE        TRUE      Layer5          4
+AAACAGGGTCTATATT-1   15.50949 TRUE        TRUE      Layer6          6
+                   nCount_SCT nFeature_SCT SCT_snn_res.1 seurat_clusters
+AAACAAGTATCTCCCA-1       5159         3183             1               1
+AAACAATCTACTAGCA-1       3400         1264             4               4
+AAACACCAATAACTGC-1       3828         1941             6               6
+AAACAGAGCGACTCCT-1       4682         2393             5               5
+AAACAGCTTTCAGAAG-1       4228         2239             0               0
+AAACAGGGTCTATATT-1       3991         2148             3               3
 ```
 
-Before we proceed, it is worth thinking about the structure of the tissue.
-Below, we show the tissue layer structure deduced by experts in brain morphology
-and described in 
-[Maynard et al](https://www.nature.com/articles/s41593-020-00787-0){alt.text="Maynard et al"}. 
-The authors provide these annotations. Let's add them to our Seurat object and plot
-them. We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat 
-function SpatialDimPlot. This is defined in code/spatial_utils.R and uses a color-blind safe palette.
+We previously discussed the layer annotations provided by Maynard and colleagues.
+We added them to our Seurat object and plotted them. Let's look at them again to
+compare them to our clusters.
+
 
 
 ``` r
-spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
-# Subset to our sample
-spot_metadata <- subset(spot_metadata, sample_name == 151673)
-rownames(spot_metadata) <- spot_metadata$barcode
-stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
-spot_metadata <- spot_metadata[Cells(filter_st),]
-
-filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess"), drop=FALSE])
-
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 The authors describe six layers arranged from the upper right to the lower left,
-and a white matter (WM) later. At this stage of the analysis, we have nine 
+and a white matter (WM) later. 
+At this stage of the analysis, we have nine 
 clusters, but they do not show the clear separation of the ground truch in the
 source publication.
 
