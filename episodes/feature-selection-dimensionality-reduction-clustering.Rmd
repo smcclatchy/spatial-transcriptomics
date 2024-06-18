@@ -190,29 +190,18 @@ called "seurat_clusters". Let's look the metadata to see this.
 head(filter_st[[]])
 ```
 
-Before we proceed, it is worth thinking about the structure of the tissue.
-Below, we show the tissue layer structure deduced by experts in brain morphology
-and described in 
-[Maynard et al](https://www.nature.com/articles/s41593-020-00787-0){alt.text="Maynard et al"}. 
-The authors provide these annotations. Let's add them to our Seurat object and plot
-them. We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat 
-function SpatialDimPlot. This is defined in code/spatial_utils.R and uses a color-blind safe palette.
+We previously discussed the layer annotations provided by Maynard and colleagues.
+We added them to our Seurat object and plotted them. Let's look at them again to
+compare them to our clusters.
+
 
 ```{r message=FALSE,warning=FALSE}
-spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
-# Subset to our sample
-spot_metadata <- subset(spot_metadata, sample_name == 151673)
-rownames(spot_metadata) <- spot_metadata$barcode
-stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
-spot_metadata <- spot_metadata[Cells(filter_st),]
-
-filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess"), drop=FALSE])
-
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
 ```
 
 The authors describe six layers arranged from the upper right to the lower left,
-and a white matter (WM) later. At this stage of the analysis, we have nine 
+and a white matter (WM) later. 
+At this stage of the analysis, we have nine 
 clusters, but they do not show the clear separation of the ground truch in the
 source publication.
 
