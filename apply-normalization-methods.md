@@ -218,31 +218,33 @@ let's highlight highly variables genes on this plot.
 
 
 ``` r
-top15        <- head(VariableFeatures(lognorm_st), 15)
-plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
-                  ggtitle("Variable Features - Log normalization")
+lognorm_st <- FindVariableFeatures(lognorm_st)
 ```
 
-``` error
-Error in `HVFInfo()` at Seurat/R/visualization.R:2136:3:
-! Please run either 'FindVariableFeatures' or 'SCTransform'
+``` output
+Finding variable features for layer counts
 ```
 
 ``` r
+top15        <- head(VariableFeatures(lognorm_st), 15)
+plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
+                  ggtitle("Variable Features - Log normalization")
 plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_lognorm' not found
+``` output
+When using repel, set xnudge and ynudge to 0 for optimal results
 ```
 
 ``` r
 plot_lognorm
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_lognorm' not found
+``` warning
+Warning in scale_x_log10(): log-10 transformation introduced infinite values.
 ```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 As a sanity check that the normalization is going something sensible,
 let's look at the expression of two, known layer-restricted marker genes -- MOBP and PCP4
@@ -332,7 +334,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 20.79036 secs
+Wall clock passed: Time difference of 20.09192 secs
 ```
 
 ``` output
@@ -503,15 +505,17 @@ Next, we will compare the mean-variance plots between the two methods.
 plot_lognorm
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'plot_lognorm' not found
+``` warning
+Warning in scale_x_log10(): log-10 transformation introduced infinite values.
 ```
+
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plot_sct
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-2.png" style="display: block; margin: auto;" />
 
 ### No One-Size-Fits-All Approach
 
