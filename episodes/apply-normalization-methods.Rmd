@@ -125,7 +125,7 @@ cell counts vary across layers.
 ```{r message=FALSE,warning=FALSE}
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), aes(x = layer_guess, y = cell_count))
 g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
-print(g)
+g
 ```
 
 We see that the white matter (WM) has increased cells per spot, whereas Layer 1 has fewer cells per spot.
@@ -143,7 +143,7 @@ As a potential surrogate for cell count, let's plot the number of UMIs per spot 
 ```{r message=FALSE,warning=FALSE}
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), aes(x = layer_guess, y = nCount_Spatial))
 g <- g + geom_boxplot()
-print(g)
+g
 ```
 
 Layer 1 has fewer UMIs, consitent with its lower cell count. An increase in UMIs consistent with that in cell count
@@ -151,8 +151,6 @@ is not observed for the white matter, however. Despite this imperfect correlatio
 we wish the emphasie that UMI (i.e., read) counts, as well as feature (i.e., gene) counts, can encode biological information.
 That certainly
 occurs here. As such, we strongly recommend visualizing raw UMI and features counts prior to normalization.
-
-### Assessing Normalization Needs
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
@@ -205,7 +203,7 @@ let's highlight highly variables genes on this plot.
 
 ```{r}
 top15        <- head(VariableFeatures(lognorm_st), 15)
-plot_lognorm <- VariableFeaturePlot(lognorm_st, log) + 
+plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
                   ggtitle("Variable Features - Log normalization")
 plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
 plot_lognorm
