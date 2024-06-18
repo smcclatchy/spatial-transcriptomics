@@ -122,7 +122,7 @@ cell counts vary across layers.
 ``` r
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), aes(x = layer_guess, y = cell_count))
 g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
-print(g)
+g
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
@@ -146,7 +146,7 @@ As a potential surrogate for cell count, let's plot the number of UMIs per spot 
 ``` r
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), aes(x = layer_guess, y = nCount_Spatial))
 g <- g + geom_boxplot()
-print(g)
+g
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
@@ -156,8 +156,6 @@ is not observed for the white matter, however. Despite this imperfect correlatio
 we wish the emphasie that UMI (i.e., read) counts, as well as feature (i.e., gene) counts, can encode biological information.
 That certainly
 occurs here. As such, we strongly recommend visualizing raw UMI and features counts prior to normalization.
-
-### Assessing Normalization Needs
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
@@ -221,12 +219,13 @@ let's highlight highly variables genes on this plot.
 
 ``` r
 top15        <- head(VariableFeatures(lognorm_st), 15)
-plot_lognorm <- VariableFeaturePlot(lognorm_st, log) + 
+plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
                   ggtitle("Variable Features - Log normalization")
 ```
 
 ``` error
-Error in VariableFeaturePlot(lognorm_st, log): 'cols' must be of length 2
+Error in `HVFInfo()` at Seurat/R/visualization.R:2136:3:
+! Please run either 'FindVariableFeatures' or 'SCTransform'
 ```
 
 ``` r
@@ -333,7 +332,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 19.9984 secs
+Wall clock passed: Time difference of 20.79036 secs
 ```
 
 ``` output
