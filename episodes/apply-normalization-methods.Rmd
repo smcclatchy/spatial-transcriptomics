@@ -202,6 +202,7 @@ plot across normalization methods to compare them on our given dataset. Addition
 let's highlight highly variables genes on this plot. 
 
 ```{r}
+lognorm_st <- FindVariableFeatures(lognorm_st)
 top15        <- head(VariableFeatures(lognorm_st), 15)
 plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
                   ggtitle("Variable Features - Log normalization")
