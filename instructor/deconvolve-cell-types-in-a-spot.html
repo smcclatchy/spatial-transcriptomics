@@ -359,7 +359,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Deconvolution in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-06-13 |
+        <p>Last updated on 2024-06-19 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/deconvolve-cell-types-in-a-spot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -588,7 +588,7 @@ proportion:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">apply</span><span class="op">(</span><span class="va">props</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu">names</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">[</span><span class="fu">which.max</span><span class="op">(</span><span class="va">row</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">colnames</span><span class="op">(</span><span class="va">props</span><span class="op">)</span><span class="op">[</span><span class="fu">apply</span><span class="op">(</span><span class="va">props</span>, <span class="fl">1</span>, <span class="va">which.max</span><span class="op">)</span><span class="op">]</span></span></code></pre>
 </div>
 <p>Let’s add the deconvolution results to our Seurat object, so that
 they can be visualized and analyzed alongside other data organized
@@ -725,7 +725,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/deconvolve-cell-types-in-a-spot.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/deconvolve-cell-types-in-a-spot.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-13",
+  "dateModified": "2024-06-19",
   "datePublished": "2024-06-19"
 }
 
