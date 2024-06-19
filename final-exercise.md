@@ -228,7 +228,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 26.22835 secs
+Wall clock passed: Time difference of 25.99165 secs
 ```
 
 ``` output
@@ -280,8 +280,8 @@ Set default assay to SCT
 ### Challenge 7: Apply dimensionality reduction to your data.
 
 In the Feature Selection lesson, we used the variable genes to calculate 
-principal components of the data. Calculate 75 PCs and plot the "Elbow Plot"
-of PCs versus standard deviation accounted for by each PC.
+principal components of the data. Scale the data, calculate 75 PCs and plot the
+"Elbow Plot" of PCs versus standard deviation accounted for by each PC.
 
 :::::::::::::::::::::::: solution 
  
