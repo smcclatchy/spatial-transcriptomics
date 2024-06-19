@@ -185,7 +185,7 @@ head(rowSums(props))
 Let's classify each spot according to the layer type with highest proportion:
 
 ```{r}
-props$classification <- apply(props, 1, function(row) names(row)[which.max(row)])
+props$classification <- colnames(props)[apply(props, 1, which.max)]
 ```
 
 Let's add the deconvolution results to our Seurat object, so that they can be 
