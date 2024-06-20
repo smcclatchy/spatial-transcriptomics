@@ -83,7 +83,10 @@ that they can profile and most are applicable only to fresh-frozen (FF) tissue.
 They can also be time-consuming and expensive due to microscopic imaging they
 require. Since they target specific genes, they can only detect genes that are 
 in the probe set. They have high spatial resolution though, even delivering
-single-molecule resolution in single-molecule FISH (smFISH).
+single-molecule resolution in single-molecule FISH (smFISH). Even technologies
+that can profile hundreds or thousands of mRNA transcripts simultaneously, 
+though, target throughput is low and spectral overlap of fluorophores 
+complicates microscopy.
 
 Conventional FISH methods have few distinct color channels that limit the number 
 of genes that can be simultaneously analyzed. Multiplexed error-robust FISH 
@@ -109,7 +112,8 @@ tissue sections. A "padlock" probe binds to the cDNA, which is then
 circularized. Following circularization, the cDNA is amplified by 
 rolling-circle amplification (RCA), then sequenced by ligation for decoding. 
 Probes profile one or two bases at a time using different fluorophores, 
-eventually revealing the identity of the cDNA through imaging. Since it requires imaging, in situ sequencing is an imaging-based method even though it involves 
+eventually revealing the identity of the cDNA through imaging. Since it requires 
+imaging, in situ sequencing is an imaging-based method even though it involves 
 sequencing. In situ sequencing can accommodate larger tissue sections than can 
 FISH, though FISH methods are more efficient at detecting mRNA of genes in the 
 probe set. Like FISH, in situ sequencing requires considerable imaging time on a 
@@ -133,14 +137,14 @@ membrane followed by sequencing of individual cells.
 Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a> Image 
 created with Biorender.com. Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
-LCM techniques process tissue sections for transcriptomic 
-profiling by isolating regions of interest. They are useful for profiling 
-transcriptomes as a first pass and for identifying RNA isoforms, but their blunt 
-approach to capturing spatial expression data limits spatial resolution and 
-requires many samples for sequencing. Since they focus on regions of interest, 
-it is often not possible to obtain a picture of spatial expression across a 
-whole tissue. LCM is an older technology that has long been used with FFPE 
-tissues. Modern LCM-based approaches include Nanostring's GeoMx DSP and STRP-seq. 
+LCM techniques process tissue sections for transcriptomic profiling by isolating 
+regions of interest. They are useful for profiling transcriptomes as a first 
+pass and for identifying RNA isoforms, but their blunt approach to capturing 
+spatial expression data limits spatial resolution and requires many samples for 
+sequencing. Since they focus on regions of interest, it is difficult to grasp 
+spatial expression across a whole tissue. LCM is an older technology that has 
+long been used with FFPE tissues. Modern LCM-based approaches include 
+Nanostring's GeoMx DSP and STRP-seq. 
 
 Microfluidics places a chip with multiple barcode-containing channels onto a 
 tissue section followed by a second chip with channels perpendicular to the 
@@ -256,8 +260,8 @@ morphology and structure.
  neighboring cells and cell structures.
  - A cell's location is useful data for describing its phenotype, state, and
  cell and tissue function.
- - Spatial transcriptomics addresses a key obstacle in single-cell studies: the
- loss of spatial information when tissues are dissociated.
+ - Spatial transcriptomics addresses a key obstacle in bulk and single-cell RNA
+ sequencing studies: their loss of spatial information.
  - The main goal of spatial transcriptomics studies is to integrate expression
  with spatial information.
 

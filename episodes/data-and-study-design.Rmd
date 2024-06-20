@@ -92,12 +92,21 @@ sum('data[ , 1]')
 ## Study design
 We will use data from [Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex by Maynard et al, Nat Neurosci 24, 425–436 (2021).](https://doi.org/10.1038/s41593-020-00787-0)
 These data come from sections of the dorsolateral prefrontal cortex that contain
-six cortical layers plus white matter.
+six cortical layers plus white matter. The prefrontal cortex functions in
+higher-order cognition, managing thoughts and actions in conformance with 
+internal goals. 
 
 ![Tissue blocks were excised from human dorsolateral prefrontal cortex. Tissue blocks include six cortical layers and underlying white matter (wm).](fig/tissue-block-with-layers.png){alt='A human brain showing a section of dorsolateral prefrontal cortex extracted. A block of tissue containing six cortical layers and an underlying layer of white matter is excised from the section.'}
 
 Adapted from 
 <a href="https://doi.org/10.1038/s41593-020-00787-0">Maynard et al,  Nat Neurosci 24, 425–436 (2021)</a>. <a href="https://www.biorender.com">Created with BioRender.com</a>.
+
+The authors aimed to define gene expression within the spatial organization of 
+the six cortical layers. The dorsolateral prefrontal cortex is implicated in 
+some neuropsychiatric disorders such as autism and schizophrenia, and 
+differences in gene expression and pathology are located in specific cortical 
+layers. Localizing gene expression at cellular resolution within the six layers 
+can illuminate disease mechanisms.
 
 Two pairs of spatially adjacent replicates were taken from three neurotypical 
 donors. The second pair of replicates was taken from 300 microns posterior to 
@@ -125,11 +134,10 @@ chilled Visium slides, fixed and stained.
 
 This whole process might have depended on donor availability. All three donors
 were neurotypical, and it's not clear how they died (e.g. an accident, a 
-terminal illness, old age). Suffice it to say that it might not have been 
-possible to predict when samples would be available, so it might not have been 
-possible to randomize the samples from each donor to different Visium
-slides. The article doesn't clarify any of this, however, there undoubtedly 
-are complications in accessing human brain tissues.
+terminal illness, old age) and how that might have impacted availability or mRNA
+quality. Suffice it to say that it might not have been possible to predict when 
+samples would be available, so it might not have been possible to randomize the 
+samples from each donor to different Visium slides.
 
 Sometimes you might have to confound variables in your study due to sample
 availability or other factors. The key thing is to know that confounding has
