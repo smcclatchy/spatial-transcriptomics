@@ -1,7 +1,7 @@
 ---
 title: 'Differential Expression Testing'
-teaching: 60
-exercises: 20
+teaching: 40
+exercises: 10
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 

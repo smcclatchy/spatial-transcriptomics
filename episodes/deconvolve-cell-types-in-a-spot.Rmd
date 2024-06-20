@@ -1,6 +1,6 @@
 ---
 title: 'Deconvolution in Spatial Transcriptomics'
-teaching: 60
+teaching: 40
 exercises: 10
 ---
 

@@ -1,7 +1,7 @@
 
 ---
 title: 'Feature Selection, Dimensionality Reduction, and Spot Clustering'
-teaching: 60
+teaching: 75
 exercises: 10
 ---
 
