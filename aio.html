@@ -49,7 +49,7 @@
     <div class="selector-container">
       <div id="theme-selector">
         <li class="nav-item dropdown" id="theme-button-list">
-          <button class="btn btn-link nav-link px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="">
+          <button class="btn btn-link nav-link px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (auto)">
             <svg class="bi my-1 theme-icon-active"><use href="#circle-half"></use></svg><i data-feather="chevron-down"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
@@ -404,7 +404,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></p>
 <hr>
-<p>Last updated on 2024-06-13 |
+<p>Last updated on 2024-06-20 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -520,7 +520,10 @@ applicable only to fresh-frozen (FF) tissue. They can also be
 time-consuming and expensive due to microscopic imaging they require.
 Since they target specific genes, they can only detect genes that are in
 the probe set. They have high spatial resolution though, even delivering
-single-molecule resolution in single-molecule FISH (smFISH).</p>
+single-molecule resolution in single-molecule FISH (smFISH). Even
+technologies that can profile hundreds or thousands of mRNA transcripts
+simultaneously, though, target throughput is low and spectral overlap of
+fluorophores complicates microscopy.</p>
 <p>Conventional FISH methods have few distinct color channels that limit
 the number of genes that can be simultaneously analyzed. Multiplexed
 error-robust FISH (MERFISH) overcomes this problem, greatly increasing
@@ -583,10 +586,10 @@ by isolating regions of interest. They are useful for profiling
 transcriptomes as a first pass and for identifying RNA isoforms, but
 their blunt approach to capturing spatial expression data limits spatial
 resolution and requires many samples for sequencing. Since they focus on
-regions of interest, it is often not possible to obtain a picture of
-spatial expression across a whole tissue. LCM is an older technology
-that has long been used with FFPE tissues. Modern LCM-based approaches
-include Nanostring’s GeoMx DSP and STRP-seq.</p>
+regions of interest, it is difficult to grasp spatial expression across
+a whole tissue. LCM is an older technology that has long been used with
+FFPE tissues. Modern LCM-based approaches include Nanostring’s GeoMx DSP
+and STRP-seq.</p>
 <p>Microfluidics places a chip with multiple barcode-containing channels
 onto a tissue section followed by a second chip with channels
 perpendicular to the first. The barcodes are then ligated to each other
@@ -695,8 +698,7 @@ here</strong></a>.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="discussion-which-technology-is-right-for-your-research" class="callout-inner">
-<h3 class="callout-title">Discussion: Which technology is right for your
-research?<a class="anchor" aria-label="anchor" href="#discussion-which-technology-is-right-for-your-research"></a>
+<h3 class="callout-title">Discussion: Which technology is right for your research?<a class="anchor" aria-label="anchor" href="#discussion-which-technology-is-right-for-your-research"></a>
 </h3>
 <div class="callout-content">
 <ol style="list-style-type: decimal">
@@ -715,7 +717,7 @@ suited.</p></li>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
@@ -781,9 +783,9 @@ structure.</p>
 neighboring cells and cell structures.</li>
 <li>A cell’s location is useful data for describing its phenotype,
 state, and cell and tissue function.</li>
-<li>Spatial transcriptomics addresses a key obstacle in single-cell
-studies: the loss of spatial information when tissues are
-dissociated.</li>
+<li>Spatial transcriptomics addresses a key obstacle in bulk and
+single-cell RNA sequencing studies: their loss of spatial
+information.</li>
 <li>The main goal of spatial transcriptomics studies is to integrate
 expression with spatial information.</li>
 </ul>
@@ -796,7 +798,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-data-and-study-design"><p>Content from <a href="data-and-study-design.html">Data and Study Design</a></p>
 <hr>
-<p>Last updated on 2024-06-13 |
+<p>Last updated on 2024-06-20 |
         
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -895,9 +897,9 @@ What does the sum of a single column signify?</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The row sum is the total expression of one gene across all spots on
 the slide.</p>
@@ -926,7 +928,9 @@ the slide.</p>
 spatial gene expression in the human dorsolateral prefrontal cortex by
 Maynard et al, Nat Neurosci 24, 425–436 (2021).</a> These data come from
 sections of the dorsolateral prefrontal cortex that contain six cortical
-layers plus white matter.</p>
+layers plus white matter. The prefrontal cortex functions in
+higher-order cognition, managing thoughts and actions in conformance
+with internal goals.</p>
 <figure><img src="fig/tissue-block-with-layers.png" alt="A human brain showing a section of dorsolateral prefrontal cortex extracted. A block of tissue containing six cortical layers and an underlying layer of white matter is excised from the section." class="figure mx-auto d-block"><div class="figcaption">Tissue blocks were excised from human
 dorsolateral prefrontal cortex. Tissue blocks include six cortical
 layers and underlying white matter (wm).</div>
@@ -934,6 +938,13 @@ layers and underlying white matter (wm).</div>
 <a href="https://doi.org/10.1038/s41593-020-00787-0" class="external-link">Maynard et al, Nat
 Neurosci 24, 425–436 (2021)</a>.
 <a href="https://www.biorender.com" class="external-link">Created with BioRender.com</a>.</p>
+<p>The authors aimed to define gene expression within the spatial
+organization of the six cortical layers. The dorsolateral prefrontal
+cortex is implicated in some neuropsychiatric disorders such as autism
+and schizophrenia, and differences in gene expression and pathology are
+located in specific cortical layers. Localizing gene expression at
+cellular resolution within the six layers can illuminate disease
+mechanisms.</p>
 <p>Two pairs of spatially adjacent replicates were taken from three
 neurotypical donors. The second pair of replicates was taken from 300
 microns posterior to the first pair of replicates.</p>
@@ -959,9 +970,9 @@ experiment this way? Is there anything that can be done about this?</p>
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Human brain tissues start to deteriorate at death. Brain banks that
 provide tissue for studies requiring intact mRNA will quickly remove the
@@ -972,12 +983,11 @@ Sections were then placed on chilled Visium slides, fixed and
 stained.</p>
 <p>This whole process might have depended on donor availability. All
 three donors were neurotypical, and it’s not clear how they died
-(e.g. an accident, a terminal illness, old age). Suffice it to say that
-it might not have been possible to predict when samples would be
-available, so it might not have been possible to randomize the samples
-from each donor to different Visium slides. The article doesn’t clarify
-any of this, however, there undoubtedly are complications in accessing
-human brain tissues.</p>
+(e.g. an accident, a terminal illness, old age) and how that might have
+impacted availability or mRNA quality. Suffice it to say that it might
+not have been possible to predict when samples would be available, so it
+might not have been possible to randomize the samples from each donor to
+different Visium slides.</p>
 <p>Sometimes you might have to confound variables in your study due to
 sample availability or other factors. The key thing is to know that
 confounding has occurred.</p>
@@ -1057,9 +1067,9 @@ instrument readings, animal behavior, and indoor relative humidity.</p>
 <div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Solution to Challenge 3</h4>
+  <h4 class="accordion-header" id="headingSolution3"> Solution to Challenge 3 </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>1). random, because the scale is broken and provides any kind of
 random reading it comes up with (inconsistent reading)<br>
@@ -1075,8 +1085,7 @@ random reading it comes up with (inconsistent reading)<br>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-4-how-many-technical-and-biological-replicates" class="callout-inner">
-<h3 class="callout-title">Challenge 4: How many technical and biological
-replicates?<a class="anchor" aria-label="anchor" href="#challenge-4-how-many-technical-and-biological-replicates"></a>
+<h3 class="callout-title">Challenge 4: How many technical and biological replicates?<a class="anchor" aria-label="anchor" href="#challenge-4-how-many-technical-and-biological-replicates"></a>
 </h3>
 <div class="callout-content">
 <p>In each scenario described below, identify how many technical and how
@@ -1103,9 +1112,9 @@ experimental units there are?</p>
 <div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">Solution to Challenge 4</h4>
+  <h4 class="accordion-header" id="headingSolution4"> Solution to Challenge 4 </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>1). One biological sample (not replicated) with five technical
 replicates. The only conclusion to be drawn from the measurements would
@@ -1162,8 +1171,7 @@ group.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-5-treatment-and-control-samples" class="callout-inner">
-<h3 class="callout-title">Challenge 5: Treatment and control
-samples<a class="anchor" aria-label="anchor" href="#challenge-5-treatment-and-control-samples"></a>
+<h3 class="callout-title">Challenge 5: Treatment and control samples<a class="anchor" aria-label="anchor" href="#challenge-5-treatment-and-control-samples"></a>
 </h3>
 <div class="callout-content">
 <p>You plan to place samples of treated tissue on one slide and samples
@@ -1175,9 +1183,9 @@ data analysis? What could you have done differently? <img src="fig/treated-and-c
 <div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 
 </div>
@@ -1205,9 +1213,9 @@ time for data analysis? What could you have done differently?</p>
 <div id="accordionSolution6" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
-  <h4 class="accordion-header" id="headingSolution6">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
 <p>The issue is that time point is now confounded. A better approach
 would be to start the 15-week samples, then 5 weeks later start the
@@ -1248,9 +1256,9 @@ applied once per day to five mice, for a total of 20 mice treated.</div>
 <div id="accordionSolution7" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
-  <h4 class="accordion-header" id="headingSolution7">Solution to Challenge 6</h4>
+  <h4 class="accordion-header" id="headingSolution7"> Solution to Challenge 6 </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
 <div class="accordion-body">
 <p>Since each treatment is run on only one day, the day effectively
 becomes the experimental unit (explain this). Each experimental unit
@@ -1628,8 +1636,7 @@ in a file browser to identify the “filtered” file for sample 151673.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-1-read-in-filtered-hdf5-file-for-sample-151673." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Read in filtered HDF5 file for
-sample 151673.<a class="anchor" aria-label="anchor" href="#challenge-1-read-in-filtered-hdf5-file-for-sample-151673."></a>
+<h3 class="callout-title">Challenge 1: Read in filtered HDF5 file for sample 151673.<a class="anchor" aria-label="anchor" href="#challenge-1-read-in-filtered-hdf5-file-for-sample-151673."></a>
 </h3>
 <div class="callout-content">
 <p>Open a file browser and navigate to “Desktop/spatialRNA/data/151673”.
@@ -1643,7 +1650,7 @@ Can you find an HDF5 file (with an “.h5” suffix) that haw the word
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
@@ -1687,8 +1694,7 @@ sequences.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image." class="callout-inner">
-<h3 class="callout-title">Challenge 2: How does the computer know how to
-orient the image?.<a class="anchor" aria-label="anchor" href="#challenge-2-how-does-the-computer-know-how-to-orient-the-image."></a>
+<h3 class="callout-title">Challenge 2: How does the computer know how to orient the image?.<a class="anchor" aria-label="anchor" href="#challenge-2-how-does-the-computer-know-how-to-orient-the-image."></a>
 </h3>
 <div class="callout-content">
 <p>Look carefully at the spots in the H&amp;E image above. Are the spots
@@ -1700,7 +1706,7 @@ computer to assign up/down and left/right to the image?</p>
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Solution 2</h4>
+  <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
@@ -1811,8 +1817,7 @@ Number of Genes in Tissue and Background
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-3-why-might-there-be-umi-counts-outside-of-the-tissue-boundaries" class="callout-inner">
-<h3 class="callout-title">Challenge 3: Why might there be UMI counts
-outside of the tissue boundaries?<a class="anchor" aria-label="anchor" href="#challenge-3-why-might-there-be-umi-counts-outside-of-the-tissue-boundaries"></a>
+<h3 class="callout-title">Challenge 3: Why might there be UMI counts outside of the tissue boundaries?<a class="anchor" aria-label="anchor" href="#challenge-3-why-might-there-be-umi-counts-outside-of-the-tissue-boundaries"></a>
 </h3>
 <div class="callout-content">
 <p>We expect UMI counts in the spots which overlap with the tissue
@@ -1824,7 +1829,7 @@ occur in the background spots?</p>
 <div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Solution 3</h4>
+  <h4 class="accordion-header" id="headingSolution3"> Solution 3 </h4>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
@@ -2339,8 +2344,7 @@ not biasing your results.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-1-change-the-spot-filtering-thresholds." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Change the spot filtering
-thresholds.<a class="anchor" aria-label="anchor" href="#challenge-1-change-the-spot-filtering-thresholds."></a>
+<h3 class="callout-title">Challenge 1: Change the spot filtering thresholds.<a class="anchor" aria-label="anchor" href="#challenge-1-change-the-spot-filtering-thresholds."></a>
 </h3>
 <div class="callout-content">
 <ol style="list-style-type: decimal">
@@ -2359,7 +2363,7 @@ the tissue structure?</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
@@ -2930,9 +2934,9 @@ genes better.</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Solution 1</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -3162,9 +3166,9 @@ genes?</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3443,8 +3447,7 @@ and Clustering Resolutions</div>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-1-select-cluster-resolution-and-number-of-pcs." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Select cluster resolution and
-number of PCs.<a class="anchor" aria-label="anchor" href="#challenge-1-select-cluster-resolution-and-number-of-pcs."></a>
+<h3 class="callout-title">Challenge 1: Select cluster resolution and number of PCs.<a class="anchor" aria-label="anchor" href="#challenge-1-select-cluster-resolution-and-number-of-pcs."></a>
 </h3>
 <div class="callout-content">
 <p>Look at the two plots above which show the tissue and UMAP clusters
@@ -3458,9 +3461,9 @@ opinions about which settings to use.</p>
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Solution 1</h4>
+  <h4 class="accordion-header" id="headingSolution2"> Solution 1 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -4296,7 +4299,7 @@ did we use? Load those in now.</p>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
@@ -4332,7 +4335,7 @@ sample.</p>
 <div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
@@ -4364,7 +4367,7 @@ sample’s metadata to your Seurat object.</p>
 <div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
@@ -4399,8 +4402,7 @@ sample’s metadata to your Seurat object.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-4-plot-the-spot-positions-over-the-tissue-section." class="callout-inner">
-<h3 class="callout-title">Challenge 4: Plot the spot positions over the
-tissue section.<a class="anchor" aria-label="anchor" href="#challenge-4-plot-the-spot-positions-over-the-tissue-section."></a>
+<h3 class="callout-title">Challenge 4: Plot the spot positions over the tissue section.<a class="anchor" aria-label="anchor" href="#challenge-4-plot-the-spot-positions-over-the-tissue-section."></a>
 </h3>
 <div class="callout-content">
 <p>Look for the code to plot the number of counts in each spot in the
@@ -4411,7 +4413,7 @@ Data Preprocessing lesson and adapt it to your tissue sample.</p>
 <div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
 <div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
@@ -4431,8 +4433,7 @@ Data Preprocessing lesson and adapt it to your tissue sample.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-5-filter-counts-to-retain-expressed-genes." class="callout-inner">
-<h3 class="callout-title">Challenge 5: Filter counts to retain expressed
-genes.<a class="anchor" aria-label="anchor" href="#challenge-5-filter-counts-to-retain-expressed-genes."></a>
+<h3 class="callout-title">Challenge 5: Filter counts to retain expressed genes.<a class="anchor" aria-label="anchor" href="#challenge-5-filter-counts-to-retain-expressed-genes."></a>
 </h3>
 <div class="callout-content">
 <p>Look in the Data Preprocessing lesson and filter the counts in your
@@ -4444,7 +4445,7 @@ of at least 10 counts. How many genes did you end up with?</p>
 <div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
 <div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
@@ -4477,8 +4478,7 @@ of at least 10 counts. How many genes did you end up with?</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-6-normalize-data-using-sctransform" class="callout-inner">
-<h3 class="callout-title">Challenge 6: Normalize data using
-SCTransform<a class="anchor" aria-label="anchor" href="#challenge-6-normalize-data-using-sctransform"></a>
+<h3 class="callout-title">Challenge 6: Normalize data using SCTransform<a class="anchor" aria-label="anchor" href="#challenge-6-normalize-data-using-sctransform"></a>
 </h3>
 <div class="callout-content">
 <p>In the Normalization lesson, we used the SCTransform to normalize the
@@ -4492,7 +4492,7 @@ select?</p>
 <div id="accordionSolution6" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
-  <h4 class="accordion-header" id="headingSolution6">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
 <div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
@@ -4622,8 +4622,7 @@ Set default assay to SCT</code></pre>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-7-apply-dimensionality-reduction-to-your-data." class="callout-inner">
-<h3 class="callout-title">Challenge 7: Apply dimensionality reduction to
-your data.<a class="anchor" aria-label="anchor" href="#challenge-7-apply-dimensionality-reduction-to-your-data."></a>
+<h3 class="callout-title">Challenge 7: Apply dimensionality reduction to your data.<a class="anchor" aria-label="anchor" href="#challenge-7-apply-dimensionality-reduction-to-your-data."></a>
 </h3>
 <div class="callout-content">
 <p>In the Feature Selection lesson, we used the variable genes to
@@ -4636,7 +4635,7 @@ for by each PC.</p>
 <div id="accordionSolution7" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
-  <h4 class="accordion-header" id="headingSolution7">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
 <div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
 <div class="accordion-body">
@@ -4671,8 +4670,7 @@ for by each PC.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-8-cluster-the-spots-in-your-data" class="callout-inner">
-<h3 class="callout-title">Challenge 8: Cluster the spots in your
-data<a class="anchor" aria-label="anchor" href="#challenge-8-cluster-the-spots-in-your-data"></a>
+<h3 class="callout-title">Challenge 8: Cluster the spots in your data<a class="anchor" aria-label="anchor" href="#challenge-8-cluster-the-spots-in-your-data"></a>
 </h3>
 <div class="callout-content">
 <p>In the Feature Selection lesson, we made a call about how many PCs to
@@ -4688,7 +4686,7 @@ algorithm?</p>
 <div id="accordionSolution8" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
-  <h4 class="accordion-header" id="headingSolution8">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
 <div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
 <div class="accordion-body">
@@ -4760,7 +4758,7 @@ in Seurat.</p>
 <div id="accordionSolution9" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
-  <h4 class="accordion-header" id="headingSolution9">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
 <div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
 <div class="accordion-body">
@@ -4800,8 +4798,7 @@ This message will be shown once per session</code></pre>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-10-plot-spot-clusters-over-tissue-section" class="callout-inner">
-<h3 class="callout-title">Challenge 10: Plot spot clusters over tissue
-section<a class="anchor" aria-label="anchor" href="#challenge-10-plot-spot-clusters-over-tissue-section"></a>
+<h3 class="callout-title">Challenge 10: Plot spot clusters over tissue section<a class="anchor" aria-label="anchor" href="#challenge-10-plot-spot-clusters-over-tissue-section"></a>
 </h3>
 <div class="callout-content">
 <p>Look in the Feature Selection lesson and find the code to plot the
@@ -4814,7 +4811,7 @@ et al.</a>.</p>
 <div id="accordionSolution10" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution10" aria-expanded="false" aria-controls="collapseSolution10">
-  <h4 class="accordion-header" id="headingSolution10">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution10"> Show me the solution </h4>
 </button>
 <div id="collapseSolution10" class="accordion-collapse collapse" data-bs-parent="#accordionSolution10" aria-labelledby="headingSolution10">
 <div class="accordion-body">
@@ -4836,8 +4833,7 @@ et al.</a>.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-11-varying-number-of-pcs-and-cluster-resolution." class="callout-inner">
-<h3 class="callout-title">Challenge 11: Varying number of PCs and
-cluster resolution.<a class="anchor" aria-label="anchor" href="#challenge-11-varying-number-of-pcs-and-cluster-resolution."></a>
+<h3 class="callout-title">Challenge 11: Varying number of PCs and cluster resolution.<a class="anchor" aria-label="anchor" href="#challenge-11-varying-number-of-pcs-and-cluster-resolution."></a>
 </h3>
 <div class="callout-content">
 <p>Return to Challenge 8 and change either the number of PCs or the
@@ -4850,7 +4846,7 @@ look more like the results in the manuscript?</p>
 <div id="accordionSolution11" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution11" aria-expanded="false" aria-controls="collapseSolution11">
-  <h4 class="accordion-header" id="headingSolution11">Show me the solution</h4>
+  <h4 class="accordion-header" id="headingSolution11"> Show me the solution </h4>
 </button>
 <div id="collapseSolution11" class="accordion-collapse collapse" data-bs-parent="#accordionSolution11" aria-labelledby="headingSolution11">
 <div class="accordion-body">
@@ -4905,7 +4901,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.4)</a>, <a href="https://github.com/carpentries/pegboard/tree/a32a7836d4455f407c3cafe8ab95edc636e5e919" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
+        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/a32a7836d4455f407c3cafe8ab95edc636e5e919" class="external-link">pegboard (0.7.5)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.3" class="external-link">varnish (1.0.3)</a></p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -4928,8 +4924,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-19",
-  "datePublished": "2024-06-19"
+  "dateModified": "2024-06-20",
+  "datePublished": "2024-06-20"
 }
 
   </script><script>
