@@ -1,6 +1,6 @@
 ---
 title: 'Remove Low-quality Spots'
-teaching: 60
+teaching: 65
 exercises: 10
 ---
 

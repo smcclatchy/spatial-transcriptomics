@@ -1,7 +1,7 @@
 ---
 title: 'Data Preprocessing'
-teaching: 60
-exercises: 10
+teaching: 75
+exercises: 20
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 

@@ -1,7 +1,7 @@
 ---
 title: "Putting it all Together"
 teaching: 5
-exercises: 120
+exercises: 80
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
@@ -228,7 +228,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 25.99165 secs
+Wall clock passed: Time difference of 27.08926 secs
 ```
 
 ``` output
