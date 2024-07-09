@@ -37,29 +37,28 @@ need to adjust for:
 1. the difference in total counts across spots, and
 2. the difference in variance across genes.
 
-For the first gloal, each spot may have a different number of total counts.
-This is termed the "library size". Since each spot has a different number of counts,
+For the first goal, each spot may have a different number of total counts. This 
+is termed the *library size*. Since each spot has a different number of counts,
 it will be difficult to compare gene expression values between them in a
 meaningful way because the denominator (total spot counts) is different in each
-spot.
-On the other hand, different spots may contain different types of cells, which may 
-express differing numbers of transcripts. So there is a balance between 
-normalizing all spots to have the same total counts and leaving some variation
-in total counts which may be due to the biology of the tissue.
+spot. On the other hand, different spots may contain different types of cells, 
+which may express differing numbers of transcripts. So there is a balance 
+between normalizing all spots to have the same total counts and leaving some 
+variation in total counts which may be due to the biology of the tissue.
 
 For the second goal, in order to compare gene expression values between 
 different genes, the within-gene variance should be similar between genes. This
 is because many statistical tests require that the within-group variance be the
 same. As you'll see below, there is a relationship between the mean and
 variance of genes that will allow us to correct for this difference. Hence,
-we seek to "stabilize the variance" -- expression variance should be independent of 
-mean expression.
+we seek to *stabilize the variance* -- expression variance should be independent 
+of mean expression.
 
 ### Total Counts per Spot are Variable 
 
 Let's first assess the variability in the total counts per spot.
 
-The spots are arranged in column in the data matrix. We will look at the 
+The spots are arranged in columns in the data matrix. We will look at the 
 distribution of total counts per spot by summing the counts in each column and
 making a histogram.
 
@@ -86,11 +85,12 @@ necrotic region, typically characterized by reduced cellular material, might
 suggest technical artifacts, indicating a need for normalization.
 
 Maynard and colleagues used the information encoded in the H&E, in particular
-cellular organization, morphology, and density, in conjunction with expression data
-to annotate the six layers and the white matter of the neocortex. Additionally,
-they applied standard image processing techniques to the H&E image to segment and
-count nuclei under each spot. They provide this as metadata. Let's load that layer
-annotation and cell count metadata and add it to our Seurat object.
+cellular organization, morphology, and density, in conjunction with expression 
+data to annotate the six layers and the white matter of the neocortex. 
+Additionally, they applied standard image processing techniques to the H&E image 
+to segment and count nuclei under each spot. They provide this as metadata. 
+Let's load that layer annotation and cell count metadata and add it to our 
+Seurat object.
 
 
 ``` r
@@ -101,33 +101,38 @@ rownames(spot_metadata) <- spot_metadata$barcode
 stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
 spot_metadata <- spot_metadata[Cells(filter_st),]
 
-filter_st <- AddMetaData(object = filter_st, metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
+filter_st <- AddMetaData(object = filter_st,
+                         metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
 ```
 
-Now, we can plot the layer annotations to understand the structure of the tissue.
-We will use a simple wrapper, SpatialDimPlotColorSafe, around the Seurat function SpatialDimPlot.
-This is defined in code/spatial_utils.R and uses a color-blind safe palette.
+Now, we can plot the layer annotations to understand the structure of the 
+tissue. We will use a simple wrapper, `SpatialDimPlotColorSafe`, around the 
+Seurat function `SpatialDimPlot`. This is defined in `code/spatial_utils.R` and 
+uses a color-blind safe palette.
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer")
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)],
+                        "layer_guess") + labs(fill="Layer")
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
-We noted that the authors used cellular density to aid in discerning layers. Let's see those H&E-derived
-cell counts vary across layers.
+We noted that the authors used cellular density to aid in discerning layers. 
+Let's see those H&E-derived cell counts vary across layers.
 
 
 ``` r
-g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), aes(x = layer_guess, y = cell_count))
+g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), 
+            aes(x = layer_guess, y = cell_count))
 g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
 g
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
-We see that the white matter (WM) has increased cells per spot, whereas Layer 1 has fewer cells per spot.
+We see that the white matter (WM) has increased cells per spot, whereas Layer 1 
+has fewer cells per spot.
 
 We can also plot these cell counts spatially.
 
@@ -140,22 +145,26 @@ SpatialFeaturePlot(filter_st, "cell_count")
 
 The cell counts partially reflect the banding of the layers.
 
-As a potential surrogate for cell count, let's plot the number of UMIs per spot as a function of layer.
+As a potential surrogate for cell count, let's plot the number of UMIs per spot 
+as a function of layer.
 
 
 ``` r
-g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), aes(x = layer_guess, y = nCount_Spatial))
+g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), 
+            aes(x = layer_guess, y = nCount_Spatial))
 g <- g + geom_boxplot()
 g
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
-Layer 1 has fewer UMIs, consitent with its lower cell count. An increase in UMIs consistent with that in cell count
-is not observed for the white matter, however. Despite this imperfect correlation between UMI and cell counts,
-we wish the emphasie that UMI (i.e., read) counts, as well as feature (i.e., gene) counts, can encode biological information.
-That certainly
-occurs here. As such, we strongly recommend visualizing raw UMI and features counts prior to normalization.
+Layer 1 has fewer UMIs, consistent with its lower cell count. An increase in 
+UMIs consistent with that in cell count is not observed for the white matter, 
+however. Despite this imperfect correlation between UMI and cell counts, we wish 
+to emphasize that UMI (i.e., read) counts, as well as feature (i.e., gene) 
+counts, can encode biological information. That certainly occurs here. As such,
+we strongly recommend visualizing raw UMI and features counts prior to 
+normalization.
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
@@ -172,15 +181,16 @@ choices.
 
 #### LogNormalize
 
-One common approach that attempts to meet our about two objectives is log-transformation
-of normalized counts. The resulting values are often ambiguously referred to as log-normalized counts,
-which elides stating that the raw counts are first normalized or scaled and then log transformed.
-Scaling accounts for the differences in spot-specific RNA counts. The log transformation reduces
-skewness caused by highly expressed genes and stabilizes the variance, at least for certain mean-variance relationships.
-In practice, the log transformation is applied to 1+x, where x is the scaled expression value -- the so-called
-log1p transformation.
+One common approach that attempts to meet our about two objectives is log-transformation of normalized counts. The resulting values are often 
+ambiguously referred to as log-normalized counts, which elides stating that the 
+raw counts are first normalized or scaled and then log transformed. Scaling 
+accounts for the differences in spot-specific RNA counts. The log transformation
+reduces skewness caused by highly expressed genes and stabilizes the variance, 
+at least for certain mean-variance relationships. In practice, the log 
+transformation is applied to <i>1+x</i>, where <i>x</i> is the scaled expression 
+value -- the so-called *log1p* transformation.
 
-In Seurat, we can apply this transformation via the NormalizeData function:
+In Seurat, we can apply this transformation via the `NormalizeData` function:
 
 
 ``` r
@@ -194,11 +204,13 @@ lognorm_st <- NormalizeData(filter_st,
 Normalizing layer: counts
 ```
 
-This function first normalizes the raw counts by scale.factor before appplying the log1p transformation.
-The "scale.factor" argument has a default of 10,000. Here, we selected 1,000,000 because it made the mean-
-variance relationship somewhat flatter. The normalized counts, in this case, are CPMs -- counts per million. 
+This function first normalizes the raw counts by `scale.factor` before applying 
+the log1p transformation. The `scale.factor` argument has a default of 10,000. 
+Here, we selected 1,000,000 because it made the mean-variance relationship 
+somewhat flatter. The normalized counts, in this case, are CPMs -- counts per 
+million. 
 
-Log normalization adds a "data" object to the Seurat object. 
+Log normalization adds a `data` object to the Seurat object. 
 
 
 ``` r
@@ -209,12 +221,12 @@ Layers(lognorm_st)
 [1] "counts" "data"  
 ```
 
-Our goal is that the variance should be stabilized -- i.e., independent of the mean.
-Let's plot this "mean-variance" relationship with the
-[VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) function. 
-We aim for a flat line, indicating no trend between mean and variance. We can compare this diagnostic
-plot across normalization methods to compare them on our given dataset. Additionally,
-let's highlight highly variables genes on this plot. 
+Our goal is that the variance should be stabilized -- i.e., independent of the 
+mean. Let's plot this "mean-variance" relationship with the
+[VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) function. We aim for a flat line, indicating no trend between mean and variance. 
+We can compare this diagnostic plot across normalization methods to compare them 
+on our given dataset. Additionally, let's highlight highly variables genes on 
+this plot. 
 
 
 ``` r
@@ -246,8 +258,8 @@ Warning in scale_x_log10(): log-10 transformation introduced infinite values.
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
-As a sanity check that the normalization is going something sensible,
-let's look at the expression of two, known layer-restricted marker genes -- MOBP and PCP4
+As a sanity check that the normalization is going something sensible, let's look 
+at the expression of two, known layer-restricted marker genes -- MOBP and PCP4.
 MOBP is restricted to the white matter, while PCP4 is expressed in Layer 5.
 
 
@@ -277,7 +289,6 @@ It selects highly variable genes and corrects for technical
 noise by modeling gene expression counts with Pearson residuals. This approach 
 effectively adjusts for confounding factors such as sequencing depth, 
 facilitating more accurate downstream analyses like clustering.
-
 
 
 ``` r
@@ -334,7 +345,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 20.09192 secs
+Wall clock passed: Time difference of 20.09733 secs
 ```
 
 ``` output
@@ -349,7 +360,7 @@ Centering data matrix
 Set default assay to SCT
 ```
 
-The SCTransform method added a new Assay called "SCT."
+The `SCTransform` method added a new assay called *SCT*.
 
 
 ``` r
@@ -360,7 +371,8 @@ Assays(filter_st)
 [1] "Spatial" "SCT"    
 ```
 
-It made this new Assay the default. Be aware that Seurat functions often operate on the DefaultAssay.
+It made this new assay the default. Be aware that Seurat functions often operate 
+on the `DefaultAssay`.
 
 
 ``` r
@@ -371,7 +383,7 @@ DefaultAssay(filter_st)
 [1] "SCT"
 ```
 
-Within this new "SCT" Assay, SCTransform has created three Layers. 
+Within this new *SCT* Assay, `SCTransform` has created three Layers. 
 
 
 ``` r
