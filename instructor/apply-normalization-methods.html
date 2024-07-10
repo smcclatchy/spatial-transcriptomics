@@ -618,15 +618,15 @@ expressed in Layer 5.</p>
 </div>
 <div class="section level4">
 <h4 id="sctransform">SCTransform<a class="anchor" aria-label="anchor" href="#sctransform"></a></h4>
-<p><a href="https://satijalab.org/seurat/articles/sctransform_vignette.html" class="external-link">SCTransform</a>
+<p><a href="https://satijalab.org/seurat/articles/sctransform_vignette.html" class="external-link"><code>SCTransform</code></a>
 is a normalization method for single-cell and spatial transcriptomics
 that uses a regularized negative binomial regression to stabilize
-variance across expression levels <a href="https://link.springer.com/article/10.1186/s13059-021-02584-9" class="external-link">Choudhary
-et al.</a>. It selects highly variable genes and corrects for technical
-noise by modeling gene expression counts with Pearson residuals. This
-approach effectively adjusts for confounding factors such as sequencing
-depth, facilitating more accurate downstream analyses like
-clustering.</p>
+variance across expression levels (<a href="https://link.springer.com/article/10.1186/s13059-021-02584-9" class="external-link">Choudhary
+et al., Genome Biol 23, 27 (2022)</a>). It selects highly variable genes
+and corrects for technical noise by modeling gene expression counts with
+Pearson residuals. This approach effectively adjusts for confounding
+factors such as sequencing depth, facilitating more accurate downstream
+analyses like clustering.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -660,7 +660,8 @@ often operate on the <code>DefaultAssay</code>.</p>
 <pre class="output" tabindex="0"><code>[1] "SCT"</code></pre>
 </div>
 <p>Within this new <em>SCT</em> Assay, <code>SCTransform</code> has
-created three Layers.</p>
+created three <code>Layers</code> to store data. These are different
+from the neocortical layers presented earlier.</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -672,24 +673,25 @@ created three Layers.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "counts"     "data"       "scale.data"</code></pre>
 </div>
-<p>As you can see by reading its documentation, these new Layers are
-“counts” (counts corrected for differences in sequencing depth between
-cells), “data” (<code>log1p</code> transformation of the corrected
-counts), and “scale.data” (scaled Pearson residuals, i.e., the
+<p>As you can see by reading its documentation, these new
+<code>Layers</code> are <code>counts</code> (counts corrected for
+differences in sequencing depth between cells), <code>data</code>
+(<code>log1p</code> transformation of the corrected counts), and
+<code>scale.data</code> (scaled Pearson residuals, <em>i.e.</em>, the
 difference between an observed count and its expected value under the
-model used by SCTransform, divided by the standard deviation in that
-count under the model).</p>
+model used by <code>SCTransform</code>, divided by the standard
+deviation in that count under the model).</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">SCTransform</span></span></code></pre>
 </div>
-<p>Notice, in particular, that the “counts” Layers in the “Spatial” and
-“SCT” Assays are different. As mentioned above, the latter have been
-corrected for differences in sequencing depth between cells. As such,
-the distribution in total counts per cell is much more uniform in the
-latter case.</p>
+<p>Notice, in particular, that the <code>counts</code> Layers in the
+<em>Spatial</em> and <em>SCT</em> Assays are different. As mentioned
+above, the latter have been corrected for differences in sequencing
+depth between cells. As such, the distribution in total counts per cell
+is much more uniform in the latter case.</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -754,7 +756,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -776,7 +778,7 @@ the SCT transform.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Don’t have the students type this. Show the plots and discuss
 them.</p>
