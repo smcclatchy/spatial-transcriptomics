@@ -176,7 +176,7 @@ choices.
 
 #### LogNormalize
 
-One common approach that attempts to meet our about two objectives is log-transformation of normalized counts. The resulting values are often 
+One common approach that attempts to meet our two objectives above is log-transformation of normalized counts. The resulting values are often 
 ambiguously referred to as log-normalized counts, which elides stating that the 
 raw counts are first normalized or scaled and then log transformed. Scaling 
 accounts for the differences in spot-specific RNA counts. The log transformation
@@ -187,7 +187,7 @@ value -- the so-called *log1p* transformation.
 
 In Seurat, we can apply this transformation via the `NormalizeData` function:
 
-```{r}
+```{r message=FALSE}
 lognorm_st <- NormalizeData(filter_st, 
                            assay                = "Spatial", 
                            normalization.method = "LogNormalize", 
@@ -202,7 +202,7 @@ million.
 
 Log normalization adds a `data` object to the Seurat object. 
 
-```{r}
+```{r message=FALSE}
 Layers(lognorm_st)
 ```
 
@@ -213,7 +213,7 @@ We can compare this diagnostic plot across normalization methods to compare them
 on our given dataset. Additionally, let's highlight highly variables genes on 
 this plot. 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 lognorm_st <- FindVariableFeatures(lognorm_st)
 top15        <- head(VariableFeatures(lognorm_st), 15)
 plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
@@ -248,7 +248,7 @@ noise by modeling gene expression counts with Pearson residuals. This approach
 effectively adjusts for confounding factors such as sequencing depth, 
 facilitating more accurate downstream analyses like clustering.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 filter_st <- SCTransform(filter_st, assay = "Spatial")
 ```
 
@@ -373,8 +373,7 @@ distribution of total counts and spans a factor of three, from ~1000 to ~2700.
 
 Next, we will compare the mean-variance plots between the two methods.
 
-```{r}
-
+```{r warning=FALSE}
 plot_lognorm
 plot_sct
 ```
