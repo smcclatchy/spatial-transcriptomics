@@ -181,7 +181,7 @@ choices.
 
 #### LogNormalize
 
-One common approach that attempts to meet our about two objectives is log-transformation of normalized counts. The resulting values are often 
+One common approach that attempts to meet our two objectives above is log-transformation of normalized counts. The resulting values are often 
 ambiguously referred to as log-normalized counts, which elides stating that the 
 raw counts are first normalized or scaled and then log transformed. Scaling 
 accounts for the differences in spot-specific RNA counts. The log transformation
@@ -198,10 +198,6 @@ lognorm_st <- NormalizeData(filter_st,
                            assay                = "Spatial", 
                            normalization.method = "LogNormalize", 
                            scale.factor         = 1e6)
-```
-
-``` output
-Normalizing layer: counts
 ```
 
 This function first normalizes the raw counts by `scale.factor` before applying 
@@ -231,29 +227,11 @@ this plot.
 
 ``` r
 lognorm_st <- FindVariableFeatures(lognorm_st)
-```
-
-``` output
-Finding variable features for layer counts
-```
-
-``` r
 top15        <- head(VariableFeatures(lognorm_st), 15)
 plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
                   ggtitle("Variable Features - Log normalization")
 plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
-```
-
-``` output
-When using repel, set xnudge and ynudge to 0 for optimal results
-```
-
-``` r
 plot_lognorm
-```
-
-``` warning
-Warning in scale_x_log10(): log-10 transformation introduced infinite values.
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
@@ -293,71 +271,6 @@ facilitating more accurate downstream analyses like clustering.
 
 ``` r
 filter_st <- SCTransform(filter_st, assay = "Spatial")
-```
-
-``` output
-Running SCTransform on assay: Spatial
-```
-
-``` output
-Running SCTransform on layer: counts
-```
-
-``` output
-vst.flavor='v2' set. Using model with fixed slope and excluding poisson genes.
-```
-
-``` warning
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
-```
-
-``` output
-Variance stabilizing transformation of count matrix of size 17996 by 3633
-```
-
-``` output
-Model formula is y ~ log_umi
-```
-
-``` output
-Get Negative Binomial regression parameters per gene
-```
-
-``` output
-Using 2000 genes, 3633 cells
-```
-
-``` output
-Found 105 outliers - those will be ignored in fitting/regularization step
-```
-
-``` output
-Second step: Get residuals using fitted parameters for 17996 genes
-```
-
-``` output
-Computing corrected count matrix for 17996 genes
-```
-
-``` output
-Calculating gene attributes
-```
-
-``` output
-Wall clock passed: Time difference of 20.09733 secs
-```
-
-``` output
-Determine variable features
-```
-
-``` output
-Centering data matrix
-```
-
-``` output
-Set default assay to SCT
 ```
 
 The `SCTransform` method added a new assay called *SCT*.
@@ -515,10 +428,6 @@ Next, we will compare the mean-variance plots between the two methods.
 
 ``` r
 plot_lognorm
-```
-
-``` warning
-Warning in scale_x_log10(): log-10 transformation introduced infinite values.
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
