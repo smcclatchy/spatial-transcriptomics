@@ -258,11 +258,11 @@ Indeed, this is what we observe.
 
 #### SCTransform
 
-[SCTransform](https://satijalab.org/seurat/articles/sctransform_vignette.html) 
+[`SCTransform`](https://satijalab.org/seurat/articles/sctransform_vignette.html) 
 is a normalization method for single-cell and spatial transcriptomics that uses 
 a regularized negative binomial regression to stabilize variance across 
 expression levels
-[Choudhary et al.](https://link.springer.com/article/10.1186/s13059-021-02584-9). 
+([Choudhary et al., Genome Biol 23, 27 (2022)](https://link.springer.com/article/10.1186/s13059-021-02584-9)). 
 It selects highly variable genes and corrects for technical 
 noise by modeling gene expression counts with Pearson residuals. This approach 
 effectively adjusts for confounding factors such as sequencing depth, 
@@ -296,7 +296,8 @@ DefaultAssay(filter_st)
 [1] "SCT"
 ```
 
-Within this new *SCT* Assay, `SCTransform` has created three Layers. 
+Within this new *SCT* Assay, `SCTransform` has created three `Layers` to store
+data. These are different from the neocortical layers presented earlier.  
 
 
 ``` r
@@ -307,21 +308,22 @@ Layers(filter_st)
 [1] "counts"     "data"       "scale.data"
 ```
 
-As you can see by reading its documentation, these new Layers are "counts" (counts corrected
-for differences in sequencing depth between cells), "data" (`log1p` transformation of the corrected counts), 
-and "scale.data" (scaled Pearson residuals, i.e., the difference between an observed count
-and its expected value under the model used by SCTransform, divided by the standard deviation
-in that count under the model).
+As you can see by reading its documentation, these new `Layers` are `counts` 
+(counts corrected for differences in sequencing depth between cells), `data`
+(`log1p` transformation of the corrected counts), and `scale.data` (scaled 
+Pearson residuals, *i.e.*, the difference between an observed count and its 
+expected value under the model used by `SCTransform`, divided by the standard 
+deviation in that count under the model).
 
 
 ``` r
 ?SCTransform
 ```
 
-Notice, in particular, that the "counts" Layers in the "Spatial" and "SCT" Assays are
-different. As mentioned above, the latter have been corrected for differences in sequencing
-depth between cells. As such, the distribution in total counts per cell is much more
-uniform in the latter case.
+Notice, in particular, that the `counts` Layers in the *Spatial* and *SCT* 
+Assays are different. As mentioned above, the latter have been corrected for 
+differences in sequencing depth between cells. As such, the distribution in 
+total counts per cell is much more uniform in the latter case.
 
 
 ``` r
