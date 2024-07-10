@@ -218,8 +218,8 @@ Layers(lognorm_st)
 ```
 
 Our goal is that the variance should be stabilized -- i.e., independent of the 
-mean. Let's plot this "mean-variance" relationship with the
-[VariableFeaturePlot](https://satijalab.org/seurat/reference/variablefeatureplot) function. We aim for a flat line, indicating no trend between mean and variance. 
+mean. Let's plot this *mean-variance* relationship with the
+[`VariableFeaturePlot`](https://satijalab.org/seurat/reference/variablefeatureplot) function. We aim for a flat line, indicating no trend between mean and variance. 
 We can compare this diagnostic plot across normalization methods to compare them 
 on our given dataset. Additionally, let's highlight highly variables genes on 
 this plot. 
@@ -236,7 +236,7 @@ plot_lognorm
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
-As a sanity check that the normalization is going something sensible, let's look 
+As a sanity check that the normalization is something sensible, let's look 
 at the expression of two, known layer-restricted marker genes -- MOBP and PCP4.
 MOBP is restricted to the white matter, while PCP4 is expressed in Layer 5.
 
