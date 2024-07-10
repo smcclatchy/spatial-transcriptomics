@@ -353,7 +353,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Normalization in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-07-09 |
+        <p>Last updated on 2024-07-10 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-normalization-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -538,7 +538,7 @@ genes that are overly influenced by technical artifacts or biological
 outliers, suggesting the corresponding normalization choices.</p>
 <div class="section level4">
 <h4 id="lognormalize">LogNormalize<a class="anchor" aria-label="anchor" href="#lognormalize"></a></h4>
-<p>One common approach that attempts to meet our about two objectives is
+<p>One common approach that attempts to meet our two objectives above is
 log-transformation of normalized counts. The resulting values are often
 ambiguously referred to as log-normalized counts, which elides stating
 that the raw counts are first normalized or scaled and then log
@@ -559,11 +559,6 @@ the so-called <em>log1p</em> transformation.</p>
 <span>                           normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>, </span>
 <span>                           scale.factor         <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Normalizing layer: counts</code></pre>
-</div>
 <p>This function first normalizes the raw counts by
 <code>scale.factor</code> before applying the log1p transformation. The
 <code>scale.factor</code> argument has a default of 10,000. Here, we
@@ -572,7 +567,7 @@ somewhat flatter. The normalized counts, in this case, are CPMs – counts
 per million.</p>
 <p>Log normalization adds a <code>data</code> object to the Seurat
 object.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -590,53 +585,28 @@ function. We aim for a flat line, indicating no trend between mean and
 variance. We can compare this diagnostic plot across normalization
 methods to compare them on our given dataset. Additionally, let’s
 highlight highly variables genes on this plot.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">FindVariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Finding variable features for layer counts</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb13">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">top15</span>        <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span>, <span class="fl">15</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">FindVariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span></span>
+<span><span class="va">top15</span>        <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span>, <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="va">plot_lognorm</span> <span class="op">&lt;-</span> <span class="fu">VariableFeaturePlot</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>                  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Variable Features - Log normalization"</span><span class="op">)</span></span>
-<span><span class="va">plot_lognorm</span> <span class="op">&lt;-</span> <span class="fu">LabelPoints</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot_lognorm</span>, points <span class="op">=</span> <span class="va">top15</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>When using repel, set xnudge and ynudge to 0 for optimal results</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb15">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plot_lognorm</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in scale_x_log10(): log-10 transformation introduced infinite values.</code></pre>
+<span><span class="va">plot_lognorm</span> <span class="op">&lt;-</span> <span class="fu">LabelPoints</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot_lognorm</span>, points <span class="op">=</span> <span class="va">top15</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">plot_lognorm</span></span></code></pre>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>As a sanity check that the normalization is going something sensible,
 let’s look at the expression of two, known layer-restricted marker genes
 – MOBP and PCP4. MOBP is restricted to the white matter, while PCP4 is
 expressed in Layer 5.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SpatialFeaturePlot</span><span class="op">(</span><span class="va">lognorm_st</span>, slot<span class="op">=</span><span class="st">"data"</span>, <span class="fu">c</span><span class="op">(</span><span class="st">"MOBP"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb18">
+<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -655,96 +625,15 @@ noise by modeling gene expression counts with Pearson residuals. This
 approach effectively adjusts for confounding factors such as sequencing
 depth, facilitating more accurate downstream analyses like
 clustering.</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">SCTransform</span><span class="op">(</span><span class="va">filter_st</span>, assay <span class="op">=</span> <span class="st">"Spatial"</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Running SCTransform on assay: Spatial</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Running SCTransform on layer: counts</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>vst.flavor='v2' set. Using model with fixed slope and excluding poisson genes.</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Variance stabilizing transformation of count matrix of size 17996 by 3633</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Model formula is y ~ log_umi</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Get Negative Binomial regression parameters per gene</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Using 2000 genes, 3633 cells</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Found 105 outliers - those will be ignored in fitting/regularization step</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Second step: Get residuals using fitted parameters for 17996 genes</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Computing corrected count matrix for 17996 genes</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Calculating gene attributes</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Wall clock passed: Time difference of 20.09733 secs</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Determine variable features</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Centering data matrix</code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Set default assay to SCT</code></pre>
-</div>
 <p>The <code>SCTransform</code> method added a new assay called
 <em>SCT</em>.</p>
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -757,7 +646,7 @@ clustering.</p>
 </div>
 <p>It made this new assay the default. Be aware that Seurat functions
 often operate on the <code>DefaultAssay</code>.</p>
-<div class="codewrapper sourceCode" id="cb38">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -770,7 +659,7 @@ often operate on the <code>DefaultAssay</code>.</p>
 </div>
 <p>Within this new <em>SCT</em> Assay, <code>SCTransform</code> has
 created three Layers.</p>
-<div class="codewrapper sourceCode" id="cb40">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -788,7 +677,7 @@ counts), and “scale.data” (scaled Pearson residuals, i.e., the
 difference between an observed count and its expected value under the
 model used by SCTransform, divided by the standard deviation in that
 count under the model).</p>
-<div class="codewrapper sourceCode" id="cb42">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -799,7 +688,7 @@ count under the model).</p>
 corrected for differences in sequencing depth between cells. As such,
 the distribution in total counts per cell is much more uniform in the
 latter case.</p>
-<div class="codewrapper sourceCode" id="cb43">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -811,7 +700,7 @@ latter case.</p>
 <span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">corrected_counts_sct</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"Corrected counts (SCT)"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Let’s plot the mean-variance relationship.</p>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -828,13 +717,13 @@ colored in red. The variance is largely stable across a range of mean
 expression values.</p>
 <p>Let’s again check that the two marker genes show the appropriate
 layer-restricted expression.</p>
-<div class="codewrapper sourceCode" id="cb45">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SpatialFeaturePlot</span><span class="op">(</span><span class="va">filter_st</span>, slot<span class="op">=</span><span class="st">"data"</span>, <span class="fu">c</span><span class="op">(</span><span class="st">"MOBP"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb46">
+<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -863,7 +752,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -884,7 +773,7 @@ the SCT transform.</p>
 <p>First, let’s look at the total counts per spot after normalization by
 each method. The normalized counts are stored in the “data” slot of the
 Seurat object.</p>
-<div class="codewrapper sourceCode" id="cb47">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -901,18 +790,13 @@ has a more uniform distribution of total counts and spans a factor of
 three, from ~1000 to ~2700.</p>
 <p>Next, we will compare the mean-variance plots between the two
 methods.</p>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_lognorm</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="warning" tabindex="0"><code>Warning in scale_x_log10(): log-10 transformation introduced infinite values.</code></pre>
-</div>
-<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb50">
+<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1018,8 +902,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-07-09",
-  "datePublished": "2024-07-09"
+  "dateModified": "2024-07-10",
+  "datePublished": "2024-07-10"
 }
 
   </script><script>
