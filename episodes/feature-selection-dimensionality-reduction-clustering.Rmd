@@ -50,7 +50,7 @@ DefaultAssay(filter_st) <- "SCT"
 
 ```
 
-## Understanding the Morphology of your Tissue.
+## Understanding the Morphology of your Tissue
 
 In any analysis, it is important that you understand the structure and cell 
 types in the tissue which you are analyzing. While it would be ideal to have
@@ -64,10 +64,10 @@ Feature selection in spatial transcriptomics is essential for reducing the
 dimensionality of high-dimensional datasets, enhancing model performance, and 
 improving interpretability. This process is crucial because it helps in 
 minimizing computational demands, reducing noise, and speeding up downstream 
-analyses like clustering and PCA. By focusing on a subset of genes that show 
-significant variability or are biologically relevant, researchers can achieve 
-more robust and generalizable models, draw clearer conclusions, and facilitate 
-hypothesis testing.
+analyses like clustering and principal components analysis (PCA). By focusing on 
+a subset of genes that show significant variability or are biologically 
+relevant, researchers can achieve more robust and generalizable models, draw 
+clearer conclusions, and facilitate hypothesis testing.
 
 ### Choosing Feature Selection Methods
 
@@ -79,25 +79,25 @@ that exhibit meaningful variability across different spatial regions. These
 methods help focus on genes that are most informative for downstream analyses 
 like clustering and dimensionality reduction.
 
-### Feature Selection with NormalizeData
+### Feature Selection with `NormalizeData`
 
-When using normalization methods like NormalizeData, which focuses on scaling 
+When using normalization methods like `NormalizeData`, which focuses on scaling 
 gene expression data without variance stabilization, applying feature selection 
 becomes essential. This method requires the selection of highly variable genes 
-to enhance the analysis, particularly in clustering and principal component 
-analysis (PCA). Typically, you will select in the range of 2,000 to 5,000
-highly variable genes.
+to enhance the analysis, particularly in clustering and PCA. Typically, you will 
+select in the range of 2,000 to 5,000 highly variable genes.
 
 ### Feature Selection with SCTransform
 
-SCTransform, a normalization method, adjusts gene expression data to 
+`SCTransform`, a normalization method, adjusts gene expression data to 
 stabilize the variance, and it also provides default feature selection. 
 This method ensures that the genes retained are already adjusted for technical 
 variability, highlighting those with biological significance.
 
-The SCTransform selects 3,000 variable features by default. We will use those 
-variable features to calculate principal components (PCs) of the gene expression
-data. As always, we must first scale (or standardize) the normalized counts data. 
+The `SCTransform` selects 3,000 variable features by default. We will use those 
+variable features to calculate *principal components* (PCs) of the gene 
+expression data. As always, we must first scale (or standardize) the normalized 
+counts data. 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
@@ -124,36 +124,36 @@ transcriptomics data, enhancing analytical clarity, and reducing computational
 load. Linear methods like PCA and nonlinear methods like UMAP each play distinct
 roles in processing and interpreting complex datasets.
 
-Principal Component Analysis (PCA) is a linear technique that reduces 
-dimensionality by transforming data into a set of uncorrelated variables called 
-"principal components" (PCs). This method efficiently captures the main variance
-in the data, which is vital for preliminary data exploration and noise reduction.
+PCA is a linear technique that reduces dimensionality by transforming data into 
+a set of uncorrelated variables called *principal components* (PCs). This method 
+efficiently captures the main variance in the data, which is vital for 
+preliminary data exploration and noise reduction.
 
-In order to cluster the spots by similarity, we use principal components (PCs) to
-reduce the number of dimensions in the data. Using a smaller number of PCs
-allows us to capture the variability in the data set while using a smaller 
-number of dimensions. The PCs are then used to cluster the spots by similarity.
+In order to cluster the spots by similarity, we use PCs to reduce the number of 
+dimensions in the data. Using a smaller number of PCs allows us to capture the 
+variability in the dataset while using a smaller number of dimensions. The PCs 
+are then used to cluster the spots by similarity.
 
 ```{r}
 filter_st <- ScaleData(filter_st) %>%
                RunPCA(npcs = 75, verbose = FALSE)
 ```
 
-In the command above, we specified asked Seurat to calculate 75 principal 
+In the command above, we specifically asked Seurat to calculate 75 principal 
 components. There are thousands of genes and we know that we don't need to 
 calculate all PCs. By default, the 
-[RunPCA](https://satijalab.org/seurat/reference/runpca) method calculates 50 PCs.
-Let's make an elbow plot of the number of PCs versus the standard deviation 
-explained by each PC. Traditionally, there is a bend in the curve which indicates
-that adding more PCs doesn't account for more of the variance.
+[`RunPCA`](https://satijalab.org/seurat/reference/runpca) method calculates 50 
+PCs. Let's make an elbow plot of the number of PCs versus the standard deviation 
+explained by each PC. Traditionally, there is a bend in the curve which 
+indicates that adding more PCs doesn't account for more of the variance.
 
 ```{r}
 ElbowPlot(filter_st, ndims = 75)
 ```
 
-From the plot above, we would normally select somewhere between 10 and 20 PCs because
-there seems to be little benefit in adding more PCs. Adding more PCs does not 
-seem to add more explanatory variance. 
+From the plot above, we would normally select somewhere between 10 and 20 PCs 
+because there seems to be little benefit in adding more PCs. Adding more PCs 
+does not seem to add more explanatory variance. 
 
 But in spatial transcriptomics, the elbow plot often does not tell the whole 
 story. We want to select a number of PCs such that we are able to discern the
@@ -168,10 +168,10 @@ n_pcs = 75
 
 In the next step, we will cluster the spots based on expression similarity 
 using the principal components that we just generated. We will use Seurat's
-[FindNeighbors](https://satijalab.org/seurat/reference/findneighbors) and 
-[FindClusters](https://satijalab.org/seurat/reference/findclusters) functions.
-FindNeighbors find the K nearest neighbors of each spot in the data set. The
-default values is to use the 20 nearest neighbors in the data set and we will
+[`FindNeighbors`](https://satijalab.org/seurat/reference/findneighbors) and 
+[`FindClusters`](https://satijalab.org/seurat/reference/findclusters) functions.
+`FindNeighbors` find the K nearest neighbors of each spot in the dataset. The
+default values is to use the 20 nearest neighbors in the dataset and we will
 use this value in this lesson. However, as with the number of features used to
 create the PCs, this is another parameter that is worth varying before 
 proceeding with your analysis.
@@ -184,32 +184,31 @@ filter_st <- FindNeighbors(filter_st,
 ```
 
 The clustering has added a new column to the spot metadata in the Seurat object
-called "seurat_clusters". Let's look the metadata to see this.
+called `seurat_clusters`. Let's look the metadata to see this.
 
 ```{r}
 head(filter_st[[]])
 ```
 
-We previously discussed the layer annotations provided by Maynard and colleagues.
-We added them to our Seurat object and plotted them. Let's look at them again to
-compare them to our clusters.
+We previously discussed the layer annotations provided by Maynard and 
+colleagues. We added them to our Seurat object and plotted them. Let's look at 
+them again to compare them to our clusters.
 
-
-```{r message=FALSE,warning=FALSE}
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + labs(fill="Layer") 
+```{r message=FALSE, warning=FALSE}
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], 
+                        "layer_guess") + labs(fill="Layer") 
 ```
 
 The authors describe six layers arranged from the upper right to the lower left,
-and a white matter (WM) later. 
-At this stage of the analysis, we have nine 
-clusters, but they do not show the clear separation of the ground truch in the
+and a white matter (WM) later. At this stage of the analysis, we have nine 
+clusters, but they do not show the clear separation of the ground truth in the
 source publication.
 
 We will now plot the spots in the tissue, colored by the clusters which we 
-have identified in "seurat_clusters" to evaluate the quality of the cluster 
+have identified in `seurat_clusters` to evaluate the quality of the cluster 
 identities by looking for the clarity of the stripes forming each layer.
 
-```{r message=FALSE,warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill="Cluster") 
 ```
 
@@ -222,7 +221,7 @@ technique that can be used to visualize data. This is often used in single-cell
 RNASeq to identify different cell types. Here, each spot is potentially composed
 of more than one cell type, so the clustering may not be as clear.
 
-```{r fig.width=4,fig.height=4,warning=FALSE}
+```{r fig.width=4, fig.height=4, warning=FALSE}
 num_clusters <- length(unique(filter_st[[]]$seurat_clusters))
 color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
 
@@ -241,13 +240,13 @@ UMAPPlot(filter_st,
 We have made some decisions above which might affect the quality of out spot 
 clusters, including the number of nearest neighbors, the number of variable 
 features, the number of PCs, and the cluster resolution. As we have mentioned, 
-it is critical to have some understanding of the structure
-of the tissue that you are analyzing. In the absence of "ground truth", you will
-need to try several different parameters and look at how the clusters group in
-your tissue. Below, we have included code which plots the tissue with different
-numbers of nearest neighbors, principal components, and cluster resolutions. We
-will not run this code because it takes a long time to run, but we show the 
-output below this code block.
+it is critical to have some understanding of the structure of the tissue that 
+you are analyzing. In the absence of "ground truth", you will need to try 
+several different parameters and look at how the clusters group in your tissue. 
+Below, we have included code which plots the tissue with different numbers of 
+nearest neighbors, principal components, and cluster resolutions. We will not 
+run this code because it takes a long time to run, but we show the output below 
+this code block.
 
 ```{r eval=FALSE}
 # Set several cluster resolution values.
@@ -280,9 +279,11 @@ for(i in seq_along(resol)) {
                              ggtitle(paste("res =", resol[i], ": pc =", npcs[j])) +
                              theme(legend.position = "none")
 
-    plots[[index]]      <- SpatialDimPlot(filter_st, group.by = "seurat_clusters", cols = color_pal) +
-                             ggtitle(paste("res =", resol[i], ": pc =", npcs[j])) +
-                             theme(legend.position = "none")
+    plots[[index]]      <- SpatialDimPlot(filter_st, 
+                                          group.by = "seurat_clusters", 
+                                          cols = color_pal) +
+                          ggtitle(paste("res =", resol[i], ": pc =", npcs[j])) + 
+                                  theme(legend.position = "none")
 
   } # for(j)
 
@@ -301,7 +302,7 @@ dev.off()
 ```
 
 The plot below shows the clusters as colors overlayed on the tissue. Each row
-shows a different cluster resolutions and each column snows the number of PCs. 
+shows a different cluster resolutions and each column shows the number of PCs. 
 
 ![Tissue Clustering with Different Numbers of PCs and Clustering Resolutions](fig/tissue_cluster_resol.png){alt="Tissue Clustering showing the tissue layers at different resolutions and number of PCs"}
 
@@ -327,9 +328,9 @@ which settings to use.
  
 All of the plots in the tissue clustering show layers which broadly conform to
 the publication's "ground truth." In the top row at a resolution of 0.5, we see
-about four layers with varying levels of clarity, depending on the number of PCs.
-As we move down in the tissue clustering plot, the layers become clearer at a 
-resolution of 1, but then become less clear at a resolution of 2 in the bottom 
+about four layers with varying levels of clarity, depending on the number of 
+PCs. As we move down in the tissue clustering plot, the layers become clearer at 
+a resolution of 1, but then become less clear at a resolution of 2 in the bottom 
 row.
 When we look at the corresponding row in the UMAP plots, we see that the white
 matter is clearly separated in all of the plots. The number of clusters increases
@@ -349,7 +350,7 @@ filter_st <- FindNeighbors(filter_st,
                FindClusters(resolution = 0.8)
 ```
 
-```{r message=FALSE,warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
   ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8") +
   labs(fill = "Cluster")
@@ -357,7 +358,7 @@ SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Feature selection is a crucial step in spatial transcriptomics analysis, particularly for non-variance-stabilizing normalization methods like NormalizeData.
+- Feature selection is a crucial step in spatial transcriptomics analysis, particularly for non-variance-stabilizing normalization methods like `NormalizeData`.
 - Techniques such as VST and mean-variance plotting enable researchers to focus on genes that provide the most biological insight.
 - Different proportions of highly variable genes and feature selection methods can significantly influence the analytical outcomes, emphasizing the need for tailored approaches based on the specific characteristics of each dataset.
 - Linear dimensionality reduction methods like PCA are crucial for initial data simplification and noise reduction.
