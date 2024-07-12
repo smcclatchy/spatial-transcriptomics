@@ -351,11 +351,12 @@ plot_sct
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
-residual variance is on the Y-axis. Each point shows one gene. By default, Seurat selects a set
-of 3,000 variable genes which are colored in red. The variance is largely
-stable across a range of mean expression values.
+residual variance is on the Y-axis. Each point shows one gene. By default, 
+Seurat selects a set of 3,000 variable genes which are colored in red. The 
+variance is largely stable across a range of mean expression values.
 
-Let's again check that the two marker genes show the appropriate layer-restricted expression.
+Let's again check that the two marker genes show the appropriate 
+layer-restricted expression.
 
 
 ``` r
