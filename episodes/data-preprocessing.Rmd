@@ -7,7 +7,8 @@ exercises: 20
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - What data files should I expect from the Visium assay?
-- Which data preprocessing steps are required to prepare the raw data files for further analysis?
+- Which data preprocessing steps are required to prepare the raw data files for 
+further analysis?
 - What software will we use for data preprocessing?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
@@ -21,9 +22,11 @@ exercises: 20
 
 ## Introduction
 
-The [Space Ranger](https://www.10xgenomics.com/support/software/space-ranger) 
+The 
+[`Space Ranger`](https://www.10xgenomics.com/support/software/space-ranger) 
 software is a popular, though by no means only, set of pipelines 
-for preprocessing of Visium data. We focus on it here. It provides the following output: 
+for preprocessing of Visium data. We focus on it here. It provides the following 
+output: 
 
 | File Name	 | Description |
 |------------|-------------|
@@ -45,44 +48,45 @@ for preprocessing of Visium data. We focus on it here. It provides the following
 | probe_set.csv	| Copy of the input probe set reference CSV file. Present for Visium FFPE and CytAssist workflow |
 | possorted_genome_bam.bam	| Indexed BAM file containing position-sorted reads aligned to the genome and transcriptome, annotated with barcode information |
 | possorted_genome_bam.bam.bai	| Index for possorted_genome_bam.bam. In cases where the reference transcriptome is generated from a genome with very long chromosomes (>512 Mbp), Space Ranger v2.0+ generates a possorted_genome_bam.bam.csi index file instead. |
-| filtered_feature_bc_matrix/	| Contains only tissue-associated barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). This file can be input into third-party packages and allows users to wrangle the barcode-feature matrix (e.g. to filter outlier spots, run dimensionality reduction, normalize gene expression). |
+| filtered_feature_bc_matrix/	| Contains only tissue-associated barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). This file can be input into third-party packages and allows users to wrangle the barcode-feature matrix (*e.g.* to filter outlier spots, run dimensionality reduction, normalize gene expression). |
 | **filtered_feature_bc_matrix.h5**	| **Same information as filtered_feature_bc_matrix/ but in HDF5 format.** |
 | raw_feature_bc_matrices/	| Contains all detected barcodes in MEX format. Each element of the matrix is the number of UMIs associated with a feature (row) and a barcode (column). |
 | **raw_feature_bc_matrix.h5**	| **Same information as raw_feature_bc_matrices/ in HDF5 format.** |
 ﻿| raw_probe_bc_matrix.h5	| Contains UMI counts of each probe for all detected barcodes in HDF5 format. Only produced when running pipelines for probe-based assays. |
 | molecule_info.h5	| Contains per-molecule information for all molecules that contain a valid barcode, valid UMI, and were assigned with high confidence to a gene or protein barcode. This file is required for additional analysis spaceranger pipelines including aggr, targeted-compare and targeted-depth. |
 
-Fortunately, you will not need to look at all of these files. We provide a
-brief description for you in case you are curious or need to look at one
-of the files for technical reasons.
+Fortunately, you will not need to look at all of these files. We provide a brief 
+description for you in case you are curious or need to look at one of the files 
+for technical reasons.
 
-The two files that you will use are "raw_feature_bc_matrix.h5" and
-"filtered_feature_bc_matrix.h5". These files have an "h5" suffix,
-which means that they are HDF5 files.
-[HDF5](https://www.hdfgroup.org/solutions/hdf5/) is a compressed file format
-for storing complex high-dimensional data. HDF5 stands for "Hierarchical Data 
-Formats, version 5". There is an R package designed to read and write HDF5 files 
-called [rhdf5](https://bioconductor.org/packages/release/bioc/html/rhdf5.html).
+The two files that you will use are `raw_feature_bc_matrix.h5` and
+`filtered_feature_bc_matrix.h5`. These files have an `h5` suffix, which means 
+that they are HDF5 files.
+[`HDF5`](https://www.hdfgroup.org/solutions/hdf5/) is a compressed file format
+for storing complex high-dimensional data. HDF5 stands for *Hierarchical Data 
+Formats, version 5*. There is an R package designed to read and write HDF5 files 
+called [`rhdf5`](https://bioconductor.org/packages/release/bioc/html/rhdf5.html).
 This was one of the packages which you installed during the lesson setup.
   
-Briefly, HDF5 organizes data into directories within the compressed file. There
-are three "files" within the HDF5 file:
+Briefly, `HDF5` organizes data into directories within the compressed file. There
+are three "files" within the `HDF5` file:
 
 | File Name     | Description |
 |---------------|-------------|
-| features.csv  | Contains the features (i.e. genes in this case) for each row in the data matrix.|
+| features.csv  | Contains the features (*i.e.* genes in this case) for each row in the data matrix.|
 | barcodes.csv  | Contains the probe barcodes for each spot on the tissue block. |
-| matrix.mtx    | Contains the counts for each gene in each spot. Features (e.g. genes) are in rows and barcodes (e.g. spots) are in columns. |
+| matrix.mtx    | Contains the counts for each gene in each spot. Features (*e.g.* genes) are in rows and barcodes (*e.g.* spots) are in columns. |
 
 ## Set up Environment
 
-Go to the "File" menu and select "Open Project...". Open the "spatialRNA" project which you 
-created in the workshop Setup. 
+Go to the `File` menu and select `Open Project...`. Open the `spatialRNA` 
+project which you created in the workshop setup. 
 
-First, we will load in some utility functions to make our lives a bit easier. The 
-[source](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source) function
-reads an R file and runs the code in it. In this case, this will load several useful
-functions.
+First, we will load in some utility functions to make our lives a bit easier. 
+The 
+[`source`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source) 
+function reads an R file and runs the code in it. In this case, this will load 
+several useful functions.
 
 We will then load the libraries that we need for this lesson.
 
@@ -95,23 +99,26 @@ source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/mai
 
 ```
 
-Note that the [here library](https://here.r-lib.org/) helps you to find your files by taking
-care of the absolute path.
+Note that the [`here`](https://here.r-lib.org/) library helps you to find your 
+files by taking care of the absolute path.
 
 ## Load Raw and Filtered Spatial Expression Data
 
-In this course, we will use the [Seurat](https://satijalab.org/seurat/) R environment, which
-was originally designed for analysis of single-cell RNA-seq data, but has been extended
-for spatial transcriptomics data. The Seurat website provides helpful 
-[vignettes](https://satijalab.org/seurat/articles/get_started_v5_new) and a concise
-command [cheat sheet](https://satijalab.org/seurat/articles/essential_commands). 
-[SpatialExperiment](https://bioconductor.org/packages/release/bioc/html/SpatialExperiment.html) 
-in R and [scanpy](https://scanpy.readthedocs.io/en/stable/) in python, amongst others,
-are also frequently used in analyzing spatial transcriptomics data.
+In this course, we will use the [Seurat](https://satijalab.org/seurat/) R 
+environment, which was originally designed for analysis of single-cell RNA-seq 
+data, but has been extended for spatial transcriptomics data. The Seurat website 
+provides helpful 
+[vignettes](https://satijalab.org/seurat/articles/get_started_v5_new) 
+and a concise command 
+[cheat sheet](https://satijalab.org/seurat/articles/essential_commands). 
+[`SpatialExperiment`](https://bioconductor.org/packages/release/bioc/html/SpatialExperiment.html) 
+in R and [`scanpy`](https://scanpy.readthedocs.io/en/stable/) in python, amongst 
+others, are also frequently used in analyzing spatial transcriptomics data.
 
-We will use the [Load10X_Spatial](https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial) 
-function from Seurat to read in the 
-spatial transcription data. These are the data which you downloaded in the setup section.
+We will use the 
+[`Load10X_Spatial`](https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial) 
+function from Seurat to read in the spatial transcription data. These are the 
+data which you downloaded in the setup section.
 
 First, we will read in the raw data for sample 151673.
 
@@ -121,8 +128,8 @@ raw_st <- Load10X_Spatial(data.dir      = "./data/151673",
                           filter.matrix = FALSE)
 ```
 
-If you did not see any error messages, then the data loaded in and you should see an
-"raw_st" object in your "Environment" tab on the right.
+If you did not see any error messages, then the data loaded in and you should 
+see an `raw_st` object in your `Environment` tab on the right.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 
@@ -133,41 +140,41 @@ Windows users have to use this.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Let's look at "raw_st", which is a Seurat object.
+Let's look at `raw_st`, which is a Seurat object.
 
 ```{r}
 raw_st
 ```
 
 
-The output says that we have 33,538 "features" and 4,992 "samples" with one assay.
-"Feature" is a generic term for anything that we measured. In this case, we 
-measured gene expression, so each feature is a gene. Each "sample" is one
+The output says that we have 33,538 *features* and 4,992 *samples* with one 
+assay. *Feature* is a generic term for anything that we measured. In this case, 
+we measured gene expression, so each feature is a gene. Each *sample* is one
 spot on the spatial slide. So this tissue sample has 33,538 genes assayed
 across 4,992 spots.
 
-An experiment may have more than one "assay." For example, you may run both RNA
+An experiment may have more than one *assay*. For example, you may run both RNA
 sequencing and chromatin accessibility in the same set of samples. In this case,
 we have one assay -- RNA-seq. Each assay will, in turn, have one or more
-"layers." Each layer stores a different form of the data. Initially, our Seurat
-object has a single "counts" layer, holding the raw, un-normalized RNA-seq counts
-for each spot. Subsequent downstream analyses can populate other layers, including
-normalized counts (conventionally stored in a "data" layer) or variance-stabilized counts
-(conventionally stored in a "scale.data" layer).
+*layers*. Each layer stores a different form of the data. Initially, our Seurat
+object has a single *counts* layer, holding the raw, un-normalized RNA-seq 
+counts for each spot. Subsequent downstream analyses can populate other layers, 
+including normalized counts (conventionally stored in a *data* layer) or 
+variance-stabilized counts (conventionally stored in a *scale.data* layer).
 
-There is also a single image called "slice1" attached to the Seurat object.
+There is also a single image called *slice1* attached to the Seurat object.
 
 Next, we will load in the filtered data. Use the code above and look in
-a file browser to identify the "filtered" file for sample 151673.
+a file browser to identify the `filtered` file for sample 151673.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
 ## Challenge 1: Read in filtered HDF5 file for sample 151673.
 
-Open a file browser and navigate to "Desktop/spatialRNA/data/151673". Can you 
-find an HDF5 file (with an ".h5" suffix) that haw the word "filtered" in it?
+Open a file browser and navigate to `Desktop/spatialRNA/data/151673`. Can you 
+find an HDF5 file (with an `.h5` suffix) that has the word "filtered" in it?
 
-If so, read that file in and assign it to a variable called "filter_st".
+If so, read that file in and assign it to a variable called `filter_st`.
 
 :::::::::::::::::::::::: solution 
 
@@ -191,15 +198,15 @@ The raw and filtered data both have the same number of genes(33,538). But the
 two objects have different numbers of spots. The raw data has 4,992 spots and 
 the filtered data has 4,384 spots.
 
-Look at the H&E slide below and notice the grey "fiducial" spots around the border. These
-are used by the spatial transcriptomics software to "register" the H&E image and the
-spatially-barcoded sequences.
+Look at the H&E slide below and notice the grey *fiducial* spots around the 
+border. These are used by the spatial transcriptomics software to *register* the 
+H&E image and the spatially-barcoded sequences.
 
 ![H & E slide of sample 151673](fig/tissue_hires_image_151673.png){alt='H & E slide of sample 151673'}
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 2: How does the computer know how to orient the image?.
+## Challenge 2: How does the computer know how to orient the image?
 
 Look carefully at the spots in the H&E image above. Are the spots symmetric?
 Is there anything different about the spots that might help a computer to 
@@ -225,7 +232,7 @@ orient the slide.
 Next, we will read a file containing information about whether each spot is in 
 the background or the tissue. This file does not contain column names, although
 the next version of 
-[SpaceRanger 2.0](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs), 
+[`SpaceRanger 2.0`](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs), 
 which is used to process the data at the sequencing core, should add column 
 names to this file.
 
@@ -241,12 +248,12 @@ colnames(tissue_position) <- c("in_tissue",
 ```
 
 It is important to note that the order of the spots differs between the Seurat 
-object and the tissue position file. We need to reorder the tissue positions
-to match the Seurat object. We can extract the spot barcodes using the
-[Cells()](https://satijalab.org/seurat/reference/cells) function. This is 
-named for the earlier versions of Seurat, which processed single cell transcriptomic
-data. In this case, we are getting **spot** IDs, even though the function is
-called "Cells".
+object and the tissue position file. We need to reorder the tissue positions to 
+match the Seurat object. We can extract the spot barcodes using the
+[`Cells`](https://satijalab.org/seurat/reference/cells) function. This is 
+named for the earlier versions of Seurat, which processed single cell 
+transcriptomic data. In this case, we are getting **spot** IDs, even though the 
+function is called `Cells`.
 
 ```{r}
 tissue_position <- tissue_position[Cells(raw_st),]
@@ -267,12 +274,12 @@ in blue and background spots in red.
 ```{r fig.alt = "Histology slide with tissue and background spots labelled", fig.cap = "Spots identified in Tissue and Background"}
 SpatialPlot(raw_st, group.by = "in_tissue", alpha = 0.3)
 ```
-The 10x platform tags each molecule with a Unique Molecular Identifier (UMI). This allows
-us to keep only one unique sequencing read per molecule and to exclude those arising
-from PCR duplication. We expect most of the UMI counts to be in the tissue spots. 
-The Seurat object metadata contains the UMI count in each spot in a column 
-called "nCount_Spatial". Let's plot the UMI counts in the tissue and background
-spots.
+The 10x platform tags each molecule with a Unique Molecular Identifier (UMI). 
+This allows us to keep only one unique sequencing read per molecule and to 
+exclude those arising from PCR duplication. We expect most of the UMI counts to 
+be in the tissue spots.  The Seurat object metadata contains the UMI count in 
+each spot in a column called `nCount_Spatial`. Let's plot the UMI counts in the 
+tissue and background spots.
 
 ```{r fig.alt = "Boxplot showing lower trancript counts in background area of slide", fig.cap = "UMI Counts in Tissue and Background"}
 raw_st@meta.data %>%
@@ -286,7 +293,7 @@ raw_st@meta.data %>%
 As expected, we see most of the counts in the tissue spots.
 
 We can also plot the number of genes detected in each spot. Seurat calls genes
-"features", so we will plot the "nFeature_Spatial" value. This is stored in the
+*features*, so we will plot the `nFeature_Spatial` value. This is stored in the
 metadata of the Seurat object.
 
 ```{r fig.alt = "Boxplot showing lower numbers of genes in background area of slide", fig.cap = "Number of Genes in Tissue and Background"}
@@ -316,10 +323,10 @@ and into the background region of the slide.
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
-Up to this point, we have been working with the raw, unfiltered data to show
-you how the spots are filtered. However, in most workflows, you will work
-directly with the filtered file. From this point forward, we will work with the
-filtered data object.
+Up to this point, we have been working with the raw, unfiltered data to show you 
+how the spots are filtered. However, in most workflows, you will work directly 
+with the filtered file. From this point forward, we will work with the filtered 
+data object.
 
 Let's plot the spots in the tissue in the filtered object to verify that it is
 only using spots in the tissue.
@@ -334,31 +341,31 @@ plot1 | plot2
 
 ## Plot UMI and Gene Counts across Tissue
 
-Next, we want to look at the distribution of UMI counts and numbers of
-genes in each spot across the tissue. This can be helpful in identifying 
-technical issues with the sample processing.
+Next, we want to look at the distribution of UMI counts and numbers of genes in 
+each spot across the tissue. This can be helpful in identifying technical issues 
+with the sample processing.
 
 It is useful to first think about what we expect. In the publication
 associated with this data, the authors show the structure that they expect in 
 this tissue section of the human dorsolateral prefrontal cortex (DLPFC). In the 
 figure below, they show a series of layers, from L1 to L6, arranged from the 
 upper right to the lower left. In the lower left corner, they expect to see 
-"White Matter" (WM). So we expect to see some series of layers arranged from
+*White Matter* (WM). So we expect to see some series of layers arranged from
 the upper right to the lower left.
 
 <!-- ![Maynard et al, Figure 1c](fig/Maynard_etal_Fig1c.png){alt="Figure 1c"} -->
  
 We will use Seurat's 
-[SpatialFeaturePlot](https://satijalab.org/seurat/reference/spatialplot) 
+[`SpatialFeaturePlot`](https://satijalab.org/seurat/reference/spatialplot) 
 function to look at these values. We can color the spots based on the spot
 metadata stored in the Seurat object. You can find these column names by looking 
-at the "meta.data" slot of the Seurat object.
+at the `meta.data` slot of the Seurat object.
 
 ```{r}
 head(filter_st@meta.data)
 ```
 
-To plot the UMI counts, we will use the "nCount_Spatial" column in the
+To plot the UMI counts, we will use the `nCount_Spatial` column in the
 spot metadata.
 
 ```{r fig.alt = "Figure showing UMI counts in each spot with varying intensity across the tissue",fig.cap="UMI Counts in each Spot"}
@@ -368,13 +375,13 @@ plot2 <- SpatialFeaturePlot(filter_st, features = "nCount_Spatial")
 plot1 | plot2
 ```
 
-In this case, we see a band of higher counts running from upper left to 
-lower right. There are also bands of lower counts above and below this band.
-The band in the upper right corner may be due to the fissure in the tissue. It
-is less clear why the expression is low in the lower-left corner.
+In this case, we see a band of higher counts running from upper left to lower 
+right. There are also bands of lower counts above and below this band. The band 
+in the upper right corner may be due to the fissure in the tissue. It is less 
+clear why the expression is low in the lower-left corner.
 
 We can also look at the number of genes detected in each spot using 
-"nFeature_Spatial".
+`nFeature_Spatial`.
 
 ```{r fig.alt = "Figure showing number of genes detected in each spot with varying intensity across the tissue",fig.cap="Number of Genes in each Spot"}
 plot1 <- SpatialDimPlot(filter_st, alpha = c(0, 0)) + 
@@ -384,12 +391,12 @@ plot1 | plot2
 ```
 
 It is difficult to lay out a broad set of rules that will work for all types of
-tissues and samples. Some tissues may have homogeneous UMI counts
-across the section, while others may show variation in UMI counts due
-to tissue structure. For example, in cancer tissue sections, stromal cells tend
-to have lower counts than tumor cells and this should be evident in a UMI
-count plot. In the brain sample below, we might expect some variation in 
-UMI counts in different layers of the brain.
+tissues and samples. Some tissues may have homogeneous UMI counts across the 
+section, while others may show variation in UMI counts due to tissue structure. 
+For example, in cancer tissue sections, stromal cells tend to have lower counts 
+than tumor cells and this should be evident in a UMI count plot. In the brain 
+sample below, we might expect some variation in UMI counts in different layers 
+of the brain.
 
 ## Removing Genes with Low Expression
 
@@ -427,11 +434,11 @@ So we removed about 11,700 genes that had zero counts.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- The 10x Space Ranger pipeline provides you with an unfiltered and a filtered data
-file.
-- The HDF5 file ends with an "h5" extension and contains the barcodes,
+- The 10x Space Ranger pipeline provides you with an unfiltered and a filtered 
+data file.
+- The HDF5 file ends with an `h5` extension and contains the barcodes,
 features (genes), and counts matrix.
-- Seurat is one, of several, popular environments for analyzing spatial 
+- Seurat is one of several popular environments for analyzing spatial 
 transcriptomics data.
 - It is important to know something about the structure of the tissue which
 you are analyzing.
