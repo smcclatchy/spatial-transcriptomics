@@ -358,7 +358,7 @@ Spatially Variable Genes</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Differential Expression Testing</h1>
-        <p>Last updated on 2024-06-20 |
+        <p>Last updated on 2024-07-15 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -404,26 +404,27 @@ Moran’s I.</li>
 </div>
 <section><h2 class="section-heading" id="spot-level-differential-expression-across-annotated-regions">Spot-level Differential Expression Across Annotated Regions<a class="anchor" aria-label="anchor" href="#spot-level-differential-expression-across-annotated-regions"></a>
 <a class="anchor" aria-label="anchor" href="#spot-level-differential-expression-across-annotated-regions"></a></h2>
-<hr class="half-width"><p>We will begin by performing differential expression across the
+<hr class="half-width"><p>We will begin by performing differential expression (DE) across the
 annotated layers. We will use the source publication’s spot annotation,
-which is stored in the “layer_guess” column of the metadata. As a
-reminder, those look like:</p>
+which is stored in the <code>layer_guess</code> column of the metadata.
+As a reminder, those look like:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                        <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Layer"</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We identify genes that are upregulated in each annotated brain region
-using the <a href="https://satijalab.org/seurat/reference/findallmarkers" class="external-link">FindAllMarkers</a>
+using the <a href="https://satijalab.org/seurat/reference/findallmarkers" class="external-link"><code>FindAllMarkers</code></a>
 function in Seurat. This performs a “one versus rest” comparison of a
 gene’s expression in one region relative to that gene’s expression in
 all other regions. The default test used here, the Wilcoxon Rank Sum
-test, will use an efficient implementation within the <a href="https://github.com/immunogenomics/presto" class="external-link">presto</a> library, if
-installed. The speedup over the default implementation is substantial,
-and we highly recommend installing presto and using Seurat v5, which
-leverages it.</p>
+test, will use an efficient implementation within the <a href="https://github.com/immunogenomics/presto" class="external-link"><code>presto</code></a>
+library, if installed. The speedup over the default implementation is
+substantial, and we highly recommend installing <code>presto</code> and
+using Seurat v5, which leverages it.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -480,11 +481,12 @@ scRNA-seq. Let’s try this.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Cluster"</span><span class="op">)</span> </span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Cluster"</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/differential-expression-testing-rendered-clusters-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Now, we will use nearly identical code as above to perform the
 differential expression analysis. We only change each cell’s identity
-class with the <a href="https://satijalab.github.io/seurat-object/reference/Idents.html" class="external-link">Idents</a>
+class with the <a href="https://satijalab.github.io/seurat-object/reference/Idents.html" class="external-link"><code>Idents</code></a>
 function, to associate each cell with its cluster.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -507,16 +509,20 @@ clusters. We will do so using a confusion matrix.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">de_genes_all</span> <span class="op">&lt;-</span> <span class="fu">merge</span><span class="op">(</span><span class="fu">subset</span><span class="op">(</span><span class="va">de_genes</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
 <span>                      <span class="fu">subset</span><span class="op">(</span><span class="va">de_genes_cluster</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                      by<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span>, all<span class="op">=</span><span class="cn">TRUE</span>, suffixes <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">".anno"</span>, <span class="st">".cluster"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">layer.order</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"WM"</span>, <span class="st">"Layer1"</span>, <span class="st">"Layer2"</span>, <span class="st">"Layer3"</span>, <span class="st">"Layer4"</span>, <span class="st">"Layer5"</span>, <span class="st">"Layer6"</span><span class="op">)</span></span>
-<span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">de_genes_all</span><span class="op">$</span><span class="va">cluster.anno</span>, <span class="va">de_genes_all</span><span class="op">$</span><span class="va">cluster.cluster</span><span class="op">)</span><span class="op">)</span></span>
+<span>                      by<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span>, all<span class="op">=</span><span class="cn">TRUE</span>, </span>
+<span>                      suffixes <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">".anno"</span>, <span class="st">".cluster"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">layer.order</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"WM"</span>, <span class="st">"Layer1"</span>, <span class="st">"Layer2"</span>, <span class="st">"Layer3"</span>, <span class="st">"Layer4"</span>, </span>
+<span>                 <span class="st">"Layer5"</span>, <span class="st">"Layer6"</span><span class="op">)</span></span>
+<span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">de_genes_all</span><span class="op">$</span><span class="va">cluster.anno</span>, </span>
+<span>                                     <span class="va">de_genes_all</span><span class="op">$</span><span class="va">cluster.cluster</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">colnames</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"de.anno"</span>, <span class="st">"de.cluster"</span>, <span class="st">"Freq"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">de.anno</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">de.anno</span>, levels <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"NA"</span>, <span class="va">layer.order</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">de.cluster</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">de.cluster</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">de.anno</span>, y <span class="op">=</span> <span class="va">de.cluster</span>, fill <span class="op">=</span> <span class="va">Freq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_tile</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, </span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Annotation-based DE Genes"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ylab</span><span class="op">(</span><span class="st">"Cluster-based DE Genes"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/differential-expression-testing-rendered-de-comparison-confusion-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The above plot shows only marginal overlap between the
@@ -531,8 +537,8 @@ intra-layer heterogeneity.</p>
 rely on defined regions – be they defined from expert annotation or via
 clustering. Instead, we will apply the Moran’s I statistic. Moran’s I is
 a measure used to assess spatial autocorrelation in data, indicating
-whether similar values of a feature (e.g., expression levels of a gene)
-are clustered, dispersed, or random (<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33" class="external-link">Jackson,
+whether similar values of a feature (<em>e.g.</em>, expression levels of
+a gene) are clustered, dispersed, or random (<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33" class="external-link">Jackson,
 et al. 2010</a>). These correspond to Moran’s I values that are
 positive, negative, or near zero, respectively.</p>
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Moran%27s_I_example.png" alt="Moran's I statistic quantifies spatial correlation." class="figure mx-auto d-block"><div class="figcaption">Moran’s I statistic quantifies spatial
@@ -558,7 +564,7 @@ differentially expressed across regions.</p>
 <div class="section level3">
 <h3 id="spatial-differential-expression-using-morans-i">Spatial Differential Expression Using Moran’s I<a class="anchor" aria-label="anchor" href="#spatial-differential-expression-using-morans-i"></a></h3>
 <p>We identify the genes whose expression patterns exhibit clear spatial
-structure using Moran’s I algorithm, as implemented in <a href="https://satijalab.org/seurat/reference/findspatiallyvariablefeatures" class="external-link">FindSpatiallyVariableFeatures</a>.
+structure using Moran’s I algorithm, as implemented in <a href="https://satijalab.org/seurat/reference/findspatiallyvariablefeatures" class="external-link"><code>FindSpatiallyVariableFeatures</code></a>.
 We have selected the top 1,000 genes, which should be sufficient to
 identify brain regions. The following will take several minutes to
 run.</p>
@@ -572,8 +578,8 @@ run.</p>
 <span>                                features         <span class="op">=</span> <span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span>, </span>
 <span>                                selection.method <span class="op">=</span> <span class="st">"moransi"</span><span class="op">)</span></span></code></pre>
 </div>
-<p>FindSpatiallyVariableFeatures returns a Seurat object, populated with
-Moran’s I-derived results. Normally, we would use the <a href="https://satijalab.github.io/seurat-object/reference/VariableFeatures.html" class="external-link">SpatiallyVariableFeatures</a>
+<p><code>FindSpatiallyVariableFeatures</code> returns a Seurat object,
+populated with Moran’s I-derived results. Normally, we would use the <a href="https://satijalab.github.io/seurat-object/reference/VariableFeatures.html" class="external-link"><code>SpatiallyVariableFeatures</code></a>
 function to query those results. But, there is a bug in that function as
 described <a href="https://github.com/satijalab/seurat/issues/7422" class="external-link">here</a>. So,
 instead we will manually extract the top 100 ranked spatially variable
@@ -614,7 +620,7 @@ Spatially Variable Genes<a class="anchor" aria-label="anchor" href="#correlation
 <hr class="half-width"><div class="section level3">
 <h3 id="heatmap-of-differential-expression">Heatmap of Differential Expression<a class="anchor" aria-label="anchor" href="#heatmap-of-differential-expression"></a></h3>
 <p>As a sanity check of both the region-specific differential expression
-and the Moran’s I approaches, let’s check out hypothesis that spatially
+and the Moran’s I approaches, let’s check our hypothesis that spatially
 variable genes are likely to show regional differential expression. To
 do this, we will plot a heatmap of the <em>differential expression</em>
 p-values for the top 100 spatially variable genes, organized by brain
@@ -627,21 +633,25 @@ region.</p>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">merge</span><span class="op">(</span><span class="va">morans_i_genes</span>, <span class="va">de_genes</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span>, by <span class="op">=</span> <span class="st">"gene"</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">subset</span><span class="op">(</span><span class="va">df</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># We will plot the -log2 pvalues. Compute this and adjust for taking log of 0.</span></span>
+<span><span class="co"># We will plot the -log2 pvalues. Compute this and adjust for taking </span></span>
+<span><span class="co"># log of 0.</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">log_p_val_adj</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu">log2</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">p_val_adj</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">log_p_val_adj</span><span class="op">[</span><span class="fu">is.infinite</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">log_p_val_adj</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">max</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">log_p_val_adj</span><span class="op">[</span><span class="op">!</span><span class="fu">is.infinite</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">log_p_val_adj</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),</span></span>
-<span><span class="co"># whose columns are the clusters, and whose entries are the adjusted DE pvalue for the</span></span>
-<span><span class="co"># corresponding gene and cluster.</span></span>
+<span><span class="co"># Create a matrix whose rows are the spatially variable genes </span></span>
+<span><span class="co"># (indicated by Moran's I), whose columns are the clusters, and whose </span></span>
+<span><span class="co"># entries are the adjusted DE pvalue for the corresponding gene and cluster.</span></span>
 <span><span class="va">p_val_adj_matrix</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span></span>
 <span>                       <span class="fu">select</span><span class="op">(</span><span class="va">gene</span>, <span class="va">cluster</span>,<span class="va">log_p_val_adj</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>                       <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">cluster</span>, values_from <span class="op">=</span> <span class="va">log_p_val_adj</span>, values_fill <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                       <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">cluster</span>, </span>
+<span>                                   values_from <span class="op">=</span> <span class="va">log_p_val_adj</span>, </span>
+<span>                                   values_fill <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>                       <span class="fu">column_to_rownames</span><span class="op">(</span><span class="st">"gene"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>                       <span class="fu">as.matrix</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Order the regions according to their spatial organization from inner to outer layers</span></span>
+<span><span class="co"># Order the regions according to their spatial organization from </span></span>
+<span><span class="co"># inner to outer layers</span></span>
 <span><span class="va">p_val_adj_matrix</span> <span class="op">&lt;-</span> <span class="va">p_val_adj_matrix</span><span class="op">[</span>, <span class="va">layer.order</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Create a heatmap of the DE p-values of spatially variable genes</span></span>
@@ -676,11 +686,11 @@ several studies, including one by <a href="https://www.nature.com/articles/s4146
 al.</a>, have emphasized drawbacks of performing DE on individual cells.
 Single-cell DE may be caused by technical variability across single
 cells, biological variability that may not be of interest across
-conditions studied (e.g., transcriptional bursting), or simply by the
-large number of individual cells that inflate false positives. One
-solution is to perform “pseudobulking” of the scRNA-seq and then to use
-conventional bulk RNA-seq DE tools (e.g., DESeq2) to compare the
-pseudobulks. A Seurat <a href="https://satijalab.org/seurat/articles/de_vignette" class="external-link">vignette</a>
+conditions studied (<em>e.g.</em>, transcriptional bursting), or simply
+by the large number of individual cells that inflate false positives.
+One solution is to perform <em>pseudobulking</em> of the scRNA-seq and
+then to use conventional bulk RNA-seq DE tools (<em>e.g.</em>, DESeq2)
+to compare the pseudobulks. A Seurat <a href="https://satijalab.org/seurat/articles/de_vignette" class="external-link">vignette</a>
 describing the approach for scRNA-seq should likewise be applicable for
 spatial transcriptomics. However, we note the caveat that spots are not
 cells – the former may have considerably more intra- and inter-spot
@@ -688,10 +698,10 @@ biological heterogeneity. Hence, pseudobulking should be done with
 caution.</li>
 <li>Any comparison across samples will necessitate accounting for batch
 effects. In bulk or single-cell RNA-seq studies, batch effects would
-typically be mitigated by applying regression-based tools such as <a href="https://portals.broadinstitute.org/harmony/articles/quickstart.html" class="external-link">Harmony</a>
-or by incorporating a batch factor in a linear modeling framework (e.g.,
-of DESeq2). Those approaches could be applied to spatial transcriptomics
-data, as well.</li>
+typically be mitigated by applying regression-based tools such as <a href="https://portals.broadinstitute.org/harmony/articles/quickstart.html" class="external-link"><code>Harmony</code></a>
+or by incorporating a batch factor in a linear modeling framework
+(<em>e.g.</em>, of DESeq2). Those approaches could be applied to spatial
+transcriptomics data, as well.</li>
 <li>Batch correction procedures, such as those just mentioned, may
 remove biological variability along with technical variability. An
 alternative approach is to perform analyses <em>within</em> samples and
@@ -786,7 +796,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-20",
+  "dateModified": "2024-07-15",
   "datePublished": "2024-07-15"
 }
 
