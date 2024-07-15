@@ -32,7 +32,7 @@ the individual cells encompassed by it. Deconvolution is the approach for
 unmixing this combined expression signal. Most often, deconvolution methods 
 predict the fraction of each spot's expression derived from each particular cell 
 type. Supervised methods deconvolve spot expression using cell type expression 
-profiles (e.g., from scRNA-seq) or marker genes. Unsupervised approaches instead 
+profiles (*e.g.*, from scRNA-seq) or marker genes. Unsupervised approaches instead 
 infer the expression of the cell types first.
 
 ![Deconvolving spatial transcriptomics spots into their constituent cell types.](https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg){alt='alt text for accessibility purposes'}
@@ -267,7 +267,7 @@ observed layers, particularly for the pairs Oligodendrocytes and WM
 Deconvolution quantifies the cell type composition of each spot. Doing so 
 enables downstream analyses, such as the proportion of various cell types across 
 a sample, heterogeneity of cell types across the sample, or co-localization 
-analyses of cell types within the sample. Supervised (i.e., reference-based) and 
+analyses of cell types within the sample. Supervised (*i.e.*, reference-based) and 
 unsupervised approaches have been developed. 
 
 Here, we applied deconvolution supervised by scRNA-seq annotations, as 

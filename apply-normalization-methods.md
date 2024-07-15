@@ -18,8 +18,8 @@ and when should they be applied?
 
 - Assess the need for normalization using both spatial transcriptomics data and 
 ancillary modalities like H&E staining.
-- Understand the specific applications and mechanisms of normalization techniques
-such as SCTransform and log scaling.
+- Understand the specific applications and mechanisms of normalization 
+techniques such as SCTransform and log scaling.
 - Implement adaptive normalization strategies that accurately reflect both 
 absolute and relative cellular information.
 
@@ -72,9 +72,9 @@ hist(colSums2(counts), breaks = 100,
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
 As you can see, the total counts per spot ranges cross three orders of 
-magnitude. Some of this may be due to the biology of the tissue, i.e. some cells
-may express more transcripts. But some of this may be due to technical issues.
-Let's explore each of these two considerations further.
+magnitude. Some of this may be due to the biology of the tissue, *i.e.* some 
+cells may express more transcripts. But some of this may be due to technical 
+issues. Let's explore each of these two considerations further.
 
 ### Sources of Biological Variation in Total Counts
 
@@ -161,7 +161,7 @@ g
 Layer 1 has fewer UMIs, consistent with its lower cell count. An increase in 
 UMIs consistent with that in cell count is not observed for the white matter, 
 however. Despite this imperfect correlation between UMI and cell counts, we wish 
-to emphasize that UMI (i.e., read) counts, as well as feature (i.e., gene) 
+to emphasize that UMI (*i.e.*, read) counts, as well as feature (*i.e.*, gene) 
 counts, can encode biological information. That certainly occurs here. As such,
 we strongly recommend visualizing raw UMI and features counts prior to 
 normalization.
@@ -181,7 +181,8 @@ choices.
 
 #### LogNormalize
 
-One common approach that attempts to meet our two objectives above is log-transformation of normalized counts. The resulting values are often 
+One common approach that attempts to meet our two objectives above is 
+log-transformation of normalized counts. The resulting values are often 
 ambiguously referred to as log-normalized counts, which elides stating that the 
 raw counts are first normalized or scaled and then log transformed. Scaling 
 accounts for the differences in spot-specific RNA counts. The log transformation
@@ -217,9 +218,10 @@ Layers(lognorm_st)
 [1] "counts" "data"  
 ```
 
-Our goal is that the variance should be stabilized -- i.e., independent of the 
+Our goal is that the variance should be stabilized -- *i.e.*, independent of the 
 mean. Let's plot this *mean-variance* relationship with the
-[`VariableFeaturePlot`](https://satijalab.org/seurat/reference/variablefeatureplot) function. We aim for a flat line, indicating no trend between mean and variance. 
+[`VariableFeaturePlot`](https://satijalab.org/seurat/reference/variablefeatureplot) 
+function. We aim for a flat line, indicating no trend between mean and variance. 
 We can compare this diagnostic plot across normalization methods to compare them 
 on our given dataset. Additionally, let's highlight highly variables genes on 
 this plot. 
