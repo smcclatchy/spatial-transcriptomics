@@ -22,7 +22,7 @@ was successful.
 ### R Package Installation
 
 Next, we will install the required packages for this lesson. Note that the 
-[spacexr](https://github.com/dmcable/spacexr) package takes a long time to 
+[`spacexr`](https://github.com/dmcable/spacexr) package takes a long time to 
 download.
 
 In RStudio, copy and paste the following commands into the Console:
@@ -192,5 +192,5 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/dt2
 <!-- Globus link:  http://research.libd.org/globus/jhpce_HumanPilot10x/index.html -->
 
 Development of this lesson was funded by a [Jackson Laboratory](https://www.jax.org/) 
-Director's Innovation Fund award to Dr. Gary Churchill. Lesson authors are 
-grateful for this support.
+Director's Innovation Fund award to Dr. Gary Churchill. We are grateful for this 
+support.
