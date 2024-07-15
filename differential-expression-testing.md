@@ -6,16 +6,18 @@ exercises: 10
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How can we assess region-specific gene expression using differential expression?
+- How can we assess region-specific gene expression using differential 
+expression?
 - How can we assess spatially varying gene expression using spatial statistics?
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Identify differentially expressed genes across different layers defined by expert 
-annotations.
+- Identify differentially expressed genes across different layers defined by 
+expert annotations.
 - Utilize the Moran's I statistic to find spatially variable genes.
-- Explore the relationship between layer-specific genes identified by differential expression and spatially varying genes identified by Moran's I.
+- Explore the relationship between layer-specific genes identified by 
+differential expression and spatially varying genes identified by Moran's I.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -23,27 +25,28 @@ annotations.
 
 ## Spot-level Differential Expression Across Annotated Regions
 
-We will begin by performing differential expression across the annotated layers. 
-We will use the source publication's spot annotation, which is stored in the
-"layer_guess" column of the metadata. As a reminder, those look like:
+We will begin by performing differential expression (DE) across the annotated 
+layers. We will use the source publication's spot annotation, which is stored in 
+the `layer_guess` column of the metadata. As a reminder, those look like:
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") + 
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], 
+                        "layer_guess") + 
   labs(fill = "Layer") 
 ```
 
 <img src="fig/differential-expression-testing-rendered-layers-1.png" style="display: block; margin: auto;" />
 
 We identify genes that are upregulated in each annotated brain region using the 
-[FindAllMarkers](https://satijalab.org/seurat/reference/findallmarkers) function 
-in Seurat. This performs a "one versus rest" comparison of a gene's expression 
-in one region relative to that gene's expression in all other regions. The 
-default test used here, the Wilcoxon Rank Sum test, 
-will use an efficient implementation within the 
-[presto](https://github.com/immunogenomics/presto) library, if installed. The 
+[`FindAllMarkers`](https://satijalab.org/seurat/reference/findallmarkers) 
+function in Seurat. This performs a "one versus rest" comparison of a gene's 
+expression in one region relative to that gene's expression in all other 
+regions. The default test used here, the Wilcoxon Rank Sum test, will use an 
+efficient implementation within the 
+[`presto`](https://github.com/immunogenomics/presto) library, if installed. The 
 speedup over the default implementation is substantial, and we highly recommend 
-installing presto and using Seurat v5, which leverages it.
+installing `presto` and using Seurat v5, which leverages it.
 
 
 ``` r
@@ -76,34 +79,38 @@ MT-CO2  3.349139e-116  0.2869993 1.000 1.000 6.027110e-112  Layer3  MT-CO2
 MT-CO3  5.357942e-105  0.2766345 1.000 1.000 9.642152e-101  Layer3  MT-CO3
 ```
 
-It is not uncommon to have pathologist annotations of regions. The Visium assay is performed
-on a tissue that is also stained for hematoxylin and eosin (H&E) -- a routine practice in
-pathology for diagnosing cancer, for example. A pathologist could manually annotate this H&E
-image using a histology viewer, such as QuPath.
+It is not uncommon to have pathologist annotations of regions. The Visium assay 
+is performed on a tissue that is also stained for hematoxylin and eosin (H&E) -- 
+a routine practice in pathology for diagnosing cancer, for example. A 
+pathologist could manually annotate this H&E image using a histology viewer, 
+such as QuPath.
 
 ## Spot-level Differential Expression Across Clusters
 
-In cases where we do not have expert annotations, we could perform the analysis above across
-clusters. Indeed, this is often the first step to interpreting a cluster -- comparing its marker
-genes to those of regions expected within the tissue. It is important to remember, however,
-that these markers are for clusters of spots -- aggregations of cells -- not individual cells, as
-would be the case in scRNA-seq. Those aggregations may be of cells with similar types, in which
-case analysis may be similar to that of scRNA-seq, or of different cell types, in which case the
-interpretation would be quite different than with scRNA-seq. Let's try this.
+In cases where we do not have expert annotations, we could perform the analysis 
+above across clusters. Indeed, this is often the first step to interpreting a 
+cluster -- comparing its marker genes to those of regions expected within the 
+tissue. It is important to remember, however, that these markers are for 
+clusters of spots -- aggregations of cells -- not individual cells, as would be 
+the case in scRNA-seq. Those aggregations may be of cells with similar types, in 
+which case analysis may be similar to that of scRNA-seq, or of different cell 
+types, in which case the interpretation would be quite different than with 
+scRNA-seq. Let's try this.
 
 First, let's remind ourselves what the clusters look like:
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill = "Cluster") 
+SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + 
+  labs(fill = "Cluster") 
 ```
 
 <img src="fig/differential-expression-testing-rendered-clusters-1.png" style="display: block; margin: auto;" />
 
-Now, we will use nearly identical code as above to perform the differential expression
-analysis. We only change each cell's identity class with the 
-[Idents](https://satijalab.github.io/seurat-object/reference/Idents.html) function,
-to associate each cell with its cluster.
+Now, we will use nearly identical code as above to perform the differential 
+expression analysis. We only change each cell's identity class with the 
+[`Idents`](https://satijalab.github.io/seurat-object/reference/Idents.html) 
+function, to associate each cell with its cluster.
 
 
 ``` r
@@ -116,42 +123,47 @@ de_genes_cluster   <- FindAllMarkers(filter_st,
                                      logfc.threshold = 0.25)
 ```
 
-Let's visualize the overlap between genes differentially expressed across annotated layers
-and those differentially expressed across clusters. We will do so using a confusion matrix.
+Let's visualize the overlap between genes differentially expressed across 
+annotated layers and those differentially expressed across clusters. We will do 
+so using a confusion matrix.
 
 
 ``` r
 de_genes_all <- merge(subset(de_genes, p_val_adj < 0.05),
                       subset(de_genes_cluster, p_val_adj < 0.05),
-                      by=c("gene"), all=TRUE, suffixes = c(".anno", ".cluster"))
-layer.order <- c("WM", "Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6")
-df            <- as.data.frame(table(de_genes_all$cluster.anno, de_genes_all$cluster.cluster))
+                      by=c("gene"), all=TRUE, 
+                      suffixes = c(".anno", ".cluster"))
+layer.order <- c("WM", "Layer1", "Layer2", "Layer3", "Layer4", 
+                 "Layer5", "Layer6")
+df            <- as.data.frame(table(de_genes_all$cluster.anno, 
+                                     de_genes_all$cluster.cluster))
 colnames(df)  <- c("de.anno", "de.cluster", "Freq")
 df$de.anno <- factor(df$de.anno, levels = c("NA", layer.order))
 df$de.cluster <- factor(df$de.cluster)
 
 ggplot(data = df, aes(x = de.anno, y = de.cluster, fill = Freq)) +
   geom_tile() +
-  theme(text = element_text(size = 20), axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  theme(text = element_text(size = 20), 
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
   xlab("Annotation-based DE Genes") + ylab("Cluster-based DE Genes")
 ```
 
 <img src="fig/differential-expression-testing-rendered-de-comparison-confusion-1.png" style="display: block; margin: auto;" />
 
-The above plot shows only marginal overlap between the annotation-derived DE genes
-on the x axis and the cluster-derived DE genes on the y axis. This might indicate that
-the two approaches are complementary. In fact, they could be used in conjunction.
-We could have performed clustering <em>within</em> the annotated regions to assess
-intra-layer heterogeneity.
+The above plot shows only marginal overlap between the annotation-derived DE 
+genes on the x axis and the cluster-derived DE genes on the y axis. This might 
+indicate that the two approaches are complementary. In fact, they could be used 
+in conjunction. We could have performed clustering <em>within</em> the annotated 
+regions to assess intra-layer heterogeneity.
 
 ## Moran's I Statistic
 
-We next consider an alternative to the above approaches that both rely on defined 
-regions -- be they defined from expert annotation or via clustering. 
-Instead, we will apply the Moran's I statistic.
-Moran's I is a measure used to assess spatial autocorrelation in data, 
-indicating whether similar values of a feature (e.g., expression levels of
-a gene) are clustered, dispersed, or random 
+We next consider an alternative to the above approaches that both rely on 
+defined regions -- be they defined from expert annotation or via clustering. 
+Instead, we will apply the Moran's I statistic. Moran's I is a measure used to 
+assess spatial autocorrelation in data, indicating whether similar values of a 
+feature (*e.g.*, expression levels of a gene) are clustered, dispersed, or 
+random 
 ([Jackson, et al. 2010](https://ij-healthgeographics.biomedcentral.com/articles/10.1186/1476-072X-9-33)). 
 These correspond to Moran's I values that are positive, negative, or near zero, 
 respectively.
@@ -160,18 +172,19 @@ respectively.
 
 Image by <a href="https://commons.wikimedia.org/wiki/File:Moran%27s_I_example.png">WikiNukalito</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons.
 
-Here, we can apply it to detect genes whose expression patterns 
-exhibit spatial structure, which may reflect region-specific, biological function.
-That is, we anticipate that spatially variable genes will exhibit region-specific
-expression. Let's check that hypothesis by first computing spatially variable genes
-and then assessing whether they are differentially expressed across regions.
+Here, we can apply it to detect genes whose expression patterns  exhibit spatial 
+structure, which may reflect region-specific, biological function. That is, we 
+anticipate that spatially variable genes will exhibit region-specific 
+expression. Let's check that hypothesis by first computing spatially variable 
+genes and then assessing whether they are differentially expressed across 
+regions.
 
 ### Spatial Differential Expression Using Moran's I
 
 We identify the genes whose expression patterns exhibit clear spatial structure 
-using Moran's I algorithm, as implemented in [FindSpatiallyVariableFeatures](https://satijalab.org/seurat/reference/findspatiallyvariablefeatures). 
-We have selected the top 1,000 genes, which should
-be sufficient to identify brain regions. The following will take several minutes to run.
+using Moran's I algorithm, as implemented in [`FindSpatiallyVariableFeatures`](https://satijalab.org/seurat/reference/findspatiallyvariablefeatures). 
+We have selected the top 1,000 genes, which should be sufficient to identify 
+brain regions. The following will take several minutes to run.
 
 
 ``` r
@@ -182,12 +195,13 @@ svg <-
                                 selection.method = "moransi")
 ```
 
-FindSpatiallyVariableFeatures returns a Seurat object, populated with Moran's I-derived
-results. Normally, we would use the 
-[SpatiallyVariableFeatures](https://satijalab.github.io/seurat-object/reference/VariableFeatures.html) function to query those results. But, there is a bug in that
-function as described [here](https://github.com/satijalab/seurat/issues/7422). So, instead
-we will manually extract the top 100 ranked spatially variable genes, along with their 
-Moran's I values and associated p-values:
+`FindSpatiallyVariableFeatures` returns a Seurat object, populated with Moran's 
+I-derived results. Normally, we would use the 
+[`SpatiallyVariableFeatures`](https://satijalab.github.io/seurat-object/reference/VariableFeatures.html) 
+function to query those results. But, there is a bug in that function as 
+described [here](https://github.com/satijalab/seurat/issues/7422). So, instead
+we will manually extract the top 100 ranked spatially variable genes, along with 
+their Moran's I values and associated p-values:
 
 
 ``` r
@@ -221,7 +235,7 @@ head(morans_i_genes)
 ### Heatmap of Differential Expression
 
 As a sanity check of both the region-specific differential expression and the
-Moran's I approaches, let's check out hypothesis that spatially variable genes
+Moran's I approaches, let's check our hypothesis that spatially variable genes
 are likely to show regional differential expression. To do
 this, we will plot a heatmap of the <em>differential expression</em> p-values 
 for the top 100 spatially variable genes, organized by brain region.
@@ -232,21 +246,25 @@ for the top 100 spatially variable genes, organized by brain region.
 df <- merge(morans_i_genes, de_genes, all.x = TRUE, by = "gene")
 df <- subset(df, !is.na(cluster))
 
-# We will plot the -log2 pvalues. Compute this and adjust for taking log of 0.
+# We will plot the -log2 pvalues. Compute this and adjust for taking 
+# log of 0.
 df$log_p_val_adj <- -log2(df$p_val_adj)
 df$log_p_val_adj[is.infinite(df$log_p_val_adj)] <- 
   max(df$log_p_val_adj[!is.infinite(df$log_p_val_adj)])
 
-# Create a matrix whose rows are the spatially variable genes (indicated by Moran's I),
-# whose columns are the clusters, and whose entries are the adjusted DE pvalue for the
-# corresponding gene and cluster.
+# Create a matrix whose rows are the spatially variable genes 
+# (indicated by Moran's I), whose columns are the clusters, and whose 
+# entries are the adjusted DE pvalue for the corresponding gene and cluster.
 p_val_adj_matrix <- df %>%
                        select(gene, cluster,log_p_val_adj) %>%
-                       pivot_wider(names_from = cluster, values_from = log_p_val_adj, values_fill = 0) %>%
+                       pivot_wider(names_from = cluster, 
+                                   values_from = log_p_val_adj, 
+                                   values_fill = 0) %>%
                        column_to_rownames("gene") %>%
                        as.matrix()
 
-# Order the regions according to their spatial organization from inner to outer layers
+# Order the regions according to their spatial organization from 
+# inner to outer layers
 p_val_adj_matrix <- p_val_adj_matrix[, layer.order]
 
 # Create a heatmap of the DE p-values of spatially variable genes
@@ -264,46 +282,50 @@ Heatmap(p_val_adj_matrix,
 
 <img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" />
 
-The heatmap visualization reveals a key finding of our analysis: genes displaying 
-the highest Moran's I values show distinct expression patterns that align with 
-specific brain regions identified through expert annotations. This observation 
-underscores the spatial correlation of gene expression, highlighting its 
-potential relevance in understanding regional brain functions and pathologies.
+The heatmap visualization reveals a key finding of our analysis: genes 
+displaying the highest Moran's I values show distinct expression patterns that 
+align with specific brain regions identified through expert annotations. This 
+observation underscores the spatial correlation of gene expression, highlighting 
+its potential relevance in understanding regional brain functions and 
+pathologies.
 
 ## Other Considerations
 
-We here explored the very basics of differential expression analysis. We note here
-just a few additional complications that may arise in your own analyses.
+We here explored the very basics of differential expression analysis. We note 
+here just a few additional complications that may arise in your own analyses.
 
 - Here we explored spot-level analysis within one sample. However, most studies
-(including the published one that furnished the data we used here) include multiple
-samples. This has some similarities to single cell-level DE analysis in scRNA-seq.
-In the scRNA-seq setting, several studies, including one by [Squair, et al.](https://www.nature.com/articles/s41467-021-25960-2), have emphasized drawbacks of performing
-DE on individual cells. Single-cell DE may be caused by technical variability across
-single cells, biological variability that may not be of interest across conditions
-studied (e.g., transcriptional bursting), or simply by the large number of individual
-cells that inflate false positives. One solution is to perform "pseudobulking" of
-the scRNA-seq and then to use conventional bulk RNA-seq DE tools (e.g., DESeq2) to
-compare the pseudobulks. A Seurat 
-[vignette](https://satijalab.org/seurat/articles/de_vignette) describing the 
-approach for scRNA-seq should likewise be applicable for spatial transcriptomics.
-However, we note the caveat that spots are not cells -- the former may have
-considerably more intra- and inter-spot biological heterogeneity. Hence, pseudobulking
-should be done with caution.
-- Any comparison across samples will necessitate accounting for batch effects. In
-bulk or single-cell RNA-seq studies, batch effects would typically be mitigated by
-applying regression-based tools such as 
-[Harmony](https://portals.broadinstitute.org/harmony/articles/quickstart.html) 
-or by incorporating a batch factor in a linear modeling framework (e.g., of DESeq2).
-Those approaches could be applied to spatial transcriptomics data, as well.
-- Batch correction procedures, such as those just mentioned, may remove biological
-variability along with technical variability. An alternative approach is to perform
-analyses <em>within</em> samples and then to perform meta-analysis across them.
-One intriguing possibility is to compare rank-based statistics across samples, which
-should be less susceptible to batch effects. Another is to cluster across samples
-based on overlapping sets of genes within intra-cluster samples. Such an approach
-has been applied in the "meta-programs" defined in cancer by [Gavish and
-colleagues](https://pubmed.ncbi.nlm.nih.gov/37258682/).
+(including the published one that furnished the data we used here) include 
+multiple samples. This has some similarities to single cell-level DE analysis in 
+scRNA-seq. In the scRNA-seq setting, several studies, including one by 
+[Squair, et al.](https://www.nature.com/articles/s41467-021-25960-2), 
+have emphasized drawbacks of performing DE on individual cells. Single-cell DE 
+may be caused by technical variability across single cells, biological 
+variability that may not be of interest across conditions studied 
+(*e.g.*, transcriptional bursting), or simply by the large number of individual
+cells that inflate false positives. One solution is to perform *pseudobulking* 
+of the scRNA-seq and then to use conventional bulk RNA-seq DE tools 
+(*e.g.*, DESeq2) to compare the pseudobulks. A Seurat 
+[vignette](https://satijalab.org/seurat/articles/de_vignette) 
+describing the approach for scRNA-seq should likewise be applicable for spatial 
+transcriptomics. However, we note the caveat that spots are not cells -- the 
+former may have considerably more intra- and inter-spot biological 
+heterogeneity. Hence, pseudobulking should be done with caution.
+- Any comparison across samples will necessitate accounting for batch effects. 
+In bulk or single-cell RNA-seq studies, batch effects would typically be 
+mitigated by applying regression-based tools such as 
+[`Harmony`](https://portals.broadinstitute.org/harmony/articles/quickstart.html) 
+or by incorporating a batch factor in a linear modeling framework 
+(*e.g.*, of DESeq2). Those approaches could be applied to spatial 
+transcriptomics data, as well.
+- Batch correction procedures, such as those just mentioned, may remove 
+biological variability along with technical variability. An alternative approach 
+is to perform analyses <em>within</em> samples and then to perform meta-analysis 
+across them. One intriguing possibility is to compare rank-based statistics 
+across samples, which should be less susceptible to batch effects. Another is to 
+cluster across samples based on overlapping sets of genes within intra-cluster 
+samples. Such an approach has been applied in the "meta-programs" defined in 
+cancer by [Gavish and colleagues](https://pubmed.ncbi.nlm.nih.gov/37258682/).
 
 There is unlikely to be one turn-key approach to addressing the above issues.
 You will likely need to explore the data -- and that exploration should be
