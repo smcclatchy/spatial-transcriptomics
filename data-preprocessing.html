@@ -359,7 +359,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Preprocessing</h1>
-        <p>Last updated on 2024-06-20 |
+        <p>Last updated on 2024-07-15 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -399,10 +399,10 @@ challenge blocks</li>
 </div>
 <section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 <a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>The <a href="https://www.10xgenomics.com/support/software/space-ranger" class="external-link">Space
-Ranger</a> software is a popular, though by no means only, set of
-pipelines for preprocessing of Visium data. We focus on it here. It
-provides the following output:</p>
+<hr class="half-width"><p>The <a href="https://www.10xgenomics.com/support/software/space-ranger" class="external-link"><code>Space Ranger</code></a>
+software is a popular, though by no means only, set of pipelines for
+preprocessing of Visium data. We focus on it here. It provides the
+following output:</p>
 <table class="table"><colgroup><col width="48%"><col width="52%"></colgroup><thead><tr class="header"><th>File Name</th>
 <th>Description</th>
 </tr></thead><tbody><tr class="odd"><td>web_summary.html</td>
@@ -464,8 +464,8 @@ possorted_genome_bam.bam.csi index file instead.</td>
 <td>Contains only tissue-associated barcodes in MEX format. Each element
 of the matrix is the number of UMIs associated with a feature (row) and
 a barcode (column). This file can be input into third-party packages and
-allows users to wrangle the barcode-feature matrix (e.g. to filter
-outlier spots, run dimensionality reduction, normalize gene
+allows users to wrangle the barcode-feature matrix (<em>e.g.</em> to
+filter outlier spots, run dimensionality reduction, normalize gene
 expression).</td>
 </tr><tr class="even"><td><strong>filtered_feature_bc_matrix.h5</strong></td>
 <td><strong>Same information as filtered_feature_bc_matrix/ but in HDF5
@@ -488,32 +488,36 @@ targeted-depth.</td>
 </tr></tbody></table><p>Fortunately, you will not need to look at all of these files. We
 provide a brief description for you in case you are curious or need to
 look at one of the files for technical reasons.</p>
-<p>The two files that you will use are “raw_feature_bc_matrix.h5” and
-“filtered_feature_bc_matrix.h5”. These files have an “h5” suffix, which
-means that they are HDF5 files. <a href="https://www.hdfgroup.org/solutions/hdf5/" class="external-link">HDF5</a> is a compressed
-file format for storing complex high-dimensional data. HDF5 stands for
-“Hierarchical Data Formats, version 5”. There is an R package designed
-to read and write HDF5 files called <a href="https://bioconductor.org/packages/release/bioc/html/rhdf5.html" class="external-link">rhdf5</a>.
+<p>The two files that you will use are
+<code>raw_feature_bc_matrix.h5</code> and
+<code>filtered_feature_bc_matrix.h5</code>. These files have an
+<code>h5</code> suffix, which means that they are HDF5 files. <a href="https://www.hdfgroup.org/solutions/hdf5/" class="external-link"><code>HDF5</code></a> is
+a compressed file format for storing complex high-dimensional data. HDF5
+stands for <em>Hierarchical Data Formats, version 5</em>. There is an R
+package designed to read and write HDF5 files called <a href="https://bioconductor.org/packages/release/bioc/html/rhdf5.html" class="external-link"><code>rhdf5</code></a>.
 This was one of the packages which you installed during the lesson
 setup.</p>
-<p>Briefly, HDF5 organizes data into directories within the compressed
-file. There are three “files” within the HDF5 file:</p>
+<p>Briefly, <code>HDF5</code> organizes data into directories within the
+compressed file. There are three “files” within the <code>HDF5</code>
+file:</p>
 <table class="table"><colgroup><col width="53%"><col width="46%"></colgroup><thead><tr class="header"><th>File Name</th>
 <th>Description</th>
 </tr></thead><tbody><tr class="odd"><td>features.csv</td>
-<td>Contains the features (i.e. genes in this case) for each row in the
-data matrix.</td>
+<td>Contains the features (<em>i.e.</em> genes in this case) for each
+row in the data matrix.</td>
 </tr><tr class="even"><td>barcodes.csv</td>
 <td>Contains the probe barcodes for each spot on the tissue block.</td>
 </tr><tr class="odd"><td>matrix.mtx</td>
 <td>Contains the counts for each gene in each spot. Features
-(e.g. genes) are in rows and barcodes (e.g. spots) are in columns.</td>
+(<em>e.g.</em> genes) are in rows and barcodes (<em>e.g.</em> spots) are
+in columns.</td>
 </tr></tbody></table></section><section><h2 class="section-heading" id="set-up-environment">Set up Environment<a class="anchor" aria-label="anchor" href="#set-up-environment"></a>
 <a class="anchor" aria-label="anchor" href="#set-up-environment"></a></h2>
-<hr class="half-width"><p>Go to the “File” menu and select “Open Project…”. Open the
-“spatialRNA” project which you created in the workshop Setup.</p>
+<hr class="half-width"><p>Go to the <code>File</code> menu and select
+<code>Open Project...</code>. Open the <code>spatialRNA</code> project
+which you created in the workshop setup.</p>
 <p>First, we will load in some utility functions to make our lives a bit
-easier. The <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source" class="external-link">source</a>
+easier. The <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source" class="external-link"><code>source</code></a>
 function reads an R file and runs the code in it. In this case, this
 will load several useful functions.</p>
 <p>We will then load the libraries that we need for this lesson.</p>
@@ -527,8 +531,9 @@ will load several useful functions.</p>
 <span></span>
 <span><span class="kw">source</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R"</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Note that the <a href="https://here.r-lib.org/" class="external-link">here library</a>
-helps you to find your files by taking care of the absolute path.</p>
+<p>Note that the <a href="https://here.r-lib.org/" class="external-link"><code>here</code></a>
+library helps you to find your files by taking care of the absolute
+path.</p>
 </section><section><h2 class="section-heading" id="load-raw-and-filtered-spatial-expression-data">Load Raw and Filtered Spatial Expression Data<a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a>
 <a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a></h2>
 <hr class="half-width"><p>In this course, we will use the <a href="https://satijalab.org/seurat/" class="external-link">Seurat</a> R environment, which was
@@ -536,11 +541,11 @@ originally designed for analysis of single-cell RNA-seq data, but has
 been extended for spatial transcriptomics data. The Seurat website
 provides helpful <a href="https://satijalab.org/seurat/articles/get_started_v5_new" class="external-link">vignettes</a>
 and a concise command <a href="https://satijalab.org/seurat/articles/essential_commands" class="external-link">cheat
-sheet</a>. <a href="https://bioconductor.org/packages/release/bioc/html/SpatialExperiment.html" class="external-link">SpatialExperiment</a>
-in R and <a href="https://scanpy.readthedocs.io/en/stable/" class="external-link">scanpy</a>
+sheet</a>. <a href="https://bioconductor.org/packages/release/bioc/html/SpatialExperiment.html" class="external-link"><code>SpatialExperiment</code></a>
+in R and <a href="https://scanpy.readthedocs.io/en/stable/" class="external-link"><code>scanpy</code></a>
 in python, amongst others, are also frequently used in analyzing spatial
 transcriptomics data.</p>
-<p>We will use the <a href="https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial" class="external-link">Load10X_Spatial</a>
+<p>We will use the <a href="https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial" class="external-link"><code>Load10X_Spatial</code></a>
 function from Seurat to read in the spatial transcription data. These
 are the data which you downloaded in the setup section.</p>
 <p>First, we will read in the raw data for sample 151673.</p>
@@ -553,10 +558,10 @@ are the data which you downloaded in the setup section.</p>
 <span>                          filter.matrix <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
 <p>If you did not see any error messages, then the data loaded in and
-you should see an “raw_st” object in your “Environment” tab on the
-right.</p>
+you should see an <code>raw_st</code> object in your
+<code>Environment</code> tab on the right.</p>
 
-<p>Let’s look at “raw_st”, which is a Seurat object.</p>
+<p>Let’s look at <code>raw_st</code>, which is a Seurat object.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -572,24 +577,27 @@ Active assay: Spatial (33538 features, 0 variable features)
  1 layer present: counts
  1 spatial field of view present: slice1</code></pre>
 </div>
-<p>The output says that we have 33,538 “features” and 4,992 “samples”
-with one assay. “Feature” is a generic term for anything that we
-measured. In this case, we measured gene expression, so each feature is
-a gene. Each “sample” is one spot on the spatial slide. So this tissue
-sample has 33,538 genes assayed across 4,992 spots.</p>
-<p>An experiment may have more than one “assay.” For example, you may
-run both RNA sequencing and chromatin accessibility in the same set of
-samples. In this case, we have one assay – RNA-seq. Each assay will, in
-turn, have one or more “layers.” Each layer stores a different form of
-the data. Initially, our Seurat object has a single “counts” layer,
-holding the raw, un-normalized RNA-seq counts for each spot. Subsequent
-downstream analyses can populate other layers, including normalized
-counts (conventionally stored in a “data” layer) or variance-stabilized
-counts (conventionally stored in a “scale.data” layer).</p>
-<p>There is also a single image called “slice1” attached to the Seurat
-object.</p>
+<p>The output says that we have 33,538 <em>features</em> and 4,992
+<em>samples</em> with one assay. <em>Feature</em> is a generic term for
+anything that we measured. In this case, we measured gene expression, so
+each feature is a gene. Each <em>sample</em> is one spot on the spatial
+slide. So this tissue sample has 33,538 genes assayed across 4,992
+spots.</p>
+<p>An experiment may have more than one <em>assay</em>. For example, you
+may run both RNA sequencing and chromatin accessibility in the same set
+of samples. In this case, we have one assay – RNA-seq. Each assay will,
+in turn, have one or more <em>layers</em>. Each layer stores a different
+form of the data. Initially, our Seurat object has a single
+<em>counts</em> layer, holding the raw, un-normalized RNA-seq counts for
+each spot. Subsequent downstream analyses can populate other layers,
+including normalized counts (conventionally stored in a <em>data</em>
+layer) or variance-stabilized counts (conventionally stored in a
+<em>scale.data</em> layer).</p>
+<p>There is also a single image called <em>slice1</em> attached to the
+Seurat object.</p>
 <p>Next, we will load in the filtered data. Use the code above and look
-in a file browser to identify the “filtered” file for sample 151673.</p>
+in a file browser to identify the <code>filtered</code> file for sample
+151673.</p>
 <div id="challenge-1-read-in-filtered-hdf5-file-for-sample-151673." class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -598,11 +606,12 @@ in a file browser to identify the “filtered” file for sample 151673.</p>
 <h3 class="callout-title">Challenge 1: Read in filtered HDF5 file for sample 151673.<a class="anchor" aria-label="anchor" href="#challenge-1-read-in-filtered-hdf5-file-for-sample-151673."></a>
 </h3>
 <div class="callout-content">
-<p>Open a file browser and navigate to “Desktop/spatialRNA/data/151673”.
-Can you find an HDF5 file (with an “.h5” suffix) that haw the word
-“filtered” in it?</p>
+<p>Open a file browser and navigate to
+<code>Desktop/spatialRNA/data/151673</code>. Can you find an HDF5 file
+(with an <code>.h5</code> suffix) that has the word “filtered” in
+it?</p>
 <p>If so, read that file in and assign it to a variable called
-“filter_st”.</p>
+<code>filter_st</code>.</p>
 </div>
 </div>
 </div>
@@ -643,17 +652,17 @@ Active assay: Spatial (33538 features, 0 variable features)
 <p>The raw and filtered data both have the same number of genes(33,538).
 But the two objects have different numbers of spots. The raw data has
 4,992 spots and the filtered data has 4,384 spots.</p>
-<p>Look at the H&amp;E slide below and notice the grey “fiducial” spots
-around the border. These are used by the spatial transcriptomics
-software to “register” the H&amp;E image and the spatially-barcoded
-sequences.</p>
+<p>Look at the H&amp;E slide below and notice the grey <em>fiducial</em>
+spots around the border. These are used by the spatial transcriptomics
+software to <em>register</em> the H&amp;E image and the
+spatially-barcoded sequences.</p>
 <figure><img src="fig/tissue_hires_image_151673.png" alt="H &amp; E slide of sample 151673" class="figure mx-auto d-block"><div class="figcaption">H &amp; E slide of sample 151673</div>
-</figure><div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image." class="callout challenge">
+</figure><div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image." class="callout-inner">
-<h3 class="callout-title">Challenge 2: How does the computer know how to orient the image?.<a class="anchor" aria-label="anchor" href="#challenge-2-how-does-the-computer-know-how-to-orient-the-image."></a>
+<div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image" class="callout-inner">
+<h3 class="callout-title">Challenge 2: How does the computer know how to orient the image?<a class="anchor" aria-label="anchor" href="#challenge-2-how-does-the-computer-know-how-to-orient-the-image"></a>
 </h3>
 <div class="callout-content">
 <p>Look carefully at the spots in the H&amp;E image above. Are the spots
@@ -682,9 +691,9 @@ software to orient the slide.</p>
 <a class="anchor" aria-label="anchor" href="#add-spot-metadata"></a></h2>
 <hr class="half-width"><p>Next, we will read a file containing information about whether each
 spot is in the background or the tissue. This file does not contain
-column names, although the next version of <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link">SpaceRanger
-2.0</a>, which is used to process the data at the sequencing core,
-should add column names to this file.</p>
+column names, although the next version of <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link"><code>SpaceRanger 2.0</code></a>,
+which is used to process the data at the sequencing core, should add
+column names to this file.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -701,11 +710,11 @@ should add column names to this file.</p>
 <p>It is important to note that the order of the spots differs between
 the Seurat object and the tissue position file. We need to reorder the
 tissue positions to match the Seurat object. We can extract the spot
-barcodes using the <a href="https://satijalab.org/seurat/reference/cells" class="external-link">Cells()</a>
+barcodes using the <a href="https://satijalab.org/seurat/reference/cells" class="external-link"><code>Cells</code></a>
 function. This is named for the earlier versions of Seurat, which
 processed single cell transcriptomic data. In this case, we are getting
 <strong>spot</strong> IDs, even though the function is called
-“Cells”.</p>
+<code>Cells</code>.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -738,8 +747,8 @@ Identifier (UMI). This allows us to keep only one unique sequencing read
 per molecule and to exclude those arising from PCR duplication. We
 expect most of the UMI counts to be in the tissue spots. The Seurat
 object metadata contains the UMI count in each spot in a column called
-“nCount_Spatial”. Let’s plot the UMI counts in the tissue and background
-spots.</p>
+<code>nCount_Spatial</code>. Let’s plot the UMI counts in the tissue and
+background spots.</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -755,8 +764,9 @@ spots.</p>
 UMI Counts in Tissue and Background
 </figcaption></figure><p>As expected, we see most of the counts in the tissue spots.</p>
 <p>We can also plot the number of genes detected in each spot. Seurat
-calls genes “features”, so we will plot the “nFeature_Spatial” value.
-This is stored in the metadata of the Seurat object.</p>
+calls genes <em>features</em>, so we will plot the
+<code>nFeature_Spatial</code> value. This is stored in the metadata of
+the Seurat object.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -823,14 +833,15 @@ associated with this data, the authors show the structure that they
 expect in this tissue section of the human dorsolateral prefrontal
 cortex (DLPFC). In the figure below, they show a series of layers, from
 L1 to L6, arranged from the upper right to the lower left. In the lower
-left corner, they expect to see “White Matter” (WM). So we expect to see
-some series of layers arranged from the upper right to the lower
+left corner, they expect to see <em>White Matter</em> (WM). So we expect
+to see some series of layers arranged from the upper right to the lower
 left.</p>
 <!-- ![Maynard et al, Figure 1c](fig/Maynard_etal_Fig1c.png){alt="Figure 1c"} -->
-<p>We will use Seurat’s <a href="https://satijalab.org/seurat/reference/spatialplot" class="external-link">SpatialFeaturePlot</a>
+<p>We will use Seurat’s <a href="https://satijalab.org/seurat/reference/spatialplot" class="external-link"><code>SpatialFeaturePlot</code></a>
 function to look at these values. We can color the spots based on the
 spot metadata stored in the Seurat object. You can find these column
-names by looking at the “meta.data” slot of the Seurat object.</p>
+names by looking at the <code>meta.data</code> slot of the Seurat
+object.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -855,8 +866,8 @@ AAACAGAGCGACTCCT-1        14        94               4151               9271
 AAACAGCTTTCAGAAG-1        43         9               7583               3393
 AAACAGGGTCTATATT-1        47        13               8064               3665</code></pre>
 </div>
-<p>To plot the UMI counts, we will use the “nCount_Spatial” column in
-the spot metadata.</p>
+<p>To plot the UMI counts, we will use the <code>nCount_Spatial</code>
+column in the spot metadata.</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -874,7 +885,7 @@ this band. The band in the upper right corner may be due to the fissure
 in the tissue. It is less clear why the expression is low in the
 lower-left corner.</p>
 <p>We can also look at the number of genes detected in each spot using
-“nFeature_Spatial”.</p>
+<code>nFeature_Spatial</code>.</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -969,10 +980,10 @@ Not validating FOV objects</code></pre>
 <div class="callout-content">
 <ul><li>The 10x Space Ranger pipeline provides you with an unfiltered and a
 filtered data file.</li>
-<li>The HDF5 file ends with an “h5” extension and contains the barcodes,
-features (genes), and counts matrix.</li>
-<li>Seurat is one, of several, popular environments for analyzing
-spatial transcriptomics data.</li>
+<li>The HDF5 file ends with an <code>h5</code> extension and contains
+the barcodes, features (genes), and counts matrix.</li>
+<li>Seurat is one of several popular environments for analyzing spatial
+transcriptomics data.</li>
 <li>It is important to know something about the structure of the tissue
 which you are analyzing.</li>
 <li>Plotting total counts and genes in each spot may help to identify
@@ -1042,7 +1053,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-20",
+  "dateModified": "2024-07-15",
   "datePublished": "2024-07-15"
 }
 

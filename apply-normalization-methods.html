@@ -353,7 +353,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Normalization in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-07-12 |
+        <p>Last updated on 2024-07-15 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-normalization-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -438,9 +438,9 @@ column and making a histogram.</p>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>As you can see, the total counts per spot ranges cross three orders
 of magnitude. Some of this may be due to the biology of the tissue,
-i.e. some cells may express more transcripts. But some of this may be
-due to technical issues. Let’s explore each of these two considerations
-further.</p>
+<em>i.e.</em> some cells may express more transcripts. But some of this
+may be due to technical issues. Let’s explore each of these two
+considerations further.</p>
 </div>
 <div class="section level3">
 <h3 id="sources-of-biological-variation-in-total-counts">Sources of Biological Variation in Total Counts<a class="anchor" aria-label="anchor" href="#sources-of-biological-variation-in-total-counts"></a></h3>
@@ -520,10 +520,11 @@ UMIs per spot as a function of layer.</p>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Layer 1 has fewer UMIs, consistent with its lower cell count. An
 increase in UMIs consistent with that in cell count is not observed for
 the white matter, however. Despite this imperfect correlation between
-UMI and cell counts, we wish to emphasize that UMI (i.e., read) counts,
-as well as feature (i.e., gene) counts, can encode biological
-information. That certainly occurs here. As such, we strongly recommend
-visualizing raw UMI and features counts prior to normalization.</p>
+UMI and cell counts, we wish to emphasize that UMI (<em>i.e.</em>, read)
+counts, as well as feature (<em>i.e.</em>, gene) counts, can encode
+biological information. That certainly occurs here. As such, we strongly
+recommend visualizing raw UMI and features counts prior to
+normalization.</p>
 </div>
 <div class="section level3">
 <h3 id="normalization-techniques-to-mitigate-sources-of-technical-variation-in-total-counts">Normalization Techniques to Mitigate Sources of Technical Variation
@@ -578,7 +579,7 @@ object.</p>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "counts" "data"  </code></pre>
 </div>
-<p>Our goal is that the variance should be stabilized – i.e.,
+<p>Our goal is that the variance should be stabilized – <em>i.e.</em>,
 independent of the mean. Let’s plot this <em>mean-variance</em>
 relationship with the <a href="https://satijalab.org/seurat/reference/variablefeatureplot" class="external-link"><code>VariableFeaturePlot</code></a>
 function. We aim for a flat line, indicating no trend between mean and
@@ -754,7 +755,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>In the Log-normalization plot, the variation in the variance is wider
 for genes with lower expression and lower for genes with higher
@@ -904,7 +905,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-07-12",
+  "dateModified": "2024-07-15",
   "datePublished": "2024-07-15"
 }
 
