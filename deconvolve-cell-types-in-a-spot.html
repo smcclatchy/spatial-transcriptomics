@@ -271,7 +271,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#deconvolution-in-spatial-transcriptomics">Deconvolution in Spatial Transcriptomics</a></li>
-<li><a href="#deconvolution-with-rctd-robust-cell-type-decomposition">Deconvolution with RCTD (Robust Cell Type Decomposition)</a></li>
+<li><a href="#deconvolution-with-robust-cell-type-decomposition-rctd">Deconvolution with Robust Cell Type Decomposition (RCTD)</a></li>
 <li><a href="#loading-scrna-seq-reference-data">Loading scRNA-seq reference data</a></li>
 <li><a href="#applying-rctd-for-spot-deconvolution">Applying RCTD for spot deconvolution</a></li>
 <li><a href="#running-deconvolution-on-brain-samples">Running Deconvolution on Brain Samples</a></li>
@@ -359,7 +359,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Deconvolution in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-06-20 |
+        <p>Last updated on 2024-07-15 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/deconvolve-cell-types-in-a-spot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -388,9 +388,10 @@ transcriptomics spots?</li>
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Understand deconvolution.</li>
+<ul><li>Explain spot deconvolution.</li>
 <li>Perform deconvolution to quantify different cell types in spatial
-transcriptomics spots using scRNA-seq data.</li>
+transcriptomics spots using a supervised approach that employs scRNA-seq
+data.</li>
 </ul></div>
 </div>
 </div>
@@ -413,30 +414,31 @@ expression of the cell types first.</p>
 et al, Comput Struct Biotechnol J 21, 176–184 (2023)</a>
 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license" class="external-link">CC
 BY-NC-ND 4.0</a></p>
-</section><section><h2 class="section-heading" id="deconvolution-with-rctd-robust-cell-type-decomposition">Deconvolution with RCTD (Robust Cell Type Decomposition)<a class="anchor" aria-label="anchor" href="#deconvolution-with-rctd-robust-cell-type-decomposition"></a>
-<a class="anchor" aria-label="anchor" href="#deconvolution-with-rctd-robust-cell-type-decomposition"></a></h2>
+</section><section><h2 class="section-heading" id="deconvolution-with-robust-cell-type-decomposition-rctd">Deconvolution with Robust Cell Type Decomposition (RCTD)<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a>
+<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a></h2>
 <hr class="half-width"><p>We will deconvolve spots by applying Robust Cell Type Decomposition
 (RCTD; <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190" class="external-link">Cable, D.
 M., et al., Nature Biotechnology, 2021</a>), which is implemented in the
-<a href="https://github.com/dmcable/spacexr" class="external-link">spacexr</a> package. The
-algorithm uses scRNA-seq data as a reference to deconvolve the spatial
-transcriptomics data, estimating the proportions of different cell types
-in each spatial spot. RCTD models the observed gene expression in each
-spatial spot as a mixture of the gene expression profiles of different
-cell types, where the estimated proportions are the coefficients of the
-expression profiles in a linear model. Its procedure guarantees the
-<em>estimated</em> proportions are non-negative, but not that they sum
-to one. RCTD can operate in several modes: in “doublet” mode it fits at
-most two cell types per spot, in “full” mode it fits potentially all
-cell types in the reference per spot, and in “multi” mode it again fits
-more than two cell types per spot by extending the “doublet” approach.
-Here, we will use “full” mode.</p>
+<a href="https://github.com/dmcable/spacexr" class="external-link"><code>spacexr</code></a>
+package. The algorithm uses scRNA-seq data as a reference to deconvolve
+the spatial transcriptomics data, estimating the proportions of
+different cell types in each spatial spot. RCTD models the observed gene
+expression in each spatial spot as a mixture of the gene expression
+profiles of different cell types, where the estimated proportions are
+the coefficients of the expression profiles in a linear model. Its
+procedure guarantees the <em>estimated</em> proportions are
+non-negative, but not that they sum to one. RCTD can operate in several
+modes: in <code>doublet</code> mode it fits at most two cell types per
+spot, in <code>full</code> mode it fits potentially all cell types in
+the reference per spot, and in <code>multi</code> mode it again fits
+more than two cell types per spot by extending the <code>doublet</code>
+approach. Here, we will use <code>full</code> mode.</p>
 </section><section><h2 class="section-heading" id="loading-scrna-seq-reference-data">Loading scRNA-seq reference data<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a>
 <a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a></h2>
 <hr class="half-width"><p>First, we load the scRNA-seq data that will serve as a reference for
 deconvolution. Individual cells are assumed to be annotated according to
 their type. RCTD will use these cell type-specific expression profiles
-to deconvolve each spot’s expression. Please note the use of <a href="https://www.rdocumentation.org/packages/data.table/versions/1.15.4/topics/fread" class="external-link">fread</a>
+to deconvolve each spot’s expression. Please note the use of <a href="https://www.rdocumentation.org/packages/data.table/versions/1.15.4/topics/fread" class="external-link"><code>fread</code></a>
 from the data.table package. This provides an efficient means of loading
 large data tables in csv and tsv format.</p>
 <div class="codewrapper sourceCode" id="cb1">
@@ -457,7 +459,7 @@ large data tables in csv and tsv format.</p>
 <span><span class="va">sc.counts</span>     <span class="op">&lt;-</span> <span class="va">sc.counts</span><span class="op">[</span>, <span class="va">shared.cells</span><span class="op">]</span></span></code></pre>
 </div>
 <p>Next, we will create the reference object encapsulating this
-scRNA-seq data. We will use the <a href="https://rdrr.io/github/dmcable/RCTD/man/Reference.html" class="external-link">Reference</a>
+scRNA-seq data. We will use the <a href="https://rdrr.io/github/dmcable/RCTD/man/Reference.html" class="external-link"><code>Reference</code></a>
 function, which will organize and store the scRNA-seq data for the next
 steps.</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -470,11 +472,11 @@ steps.</p>
 <a class="anchor" aria-label="anchor" href="#applying-rctd-for-spot-deconvolution"></a></h2>
 <hr class="half-width"><p>Let’s write a wrapper function that performs RCTD deconvolution. This
 will facilitate running RCTD on other samples within this dataset. It
-calls <a href="https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html" class="external-link">SpatialRNA</a>
+calls <a href="https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html" class="external-link"><code>SpatialRNA</code></a>
 to create an object representing the ST data, much as we did for the
-scRNA-seq data with Reference above. It then links the ST and scRNA-seq
-in an RCTD object created with <a href="https://rdrr.io/github/dmcable/RCTD/man/create.RCTD.html" class="external-link">create.RCTD</a>
-and finally performs deconvolution by calling <a href="https://rdrr.io/github/dmcable/RCTD/man/run.RCTD.html" class="external-link">run.RCTD</a>.</p>
+scRNA-seq data with <code>Reference</code> above. It then links the ST
+and scRNA-seq in an RCTD object created with <a href="https://rdrr.io/github/dmcable/RCTD/man/create.RCTD.html" class="external-link"><code>create.RCTD</code></a>
+and finally performs deconvolution by calling <a href="https://rdrr.io/github/dmcable/RCTD/man/run.RCTD.html" class="external-link"><code>run.RCTD</code></a>.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -491,10 +493,11 @@ and finally performs deconvolution by calling <a href="https://rdrr.io/github/dm
 <span>  <span class="co"># Create the RCTD 'puck', representing the ST data</span></span>
 <span>  <span class="va">puck</span>   <span class="op">&lt;-</span> <span class="fu">SpatialRNA</span><span class="op">(</span><span class="va">st.coords</span>, <span class="va">st.counts</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">create.RCTD</span><span class="op">(</span><span class="va">puck</span>, <span class="va">reference</span>, max_cores <span class="op">=</span> <span class="fl">1</span>, keep_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">create.RCTD</span><span class="op">(</span><span class="va">puck</span>, <span class="va">reference</span>, max_cores <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>                        keep_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="co"># Run deconvolution -- note that we are using 'full' mode to devolve a spot into </span></span>
-<span>  <span class="co"># (potentially) all available cell types.</span></span>
+<span>  <span class="co"># Run deconvolution -- note that we are using 'full' mode to devolve a spot </span></span>
+<span>  <span class="co"># into (potentially) all available cell types.</span></span>
 <span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">suppressWarnings</span><span class="op">(</span><span class="fu">run.RCTD</span><span class="op">(</span><span class="va">myRCTD</span>, doublet_mode <span class="op">=</span> <span class="st">'full'</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="va">myRCTD</span></span>
@@ -510,8 +513,8 @@ directly.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Change this variable to TRUE to load precomputed results, or FALSE to compute</span></span>
-<span><span class="co"># the results here.</span></span>
+<code class="sourceCode R"><span><span class="co"># Change this variable to TRUE to load precomputed results, or FALSE to </span></span>
+<span><span class="co"># compute the results here.</span></span>
 <span><span class="va">load.precomputed.results</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
 <span><span class="va">rds.file</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"data/rctd-sample-1.rds"</span><span class="op">)</span></span>
@@ -520,11 +523,12 @@ directly.</p>
 <span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">run.rctd</span><span class="op">(</span><span class="va">sc_reference</span>, <span class="va">filter_st</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference counts.</span></span>
-<span>  <span class="co"># This is necessary owing to constraints on sizes of files uploaded to github</span></span>
-<span>  <span class="co"># during the automated build of this site. It will not be required for your</span></span>
-<span>  <span class="co"># own analyses.</span></span>
-<span>  <span class="co"># We use the remove.RCTD.reference.counts utility function defined in code/spatial_utils.R.</span></span>
+<span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference </span></span>
+<span>  <span class="co"># counts. This is necessary owing to constraints on sizes of files </span></span>
+<span>  <span class="co"># uploaded to github during the automated build of this site. It will </span></span>
+<span>  <span class="co"># not be required for your own analyses.</span></span>
+<span>  <span class="co"># We use the remove.RCTD.reference.counts utility function defined in </span></span>
+<span>  <span class="co"># code/spatial_utils.R.</span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">remove.RCTD.reference.counts</span><span class="op">(</span><span class="va">result_1</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu">saveRDS</span><span class="op">(</span><span class="va">result_1</span>, <span class="va">rds.file</span><span class="op">)</span></span>
@@ -538,8 +542,8 @@ directly.</p>
 </section><section><h2 class="section-heading" id="interpreting-deconvolution-results">Interpreting Deconvolution Results<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a>
 <a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a></h2>
 <hr class="half-width"><p>RCTD outputs the proportion of different cell types in each spatial
-spot. These are held in the <a href="mailto:spatialRNA@counts" class="email">spatialRNA@counts</a> slot. Let’s see the proportions it
-predicts for this sample:</p>
+spot. These are held in the <code>spatialRNA@counts</code> slot. Let’s
+see the proportions it predicts for this sample:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -603,13 +607,15 @@ them alongside the authors’ annotations that we saw previously.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                        <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                        <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To be more quantitative, we can compute a confusion matrix comparing
 the layers predicted by RCTD with those annotated by the authors.</p>
@@ -617,14 +623,16 @@ the layers predicted by RCTD with those annotated by the authors.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, <span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, </span>
+<span>                                     <span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">colnames</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Annotation"</span>, <span class="st">"Prediction"</span>, <span class="st">"Freq"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Prediction</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Prediction</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Annotation</span>, y <span class="op">=</span> <span class="va">Prediction</span>, fill <span class="op">=</span> <span class="va">Freq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_tile</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, </span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that there is a fairly strong correlation between the predicted
 and observed layers, particularly for the pairs Oligodendrocytes and WM
@@ -723,8 +731,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/deconvolve-cell-types-in-a-spot.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/deconvolve-cell-types-in-a-spot.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-06-20",
-  "datePublished": "2024-07-12"
+  "dateModified": "2024-07-15",
+  "datePublished": "2024-07-15"
 }
 
   </script><script>

@@ -1661,7 +1661,7 @@ Can you find an HDF5 file (with an “.h5” suffix) that haw the word
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1717,7 +1717,7 @@ computer to assign up/down and left/right to the image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Look at the spots in each corner. In the upper-left, you will see the
 following patterns:</p>
@@ -1841,7 +1841,7 @@ occur in the background spots?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Solution 3 </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>When the tissue section is lysed, some transcripts may leak out of
@@ -2381,7 +2381,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2952,7 +2952,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-feature-selection-dimensionality-reduction-clustering"><p>Content from <a href="feature-selection-dimensionality-reduction-clustering.html">Feature Selection, Dimensionality Reduction, and Spot Clustering</a></p>
 <hr>
-<p>Last updated on 2024-07-12 |
+<p>Last updated on 2024-07-15 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/feature-selection-dimensionality-reduction-clustering.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -3053,7 +3053,8 @@ particularly in clustering and PCA. Typically, you will select in the
 range of 2,000 to 5,000 highly variable genes.</p>
 </div>
 <div class="section level3">
-<h3 id="feature-selection-with-sctransform">Feature Selection with SCTransform<a class="anchor" aria-label="anchor" href="#feature-selection-with-sctransform"></a>
+<h3 id="feature-selection-with-sctransform">Feature Selection with <code>SCTransform</code>
+<a class="anchor" aria-label="anchor" href="#feature-selection-with-sctransform"></a>
 </h3>
 <p><code>SCTransform</code>, a normalization method, adjusts gene
 expression data to stabilize the variance, and it also provides default
@@ -3083,7 +3084,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3241,8 +3242,8 @@ look at them again to compare them to our clusters.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
-<span>                        <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Layer"</span><span class="op">)</span> </span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Layer"</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The authors describe six layers arranged from the upper right to the
 lower left, and a white matter (WM) later. At this stage of the
@@ -3286,7 +3287,7 @@ cell type, so the clustering may not be as clear.</p>
 <span>         label.size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We have made some decisions above which might affect the quality of
-out spot clusters, including the number of nearest neighbors, the number
+our spot clusters, including the number of nearest neighbors, the number
 of variable features, the number of PCs, and the cluster resolution. As
 we have mentioned, it is critical to have some understanding of the
 structure of the tissue that you are analyzing. In the absence of
@@ -3334,7 +3335,7 @@ code block.</p>
 <span>                                          group.by <span class="op">=</span> <span class="st">"seurat_clusters"</span>, </span>
 <span>                                          cols <span class="op">=</span> <span class="va">color_pal</span><span class="op">)</span> <span class="op">+</span></span>
 <span>                          <span class="fu">ggtitle</span><span class="op">(</span><span class="fu">paste</span><span class="op">(</span><span class="st">"res ="</span>, <span class="va">resol</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">": pc ="</span>, <span class="va">npcs</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>                                  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span>                          <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="op">}</span> <span class="co"># for(j)</span></span>
 <span></span>
@@ -3351,7 +3352,7 @@ code block.</p>
 <span><span class="fu">dev.off</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
 <p>The plot below shows the clusters as colors overlayed on the tissue.
-Each row shows a different cluster resolutions and each column shows the
+Each row shows a different cluster resolution and each column shows the
 number of PCs.</p>
 <figure><img src="fig/tissue_cluster_resol.png" alt="Tissue Clustering showing the tissue layers at different resolutions and number of PCs" class="figure mx-auto d-block"><div class="figcaption">Tissue Clustering with Different Numbers of PCs
 and Clustering Resolutions</div>
@@ -3361,12 +3362,12 @@ plots above and below. Increasing the cluster resolution increases the
 number of clusters.</p>
 <figure><img src="fig/umap_cluster_resol.png" alt="UMAP Clustering with Different Numbers of PCs and Clustering Resolutions" class="figure mx-auto d-block"><div class="figcaption">UMAP Clustering with Different Numbers of PCs
 and Clustering Resolutions</div>
-</figure><div id="challenge-1-select-cluster-resolution-and-number-of-pcs." class="callout challenge">
+</figure><div id="challenge-1-select-cluster-resolution-and-number-of-pcs" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-1-select-cluster-resolution-and-number-of-pcs." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Select cluster resolution and number of PCs.<a class="anchor" aria-label="anchor" href="#challenge-1-select-cluster-resolution-and-number-of-pcs."></a>
+<div id="challenge-1-select-cluster-resolution-and-number-of-pcs" class="callout-inner">
+<h3 class="callout-title">Challenge 1: Select cluster resolution and number of PCs<a class="anchor" aria-label="anchor" href="#challenge-1-select-cluster-resolution-and-number-of-pcs"></a>
 </h3>
 <div class="callout-content">
 <p>Look at the two plots above which show the tissue and UMAP clusters
@@ -3382,7 +3383,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 1 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -3468,7 +3469,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-deconvolve-cell-types-in-a-spot"><p>Content from <a href="deconvolve-cell-types-in-a-spot.html">Deconvolution in Spatial Transcriptomics</a></p>
 <hr>
-<p>Last updated on 2024-06-20 |
+<p>Last updated on 2024-07-15 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/deconvolve-cell-types-in-a-spot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -3494,9 +3495,10 @@ transcriptomics spots?</li>
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Understand deconvolution.</li>
+<li>Explain spot deconvolution.</li>
 <li>Perform deconvolution to quantify different cell types in spatial
-transcriptomics spots using scRNA-seq data.</li>
+transcriptomics spots using a supervised approach that employs scRNA-seq
+data.</li>
 </ul>
 </div>
 </div>
@@ -3522,26 +3524,27 @@ expression of the cell types first.</p>
 et al, Comput Struct Biotechnol J 21, 176–184 (2023)</a>
 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license" class="external-link">CC
 BY-NC-ND 4.0</a></p>
-</section><section><h2 class="section-heading" id="deconvolution-with-rctd-robust-cell-type-decomposition">Deconvolution with RCTD (Robust Cell Type Decomposition)<a class="anchor" aria-label="anchor" href="#deconvolution-with-rctd-robust-cell-type-decomposition"></a>
-<a class="anchor" aria-label="anchor" href="#deconvolution-with-rctd-robust-cell-type-decomposition"></a>
+</section><section><h2 class="section-heading" id="deconvolution-with-robust-cell-type-decomposition-rctd">Deconvolution with Robust Cell Type Decomposition (RCTD)<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a>
+<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a>
 </h2>
 <hr class="half-width">
 <p>We will deconvolve spots by applying Robust Cell Type Decomposition
 (RCTD; <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190" class="external-link">Cable, D.
 M., et al., Nature Biotechnology, 2021</a>), which is implemented in the
-<a href="https://github.com/dmcable/spacexr" class="external-link">spacexr</a> package. The
-algorithm uses scRNA-seq data as a reference to deconvolve the spatial
-transcriptomics data, estimating the proportions of different cell types
-in each spatial spot. RCTD models the observed gene expression in each
-spatial spot as a mixture of the gene expression profiles of different
-cell types, where the estimated proportions are the coefficients of the
-expression profiles in a linear model. Its procedure guarantees the
-<em>estimated</em> proportions are non-negative, but not that they sum
-to one. RCTD can operate in several modes: in “doublet” mode it fits at
-most two cell types per spot, in “full” mode it fits potentially all
-cell types in the reference per spot, and in “multi” mode it again fits
-more than two cell types per spot by extending the “doublet” approach.
-Here, we will use “full” mode.</p>
+<a href="https://github.com/dmcable/spacexr" class="external-link"><code>spacexr</code></a>
+package. The algorithm uses scRNA-seq data as a reference to deconvolve
+the spatial transcriptomics data, estimating the proportions of
+different cell types in each spatial spot. RCTD models the observed gene
+expression in each spatial spot as a mixture of the gene expression
+profiles of different cell types, where the estimated proportions are
+the coefficients of the expression profiles in a linear model. Its
+procedure guarantees the <em>estimated</em> proportions are
+non-negative, but not that they sum to one. RCTD can operate in several
+modes: in <code>doublet</code> mode it fits at most two cell types per
+spot, in <code>full</code> mode it fits potentially all cell types in
+the reference per spot, and in <code>multi</code> mode it again fits
+more than two cell types per spot by extending the <code>doublet</code>
+approach. Here, we will use <code>full</code> mode.</p>
 </section><section><h2 class="section-heading" id="loading-scrna-seq-reference-data">Loading scRNA-seq reference data<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a>
 <a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a>
 </h2>
@@ -3549,7 +3552,7 @@ Here, we will use “full” mode.</p>
 <p>First, we load the scRNA-seq data that will serve as a reference for
 deconvolution. Individual cells are assumed to be annotated according to
 their type. RCTD will use these cell type-specific expression profiles
-to deconvolve each spot’s expression. Please note the use of <a href="https://www.rdocumentation.org/packages/data.table/versions/1.15.4/topics/fread" class="external-link">fread</a>
+to deconvolve each spot’s expression. Please note the use of <a href="https://www.rdocumentation.org/packages/data.table/versions/1.15.4/topics/fread" class="external-link"><code>fread</code></a>
 from the data.table package. This provides an efficient means of loading
 large data tables in csv and tsv format.</p>
 <div class="codewrapper sourceCode" id="cb1">
@@ -3570,7 +3573,7 @@ large data tables in csv and tsv format.</p>
 <span><span class="va">sc.counts</span>     <span class="op">&lt;-</span> <span class="va">sc.counts</span><span class="op">[</span>, <span class="va">shared.cells</span><span class="op">]</span></span></code></pre>
 </div>
 <p>Next, we will create the reference object encapsulating this
-scRNA-seq data. We will use the <a href="https://rdrr.io/github/dmcable/RCTD/man/Reference.html" class="external-link">Reference</a>
+scRNA-seq data. We will use the <a href="https://rdrr.io/github/dmcable/RCTD/man/Reference.html" class="external-link"><code>Reference</code></a>
 function, which will organize and store the scRNA-seq data for the next
 steps.</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -3585,11 +3588,11 @@ steps.</p>
 <hr class="half-width">
 <p>Let’s write a wrapper function that performs RCTD deconvolution. This
 will facilitate running RCTD on other samples within this dataset. It
-calls <a href="https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html" class="external-link">SpatialRNA</a>
+calls <a href="https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html" class="external-link"><code>SpatialRNA</code></a>
 to create an object representing the ST data, much as we did for the
-scRNA-seq data with Reference above. It then links the ST and scRNA-seq
-in an RCTD object created with <a href="https://rdrr.io/github/dmcable/RCTD/man/create.RCTD.html" class="external-link">create.RCTD</a>
-and finally performs deconvolution by calling <a href="https://rdrr.io/github/dmcable/RCTD/man/run.RCTD.html" class="external-link">run.RCTD</a>.</p>
+scRNA-seq data with <code>Reference</code> above. It then links the ST
+and scRNA-seq in an RCTD object created with <a href="https://rdrr.io/github/dmcable/RCTD/man/create.RCTD.html" class="external-link"><code>create.RCTD</code></a>
+and finally performs deconvolution by calling <a href="https://rdrr.io/github/dmcable/RCTD/man/run.RCTD.html" class="external-link"><code>run.RCTD</code></a>.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3606,10 +3609,11 @@ and finally performs deconvolution by calling <a href="https://rdrr.io/github/dm
 <span>  <span class="co"># Create the RCTD 'puck', representing the ST data</span></span>
 <span>  <span class="va">puck</span>   <span class="op">&lt;-</span> <span class="fu">SpatialRNA</span><span class="op">(</span><span class="va">st.coords</span>, <span class="va">st.counts</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">create.RCTD</span><span class="op">(</span><span class="va">puck</span>, <span class="va">reference</span>, max_cores <span class="op">=</span> <span class="fl">1</span>, keep_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">create.RCTD</span><span class="op">(</span><span class="va">puck</span>, <span class="va">reference</span>, max_cores <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>                        keep_reference <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span>  <span class="co"># Run deconvolution -- note that we are using 'full' mode to devolve a spot into </span></span>
-<span>  <span class="co"># (potentially) all available cell types.</span></span>
+<span>  <span class="co"># Run deconvolution -- note that we are using 'full' mode to devolve a spot </span></span>
+<span>  <span class="co"># into (potentially) all available cell types.</span></span>
 <span>  <span class="va">myRCTD</span> <span class="op">&lt;-</span> <span class="fu">suppressWarnings</span><span class="op">(</span><span class="fu">run.RCTD</span><span class="op">(</span><span class="va">myRCTD</span>, doublet_mode <span class="op">=</span> <span class="st">'full'</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="va">myRCTD</span></span>
@@ -3627,8 +3631,8 @@ directly.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Change this variable to TRUE to load precomputed results, or FALSE to compute</span></span>
-<span><span class="co"># the results here.</span></span>
+<code class="sourceCode R"><span><span class="co"># Change this variable to TRUE to load precomputed results, or FALSE to </span></span>
+<span><span class="co"># compute the results here.</span></span>
 <span><span class="va">load.precomputed.results</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span></span>
 <span><span class="va">rds.file</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"data/rctd-sample-1.rds"</span><span class="op">)</span></span>
@@ -3637,11 +3641,12 @@ directly.</p>
 <span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">run.rctd</span><span class="op">(</span><span class="va">sc_reference</span>, <span class="va">filter_st</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference counts.</span></span>
-<span>  <span class="co"># This is necessary owing to constraints on sizes of files uploaded to github</span></span>
-<span>  <span class="co"># during the automated build of this site. It will not be required for your</span></span>
-<span>  <span class="co"># own analyses.</span></span>
-<span>  <span class="co"># We use the remove.RCTD.reference.counts utility function defined in code/spatial_utils.R.</span></span>
+<span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference </span></span>
+<span>  <span class="co"># counts. This is necessary owing to constraints on sizes of files </span></span>
+<span>  <span class="co"># uploaded to github during the automated build of this site. It will </span></span>
+<span>  <span class="co"># not be required for your own analyses.</span></span>
+<span>  <span class="co"># We use the remove.RCTD.reference.counts utility function defined in </span></span>
+<span>  <span class="co"># code/spatial_utils.R.</span></span>
 <span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">remove.RCTD.reference.counts</span><span class="op">(</span><span class="va">result_1</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu">saveRDS</span><span class="op">(</span><span class="va">result_1</span>, <span class="va">rds.file</span><span class="op">)</span></span>
@@ -3657,8 +3662,8 @@ directly.</p>
 </h2>
 <hr class="half-width">
 <p>RCTD outputs the proportion of different cell types in each spatial
-spot. These are held in the <a href="mailto:spatialRNA@counts" class="email">spatialRNA@counts</a> slot. Let’s see the proportions it
-predicts for this sample:</p>
+spot. These are held in the <code>spatialRNA@counts</code> slot. Let’s
+see the proportions it predicts for this sample:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3722,13 +3727,15 @@ them alongside the authors’ annotations that we saw previously.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                        <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                        <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To be more quantitative, we can compute a confusion matrix comparing
 the layers predicted by RCTD with those annotated by the authors.</p>
@@ -3736,14 +3743,16 @@ the layers predicted by RCTD with those annotated by the authors.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, <span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, </span>
+<span>                                     <span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">colnames</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Annotation"</span>, <span class="st">"Prediction"</span>, <span class="st">"Freq"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Prediction</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Prediction</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Annotation</span>, y <span class="op">=</span> <span class="va">Prediction</span>, fill <span class="op">=</span> <span class="va">Freq</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">geom_tile</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<span>  <span class="fu">theme</span><span class="op">(</span>text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>, </span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, vjust <span class="op">=</span> <span class="fl">1</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that there is a fairly strong correlation between the predicted
 and observed layers, particularly for the pairs Oligodendrocytes and WM
@@ -4233,7 +4242,7 @@ did we use? Load those in now.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4269,7 +4278,7 @@ sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4301,7 +4310,7 @@ sample’s metadata to your Seurat object.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4347,7 +4356,7 @@ Data Preprocessing lesson and adapt it to your tissue sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4379,7 +4388,7 @@ of at least 10 counts. How many genes did you end up with?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4426,7 +4435,7 @@ select?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4569,7 +4578,7 @@ for by each PC.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4620,7 +4629,7 @@ algorithm?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>We selected 50 PCs and a cluster resoltion of 1 for this exercise.
 This may not be optimal. You will have a chance to vary these parameters
@@ -4692,7 +4701,7 @@ in Seurat.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4745,7 +4754,7 @@ et al.</a>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution10" aria-expanded="false" aria-controls="collapseSolution10">
   <h4 class="accordion-header" id="headingSolution10"> Show me the solution </h4>
 </button>
-<div id="collapseSolution10" class="accordion-collapse collapse" data-bs-parent="#accordionSolution10" aria-labelledby="headingSolution10">
+<div id="collapseSolution10" class="accordion-collapse collapse" aria-labelledby="headingSolution10" data-bs-parent="#accordionSolution10">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4780,7 +4789,7 @@ look more like the results in the manuscript?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution11" aria-expanded="false" aria-controls="collapseSolution11">
   <h4 class="accordion-header" id="headingSolution11"> Show me the solution </h4>
 </button>
-<div id="collapseSolution11" class="accordion-collapse collapse" data-bs-parent="#accordionSolution11" aria-labelledby="headingSolution11">
+<div id="collapseSolution11" class="accordion-collapse collapse" aria-labelledby="headingSolution11" data-bs-parent="#accordionSolution11">
 <div class="accordion-body">
 <p>For class discussion.</p>
 </div>
@@ -4856,8 +4865,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-07-12",
-  "datePublished": "2024-07-12"
+  "dateModified": "2024-07-15",
+  "datePublished": "2024-07-15"
 }
 
   </script><script>
