@@ -11,7 +11,8 @@ able to:
 - Describe different spatial transcriptomics technologies and the best uses of 
 each.
 - Identify important elements for good experimental design.
-- Analyze spatial transcriptomics data, including quality control, transcript quantification, and cell-type assignment within regions.
+- Analyze spatial transcriptomics data, including quality control, transcript 
+quantification, and cell-type assignment within regions.
 
 ## Prerequisites
 

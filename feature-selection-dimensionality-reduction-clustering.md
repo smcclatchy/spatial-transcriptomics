@@ -77,7 +77,7 @@ becomes essential. This method requires the selection of highly variable genes
 to enhance the analysis, particularly in clustering and PCA. Typically, you will 
 select in the range of 2,000 to 5,000 highly variable genes.
 
-### Feature Selection with SCTransform
+### Feature Selection with `SCTransform`
 
 `SCTransform`, a normalization method, adjusts gene expression data to 
 stabilize the variance, and it also provides default feature selection. 
@@ -248,8 +248,8 @@ them again to compare them to our clusters.
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], 
-                        "layer_guess") + labs(fill="Layer") 
+SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") +
+  labs(fill="Layer") 
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
@@ -298,7 +298,7 @@ UMAPPlot(filter_st,
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
-We have made some decisions above which might affect the quality of out spot 
+We have made some decisions above which might affect the quality of our spot 
 clusters, including the number of nearest neighbors, the number of variable 
 features, the number of PCs, and the cluster resolution. As we have mentioned, 
 it is critical to have some understanding of the structure of the tissue that 
@@ -345,7 +345,7 @@ for(i in seq_along(resol)) {
                                           group.by = "seurat_clusters", 
                                           cols = color_pal) +
                           ggtitle(paste("res =", resol[i], ": pc =", npcs[j])) + 
-                                  theme(legend.position = "none")
+                          theme(legend.position = "none")
 
   } # for(j)
 
@@ -363,7 +363,7 @@ dev.off()
 ```
 
 The plot below shows the clusters as colors overlayed on the tissue. Each row
-shows a different cluster resolutions and each column shows the number of PCs. 
+shows a different cluster resolution and each column shows the number of PCs. 
 
 ![Tissue Clustering with Different Numbers of PCs and Clustering Resolutions](fig/tissue_cluster_resol.png){alt="Tissue Clustering showing the tissue layers at different resolutions and number of PCs"}
 
@@ -375,7 +375,7 @@ Increasing the cluster resolution increases the number of clusters.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Select cluster resolution and number of PCs.
+## Challenge 1: Select cluster resolution and number of PCs
 
 Look at the two plots above which show the tissue and UMAP clusters at 
 different cluster resolutions and number of PCs. Think about which 
