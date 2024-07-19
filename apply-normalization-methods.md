@@ -168,6 +168,60 @@ normalization.
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
+#### "Counts Per Million" Library Size Normalization 
+
+The first technical issue we noted above was a difference in total counts
+or library size across spots. A straightfoward means of addressing this
+is simply to divide all gene counts within the spot by the total counts in that
+spot. Conventionally, we then multiply by a million, which yields 
+"counts per million" (CPM). This approach is susceptible to "compositional
+bias" -- if a small number of genes make a large contribution to the total
+count, any significant fluctuation in their expression across samples will
+impact the quantification of all other genes. To overcome this, more robust
+measures of library size that are more resilient to compositional bias
+are sometimes used, including the 75th percentile of counts within a sample 
+(or here, spot). For simplicity, here we will use CPM.
+
+In Seurat, we can apply this transformation via the `NormalizeData` function,
+parameterized by the relative counts (or "RC") normalization method:
+
+
+``` r
+cpm_st <- NormalizeData(filter_st, 
+                        assay                = "Spatial", 
+                        normalization.method = "RC", 
+                        scale.factor         = 1e6)
+```
+
+NormalizeData adds a `data` object to the Seurat object. 
+
+
+``` r
+Layers(cpm_st)
+```
+
+``` output
+[1] "counts" "data"  
+```
+
+We can confirm that we have indeed normalized away differences in total 
+counts -- all spots now having one million reads:
+
+
+``` r
+head(colSums(LayerData(cpm_st, "data")))
+```
+
+``` output
+AAACAAGTATCTCCCA-1 AAACAATCTACTAGCA-1 AAACACCAATAACTGC-1 AAACAGAGCGACTCCT-1 
+             1e+06              1e+06              1e+06              1e+06 
+AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1 
+             1e+06              1e+06 
+```
+
+WORKING: next goal is to show that cpms don't stabilize variance,
+but FindVariableFeatures is not working with cpms.
+
 Mean-variance plots are an essential tool for assessing gene expression 
 variability relative to the mean expression levels across different spots. By 
 plotting the variance of gene expression against the mean expression level, 
@@ -236,7 +290,7 @@ plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
 plot_lognorm
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 As a sanity check that the normalization is something sensible, let's look 
 at the expression of two, known layer-restricted marker genes -- MOBP and PCP4.
@@ -247,14 +301,14 @@ MOBP is restricted to the white matter, while PCP4 is expressed in Layer 5.
 SpatialFeaturePlot(lognorm_st, slot="data", c("MOBP"))
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
 SpatialFeaturePlot(lognorm_st, slot="data", c("PCP4"))
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 Indeed, this is what we observe.
 
@@ -339,7 +393,7 @@ corrected_counts_sct <- LayerData(filter_st, layer = "data", assay = "SCT")
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 Let's plot the mean-variance relationship.
 
@@ -352,7 +406,7 @@ plot_sct    <- LabelPoints(plot = plot_sct, points = top15SCT, repel = TRUE)
 plot_sct
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
 residual variance is on the Y-axis. Each point shows one gene. By default, 
@@ -367,14 +421,14 @@ layer-restricted expression.
 SpatialFeaturePlot(filter_st, slot="data", c("MOBP"))
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 
 ``` r
 SpatialFeaturePlot(filter_st, slot="data", c("PCP4"))
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
@@ -424,7 +478,7 @@ counts_sct <- LayerData(filter_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 Notice that the log-normalization has a range of total counts per spot that
 ranges across several orders of magnitude. The SCT transform has a more uniform
@@ -437,13 +491,13 @@ Next, we will compare the mean-variance plots between the two methods.
 plot_lognorm
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 ``` r
 plot_sct
 ```
 
-<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-23-2.png" style="display: block; margin: auto;" />
+<img src="fig/apply-normalization-methods-rendered-unnamed-chunk-26-2.png" style="display: block; margin: auto;" />
 
 ### No One-Size-Fits-All Approach
 
