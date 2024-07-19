@@ -317,6 +317,8 @@ Pearson residuals, *i.e.*, the difference between an observed count and its
 expected value under the model used by `SCTransform`, divided by the standard 
 deviation in that count under the model).
 
+![Seurat object structure](./fig/seurat_object_assays_layers.png){alt='A diagram of the sttructure of a Seurat object showing the assays (Spatial & SCT) and Layers (counts, data & scale.data.'}
+
 
 ``` r
 ?SCTransform
