@@ -163,6 +163,46 @@ normalization.
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
+#### "Counts Per Million" Library Size Normalization 
+
+The first technical issue we noted above was a difference in total counts
+or library size across spots. A straightfoward means of addressing this
+is simply to divide all gene counts within the spot by the total counts in that
+spot. Conventionally, we then multiply by a million, which yields 
+"counts per million" (CPM). This approach is susceptible to "compositional
+bias" -- if a small number of genes make a large contribution to the total
+count, any significant fluctuation in their expression across samples will
+impact the quantification of all other genes. To overcome this, more robust
+measures of library size that are more resilient to compositional bias
+are sometimes used, including the 75th percentile of counts within a sample 
+(or here, spot). For simplicity, here we will use CPM.
+
+In Seurat, we can apply this transformation via the `NormalizeData` function,
+parameterized by the relative counts (or "RC") normalization method:
+
+```{r message=FALSE}
+cpm_st <- NormalizeData(filter_st, 
+                        assay                = "Spatial", 
+                        normalization.method = "RC", 
+                        scale.factor         = 1e6)
+```
+
+NormalizeData adds a `data` object to the Seurat object. 
+
+```{r message=FALSE}
+Layers(cpm_st)
+```
+
+We can confirm that we have indeed normalized away differences in total 
+counts -- all spots now having one million reads:
+
+```{r message=FALSE}
+head(colSums(LayerData(cpm_st, "data")))
+```
+
+WORKING: next goal is to show that cpms don't stabilize variance,
+but FindVariableFeatures is not working with cpms.
+
 Mean-variance plots are an essential tool for assessing gene expression 
 variability relative to the mean expression levels across different spots. By 
 plotting the variance of gene expression against the mean expression level, 
