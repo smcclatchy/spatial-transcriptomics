@@ -183,7 +183,6 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ydu
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/lasxuiq5wi3ms1jnokzmm7pp4hptr8ma.gz",
               destfile = "data/scRNA-seq/sc_counts.tsv.gz",
               mode     = "wb")
-
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/dt2chlmxtjajxfnlpfzolz1tvb6kic7p.rds",
               destfile = "data/rctd-sample-1.rds",
               mode     = "wb")
