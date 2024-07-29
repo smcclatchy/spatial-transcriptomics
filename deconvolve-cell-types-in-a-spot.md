@@ -72,17 +72,10 @@ data tables in csv and tsv format.
 sc.counts <- fread("data/scRNA-seq/sc_counts.tsv.gz") %>%
                column_to_rownames('V1') %>%
                as.matrix()
-#sc.counts           <- as.data.frame(sc.counts)
-#rownames(sc.counts) <- sc.counts[,1]
-#sc.counts           <- as.matrix(sc.counts[,-1])
- 
+
 # Load cell type annotations
 sc.metadata   <- read.delim("data/scRNA-seq/sc_cell_types.tsv")
 sc.cell.types <- setNames(factor(sc.metadata$Value), sc.metadata$Name)
-
-#shared.cells  <- intersect(colnames(sc.counts), names(sc.cell.types))
-#sc.cell.types <- sc.cell.types[shared.cells]
-#sc.counts     <- sc.counts[, shared.cells]
 
 # Verify that the barcodes in counts and cell types match.
 stopifnot(colnames(sc.counts) == names(sc.cell.types))
