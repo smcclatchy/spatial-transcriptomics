@@ -310,6 +310,27 @@ depending on your experimental question, you may want to remove those spots.
 But you should always look for patterns in the removed spots and convince
 yourself that they are not biasing your results.
 
+Note that we will only remove a few spots in this filtering step.
+
+
+``` r
+table(FetchData(filter_st, "keep")[,1])
+```
+
+``` output
+
+FALSE  TRUE 
+    6  3633 
+```
+
+We can remove the spots directly using the following syntax. In this case, the
+"columns" of the Seurat object correspond to the spots.
+
+
+``` r
+filter_st <- filter_st[,keep]
+```
+
 ::::::::::::::::::::::::::::::::::::: challenge 
 
 ## Challenge 1: Change the spot filtering thresholds.
@@ -336,7 +357,7 @@ filter_st$keep_counts <- keep_counts
 SpatialDimPlot(filter_st, group.by = "keep_counts")
 ```
 
-<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 Note that the spots that we have flagged seem to correspond to stripes in the
 tissue section. These may be regions of the brain which have lower levels of
@@ -345,27 +366,6 @@ this exercise shows that it is important to use judgement when filtering spots.
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::
-
-Note that we will only remove a few spots in this filtering step.
-
-
-``` r
-table(FetchData(filter_st, "keep")[,1])
-```
-
-``` output
-
-FALSE  TRUE 
-    6  3633 
-```
-
-We can remove the spots directly using the following syntax. In this case, the
-"columns" of the Seurat object correspond to the spots.
-
-
-``` r
-filter_st <- filter_st[,keep]
-```
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
