@@ -258,36 +258,158 @@ observation underscores the spatial correlation of gene expression, highlighting
 its potential relevance in understanding regional brain functions and 
 pathologies.
 
+## Differential Expression Analysis for Multiple Samples
+
+Till now we have explored spot-level analysis within one sample. However, most studies (including the published one that furnished the data we used here) include multiple samples.  This has some similarities to single cell-level DE analysis in 
+scRNA-seq. In the scRNA-seq setting, several studies, including one by [Squair, et al.](https://www.nature.com/articles/s41467-021-25960-2), have emphasized drawbacks of performing DE on individual cells. Single-cell DE may be caused by technical variability across single cells, biological variability that may not be of interest across conditions studied 
+(*e.g.*, transcriptional bursting), or simply by the large number of individual cells that inflate false positives. One solution is to perform *pseudobulking* of the scRNA-seq and then to use conventional bulk RNA-seq DE tools 
+(*e.g.*, DESeq2) to compare the pseudobulks. A Seurat [vignette](https://satijalab.org/seurat/articles/de_vignette) 
+describing the approach for scRNA-seq should likewise be applicable for spatial transcriptomics. However, we note the caveat that spots are not cells -- the former may have considerably more intra- and inter-spot biological heterogeneity. Hence, pseudobulking should be done with caution.
+
+We selected one sample from each subject (`151507`, `151669`, and `151673`), as detailed in the referenced study ([Maynard et al, Nat Neurosci 24, 425–436 (2021)](https://doi.org/10.1038/s41593-020-00787-0)). This selection allows us to analyze the consistency of differential expression across individuals while accounting for subject-specific batch effects.
+
+### Batch correction Analysis
+
+When working with multiple samples, batch effects can introduce technical variability that may confound biological signals. Batch correction methods can help mitigate these effects. In this section, we perform pseudobulk analysis and apply PCA to visualize any potential batch effects across layers.
+
+```{r batch-correction-analysis}
+selected_samples <- c("151507", "151669", "151673")
+
+# Initialize an empty list to store pseudobulked Seurat objects
+pseudobulked_objs <- list()
+
+# Pseudobulk each selected sample by aggregating expression within annotated layers
+for (i in selected_samples) {
+  pseudobulk_seurat <- AggregateExpression(objs[[i]], 
+                                           assays = 'Spatial', 
+                                           return.seurat = TRUE, 
+                                           group.by = 'layer_guess')
+  pseudobulk_seurat@meta.data$sample <- names(objs[i])
+  pseudobulk_seurat@meta.data$layer <- colnames(pseudobulk_seurat@assays[["Spatial"]])
+  
+  # Store the pseudobulked Seurat object in the list
+  pseudobulked_objs[[i]] <- pseudobulk_seurat
+}
+
+# Merge all pseudobulked Seurat objects into a single Seurat object
+merged_pseudobulk <- Reduce(function(x, y) merge(x, y), pseudobulked_objs)
+
+# Normalize, find variable features, and scale the data
+merged_pseudobulk <- NormalizeData(merged_pseudobulk, normalization.method = "LogNormalize", scale.factor = 1e6)
+merged_pseudobulk <- FindVariableFeatures(merged_pseudobulk)
+merged_pseudobulk <- ScaleData(merged_pseudobulk)
+
+# Run PCA on the merged pseudobulked data
+merged_pseudobulk <- RunPCA(merged_pseudobulk, features = VariableFeatures(object = merged_pseudobulk), npcs = 2)
+```
+
+To assess the presence of batch effects, we visualize the PCA results. Ideally, the samples should cluster by layer rather than by sample, indicating that batch effects are not a significant concern.
+
+```{r pca_results, fig.width=6}
+# Visualize PCA grouped by layer with increased point size and different shapes
+PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by = "layer", pt.size = 3) +
+  theme(legend.position = "right") +
+  ggtitle("PCA Plot Annotated by Layer (Shapes)")
+PCAPlot_layer_symbol
+```
+The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
+
+If the dots were instead clustered by sample rather than by layer, it would indicate the presence of batch effects.
+In bulk or single-cell RNA-seq studies, batch effects would typically be mitigated by applying regression-based tools such as [`Harmony`](https://portals.broadinstitute.org/harmony/articles/quickstart.html) or by incorporating a batch factor in a linear modeling framework (*e.g.*, of DESeq2). Those approaches could be applied to spatial transcriptomics data, as well.
+
+### Pseudobulk Analysis with DESeq2
+
+Pseudobulk analysis allows for the aggregation of single-cell or spot-level data into larger groups, which can reduce noise and enhance the detection of biologically meaningful signals. In this section, we perform differential expression analysis using DESeq2 on pseudobulked data. DESeq2 is a tool for differential expression analysis, particularly well-suited for count data, which is the type of data we have after aggregating the spatial transcriptomics spots into pseudobulks. It employs a statistical model that accounts for variability in read counts while controlling for factors such as sample size and sequencing depth. This makes it particularly powerful in situations where we expect relatively small changes in gene expression but need to ensure robustness against noise, making it an ideal choice for our pseudobulk analysis.
+
+```{r pseudobulk-analysis}
+all_columns <- list()
+
+# Function to process each sample and create a new matrix with WM vs. others
+process_sample <- function(sample_name, pseudobulked_objs) {
+  counts_matrix <- pseudobulked_objs[[sample_name]]@assays[["Spatial"]]@layers[["counts"]]
+  counts_matrix <- as(counts_matrix, "dgCMatrix")
+  layer_info <- pseudobulked_objs[[sample_name]]@meta.data[["layer_guess"]]
+  white_matter_col <- which(layer_info == "WM")
+  other_counts <- rowSums(counts_matrix[, -white_matter_col])
+  white_matter_counts <- counts_matrix[, white_matter_col]
+  new_matrix <- cbind(white_matter_counts, other_counts)
+  colnames(new_matrix) <- c(paste0("white_matter_", sample_name), paste0("other_", sample_name))
+  return(new_matrix)
+}
+
+# Process each sample and store the resulting matrices
+for (sample in selected_samples) {
+  new_matrix <- process_sample(sample, pseudobulked_objs)
+  all_columns[[sample]] <- new_matrix
+}
+
+# Combine all processed matrices into a single matrix
+combined_matrix <- do.call(cbind, all_columns)
+rownames(combined_matrix) <- rownames(pseudobulked_objs[[1]])
+
+# Create a dataframe for DESeq2 with sample and layer information
+sample <- rep(selected_samples, each = 2)
+layer <- rep(c('WM', 'others'), times = length(selected_samples))
+new_dataframe <- data.frame(sample = sample, layer = layer)
+rownames(new_dataframe) <- colnames(combined_matrix)
+
+# Perform differential expression analysis using DESeq2
+# Unfortunately, there are still dependency issues between DESeq2 and Seurat,
+# so we recommend not running this part. To prevent execution, we wrap the code in an `if (FALSE)` statement.
+if (FALSE) {
+  BiocManager::install("DESeq2")
+  library(DESeq2)
+  dds <- DESeqDataSetFromMatrix(countData = combined_matrix,
+                                colData = new_dataframe,
+                                design = ~ layer + sample)
+  dds <- DESeq(dds)
+  resultsNames(dds)
+  res <- results(dds, name = "layer_WM_vs_others")
+  head(res[order(res$padj),])
+}
+```
+
+![Visium spatial gene expression slide](fig/dE_genes.png){alt='Genes with the lowest adjusted p-values from differential expression analysis with DESeq2'}
+
+We have selected to plot spatially the differentially expressed genes with the highest mean values, namely "MBP" and  "MOBP"
+
+```{r print-pseudobulk results}
+
+plot_sample_expression <- function(sample, gene, sample_id) {
+  sample@meta.data$temp_feat <- sample@assays[["Spatial"]]$counts[gene,]
+  p1 <- SpatialFeaturePlot(sample, features = "temp_feat") +
+    ggtitle(paste("Spatial Expression of", gene, "in Sample", sample_id)) +
+    theme(plot.title = element_text(hjust = 0.5))
+  return(p1)
+}
+
+plot_layer_expression <- function(sample, sample_id) {
+  p1 <- SpatialDimPlot(sample, group.by = "layer_guess") +
+    ggtitle(paste("Layer guess of Sample", sample_id)) +
+    theme(plot.title = element_text(hjust = 0.5),
+          legend.text = element_text(size = 12))
+  return(p1)
+}
+
+# Plot and save the top DE genes across samples
+plots <- list()
+for (sample_id in selected_samples) {
+  p1 <- plot_sample_expression(objs[[sample_id]], "MOBP", sample_id)
+  p2 <- plot_sample_expression(objs[[sample_id]], "MBP" , sample_id)
+  p3 <- plot_layer_expression(objs[[sample_id]], sample_id)
+  combined <- p1 + p2 + p3
+  plots[[sample_id]] <- combined
+}
+
+# Combine and save plots
+combined_plot <- wrap_plots(plots, ncol = 1)
+print(combined_plot)
+```
+As it is evident from the spatila distribution of the genes, they are mostly expressed specifically in the White Matter for all samples.
+
 ## Other Considerations
 
-We here explored the very basics of differential expression analysis. We note 
-here just a few additional complications that may arise in your own analyses.
-
-- Here we explored spot-level analysis within one sample. However, most studies
-(including the published one that furnished the data we used here) include 
-multiple samples. This has some similarities to single cell-level DE analysis in 
-scRNA-seq. In the scRNA-seq setting, several studies, including one by 
-[Squair, et al.](https://www.nature.com/articles/s41467-021-25960-2), 
-have emphasized drawbacks of performing DE on individual cells. Single-cell DE 
-may be caused by technical variability across single cells, biological 
-variability that may not be of interest across conditions studied 
-(*e.g.*, transcriptional bursting), or simply by the large number of individual
-cells that inflate false positives. One solution is to perform *pseudobulking* 
-of the scRNA-seq and then to use conventional bulk RNA-seq DE tools 
-(*e.g.*, DESeq2) to compare the pseudobulks. A Seurat 
-[vignette](https://satijalab.org/seurat/articles/de_vignette) 
-describing the approach for scRNA-seq should likewise be applicable for spatial 
-transcriptomics. However, we note the caveat that spots are not cells -- the 
-former may have considerably more intra- and inter-spot biological 
-heterogeneity. Hence, pseudobulking should be done with caution.
-- Any comparison across samples will necessitate accounting for batch effects. 
-In bulk or single-cell RNA-seq studies, batch effects would typically be 
-mitigated by applying regression-based tools such as 
-[`Harmony`](https://portals.broadinstitute.org/harmony/articles/quickstart.html) 
-or by incorporating a batch factor in a linear modeling framework 
-(*e.g.*, of DESeq2). Those approaches could be applied to spatial 
-transcriptomics data, as well.
-- Batch correction procedures, such as those just mentioned, may remove 
+We here explored the very basics of differential expression analysis and differential expression analysis with multiple samples. For batch correction procedures, such as those just mentioned, may remove 
 biological variability along with technical variability. An alternative approach 
 is to perform analyses <em>within</em> samples and then to perform meta-analysis 
 across them. One intriguing possibility is to compare rank-based statistics 
