@@ -1670,7 +1670,7 @@ it?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1726,7 +1726,7 @@ computer to assign up/down and left/right to the image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Look at the spots in each corner. In the upper-left, you will see the
 following patterns:</p>
@@ -1851,7 +1851,7 @@ occur in the background spots?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Solution 3 </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>When the tissue section is lysed, some transcripts may leak out of
@@ -2414,7 +2414,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2470,8 +2470,7 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How do we determine the necessity of normalization in spatial
-transcriptomics?</li>
+<li>Why is normalization needed in spatial transcriptomics?</li>
 <li>What insights do additional modalities like H&amp;E staining provide
 in assessing normalization needs?</li>
 <li>How do specific normalization techniques like SCTransform and log
@@ -2487,10 +2486,9 @@ scaling work and when should they be applied?</li>
 <ul>
 <li>Assess the need for normalization using both spatial transcriptomics
 data and ancillary modalities like H&amp;E staining.</li>
-<li>Understand the specific applications and mechanisms of normalization
-techniques such as SCTransform and log scaling.</li>
-<li>Implement adaptive normalization strategies that accurately reflect
-both absolute and relative cellular information.</li>
+<li>Understand how to apply popular normalization techniques such as
+SCTransform and log scaling.</li>
+<li>Diagnose the impact of normalization.</li>
 </ul>
 </div>
 </div>
@@ -2501,13 +2499,12 @@ both absolute and relative cellular information.</li>
 <a class="anchor" aria-label="anchor" href="#understanding-normalization-in-spatial-transcriptomics"></a>
 </h2>
 <hr class="half-width">
-<p>Normalization in spatial transcriptomics must be carefully tailored
-to each dataset, balancing the technical corrections with the
-preservation of biologically meaningful signals. There are two artifacts
-of the data that we need to adjust for:</p>
+<p>As with scRNA-seq data, normalization is necessary to overcome two
+technical artifacts in spatial transcriptomics:</p>
 <ol style="list-style-type: decimal">
 <li>the difference in total counts across spots, and</li>
-<li>the difference in variance across genes.</li>
+<li>the dependence of a gene’s expression variance on its expression
+level.</li>
 </ol>
 <p>For the first goal, each spot may have a different number of total
 counts. This is termed the <em>library size</em>. Since each spot has a
@@ -2517,14 +2514,13 @@ denominator (total spot counts) is different in each spot. On the other
 hand, different spots may contain different types of cells, which may
 express differing numbers of transcripts. So there is a balance between
 normalizing all spots to have the same total counts and leaving some
-variation in total counts which may be due to the biology of the
-tissue.</p>
-<p>For the second goal, in order to compare gene expression values
-between different genes, the within-gene variance should be similar
-between genes. This is because many statistical tests require that the
-within-group variance be the same. As you’ll see below, there is a
-relationship between the mean and variance of genes that will allow us
-to correct for this difference. Hence, we seek to <em>stabilize the
+variation in total counts which may be due to the biology of the tissue.
+In general, we want to be cautious that removing the above technical
+artifacts may also obscure true biological differences.</p>
+<p>For the second goal, we will see below that the variance in a gene’s
+expression scales with its expression. If we do not correct for this
+effect, differentially expressed genes will be skewed towards the high
+end of the expression spectrum. Hence, we seek to <em>stabilize the
 variance</em> – expression variance should be independent of mean
 expression.</p>
 <div class="section level3">
@@ -2552,9 +2548,9 @@ considerations further.</p>
 <h3 id="sources-of-biological-variation-in-total-counts">Sources of Biological Variation in Total Counts<a class="anchor" aria-label="anchor" href="#sources-of-biological-variation-in-total-counts"></a>
 </h3>
 <p>Hematoxylin and Eosin (H&amp;E) staining is critical for preliminary
-assessments of tissue sections. It highlights structural and
-pathological features, guiding the interpretation of transcriptomic
-data. For example, high RNA counts in a necrotic region, typically
+assessments of tissue sections. It highlights structural and pathologic
+features, guiding the interpretation of transcriptomic data. For
+example, observing high RNA counts in a necrotic region, typically
 characterized by reduced cellular material, might suggest technical
 artifacts, indicating a need for normalization.</p>
 <p>Maynard and colleagues used the information encoded in the H&amp;E,
@@ -2592,7 +2588,7 @@ palette.</p>
 <span>                        <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Layer"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-4-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>We noted that the authors used cellular density to aid in discerning
-layers. Let’s see those H&amp;E-derived cell counts vary across
+layers. Let’s see how those H&amp;E-derived cell counts vary across
 layers.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2644,17 +2640,18 @@ in Total Counts<a class="anchor" aria-label="anchor" href="#normalization-techni
 counts or library size across spots. A straightfoward means of
 addressing this is simply to divide all gene counts within the spot by
 the total counts in that spot. Conventionally, we then multiply by a
-million (the scale.factor parameter), which yields “counts per million”
-(CPM). This approach is susceptible to “compositional bias” – if a small
-number of genes make a large contribution to the total count, any
-significant fluctuation in their expression across samples will impact
-the quantification of all other genes. To overcome this, more robust
-measures of library size that are more resilient to compositional bias
-are sometimes used, including the 75th percentile of counts within a
-sample (or here, spot). For simplicity, here we will use CPM.</p>
+million, which yields “counts per million” (CPM). This approach is
+susceptible to “compositional bias” – if a small number of genes make a
+large contribution to the total count, any significant fluctuation in
+their expression across samples will impact the quantification of all
+other genes. To overcome this, more robust measures of library size that
+are more resilient to compositional bias are sometimes used, including
+the 75th percentile of counts within a sample (or here, spot). For
+simplicity, here we will use CPM.</p>
 <p>In Seurat, we can apply this transformation via the
 <code>NormalizeData</code> function, parameterized by the relative
-counts (or “RC”) normalization method:</p>
+counts (or “RC”) normalization method. We scale the results to a million
+cells through the <code>scale.factor</code> parameter.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -2774,8 +2771,8 @@ and Satija</a>. We define the “standardized variance” as the variance in
 the expression values after those expression values have been
 standardized by the trend line (i.e., they have been mean centered and
 divided by the predicted variance). Since we expect most genes to have
-only technical (and also biological) variance, the trend line should be
-dominated by those genes and will capture the technical variance. As
+only technical (and not also biological) variance, the trend line should
+be dominated by those genes and will capture the technical variance. As
 such, the standardized variance should be near one for most genes –
 those with only technical variance. Genes with additional biological
 variance will deviate from the trend line and also from the near-one
@@ -2857,11 +2854,11 @@ the trend-standardized expression.</p>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Notice that this plot is similar to that we created manually. In
 both, the “standardized” variance of most genes is near one. We aim for
 a flat line, indicating no trend between mean and variance. Yet, in
-both, there remains an evident trend in the plot between mean and
-variance. Let’s next look at two common approaches for “stabilizing” the
-variance across genes – i.e., for further mitigating the relationship
-between gene expression and variance – log-normalization and
-SCTransform.</p>
+both, there remains an evident, if subtle, trend in the plot between
+mean and variance. Let’s next look at two common approaches for
+“stabilizing” the variance across genes – i.e., for further mitigating
+the relationship between gene expression and variance –
+log-normalization and SCTransform.</p>
 </div>
 <div class="section level4">
 <h4 id="lognormalize">LogNormalize<a class="anchor" aria-label="anchor" href="#lognormalize"></a>
@@ -2924,11 +2921,13 @@ likely to exhibit biological variation.</p>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-20-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>As with the standardized CPM values above, we have significantly
 reduced the dependence of variance in gene expression on its mean – at
-least at all but the highest end of the expression. Note that all of the
-highly variable genes are peaked in a narrow range of high expression
-values.</p>
-<p>Let’s look at the spatial expression of the two most variable
-genes.</p>
+least at all but the highest end of the expression. By default, Seurat
+selects a set of 3,000 variable genes which are colored in red. Note
+that all of the highly variable genes are peaked in a narrow range of
+high expression values, though. We would not expect this <em>a
+priori</em>, and it signals inadequate normalization.</p>
+<p>Putting this concern aside for a moment, let’s look at the spatial
+expression of the two most variable genes.</p>
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -2957,8 +2956,10 @@ restricted to the white matter, while <i>PCP4</i> is expressed in Layer
 <div class="section level4">
 <h4 id="sctransform">SCTransform<a class="anchor" aria-label="anchor" href="#sctransform"></a>
 </h4>
-<p>Let’s see if we can improve on the mean-variance trend exhibited for
-highly expressed genes under log normalization. We will apply <a href="https://satijalab.org/seurat/articles/sctransform_vignette.html" class="external-link"><code>SCTransform</code></a>,
+<p>Let’s see if we can improve on two aspects of the above
+log-normalization: 1) the non-uniform standardized variance of highly
+expressed genes and 2) the bias of highly variable genes towards highly
+expressed genes. We will apply <a href="https://satijalab.org/seurat/articles/sctransform_vignette.html" class="external-link"><code>SCTransform</code></a>,
 a normalization approach that uses a regularized negative binomial
 regression to stabilize variance across expression levels (<a href="https://link.springer.com/article/10.1186/s13059-021-02584-9" class="external-link">Choudhary
 et al., Genome Biol 23, 27 (2022)</a>).</p>
@@ -3054,12 +3055,11 @@ is much more uniform in the latter case.</p>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The geometric mean (mean of the log counts) is shown on the X-axis
 and the “residual variance” is on the Y-axis. “Residual variance” is a
 confusing term; it refers to the variance in the Pearson residuals,
-similar to the Each point shows one gene. By default, Seurat selects a
-set of 3,000 variable genes which are colored in red. The variance is
-largely stable across a range of mean expression values.</p>
-<p>Let’s look at the spatial expression of the two most variable genes
-following SCTransform. One of these, <i>PLP1</i>, we have already seena
-bove.</p>
+similar to the standardized variance we encountered above.</p>
+<p>We will compare this mean-variance plot to the one derived using
+log-normalization below. Before we do, let’s look at the spatial
+expression of the two most variable genes following SCTransform. One of
+these, <i>PLP1</i>, we have already seena bove.</p>
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3068,7 +3068,8 @@ bove.</p>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-30-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Both genes have stunning spatially variable expresion.</p>
 <p>Let’s again check that the two marker genes show the appropriate
-layer-restricted expression.</p>
+layer-restricted expression following normalization with
+SCTransform.</p>
 <div class="codewrapper sourceCode" id="cb43">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3084,10 +3085,10 @@ layer-restricted expression.</p>
 <h3 class="callout-title">Challenge 1: Compare Mean-Variance Plots<a class="anchor" aria-label="anchor" href="#challenge-1-compare-mean-variance-plots"></a>
 </h3>
 <div class="callout-content">
-<p>Above, we created mean-variance plots for the SCT and Log
+<p>Above, we created mean-variance plots for the SCTransform and log
 normalizations. Which method does a better job of stabilizing the
 variance across genes? Turn to the person next to you and put the
-Log-normalized plot on one of your screens and the SCT transform plot on
+log-normalized plot on one of your screens and the SCTransform plot on
 the other person’s screen. Discuss the mean-variance relationship in
 each plot and decide which one you think stabilizes the variance across
 genes better.</p>
@@ -3101,13 +3102,7 @@ genes better.</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<p>In the Log-normalization plot, the variation in the variance is wider
-for genes with lower expression and lower for genes with higher
-expression. Also, the range of variances is quite wide. In the SCT plot,
-the variance of the low- expressed genes is smaller and it rises as mean
-expression increases. The height of the variances becomes stable for
-genes with mean expression over about 100. For this reason, we prefer
-the SCT transform.</p>
+<p>We will compare the two plots in the next section.</p>
 </div>
 </div>
 </div>
@@ -3133,9 +3128,9 @@ Seurat object.</p>
 <span><span class="fu">hist</span><span class="op">(</span><span class="fu">colSums2</span><span class="op">(</span><span class="va">counts_sct</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">"SCT"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-32-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Notice that the log-normalization has a range of total counts per
-spot that ranges across several orders of magnitude. The SCT transform
-has a more uniform distribution of total counts and spans a factor of
-three, from ~1000 to ~2700.</p>
+spot that ranges across several orders of magnitude. The SCTransform has
+a more uniform distribution of total counts and spans a factor of three,
+from ~1000 to ~2700.</p>
 <p>Next, we will compare the mean-variance plots between the two
 methods.</p>
 <div class="codewrapper sourceCode" id="cb45">
@@ -3150,26 +3145,27 @@ methods.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_sct</span></span></code></pre>
 </div>
-<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-33-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure>
+<figure><img src="fig/apply-normalization-methods-rendered-unnamed-chunk-33-2.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Following SCTransform, the variance is largely stable across a range
+of mean expression values. Certainly, we do not observe the wild ripple
+in the mean-variance trend at the high expression end that we saw with
+log-normalization. Secondly, the highly variable genes are spread across
+a larger region and not overly biased towards the high end of the
+expression spectrum.</p>
 </div>
 <div class="section level3">
 <h3 id="no-one-size-fits-all-approach">No One-Size-Fits-All Approach<a class="anchor" aria-label="anchor" href="#no-one-size-fits-all-approach"></a>
 </h3>
-<p>Raw read counts provide essential insights into the absolute cell
-type densities within a sample, which are crucial for mapping cellular
-distribution. In contrast, normalized data adjusts for technical
-variations like sequencing depth and RNA capture efficiency, thus
-revealing the relative proportions of cell types and identifying
-specific tissue structures, such as epithelium or fibrosis. Saiselet et
-al. demonstrated that while normalized data effectively identify
-distinct morphologies, raw counts are vital for detecting areas with
-unusual cell-type concentrations, such as high epithelial regions
-expressing vimentin (VIM) (Saiselet, M., et al., Journal of Molecular
-Cell Biology, 2020). Hence, choosing the right normalization method
-depends on the specific characteristics of each dataset and the
-biological questions at hand. Researchers must understand the impact of
-each normalization strategy on both the biological and technical aspects
-of their data.</p>
+<p>Raw read counts provide essential insights into absolute cell
+densities within a sample. In some cases, this may reflect
+morphologically distinct regions and / or regions enriched for
+particular cell types. We advise assessing raw gene and count spatial
+distributions prior to normalization for this reason.</p>
+<p>In this particular ecample, we found that SCTransform better
+ameliorated the mean-variance trend than log-normalization. We do not
+intend for this to hold universally across samples. Indeed, rather than
+advocating for one particular normalization approach, our goal was to
+introduce you to means of diagnosing the impact of normalization methods
+and of comparing them.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -3182,8 +3178,8 @@ of their data.</p>
 <li>Normalization is essential but must be selectively applied based on
 the unique characteristics of each dataset and the specific biological
 questions at hand.</li>
-<li>Techniques like SCTransform and log scaling offer ways to balance
-technical correction with biological integrity.</li>
+<li>Techniques like SCTransform and log scaling attempt to remove
+technical artifacts while preserving biologically relevant signals.</li>
 <li>Examining both raw and normalized data can provide comprehensive
 insights into the absolute and relative characteristics of cellular
 components in spatial transcriptomics.</li>
@@ -3330,7 +3326,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3629,7 +3625,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 1 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -4497,7 +4493,7 @@ did we use? Load those in now.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4533,7 +4529,7 @@ sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4565,7 +4561,7 @@ sample’s metadata to your Seurat object.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4611,7 +4607,7 @@ Data Preprocessing lesson and adapt it to your tissue sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4643,7 +4639,7 @@ of at least 10 counts. How many genes did you end up with?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4690,7 +4686,7 @@ select?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4833,7 +4829,7 @@ for by each PC.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4884,7 +4880,7 @@ algorithm?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>We selected 50 PCs and a cluster resoltion of 1 for this exercise.
 This may not be optimal. You will have a chance to vary these parameters
@@ -4956,7 +4952,7 @@ in Seurat.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5009,7 +5005,7 @@ et al.</a>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution10" aria-expanded="false" aria-controls="collapseSolution10">
   <h4 class="accordion-header" id="headingSolution10"> Show me the solution </h4>
 </button>
-<div id="collapseSolution10" class="accordion-collapse collapse" data-bs-parent="#accordionSolution10" aria-labelledby="headingSolution10">
+<div id="collapseSolution10" class="accordion-collapse collapse" aria-labelledby="headingSolution10" data-bs-parent="#accordionSolution10">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5044,7 +5040,7 @@ look more like the results in the manuscript?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution11" aria-expanded="false" aria-controls="collapseSolution11">
   <h4 class="accordion-header" id="headingSolution11"> Show me the solution </h4>
 </button>
-<div id="collapseSolution11" class="accordion-collapse collapse" data-bs-parent="#accordionSolution11" aria-labelledby="headingSolution11">
+<div id="collapseSolution11" class="accordion-collapse collapse" aria-labelledby="headingSolution11" data-bs-parent="#accordionSolution11">
 <div class="accordion-body">
 <p>For class discussion.</p>
 </div>
