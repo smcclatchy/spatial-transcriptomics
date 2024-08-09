@@ -168,7 +168,7 @@ normalization.
 The first technical issue we noted above was a difference in total counts
 or library size across spots. A straightfoward means of addressing this
 is simply to divide all gene counts within the spot by the total counts in that
-spot. Conventionally, we then multiply by a million, which yields 
+spot. Conventionally, we then multiply by a million (the scale.factor parameter), which yields 
 "counts per million" (CPM). This approach is susceptible to "compositional
 bias" -- if a small number of genes make a large contribution to the total
 count, any significant fluctuation in their expression across samples will
@@ -206,9 +206,11 @@ showing any potential trends between each gene's mean expression across spots
 and its mean variance across spots.
 
 ```{r message=FALSE}
-means <- apply(LayerData(cpm_st, "data"), 1, mean)
-vars <- apply(LayerData(cpm_st, "data"), 1, var)
+cpms      <- LayerData(cpm_st, "data")
+means     <- apply(cpms, 1, mean)
+vars      <- apply(cpms, 1, var)
 gene.info <- data.frame(mean = means, variance = vars)
+
 g <- ggplot() + geom_point(data = gene.info, aes(x = mean, y = variance))
 g <- g + scale_x_continuous(trans='log2') + scale_y_continuous(trans='log2')
 g <- g + xlab("Log Mean Expression") + ylab("Log Mean Variance")
@@ -216,12 +218,12 @@ g
 ```
 
 There is a clear relationship between the mean and variance of gene expression.
-Our goal was instead that the variance should be stabilized -- *i.e.*, independent of the 
+Our goal was instead that the variance be independent of the 
 mean. One way of achieving this is to *detrend* the data by fitting a smooth curve
-to the mean-variance plot. This fit captures the technical variance, since we
-assume that the variability in most genes is not biological. We can then subtract off
-this technical variance, with the remaining "residual" variance describing the biological
-variance. Let's start by fitting a LOESS (locally estimated scatterplot smoothing) regression
+to the mean-variance plot. This fit will capture the general behavior of most genes.
+And, since we expect most genes to exhibit technical variability only and not biological
+variability additionally, this trend will reflect technical variance.
+Let's start by fitting the trend using a LOESS (locally estimated scatterplot smoothing) regression
 line to the data.
 
 
@@ -236,44 +238,91 @@ fit <- loess(formula = log10(x = variance) ~ log10(x = mean),
 Let's now plot the fitted variances as a function of the observed means.
 
 ```{r message=FALSE}
-g <- g + geom_line(data = data.frame(mean = gene.info[not.const, "mean"],
-                                     variance.expected = 10^fit$fitted),
+gene.info$variance.expected               <- NA
+gene.info[not.const, "variance.expected"] <- 10^fit$fitted
+g <- g + geom_line(data = na.omit(gene.info[not.const,]),
                    aes(x = mean, y = variance.expected), linewidth = 3, color = "blue")				    
 g				     
 ```
 
 We see that the trend line nicely fits the data -- *i.e.*, it characterizes the
-observed variance as a function of the mean for the vast majority of genes. Let's now
-define the residual variance by subtracting the technical variance from the observed
-variance.
+observed variance as a function of the mean for the vast majority of genes.
+
+We now follow the logic applied in Seurat, as described by
+[Hafemeister and Satija](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1874-1).
+We define the
+"standardized variance" as the variance in the expression values after those expression values have
+been standardized by the trend line (i.e., they have been mean centered and divided by the predicted variance).
+Since we expect most genes to have only technical (and also biological) variance, the trend line should
+be dominated by those genes and will capture the technical variance. As such, the standardized variance
+should be near one for most genes -- those with only technical variance. Genes with additional biological
+variance will deviate from the trend line and also from the near-one standardized variance. Is this what we observe?
 
 
+```{r message=FALSE}
+gene.info$variance.standardized <- NA
+standardized.cpms               <- (cpms[not.const,] - means[not.const]) / sqrt(gene.info[not.const, "variance.expected"])
+gene.info[not.const, "variance.standardized"] <- apply(standardized.cpms, 1, var)
 
+g <- ggplot() + geom_point(data = gene.info[not.const,], aes(x = mean, y = variance.standardized))
+g <- g + scale_x_log10()
+g <- g + xlab("Log Mean CPM") + ylab("Variance of\nTrend-Standardized CPMs")
+g
+```
 
-Mean-variance plots are an essential tool for assessing gene expression 
-variability relative to the mean expression levels across different spots. By 
-plotting the variance of gene expression against the mean expression level, 
-researchers can identify genes with variance that deviates significantly from 
-what would be expected under normal biological conditions. This can be 
-particularly useful for spotting genes that are overly influenced by technical 
-artifacts or biological outliers, suggesting the corresponding normalization 
-choices.
+Indeed, many genes do have a variance near one. 
 
+Seurat provides more efficient means for calculating expression means, variances, variances predicted from
+the trend, and the variance of means standardized by the predicted variances, namely
+[`FindVariableFeatures`](https://satijalab.org/seurat/reference/findvariablefeatures). The computed results
+can then be formatted into a data frame using [`HVFInfo`](https://satijalab.org/seurat/reference/hvfinfo.sctassay).
+Be advised that these functions can calculate expected variances using models that are dependent on input parameters and,
+sometimes implicitly, based on different data formats (e.g., raw counts or normalized expression values).
+In this case, the values we computed manually:
 
+```{r message=FALSE}
+head(gene.info)
+```
+
+are the same, with few exceptions, to those computed by the equivalent Seurat functions:
+
+```{r message=FALSE}
+cpm_st <- FindVariableFeatures(cpm_st, nfeatures = dim(cpm_st)[1], layer="data", selection.method = "vst")
+cinfo <- HVFInfo(cpm_st)
+head(cinfo)
+```
+
+We can verify that by using the Seurat function
+[`VariableFeaturePlot`](https://satijalab.org/seurat/reference/variablefeatureplot) 
+to plot the relationship between the mean expression and the
+variance of the trend-standardized expression.
+
+```{r message=FALSE}
+VariableFeaturePlot(cpm_st) + NoLegend()
+```
+
+Notice that this plot is similar to that we created manually. In both, the "standardized" variance of most genes
+is near one. We aim for a flat line, indicating no trend between mean and variance. 
+Yet, in both, there remains an evident trend in the plot between mean and variance. Let's next look at
+two common approaches for "stabilizing" the variance across genes -- i.e., for further mitigating the relationship
+between gene expression and variance -- log-normalization and SCTransform.
 
 #### LogNormalize
 
-One common approach that attempts to meet our two objectives above is 
+One common approach that attempts to meet our two objectives above -- normalizing for
+different total spot counts and for expression-dependent variance -- is 
 log-transformation of normalized counts. The resulting values are often 
 ambiguously referred to as log-normalized counts, which elides stating that the 
 raw counts are first normalized or scaled and then log transformed. Scaling 
-accounts for the differences in spot-specific RNA counts. The log transformation
+accounts for the differences in spot-specific RNA counts, as above. The log transformation
 reduces skewness caused by highly expressed genes and stabilizes the variance, 
 at least for certain mean-variance relationships. In practice, the log 
 transformation is applied to <i>1+x</i>, where <i>x</i> is the scaled expression 
 value -- the so-called *log1p* transformation.
 
-In Seurat, we can apply this transformation via the `NormalizeData` function:
+In Seurat, we can apply this transformation by specifying `LogNormalize` as
+the `normalization.method` parameter to the same `NormalizeData` function
+we applied above to compute CPMs.
 
 ```{r message=FALSE}
 lognorm_st <- NormalizeData(filter_st, 
@@ -283,85 +332,93 @@ lognorm_st <- NormalizeData(filter_st,
 ```
 
 This function first normalizes the raw counts by `scale.factor` before applying 
-the log1p transformation. The `scale.factor` argument has a default of 10,000. 
-Here, we selected 1,000,000 because it made the mean-variance relationship 
-somewhat flatter. The normalized counts, in this case, are CPMs -- counts per 
-million. 
+the log1p transformation. As above, we set the `scale.factor` parameter such
+that we first compute CPMs and then apply log1p to these CPMs.
 
-Log normalization adds a `data` object to the Seurat object. 
+As above, log normalization adds a `data` object to the Seurat object. 
 
-```{r message=FALSE}
+```{r}
 Layers(lognorm_st)
 ```
 
-Our goal is that the variance should be stabilized -- *i.e.*, independent of the 
-mean. Let's plot this *mean-variance* relationship with the
-[`VariableFeaturePlot`](https://satijalab.org/seurat/reference/variablefeatureplot) 
-function. We aim for a flat line, indicating no trend between mean and variance. 
-We can compare this diagnostic plot across normalization methods to compare them 
-on our given dataset. Additionally, let's highlight highly variables genes on 
-this plot. 
+Let's again plot the relationship between the expression mean and its standardized variance.
+Additionally, we will highlight those
+genes that have standardized variance significantly larger than one. These
+are likely to exhibit biological variation.
 
 ```{r message=FALSE, warning=FALSE}
-lognorm_st <- FindVariableFeatures(lognorm_st)
-top15        <- head(VariableFeatures(lognorm_st), 15)
-plot_lognorm <- VariableFeaturePlot(lognorm_st) + 
+lognorm_st <- FindVariableFeatures(lognorm_st, layer="data", selection.method = "vst")
+top15        <- head(VariableFeatures(lognorm_st, layer="data", method="vst"), 15)
+plot_lognorm <- VariableFeaturePlot(lognorm_st) +
                   ggtitle("Variable Features - Log normalization")
 plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
 plot_lognorm
 ```
 
-As a sanity check that the normalization is something sensible, let's look 
-at the expression of two, known layer-restricted marker genes -- MOBP and PCP4.
-MOBP is restricted to the white matter, while PCP4 is expressed in Layer 5.
+As with the standardized CPM values above, we have significantly reduced the
+dependence of variance in gene expression on its mean -- at least at all but the
+highest end of the expression. Note that all of the highly variable genes are peaked
+in a narrow range of high expression values.
 
-```{r}
-SpatialFeaturePlot(lognorm_st, slot="data", c("MOBP"))
+Let's look at the spatial expression of the two most variable genes.
+
+```{r message=FALSE, warning=FALSE}
+SpatialFeaturePlot(lognorm_st, slot="data", c("SCGB2A2", "PLP1"))
 ```
 
+Both clearly show significant spatial variability -- despite the fact that we
+did not explicit query for genes whose expression varied spatially. We will look at approaches
+for doing that later, such as the Moran's I statistic. <i>PLP1</i> shows coherent
+spatial variability closely linked to brain morphology -- this is a marker for the white matter.
+
+As a further sanity check that the normalization is doing something sensible, let's look 
+at the expression of two, known layer-restricted marker genes -- <i>MOBP</i> and <i>PCP4</i>.
+<i>MOBP</i> is known to be restricted to the white matter, while <i>PCP4</i> is expressed in Layer 5.
+
 ```{r}
-SpatialFeaturePlot(lognorm_st, slot="data", c("PCP4"))
+SpatialFeaturePlot(lognorm_st, slot="data", c("MOBP", "PCP4"))
 ```
 
 Indeed, this is what we observe.
 
 #### SCTransform
 
-[`SCTransform`](https://satijalab.org/seurat/articles/sctransform_vignette.html) 
-is a normalization method for single-cell and spatial transcriptomics that uses 
+Let's see if we can improve on the mean-variance trend exhibited for highly expressed genes
+under log normalization. We will apply [`SCTransform`](https://satijalab.org/seurat/articles/sctransform_vignette.html),
+a normalization approach that uses
 a regularized negative binomial regression to stabilize variance across 
 expression levels
 ([Choudhary et al., Genome Biol 23, 27 (2022)](https://link.springer.com/article/10.1186/s13059-021-02584-9)). 
-It selects highly variable genes and corrects for technical 
-noise by modeling gene expression counts with Pearson residuals. This approach 
-effectively adjusts for confounding factors such as sequencing depth, 
-facilitating more accurate downstream analyses like clustering.
 
 ```{r message=FALSE, warning=FALSE}
-filter_st <- SCTransform(filter_st, assay = "Spatial")
+sct_st <- SCTransform(filter_st, assay = "Spatial")
 ```
 
 The `SCTransform` method added a new assay called *SCT*.
 
 ```{r}
-Assays(filter_st)
+Assays(sct_st)
 ```
 
 It made this new assay the default. Be aware that Seurat functions often operate 
 on the `DefaultAssay`.
 
 ```{r}
-DefaultAssay(filter_st)
+DefaultAssay(sct_st)
 ```
 
 Within this new *SCT* Assay, `SCTransform` has created three `Layers` to store
-data. These are different from the neocortical layers presented earlier.  
+data, not to be confused with the neocortical layers of the brain.
 
 ```{r}
-Layers(filter_st)
+Layers(sct_st)
 ```
 
-As you can see by reading its documentation, these new `Layers` are `counts` 
+As you can see by reading the `SCTransform` documentation with 
+```{r}
+?SCTransform
+```
+these new `Layers` are `counts` 
 (counts corrected for differences in sequencing depth between cells), `data`
 (`log1p` transformation of the corrected counts), and `scale.data` (scaled 
 Pearson residuals, *i.e.*, the difference between an observed count and its 
@@ -370,10 +427,6 @@ deviation in that count under the model).
 
 ![Seurat object structure](./fig/seurat_object_assays_layers.png){alt='A diagram of the sttructure of a Seurat object showing the assays (Spatial & SCT) and Layers (counts, data & scale.data.'}
 
-```{r}
-?SCTransform
-```
-
 Notice, in particular, that the `counts` Layers in the *Spatial* and *SCT* 
 Assays are different. As mentioned above, the latter have been corrected for 
 differences in sequencing depth between cells. As such, the distribution in 
@@ -381,38 +434,47 @@ total counts per cell is much more uniform in the latter case.
 
 ```{r}
 layout(matrix(1:2, ncol = 1))
-raw_counts_spatial <- LayerData(filter_st, layer = "counts", assay = "Spatial")
+raw_counts_spatial <- LayerData(sct_st, layer = "counts", assay = "Spatial")
 hist(colSums2(raw_counts_spatial), main = "Raw counts (Spatial)")
 
-corrected_counts_sct <- LayerData(filter_st, layer = "data", assay = "SCT")
+corrected_counts_sct <- LayerData(sct_st, layer = "data", assay = "SCT")
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
 Let's plot the mean-variance relationship.
 
 ```{r warning=FALSE, message=FALSE}
-top15SCT    <- head(VariableFeatures(filter_st), 15)
-plot_sct    <- VariableFeaturePlot(filter_st) + 
+top15SCT    <- head(VariableFeatures(sct_st), 15)
+plot_sct    <- VariableFeaturePlot(sct_st) + 
                  ggtitle("Variable Features - SCT")
 plot_sct    <- LabelPoints(plot = plot_sct, points = top15SCT, repel = TRUE)
 plot_sct
 ```
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
-residual variance is on the Y-axis. Each point shows one gene. By default, 
+"residual variance" is on the Y-axis. "Residual variance" is a confusing term;
+it refers to the variance in the Pearson residuals, similar to the 
+Each point shows one gene. By default, 
 Seurat selects a set of 3,000 variable genes which are colored in red. The 
 variance is largely stable across a range of mean expression values.
+
+Let's look at the spatial expression of the two most variable genes
+following SCTransform. One of these, <i>PLP1</i>, we have already seena bove.
+
+```{r}
+SpatialFeaturePlot(sct_st, slot="data", c("MBP", "PLP1"))
+```
+
+Both genes have stunning spatially variable expresion.
 
 Let's again check that the two marker genes show the appropriate 
 layer-restricted expression.
 
 ```{r}
-SpatialFeaturePlot(filter_st, slot="data", c("MOBP"))
+SpatialFeaturePlot(sct_st, slot="data", c("MOBP", "PCP4"))
 ```
 
-```{r}
-SpatialFeaturePlot(filter_st, slot="data", c("PCP4"))
-```
+Indeed, they do. 
 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
@@ -457,7 +519,7 @@ layout(matrix(1:2, ncol = 1))
 counts_log <- LayerData(lognorm_st, layer = "data")
 hist(colSums2(counts_log), main = "Log-norm")
 
-counts_sct <- LayerData(filter_st, layer = "data")
+counts_sct <- LayerData(sct_st, layer = "data")
 hist(colSums2(counts_sct), main = "SCT")
 ```
 
@@ -502,5 +564,5 @@ transcriptomics.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-save_seurat_object(obj = filter_st, file_prefix = 'applynorm')
+save_seurat_object(obj = sct_st, file_prefix = 'applynorm')
 ```
