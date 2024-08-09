@@ -6,7 +6,7 @@ exercises: 10
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do we determine the necessity of normalization in spatial transcriptomics?
+- Why is normalization needed in spatial transcriptomics?
 - What insights do additional modalities like H&E staining provide in assessing 
 normalization needs?
 - How do specific normalization techniques like SCTransform and log scaling work 
@@ -18,10 +18,9 @@ and when should they be applied?
 
 - Assess the need for normalization using both spatial transcriptomics data and 
 ancillary modalities like H&E staining.
-- Understand the specific applications and mechanisms of normalization 
+- Understand how to apply popular normalization 
 techniques such as SCTransform and log scaling.
-- Implement adaptive normalization strategies that accurately reflect both 
-absolute and relative cellular information.
+- Diagnose the impact of normalization.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -40,13 +39,10 @@ filter_st <- load_seurat_object(file_prefix = 'removelqspots')
 
 ## Understanding Normalization in Spatial Transcriptomics
 
-Normalization in spatial transcriptomics must be carefully tailored to each 
-dataset, balancing the technical corrections with the preservation of 
-biologically meaningful signals. There are two artifacts of the data that we 
-need to adjust for: 
+As with scRNA-seq data, normalization is necessary to overcome two technical artifacts in spatial transcriptomics:
 
 1. the difference in total counts across spots, and
-2. the difference in variance across genes.
+2. the dependence of a gene's expression variance on its expression level.
 
 For the first goal, each spot may have a different number of total counts. This 
 is termed the *library size*. Since each spot has a different number of counts,
@@ -56,13 +52,13 @@ spot. On the other hand, different spots may contain different types of cells,
 which may express differing numbers of transcripts. So there is a balance 
 between normalizing all spots to have the same total counts and leaving some 
 variation in total counts which may be due to the biology of the tissue.
+In general, we want to be cautious that removing the above technical artifacts
+may also obscure true biological differences.
 
-For the second goal, in order to compare gene expression values between 
-different genes, the within-gene variance should be similar between genes. This
-is because many statistical tests require that the within-group variance be the
-same. As you'll see below, there is a relationship between the mean and
-variance of genes that will allow us to correct for this difference. Hence,
-we seek to *stabilize the variance* -- expression variance should be independent 
+For the second goal, we will see below that the variance in a gene's expression
+scales with its expression. If we do not correct for this effect, differentially
+expressed genes will be skewed towards the high end of the expression spectrum.
+Hence, we seek to *stabilize the variance* -- expression variance should be independent 
 of mean expression.
 
 ### Total Counts per Spot are Variable 
@@ -87,8 +83,8 @@ issues. Let's explore each of these two considerations further.
 ### Sources of Biological Variation in Total Counts
 
 Hematoxylin and Eosin (H&E) staining is critical for preliminary assessments of
-tissue sections. It highlights structural and pathological features, guiding the
-interpretation of transcriptomic data. For example, high RNA counts in a 
+tissue sections. It highlights structural and pathologic features, guiding the
+interpretation of transcriptomic data. For example, observing high RNA counts in a 
 necrotic region, typically characterized by reduced cellular material, might 
 suggest technical artifacts, indicating a need for normalization.
 
@@ -123,7 +119,7 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)],
 ```
 
 We noted that the authors used cellular density to aid in discerning layers. 
-Let's see those H&E-derived cell counts vary across layers.
+Let's see how those H&E-derived cell counts vary across layers.
 
 ```{r message=FALSE, warning=FALSE}
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), 
@@ -168,7 +164,7 @@ normalization.
 The first technical issue we noted above was a difference in total counts
 or library size across spots. A straightfoward means of addressing this
 is simply to divide all gene counts within the spot by the total counts in that
-spot. Conventionally, we then multiply by a million (the scale.factor parameter), which yields 
+spot. Conventionally, we then multiply by a million, which yields 
 "counts per million" (CPM). This approach is susceptible to "compositional
 bias" -- if a small number of genes make a large contribution to the total
 count, any significant fluctuation in their expression across samples will
@@ -178,7 +174,8 @@ are sometimes used, including the 75th percentile of counts within a sample
 (or here, spot). For simplicity, here we will use CPM.
 
 In Seurat, we can apply this transformation via the `NormalizeData` function,
-parameterized by the relative counts (or "RC") normalization method:
+parameterized by the relative counts (or "RC") normalization method. We
+scale the results to a million cells through the `scale.factor` parameter.
 
 ```{r message=FALSE}
 cpm_st <- NormalizeData(filter_st, 
@@ -253,7 +250,7 @@ We now follow the logic applied in Seurat, as described by
 We define the
 "standardized variance" as the variance in the expression values after those expression values have
 been standardized by the trend line (i.e., they have been mean centered and divided by the predicted variance).
-Since we expect most genes to have only technical (and also biological) variance, the trend line should
+Since we expect most genes to have only technical (and not also biological) variance, the trend line should
 be dominated by those genes and will capture the technical variance. As such, the standardized variance
 should be near one for most genes -- those with only technical variance. Genes with additional biological
 variance will deviate from the trend line and also from the near-one standardized variance. Is this what we observe?
@@ -303,7 +300,7 @@ VariableFeaturePlot(cpm_st) + NoLegend()
 
 Notice that this plot is similar to that we created manually. In both, the "standardized" variance of most genes
 is near one. We aim for a flat line, indicating no trend between mean and variance. 
-Yet, in both, there remains an evident trend in the plot between mean and variance. Let's next look at
+Yet, in both, there remains an evident, if subtle, trend in the plot between mean and variance. Let's next look at
 two common approaches for "stabilizing" the variance across genes -- i.e., for further mitigating the relationship
 between gene expression and variance -- log-normalization and SCTransform.
 
@@ -357,10 +354,14 @@ plot_lognorm
 
 As with the standardized CPM values above, we have significantly reduced the
 dependence of variance in gene expression on its mean -- at least at all but the
-highest end of the expression. Note that all of the highly variable genes are peaked
-in a narrow range of high expression values.
+highest end of the expression.
+By default, 
+Seurat selects a set of 3,000 variable genes which are colored in red.
+Note that all of the highly variable genes are peaked
+in a narrow range of high expression values, though. We would not expect this *a priori*,
+and it signals inadequate normalization.
 
-Let's look at the spatial expression of the two most variable genes.
+Putting this concern aside for a moment, let's look at the spatial expression of the two most variable genes.
 
 ```{r message=FALSE, warning=FALSE}
 SpatialFeaturePlot(lognorm_st, slot="data", c("SCGB2A2", "PLP1"))
@@ -383,8 +384,9 @@ Indeed, this is what we observe.
 
 #### SCTransform
 
-Let's see if we can improve on the mean-variance trend exhibited for highly expressed genes
-under log normalization. We will apply [`SCTransform`](https://satijalab.org/seurat/articles/sctransform_vignette.html),
+Let's see if we can improve on two aspects of the above log-normalization: 1) the non-uniform standardized
+variance of highly expressed genes and 2) the bias of highly variable genes towards highly expressed genes.
+We will apply [`SCTransform`](https://satijalab.org/seurat/articles/sctransform_vignette.html),
 a normalization approach that uses
 a regularized negative binomial regression to stabilize variance across 
 expression levels
@@ -453,12 +455,11 @@ plot_sct
 
 The geometric mean (mean of the log counts) is shown on the X-axis and the
 "residual variance" is on the Y-axis. "Residual variance" is a confusing term;
-it refers to the variance in the Pearson residuals, similar to the 
-Each point shows one gene. By default, 
-Seurat selects a set of 3,000 variable genes which are colored in red. The 
-variance is largely stable across a range of mean expression values.
+it refers to the variance in the Pearson residuals, similar to the standardized
+variance we encountered above.
 
-Let's look at the spatial expression of the two most variable genes
+We will compare this mean-variance plot to the one derived using log-normalization
+below. Before we do, let's look at the spatial expression of the two most variable genes
 following SCTransform. One of these, <i>PLP1</i>, we have already seena bove.
 
 ```{r}
@@ -468,7 +469,7 @@ SpatialFeaturePlot(sct_st, slot="data", c("MBP", "PLP1"))
 Both genes have stunning spatially variable expresion.
 
 Let's again check that the two marker genes show the appropriate 
-layer-restricted expression.
+layer-restricted expression following normalization with SCTransform.
 
 ```{r}
 SpatialFeaturePlot(sct_st, slot="data", c("MOBP", "PCP4"))
@@ -481,10 +482,10 @@ Indeed, they do.
 
 ## Challenge 1: Compare Mean-Variance Plots
 
-Above, we created mean-variance plots for the SCT and Log normalizations.
+Above, we created mean-variance plots for the SCTransform and log normalizations.
 Which method does a better job of stabilizing the variance across genes?
-Turn to the person next to you and put the Log-normalized plot on one of your
-screens and the SCT transform plot on the other person's screen. Discuss the 
+Turn to the person next to you and put the log-normalized plot on one of your
+screens and the SCTransform plot on the other person's screen. Discuss the 
 mean-variance relationship in each plot and decide which one you think 
 stabilizes the variance across genes better.
 
@@ -492,12 +493,7 @@ stabilizes the variance across genes better.
 
 ## Solution 1
  
-In the Log-normalization plot, the variation in the variance is wider for genes
-with lower expression and lower for genes with higher expression. Also, the
-range of variances is quite wide. In the SCT plot, the variance of the low-
-expressed genes is smaller and it rises as mean expression increases. The 
-height of the variances becomes stable for genes with mean expression over about
-100. For this reason, we prefer the SCT transform.
+We will compare the two plots in the next section.
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::
@@ -524,7 +520,7 @@ hist(colSums2(counts_sct), main = "SCT")
 ```
 
 Notice that the log-normalization has a range of total counts per spot that
-ranges across several orders of magnitude. The SCT transform has a more uniform
+ranges across several orders of magnitude. The SCTransform has a more uniform
 distribution of total counts and spans a factor of three, from ~1000 to ~2700.
 
 Next, we will compare the mean-variance plots between the two methods.
@@ -534,29 +530,32 @@ plot_lognorm
 plot_sct
 ```
 
+Following SCTransform, the variance is largely stable across a range of mean expression values.
+Certainly, we do not observe the wild ripple in the mean-variance trend at the
+high expression end that we saw with log-normalization. Secondly, the highly
+variable genes are spread across a larger region and not overly biased towards
+the high end of the expression spectrum.
+
 ### No One-Size-Fits-All Approach
 
-Raw read counts provide essential insights into the absolute cell type densities
-within a sample, which are crucial for mapping cellular distribution. In 
-contrast, normalized data adjusts for technical variations like sequencing depth
-and RNA capture efficiency, thus revealing the relative proportions of cell 
-types and identifying specific tissue structures, such as epithelium or 
-fibrosis. Saiselet et al. demonstrated that while normalized data effectively 
-identify distinct morphologies, raw counts are vital for detecting areas with 
-unusual cell-type concentrations, such as high epithelial regions expressing 
-vimentin (VIM) (Saiselet, M., et al., Journal of Molecular Cell Biology, 2020).
-Hence, choosing the right normalization method depends on the specific
-characteristics of each dataset and the biological questions at hand.
-Researchers must understand the impact of each normalization strategy on both 
-the biological and technical aspects of their data.
+Raw read counts provide essential insights into absolute cell densities
+within a sample. In some cases,
+this may reflect morphologically distinct regions and / or regions enriched for
+particular cell types. We advise assessing raw gene and count spatial distributions
+prior to normalization for this reason.
 
+In this particular ecample, we found that SCTransform better ameliorated
+the mean-variance trend than log-normalization. We do not intend for this to
+hold universally across samples. Indeed, rather than advocating for one
+particular normalization approach, our goal was to introduce you to means
+of diagnosing the impact of normalization methods and of comparing them.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - Normalization is essential but must be selectively applied based on the unique 
 characteristics of each dataset and the specific biological questions at hand.
-- Techniques like SCTransform and log scaling offer ways to balance technical 
-correction with biological integrity.
+- Techniques like SCTransform and log scaling attempt to remove technical
+artifacts while preserving biologically relevant signals.
 - Examining both raw and normalized data can provide comprehensive insights into
 the absolute and relative characteristics of cellular components in spatial 
 transcriptomics.
