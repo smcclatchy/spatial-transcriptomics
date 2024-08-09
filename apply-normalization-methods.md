@@ -67,7 +67,7 @@ hist(colSums2(counts), breaks = 100,
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
-As you can see, the total counts per spot ranges cross three orders of 
+As you can see, the total counts per spot ranges cross four orders of 
 magnitude. Some of this may be due to the biology of the tissue, *i.e.* some 
 cells may express more transcripts. But some of this may be due to technical 
 issues. Let's explore each of these two considerations further.
@@ -190,7 +190,7 @@ cpm_st <- NormalizeData(filter_st,
                         scale.factor         = 1e6)
 ```
 
-NormalizeData adds a `data` object to the Seurat object. 
+`NormalizeData` adds a `data` object to the Seurat object. 
 
 
 ``` r
@@ -309,6 +309,7 @@ standardized.cpms               <- (cpms[not.const,] - means[not.const]) / sqrt(
 gene.info[not.const, "variance.standardized"] <- apply(standardized.cpms, 1, var)
 
 g <- ggplot() + geom_point(data = gene.info[not.const,], aes(x = mean, y = variance.standardized))
+g <- g + geom_hline(yintercept = 1, colour = "yellow")
 g <- g + scale_x_log10()
 g <- g + xlab("Log Mean CPM") + ylab("Variance of\nTrend-Standardized CPMs")
 g
@@ -458,7 +459,7 @@ SpatialFeaturePlot(lognorm_st, slot="data", c("SCGB2A2", "PLP1"))
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 Both clearly show significant spatial variability -- despite the fact that we
-did not explicit query for genes whose expression varied spatially. We will look at approaches
+did not explicitly query for genes whose expression varied spatially. We will look at approaches
 for doing that later, such as the Moran's I statistic. <i>PLP1</i> shows coherent
 spatial variability closely linked to brain morphology -- this is a marker for the white matter.
 
@@ -490,7 +491,7 @@ expression levels
 sct_st <- SCTransform(filter_st, assay = "Spatial")
 ```
 
-The `SCTransform` method added a new assay called *SCT*.
+The `SCTransform` method added a new assay called `SCT`.
 
 
 ``` r
@@ -513,7 +514,7 @@ DefaultAssay(sct_st)
 [1] "SCT"
 ```
 
-Within this new *SCT* Assay, `SCTransform` has created three `Layers` to store
+Within this new `SCT` Assay, `SCTransform` has created three `Layers` to store
 data, not to be confused with the neocortical layers of the brain.
 
 
@@ -539,7 +540,7 @@ deviation in that count under the model).
 
 ![Seurat object structure](./fig/seurat_object_assays_layers.png){alt='A diagram of the sttructure of a Seurat object showing the assays (Spatial & SCT) and Layers (counts, data & scale.data.'}
 
-Notice, in particular, that the `counts` Layers in the *Spatial* and *SCT* 
+Notice, in particular, that the `counts` Layers in the `Spatial` and `SCT` 
 Assays are different. As mentioned above, the latter have been corrected for 
 differences in sequencing depth between cells. As such, the distribution in 
 total counts per cell is much more uniform in the latter case.
@@ -576,7 +577,7 @@ variance we encountered above.
 
 We will compare this mean-variance plot to the one derived using log-normalization
 below. Before we do, let's look at the spatial expression of the two most variable genes
-following SCTransform. One of these, <i>PLP1</i>, we have already seena bove.
+following SCTransform. One of these, <i>PLP1</i>, we have already seen above.
 
 
 ``` r
@@ -635,18 +636,18 @@ object.
 
 ``` r
 layout(matrix(1:2, ncol = 1))
-counts_log <- LayerData(lognorm_st, layer = "data")
-hist(colSums2(counts_log), main = "Log-norm")
+sum_log <- LayerData(lognorm_st, layer = "data")
+hist(colSums2(sum_log), main = "Log-norm", xlab = "Summed, Normalized Expression Values")
 
-counts_sct <- LayerData(sct_st, layer = "data")
-hist(colSums2(counts_sct), main = "SCT")
+sum_sct <- LayerData(sct_st, layer = "data")
+hist(colSums2(sum_sct), main = "SCT", xlab = "Summed, Normalized Expression Values")
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 
-Notice that the log-normalization has a range of total counts per spot that
-ranges across several orders of magnitude. The SCTransform has a more uniform
-distribution of total counts and spans a factor of three, from ~1000 to ~2700.
+Notice that the log-normalization has a range of summed expression values per spot spanning
+several orders of magnitude. The SCTransform has a more uniform
+distribution of summed normalized expression values that spans a factor of three, from ~1000 to ~2700.
 
 Next, we will compare the mean-variance plots between the two methods.
 
@@ -677,8 +678,8 @@ this may reflect morphologically distinct regions and / or regions enriched for
 particular cell types. We advise assessing raw gene and count spatial distributions
 prior to normalization for this reason.
 
-In this particular ecample, we found that SCTransform better ameliorated
-the mean-variance trend than log-normalization. We do not intend for this to
+In this particular example, we found that SCTransform better ameliorated
+the mean-variance trend than log-normalization. We make no claim that this will
 hold universally across samples. Indeed, rather than advocating for one
 particular normalization approach, our goal was to introduce you to means
 of diagnosing the impact of normalization methods and of comparing them.
