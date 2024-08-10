@@ -266,25 +266,71 @@ scRNA-seq. In the scRNA-seq setting, several studies, including one by [Squair, 
 (*e.g.*, DESeq2) to compare the pseudobulks. A Seurat [vignette](https://satijalab.org/seurat/articles/de_vignette) 
 describing the approach for scRNA-seq should likewise be applicable for spatial transcriptomics. However, we note the caveat that spots are not cells -- the former may have considerably more intra- and inter-spot biological heterogeneity. Hence, pseudobulking should be done with caution.
 
-We selected one sample from each subject (`151507`, `151669`, and `151673`), as detailed in the referenced study ([Maynard et al, Nat Neurosci 24, 425–436 (2021)](https://doi.org/10.1038/s41593-020-00787-0)). This selection allows us to analyze the consistency of differential expression across individuals while accounting for subject-specific batch effects.
+We selected one sample from each subject (`151508`, `151669`, and `151673`), as detailed in the referenced study ([Maynard et al, Nat Neurosci 24, 425–436 (2021)](https://doi.org/10.1038/s41593-020-00787-0)). This selection allows us to analyze the consistency of differential expression across individuals while accounting for subject-specific batch effects. We start by loading our samples:
+
+```{r multiple-samples loading}
+selected_samples <- c("151508", "151669", "151673")
+
+# Load necessary libraries
+library(Seurat)
+library(dplyr)
+library(readr)
+
+# Define the list of selected sample IDs
+selected_samples <- c("151507", "151669", "151673")
+
+# Initialize an empty list to store Seurat objects
+st_objects <- list()
+
+# Loop over each sample ID to process the corresponding data
+for (sample_id in selected_samples) {
+  # Construct the directory and filename for data loading
+  data_dir <- paste0("./data/", sample_id)
+  filename <- paste0(sample_id, "_raw_feature_bc_matrix.h5")
+  
+  # Load the spatial transcriptomics data for the current sample
+  st_obj <- Load10X_Spatial(data.dir = data_dir, filename = filename)
+  
+  # Read in the tissue spot positions from the CSV file
+  tissue_positions_file <- paste0(data_dir, "/spatial/tissue_positions_list.csv")
+  tissue_position <- read_csv(tissue_positions_file, 
+                              col_names = FALSE, show_col_types = FALSE) %>%
+                     column_to_rownames('X1')
+  
+  # Define column names for the tissue position data
+  colnames(tissue_position) <- c("in_tissue", "array_row", "array_col", 
+                                 "pxl_row_in_fullres", "pxl_col_in_fullres")
+  
+  # Align spot barcodes between the Seurat object and the tissue position metadata
+  tissue_position <- tissue_position[Cells(st_obj),]
+  stopifnot(rownames(tissue_position) == Cells(st_obj))
+  
+  # Add the aligned tissue position metadata to the Seurat object
+  st_obj <- AddMetaData(object = st_obj, metadata = tissue_position)
+  
+  # Store the updated Seurat object in the list, using the sample ID as the key
+  st_objects[[sample_id]] <- st_obj
+}
+
+```
+Now, st_objects variable contains all the Seurat objects for each selected sample, indexed by their respective sample IDs.
 
 ### Batch correction Analysis
 
 When working with multiple samples, batch effects can introduce technical variability that may confound biological signals. Batch correction methods can help mitigate these effects. In this section, we perform pseudobulk analysis and apply PCA to visualize any potential batch effects across layers.
 
 ```{r batch-correction-analysis}
-selected_samples <- c("151507", "151669", "151673")
 
 # Initialize an empty list to store pseudobulked Seurat objects
 pseudobulked_objs <- list()
 
 # Pseudobulk each selected sample by aggregating expression within annotated layers
 for (i in selected_samples) {
-  pseudobulk_seurat <- AggregateExpression(objs[[i]], 
+  pseudobulk_seurat <- AggregateExpression(st_objects[[i]], 
                                            assays = 'Spatial', 
                                            return.seurat = TRUE, 
                                            group.by = 'layer_guess')
-  pseudobulk_seurat@meta.data$sample <- names(objs[i])
+  pseudobulk_seurat@meta.data$sample <- names(st_objects[i])
   pseudobulk_seurat@meta.data$layer <- colnames(pseudobulk_seurat@assays[["Spatial"]])
   
   # Store the pseudobulked Seurat object in the list
@@ -320,6 +366,8 @@ In bulk or single-cell RNA-seq studies, batch effects would typically be mitigat
 ### Pseudobulk Analysis with DESeq2
 
 Pseudobulk analysis allows for the aggregation of single-cell or spot-level data into larger groups, which can reduce noise and enhance the detection of biologically meaningful signals. In this section, we perform differential expression analysis using DESeq2 on pseudobulked data. DESeq2 is a tool for differential expression analysis, particularly well-suited for count data, which is the type of data we have after aggregating the spatial transcriptomics spots into pseudobulks. It employs a statistical model that accounts for variability in read counts while controlling for factors such as sample size and sequencing depth. This makes it particularly powerful in situations where we expect relatively small changes in gene expression but need to ensure robustness against noise, making it an ideal choice for our pseudobulk analysis.
+
+In this case, we compare White Matter (aggregated expression from spots labeled as White Matter) versus the rest of the tissue (aggregated expression from spots belonging to all other cotrical layers). This binary comparison is straightforward yet powerful, as the White Matter in the brain is distinct from the cortical layers in terms of both structure and function. By comparing the gene expression in White Matter to that in all other layers, we aim to identify genes that are uniquely or predominantly expressed in White Matter and associated with its functions or pathologies
 
 ```{r pseudobulk-analysis}
 all_columns <- list()
@@ -394,9 +442,9 @@ plot_layer_expression <- function(sample, sample_id) {
 # Plot and save the top DE genes across samples
 plots <- list()
 for (sample_id in selected_samples) {
-  p1 <- plot_sample_expression(objs[[sample_id]], "MOBP", sample_id)
-  p2 <- plot_sample_expression(objs[[sample_id]], "MBP" , sample_id)
-  p3 <- plot_layer_expression(objs[[sample_id]], sample_id)
+  p1 <- plot_sample_expression(st_objects[[sample_id]], "MOBP", sample_id)
+  p2 <- plot_sample_expression(st_objects[[sample_id]], "MBP" , sample_id)
+  p3 <- plot_layer_expression(st_objects[[sample_id]], sample_id)
   combined <- p1 + p2 + p3
   plots[[sample_id]] <- combined
 }
