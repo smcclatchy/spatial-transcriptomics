@@ -721,7 +721,7 @@ suited.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Which technology you use depends on your experimental aim. If you are
 testing hypotheses about specific genes, you can profile those genes at
@@ -1670,7 +1670,7 @@ it?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1726,7 +1726,7 @@ computer to assign up/down and left/right to the image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Look at the spots in each corner. In the upper-left, you will see the
 following patterns:</p>
@@ -1851,7 +1851,7 @@ occur in the background spots?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Solution 3 </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>When the tissue section is lysed, some transcripts may leak out of
@@ -2414,7 +2414,7 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4041,7 +4041,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-differential-expression-testing"><p>Content from <a href="differential-expression-testing.html">Differential Expression Testing</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-08-10 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -4384,12 +4384,67 @@ spatial transcriptomics. However, we note the caveat that spots are not
 cells – the former may have considerably more intra- and inter-spot
 biological heterogeneity. Hence, pseudobulking should be done with
 caution.</p>
-<p>We selected one sample from each subject (<code>151507</code>,
+<p>We selected one sample from each subject (<code>151508</code>,
 <code>151669</code>, and <code>151673</code>), as detailed in the
 referenced study (<a href="https://doi.org/10.1038/s41593-020-00787-0" class="external-link">Maynard et al, Nat
 Neurosci 24, 425–436 (2021)</a>). This selection allows us to analyze
 the consistency of differential expression across individuals while
-accounting for subject-specific batch effects.</p>
+accounting for subject-specific batch effects. We start by loading our
+samples:</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">selected_samples</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"151508"</span>, <span class="st">"151669"</span>, <span class="st">"151673"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load necessary libraries</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">Seurat</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">dplyr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">readr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define the list of selected sample IDs</span></span>
+<span><span class="va">selected_samples</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"151507"</span>, <span class="st">"151669"</span>, <span class="st">"151673"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Initialize an empty list to store Seurat objects</span></span>
+<span><span class="va">st_objects</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Loop over each sample ID to process the corresponding data</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">sample_id</span> <span class="kw">in</span> <span class="va">selected_samples</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Construct the directory and filename for data loading</span></span>
+<span>  <span class="va">data_dir</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"./data/"</span>, <span class="va">sample_id</span><span class="op">)</span></span>
+<span>  <span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="va">sample_id</span>, <span class="st">"_raw_feature_bc_matrix.h5"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Load the spatial transcriptomics data for the current sample</span></span>
+<span>  <span class="va">st_obj</span> <span class="op">&lt;-</span> <span class="fu">Load10X_Spatial</span><span class="op">(</span>data.dir <span class="op">=</span> <span class="va">data_dir</span>, filename <span class="op">=</span> <span class="va">filename</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Read in the tissue spot positions from the CSV file</span></span>
+<span>  <span class="va">tissue_positions_file</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="va">data_dir</span>, <span class="st">"/spatial/tissue_positions_list.csv"</span><span class="op">)</span></span>
+<span>  <span class="va">tissue_position</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="va">tissue_positions_file</span>, </span>
+<span>                              col_names <span class="op">=</span> <span class="cn">FALSE</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>                     <span class="fu">column_to_rownames</span><span class="op">(</span><span class="st">'X1'</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Define column names for the tissue position data</span></span>
+<span>  <span class="fu">colnames</span><span class="op">(</span><span class="va">tissue_position</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"in_tissue"</span>, <span class="st">"array_row"</span>, <span class="st">"array_col"</span>, </span>
+<span>                                 <span class="st">"pxl_row_in_fullres"</span>, <span class="st">"pxl_col_in_fullres"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Align spot barcodes between the Seurat object and the tissue position metadata</span></span>
+<span>  <span class="va">tissue_position</span> <span class="op">&lt;-</span> <span class="va">tissue_position</span><span class="op">[</span><span class="fu">Cells</span><span class="op">(</span><span class="va">st_obj</span><span class="op">)</span>,<span class="op">]</span></span>
+<span>  <span class="fu">stopifnot</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">tissue_position</span><span class="op">)</span> <span class="op">==</span> <span class="fu">Cells</span><span class="op">(</span><span class="va">st_obj</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Add the aligned tissue position metadata to the Seurat object</span></span>
+<span>  <span class="va">st_obj</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">st_obj</span>, metadata <span class="op">=</span> <span class="va">tissue_position</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Store the updated Seurat object in the list, using the sample ID as the key</span></span>
+<span>  <span class="va">st_objects</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">st_obj</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in Load10X_Spatial(data.dir = data_dir, filename = filename): No such file or directory: './data/151507'</code></pre>
+</div>
+<p>Now, st_objects variable contains all the Seurat objects for each
+selected sample, indexed by their respective sample IDs.</p>
 <div class="section level3">
 <h3 id="batch-correction-analysis">Batch correction Analysis<a class="anchor" aria-label="anchor" href="#batch-correction-analysis"></a>
 </h3>
@@ -4398,22 +4453,20 @@ technical variability that may confound biological signals. Batch
 correction methods can help mitigate these effects. In this section, we
 perform pseudobulk analysis and apply PCA to visualize any potential
 batch effects across layers.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">selected_samples</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"151507"</span>, <span class="st">"151669"</span>, <span class="st">"151673"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Initialize an empty list to store pseudobulked Seurat objects</span></span>
+<code class="sourceCode R"><span><span class="co"># Initialize an empty list to store pseudobulked Seurat objects</span></span>
 <span><span class="va">pseudobulked_objs</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Pseudobulk each selected sample by aggregating expression within annotated layers</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">selected_samples</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">pseudobulk_seurat</span> <span class="op">&lt;-</span> <span class="fu">AggregateExpression</span><span class="op">(</span><span class="va">objs</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, </span>
+<span>  <span class="va">pseudobulk_seurat</span> <span class="op">&lt;-</span> <span class="fu">AggregateExpression</span><span class="op">(</span><span class="va">st_objects</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, </span>
 <span>                                           assays <span class="op">=</span> <span class="st">'Spatial'</span>, </span>
 <span>                                           return.seurat <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>                                           group.by <span class="op">=</span> <span class="st">'layer_guess'</span><span class="op">)</span></span>
-<span>  <span class="va">pseudobulk_seurat</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu">names</span><span class="op">(</span><span class="va">objs</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">pseudobulk_seurat</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu">names</span><span class="op">(</span><span class="va">st_objects</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="va">pseudobulk_seurat</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">layer</span> <span class="op">&lt;-</span> <span class="fu">colnames</span><span class="op">(</span><span class="va">pseudobulk_seurat</span><span class="op">@</span><span class="va">assays</span><span class="op">[[</span><span class="st">"Spatial"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># Store the pseudobulked Seurat object in the list</span></span>
@@ -4423,9 +4476,9 @@ batch effects across layers.</p>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'objs' not found</code></pre>
+<pre class="error" tabindex="0"><code>Error in UseMethod(generic = "PseudobulkExpression", object = object): no applicable method for 'PseudobulkExpression' applied to an object of class "NULL"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4446,7 +4499,7 @@ argument</code></pre>
 </h3>
 <pre class="error" tabindex="0"><code>Error in seq_len(length.out = ncells): argument must be coercible to non-negative integer</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4457,7 +4510,7 @@ argument</code></pre>
 </h3>
 <pre class="error" tabindex="0"><code>Error: 'VST.default' is not implemented yet</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4468,7 +4521,7 @@ argument</code></pre>
 </h3>
 <pre class="error" tabindex="0"><code>Error in split.default(x = colnames(x = object), f = split.by): first argument must be a vector</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4483,7 +4536,7 @@ argument</code></pre>
 <p>To assess the presence of batch effects, we visualize the PCA
 results. Ideally, the samples should cluster by layer rather than by
 sample, indicating that batch effects are not a significant concern.</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4497,7 +4550,7 @@ sample, indicating that batch effects are not a significant concern.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in UseMethod(generic = "FetchData", object = object): no applicable method for 'FetchData' applied to an object of class "NULL"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4536,7 +4589,16 @@ size and sequencing depth. This makes it particularly powerful in
 situations where we expect relatively small changes in gene expression
 but need to ensure robustness against noise, making it an ideal choice
 for our pseudobulk analysis.</p>
-<div class="codewrapper sourceCode" id="cb27">
+<p>In this case, we compare White Matter (aggregated expression from
+spots labeled as White Matter) versus the rest of the tissue (aggregated
+expression from spots belonging to all other cotrical layers). This
+binary comparison is straightforward yet powerful, as the White Matter
+in the brain is distinct from the cortical layers in terms of both
+structure and function. By comparing the gene expression in White Matter
+to that in all other layers, we aim to identify genes that are uniquely
+or predominantly expressed in White Matter and associated with its
+functions or pathologies</p>
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4566,7 +4628,7 @@ for our pseudobulk analysis.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in pseudobulked_objs[[sample_name]]@assays: no applicable method for `@` applied to an object of class "NULL"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4579,7 +4641,7 @@ for our pseudobulk analysis.</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in pseudobulked_objs[[1]]: subscript out of bounds</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4607,7 +4669,7 @@ for our pseudobulk analysis.</p>
 <figure><img src="fig/dE_genes.png" alt="Genes with the lowest adjusted p-values from differential expression analysis with DESeq2" class="figure mx-auto d-block"><div class="figcaption">Visium spatial gene expression slide</div>
 </figure><p>We have selected to plot spatially the differentially expressed genes
 with the highest mean values, namely “MBP” and “MOBP”</p>
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4630,9 +4692,9 @@ with the highest mean values, namely “MBP” and “MOBP”</p>
 <span><span class="co"># Plot and save the top DE genes across samples</span></span>
 <span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">sample_id</span> <span class="kw">in</span> <span class="va">selected_samples</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">plot_sample_expression</span><span class="op">(</span><span class="va">objs</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span>, <span class="st">"MOBP"</span>, <span class="va">sample_id</span><span class="op">)</span></span>
-<span>  <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">plot_sample_expression</span><span class="op">(</span><span class="va">objs</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span>, <span class="st">"MBP"</span> , <span class="va">sample_id</span><span class="op">)</span></span>
-<span>  <span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">plot_layer_expression</span><span class="op">(</span><span class="va">objs</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span>, <span class="va">sample_id</span><span class="op">)</span></span>
+<span>  <span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">plot_sample_expression</span><span class="op">(</span><span class="va">st_objects</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span>, <span class="st">"MOBP"</span>, <span class="va">sample_id</span><span class="op">)</span></span>
+<span>  <span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">plot_sample_expression</span><span class="op">(</span><span class="va">st_objects</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span>, <span class="st">"MBP"</span> , <span class="va">sample_id</span><span class="op">)</span></span>
+<span>  <span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu">plot_layer_expression</span><span class="op">(</span><span class="va">st_objects</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span>, <span class="va">sample_id</span><span class="op">)</span></span>
 <span>  <span class="va">combined</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span></span>
 <span>  <span class="va">plots</span><span class="op">[[</span><span class="va">sample_id</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">combined</span></span>
 <span><span class="op">}</span></span></code></pre>
@@ -4640,9 +4702,9 @@ with the highest mean values, namely “MBP” and “MOBP”</p>
 <div class="codewrapper">
 <h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="error" tabindex="0"><code>Error in eval(expr, envir, enclos): object 'objs' not found</code></pre>
+<pre class="error" tabindex="0"><code>Error in sample@assays: no applicable method for `@` applied to an object of class "NULL"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb34">
+<div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4654,7 +4716,7 @@ with the highest mean values, namely “MBP” and “MOBP”</p>
 </h3>
 <pre class="error" tabindex="0"><code>Error in wrap_plots(plots, ncol = 1): could not find function "wrap_plots"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -4773,7 +4835,7 @@ did we use? Load those in now.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4809,7 +4871,7 @@ sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4841,7 +4903,7 @@ sample’s metadata to your Seurat object.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4887,7 +4949,7 @@ Data Preprocessing lesson and adapt it to your tissue sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4919,7 +4981,7 @@ of at least 10 counts. How many genes did you end up with?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4966,7 +5028,7 @@ select?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5109,7 +5171,7 @@ for by each PC.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5160,7 +5222,7 @@ algorithm?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
 <div class="accordion-body">
 <p>We selected 50 PCs and a cluster resoltion of 1 for this exercise.
 This may not be optimal. You will have a chance to vary these parameters
@@ -5232,7 +5294,7 @@ in Seurat.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5285,7 +5347,7 @@ et al.</a>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution10" aria-expanded="false" aria-controls="collapseSolution10">
   <h4 class="accordion-header" id="headingSolution10"> Show me the solution </h4>
 </button>
-<div id="collapseSolution10" class="accordion-collapse collapse" aria-labelledby="headingSolution10" data-bs-parent="#accordionSolution10">
+<div id="collapseSolution10" class="accordion-collapse collapse" data-bs-parent="#accordionSolution10" aria-labelledby="headingSolution10">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5320,7 +5382,7 @@ look more like the results in the manuscript?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution11" aria-expanded="false" aria-controls="collapseSolution11">
   <h4 class="accordion-header" id="headingSolution11"> Show me the solution </h4>
 </button>
-<div id="collapseSolution11" class="accordion-collapse collapse" aria-labelledby="headingSolution11" data-bs-parent="#accordionSolution11">
+<div id="collapseSolution11" class="accordion-collapse collapse" data-bs-parent="#accordionSolution11" aria-labelledby="headingSolution11">
 <div class="accordion-body">
 <p>For class discussion.</p>
 </div>
@@ -5396,8 +5458,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/aio.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-08-09",
-  "datePublished": "2024-08-09"
+  "dateModified": "2024-08-10",
+  "datePublished": "2024-08-10"
 }
 
   </script><script>
