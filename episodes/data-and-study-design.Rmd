@@ -35,11 +35,11 @@ In spatial transcriptomics the barcode indicates the x-y coordinates of the
 spot. Barcodes are generic identifiers that identify different things in 
 different technologies. A barcode in single-cell transcriptomics, for example, 
 refers to a single cell, not to a spot on a slide. When you see barcodes in ST 
-data, think "spot", not "single cell". In fact, one spot can capture mRNA from 
+data, think *spot*, not *single cell*. In fact, one spot can capture mRNA from 
 many cells. This is a feature of ST experiments that is distinct from 
 single-cell transcriptomics experiments. As a result, many single-cell methods 
 won't work with ST data. Later we will look at methods to 
-["deconvolve" cell types per spot](deconvolve-cell-types-in-a-spot.Rmd) 
+[*deconvolve* cell types per spot](deconvolve-cell-types-in-a-spot.Rmd) 
 to determine the number and types of cells in each spot. Spots can contain zero,
 one, or many cells.
 
@@ -133,7 +133,7 @@ this study, dorsolateral prefrontal cortex samples were embedded in a medium
 chilled Visium slides, fixed and stained.
 
 This whole process might have depended on donor availability. All three donors
-were neurotypical, and it's not clear how they died (e.g. an accident, a 
+were neurotypical, and it's not clear how they died (*e.g.*, an accident, a 
 terminal illness, old age) and how that might have impacted availability or mRNA
 quality. Suffice it to say that it might not have been possible to predict when 
 samples would be available, so it might not have been possible to randomize the 
@@ -164,7 +164,7 @@ To figure out whether a difference in responses is real or inherently random,
 replication applies the same treatment to multiple experimental units. The 
 variability of the responses within a set of replicates provides a measure 
 against which we can compare differences among different treatments. 
-"Experimental error" describes the variability in the responses. Random 
+*Experimental error* describes the variability in the responses. Random 
 variation (a.k.a random error or noise) reflects imprecision, but not 
 inaccuracy. Larger sample sizes reduce this imprecision.
 
@@ -202,7 +202,7 @@ systematic, or random error.
 1\). A scale is broken and provides inconsistent readings.  
 2\). A scale is calibrated wrongly and consistently measures mice 1 gram heavier.  
 3\). A mouse has an unusually high weight compared to its experimental group 
-(i.e., it is an outlier).  
+(*e.g.*, it is an outlier).  
 4\). Strong atmospheric low pressure and accompanying storms affect instrument 
 readings, animal behavior, and indoor relative humidity.
 

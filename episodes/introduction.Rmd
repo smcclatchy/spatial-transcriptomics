@@ -14,7 +14,8 @@ exercises: 5
 :::::: objectives
  - Describe why and how spatial transcriptomics can be used in research.
  - Describe how spatial transcriptomics technology works. 
- - Describe how spatial transcriptomics addresses the limitations of single-cell or bulk RNA sequencing technologies. 
+ - Describe how spatial transcriptomics addresses the limitations of single-cell 
+ or bulk RNA sequencing technologies. 
 ::::::
 
 ## Spatial transcriptomics in biomedical research
@@ -108,7 +109,7 @@ Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon.</a> Image
 created with Biorender.com. Public domain, via Wikimedia Commons <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0 DEED</a>
 
 Messenger RNA (mRNA) is reverse transcribed to complementary DNA (cDNA) within 
-tissue sections. A "padlock" probe binds to the cDNA, which is then 
+tissue sections. A *padlock* probe binds to the cDNA, which is then 
 circularized. Following circularization, the cDNA is amplified by 
 rolling-circle amplification (RCA), then sequenced by ligation for decoding. 
 Probes profile one or two bases at a time using different fluorophores, 
@@ -149,7 +150,7 @@ Nanostring's GeoMx DSP and STRP-seq.
 Microfluidics places a chip with multiple barcode-containing channels onto a 
 tissue section followed by a second chip with channels perpendicular to the 
 first. The barcodes are then ligated to each other to create an array of 
-unique barcodes on the tissue. This "deterministic barcoding" is employed in
+unique barcodes on the tissue. This *deterministic barcoding* is employed in
 DBiT-seq. DBiT-seq can be used with FFPE tissues. This approach is helpful to
 avoid diffusion of mRNA away from capture areas, though a disadvantage is that
 cells often sit astride multiple capture areas.
