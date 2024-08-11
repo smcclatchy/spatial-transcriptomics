@@ -28,6 +28,7 @@ suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(ComplexHeatmap))
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(patchwork))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -269,24 +270,18 @@ describing the approach for scRNA-seq should likewise be applicable for spatial 
 We selected one sample from each subject (`151508`, `151669`, and `151673`), as detailed in the referenced study ([Maynard et al, Nat Neurosci 24, 425–436 (2021)](https://doi.org/10.1038/s41593-020-00787-0)). This selection allows us to analyze the consistency of differential expression across individuals while accounting for subject-specific batch effects. We start by loading our samples:
 
 ```{r multiple-samples loading}
-selected_samples <- c("151508", "151669", "151673")
-
-# Load necessary libraries
-library(Seurat)
-library(dplyr)
-library(readr)
 
 # Define the list of selected sample IDs
-selected_samples <- c("151507", "151669", "151673")
+selected_samples <- c("151508", "151669","151673")
 
 # Initialize an empty list to store Seurat objects
 st_objects <- list()
-
+print(getwd())
 # Loop over each sample ID to process the corresponding data
 for (sample_id in selected_samples) {
   # Construct the directory and filename for data loading
   data_dir <- paste0("./data/", sample_id)
-  filename <- paste0(sample_id, "_raw_feature_bc_matrix.h5")
+  filename <- paste0(sample_id, "_filtered_feature_bc_matrix.h5")
   
   # Load the spatial transcriptomics data for the current sample
   st_obj <- Load10X_Spatial(data.dir = data_dir, filename = filename)
@@ -307,7 +302,18 @@ for (sample_id in selected_samples) {
   
   # Add the aligned tissue position metadata to the Seurat object
   st_obj <- AddMetaData(object = st_obj, metadata = tissue_position)
+
+  # Additionally we add the "layer_guess" and "cell-count" metadata 
+  spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
+  # Subset to our sample
+  spot_metadata <- subset(spot_metadata, sample_name == sample_id)
+  rownames(spot_metadata) <- spot_metadata$barcode
+  stopifnot(all(Cells(st_obj) %in% rownames(spot_metadata)))
+  spot_metadata <- spot_metadata[Cells(st_obj),]
   
+  st_obj <- AddMetaData(object = st_obj,
+                           metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
+
   # Store the updated Seurat object in the list, using the sample ID as the key
   st_objects[[sample_id]] <- st_obj
 }
