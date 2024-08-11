@@ -301,24 +301,24 @@ We selected one sample from each subject (`151508`, `151669`, and `151673`), as 
 
 
 ``` r
-selected_samples <- c("151508", "151669", "151673")
-
-# Load necessary libraries
-library(Seurat)
-library(dplyr)
-library(readr)
-
 # Define the list of selected sample IDs
-selected_samples <- c("151507", "151669", "151673")
+selected_samples <- c("151508", "151669","151673")
 
 # Initialize an empty list to store Seurat objects
 st_objects <- list()
+print(getwd())
+```
 
+``` output
+[1] "/home/runner/work/spatial-transcriptomics/spatial-transcriptomics/site/built"
+```
+
+``` r
 # Loop over each sample ID to process the corresponding data
 for (sample_id in selected_samples) {
   # Construct the directory and filename for data loading
   data_dir <- paste0("./data/", sample_id)
-  filename <- paste0(sample_id, "_raw_feature_bc_matrix.h5")
+  filename <- paste0(sample_id, "_filtered_feature_bc_matrix.h5")
   
   # Load the spatial transcriptomics data for the current sample
   st_obj <- Load10X_Spatial(data.dir = data_dir, filename = filename)
@@ -339,14 +339,25 @@ for (sample_id in selected_samples) {
   
   # Add the aligned tissue position metadata to the Seurat object
   st_obj <- AddMetaData(object = st_obj, metadata = tissue_position)
+
+  # Additionally we add the "layer_guess" and "cell-count" metadata 
+  spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
+  # Subset to our sample
+  spot_metadata <- subset(spot_metadata, sample_name == sample_id)
+  rownames(spot_metadata) <- spot_metadata$barcode
+  stopifnot(all(Cells(st_obj) %in% rownames(spot_metadata)))
+  spot_metadata <- spot_metadata[Cells(st_obj),]
   
+  st_obj <- AddMetaData(object = st_obj,
+                           metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
+
   # Store the updated Seurat object in the list, using the sample ID as the key
   st_objects[[sample_id]] <- st_obj
 }
 ```
 
 ``` error
-Error in Load10X_Spatial(data.dir = data_dir, filename = filename): No such file or directory: './data/151507'
+Error in Load10X_Spatial(data.dir = data_dir, filename = filename): No such file or directory: './data/151669'
 ```
 Now, st_objects variable contains all the Seurat objects for each selected sample, indexed by their respective sample IDs.
 
@@ -373,6 +384,39 @@ for (i in selected_samples) {
 }
 ```
 
+``` warning
+Warning: Removing 3 cells missing data for vars requested
+```
+
+``` output
+Removing cells with NA for 1 or more grouping variables
+```
+
+``` warning
+Warning: Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
+```
+
+``` output
+Centering and scaling data matrix
+```
+
 ``` error
 Error in UseMethod(generic = "PseudobulkExpression", object = object): no applicable method for 'PseudobulkExpression' applied to an object of class "NULL"
 ```
@@ -385,29 +429,29 @@ merged_pseudobulk <- Reduce(function(x, y) merge(x, y), pseudobulked_objs)
 merged_pseudobulk <- NormalizeData(merged_pseudobulk, normalization.method = "LogNormalize", scale.factor = 1e6)
 ```
 
-``` warning
-Warning in seq_len(length.out = ncells): first element used of 'length.out'
-argument
-```
-
-``` error
-Error in seq_len(length.out = ncells): argument must be coercible to non-negative integer
+``` output
+Normalizing layer: counts
 ```
 
 ``` r
 merged_pseudobulk <- FindVariableFeatures(merged_pseudobulk)
 ```
 
-``` error
-Error: 'VST.default' is not implemented yet
+``` output
+Finding variable features for layer counts
 ```
 
 ``` r
 merged_pseudobulk <- ScaleData(merged_pseudobulk)
 ```
 
-``` error
-Error in split.default(x = colnames(x = object), f = split.by): first argument must be a vector
+``` output
+Centering and scaling data matrix
+```
+
+``` warning
+Warning: Different features in new layer data than already exists for
+scale.data
 ```
 
 ``` r
@@ -415,8 +459,26 @@ Error in split.default(x = colnames(x = object), f = split.by): first argument m
 merged_pseudobulk <- RunPCA(merged_pseudobulk, features = VariableFeatures(object = merged_pseudobulk), npcs = 2)
 ```
 
-``` error
-Error in RowVar.function(x = object): could not find function "RowVar.function"
+``` warning
+Warning in print.DimReduc(x = reduction.data, dims = ndims.print, nfeatures =
+nfeatures.print): Only 2 dimensions have been computed.
+```
+
+``` output
+PC_ 1 
+Positive:  AL645608.1, AL162511.1, CU638689.4, ERAS, AC090136.3, PLA2G2A, AC091563.1, CTSV, NIPAL4, APLNR 
+	   AL161421.1, ATXN2-AS, Z82214.2, SGMS1-AS1, LINC01238, TMTC4, AC005520.5, SLC4A11, ITGA8, C9orf170 
+	   PLEKHG4B, CCDC71, UNK, LPAR4, NUP210, AL133367.1, AC093525.6, KLHL31, AL356489.2, SLC39A4 
+Negative:  SDK1, NOP16, NEK10, RASGEF1A, MLIP, ARNTL, AC016065.1, WNK3, STN1, RGS6 
+	   PDE1B, ACTC1, PRAG1, SLX4IP, ASS1, TAC3, PDE12, LRRTM1, AGBL4, GNG13 
+	   GRM2, TIAM2, KYAT1, RSPH14, LRRC2, CDC42EP3, FAM135B, FAM162B, LRRK1, CCDC120 
+PC_ 2 
+Positive:  SLC36A1, TMEM81, CD83, SIAE, UCN, PDZD7, KLHL3, MARCH1, ASB7, SPINDOC 
+	   PAQR3, ZNF765, KCNK9, DUSP6, SLIT2, CIART, CREB3L1, SZT2, OTOA, MTG1 
+	   DHX37, AC139491.1, CNTN6, TUBB3, CNNM4, DNAH9, CNOT11, AJ009632.2, FLRT3, AC138207.2 
+Negative:  LCAT, G0S2, CD36, CIDEC, RELN, LINC00645, IPO9-AS1, FABP4, LINC02567, AL365434.2 
+	   SIGLEC11, AL136366.1, SCT, AC002451.1, S100A2, AC240274.1, C14orf180, FMO3, EBF3, TNFSF11 
+	   NPR3, MT1H, PPARG, OASL, MSS51, AVPR1A, VGLL3, CASQ2, RASL12, CES1 
 ```
 
 To assess the presence of batch effects, we visualize the PCA results. Ideally, the samples should cluster by layer rather than by sample, indicating that batch effects are not a significant concern.
@@ -427,19 +489,22 @@ To assess the presence of batch effects, we visualize the PCA results. Ideally, 
 PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by = "layer", pt.size = 3) +
   theme(legend.position = "right") +
   ggtitle("PCA Plot Annotated by Layer (Shapes)")
-```
-
-``` error
-Error in UseMethod(generic = "FetchData", object = object): no applicable method for 'FetchData' applied to an object of class "NULL"
-```
-
-``` r
 PCAPlot_layer_symbol
 ```
 
-``` error
-Error in eval(expr, envir, enclos): object 'PCAPlot_layer_symbol' not found
+``` warning
+Warning: The shape palette can deal with a maximum of 6 discrete values because more
+than 6 becomes difficult to discriminate
+ℹ you have requested 7 values. Consider specifying shapes manually if you need
+  that many have them.
 ```
+
+``` warning
+Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_point()`).
+```
+
+<img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" />
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
 If the dots were instead clustered by sample rather than by layer, it would indicate the presence of batch effects.
@@ -483,19 +548,19 @@ Error in pseudobulked_objs[[sample_name]]@assays: no applicable method for `@` a
 # Combine all processed matrices into a single matrix
 combined_matrix <- do.call(cbind, all_columns)
 rownames(combined_matrix) <- rownames(pseudobulked_objs[[1]])
-```
 
-``` error
-Error in pseudobulked_objs[[1]]: subscript out of bounds
-```
-
-``` r
 # Create a dataframe for DESeq2 with sample and layer information
 sample <- rep(selected_samples, each = 2)
 layer <- rep(c('WM', 'others'), times = length(selected_samples))
 new_dataframe <- data.frame(sample = sample, layer = layer)
 rownames(new_dataframe) <- colnames(combined_matrix)
+```
 
+``` error
+Error in `.rowNamesDF<-`(x, value = value): invalid 'row.names' length
+```
+
+``` r
 # Perform differential expression analysis using DESeq2
 # Unfortunately, there are still dependency issues between DESeq2 and Seurat,
 # so we recommend not running this part. To prevent execution, we wrap the code in an `if (FALSE)` statement.
@@ -552,19 +617,10 @@ Error in sample@assays: no applicable method for `@` applied to an object of cla
 ``` r
 # Combine and save plots
 combined_plot <- wrap_plots(plots, ncol = 1)
-```
-
-``` error
-Error in wrap_plots(plots, ncol = 1): could not find function "wrap_plots"
-```
-
-``` r
 print(combined_plot)
 ```
 
-``` error
-Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'print': object 'combined_plot' not found
-```
+<img src="fig/differential-expression-testing-rendered-print-pseudobulk results-1.png" style="display: block; margin: auto;" />
 As it is evident from the spatila distribution of the genes, they are mostly expressed specifically in the White Matter for all samples.
 
 ## Other Considerations
