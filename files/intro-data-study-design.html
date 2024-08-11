@@ -333,13 +333,13 @@
 <section id="spatial-transcriptomics-addresses-key-biological-questions" class="slide level2">
 <h2>Spatial transcriptomics addresses key biological questions</h2>
 <ul>
-<li>What cells are in a tissue, and how are they organized?</li>
+<li>Which cells are in a tissue, and how are they organized?</li>
 <li>How do cells interact within the tissue?</li>
 <li>How do different tissue structures interact molecularly?</li>
 </ul>
 
 <img data-src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Skeletal_muscle_-_cross_section%2C_nerve_bundle.jpg" class="r-stretch quarto-figure-left"><p class="caption">Courtesy: Dept of Histology, Jagiellonian Univ Med College, CC BY-SA 3.0 DEED</p><aside class="notes">
-<p>Spatial transcriptomics can answer important questions about tissue cell type architecture, cell-to-cell interactions, and molecular interactions between tissue components. The figure shows muscle cells and a nerve cell. Locating the positions of each of these cell types while simultaneously measuring their gene expression can answer fundamental questions of tissue biology in normal or disease states.</p>
+<p>Spatial transcriptomics can answer important questions about tissue cell type architecture, cell-to-cell interactions, and molecular interactions between tissue components. For example, spatial transcriptomics can shed light on physical and molecular interactions between muscle and nerve fibers in skeletal muscle. Locating the positions of each of these cell types while simultaneously measuring their gene expression can answer fundamental questions of tissue biology in normal or disease states.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -352,11 +352,11 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="spatial-transcriptomics-addresses-a-key-obstacle-in-bulk-and-single-cell-rna-sequencing-studies-their-loss-of-spatial-information" class="slide level2">
-<h2>Spatial transcriptomics addresses a key obstacle in bulk and single-cell RNA sequencing studies: their loss of spatial information</h2>
+<section id="spatial-transcriptomics-addresses-a-key-obstacle-in-bulk-and-single-cell-studies-their-loss-of-spatial-information" class="slide level2">
+<h2>Spatial transcriptomics addresses a key obstacle in bulk and single-cell studies: their loss of spatial information</h2>
 
-<img data-src="https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg" class="r-stretch quarto-figure-center"><p class="caption">Fred the Oyster, CC BY-SA 3.0 DEED Public domain via Wikimedia Commons</p><aside class="notes">
-<p>Knowing where a cell is located and what is in its neighborhood sheds light on signals a cell gives and receives, whether those are chemical or mechanical. That knowledge then illuminates tissue function.</p>
+<img data-src="https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg" class="r-stretch quarto-figure-left"><p class="caption">Fred the Oyster, CC BY-SA 3.0 DEED Public domain via Wikimedia Commons</p><aside class="notes">
+<p>Knowing where a cell is located and what is in its neighborhood can tell us about signals a cell gives and receives, whether those are chemical or mechanical. Spatial transcriptomics provides information about cell location, which bulk and single-cell sequencing don’t provide. This spatial knowledge then illuminates tissue function.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -375,8 +375,9 @@
 <li>imaging</li>
 <li>next-generation sequencing</li>
 </ul>
-<aside class="notes">
-<p>There are bewildering number of spatial transcriptomics technologies. Essentially they fall into two categories: those that use microscopic imaging and those that use next-generation sequencing.<br>
+
+<img data-src="../fig/imaging-vs-sequence-based.png" width="584" class="r-stretch"><aside class="notes">
+<p>There are bewildering number of spatial transcriptomics technologies. Essentially they fall into two main categories: those that use microscopic imaging and those that use next-generation sequencing.<br>
 Imaging-based methods use a pre-defined probe set and are good for hypotheses targeting specific genes. Sequencing-based methods are good for hypothesis generation and broad, unbiased measurements of all expression in a tissue sample.<br>
 Both receive tissue samples as input and deliver gene expression and spatial coordinates as output.</p>
 <style type="text/css">
@@ -396,7 +397,7 @@ Both receive tissue samples as input and deliver gene expression and spatial coo
 <p>using fluorescence in-situ hybridization (FISH)</p>
 
 <img data-src="../fig/FISH_Overview.png" width="668" class="r-stretch quarto-figure-center"><p class="caption">SlifertheRyeDragon, CC BY-SA 4.0 via Wikimedia Commons</p><aside class="notes">
-<p>Fluorescence in-situ hybridization (FISH) is the first of two imaging-based methods presented here. Complementary probes hybridize with target mRNAs and are read out with high specificity using a microscope. FISH identifies location of expression through direct imaging of RNA molecules in cells.</p>
+<p>Fluorescence in-situ hybridization (FISH) visualizes mRNA molecules in place in the original tissue environment. FISH uses imaging of mRNA hybridized to fluorescent probes. Probes are gene-specific, targeting mRNAs and reading them out with high specificity using microscopy.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -413,9 +414,8 @@ Both receive tissue samples as input and deliver gene expression and spatial coo
 
 
 
-<section id="sequencing-based-technologies-2" class="slide level2">
-<h2>Sequencing-based technologies</h2>
-<p>Array-based methods</p>
+<section id="sequencing-based-technologies-arrays" class="slide level2">
+<h2>Sequencing-based technologies: arrays</h2>
 
 <img data-src="https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png" class="r-stretch quarto-figure-center"><p class="caption">James Chell, CC BY-SA 4.0, via Wikimedia Commons</p><aside class="notes">
 <p>Array-based methods capture mRNAs with arrays of barcoded probes that record position. The barcode indicates the spot on the array, not the cell as in single-cell RNA. Each spot captures mRNA from adjacent cells. Once sequenced, gene expression can be mapped back onto a tissue image.</p>
@@ -432,6 +432,56 @@ Both receive tissue samples as input and deliver gene expression and spatial coo
       }</style></aside>
 </section>
 
+<section id="strengths-and-weaknesses-of-imaging--vs-sequencing-based-technologies" class="slide level2">
+<h2>Strengths and weaknesses of imaging- vs sequencing-based technologies</h2>
+<table>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Technology</th>
+<th style="text-align: center;">Gene detection efficiency</th>
+<th style="text-align: center;">Transcriptome-wide profiling</th>
+<th style="text-align: center;">Spatial resolution</th>
+<th style="text-align: center;">Tissue area</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>imaging-based</td>
+<td style="text-align: center;">+</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">+</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr class="even">
+<td>sequencing-based</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">+</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">+</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<p>FISH and other imaging-based methods can deliver high spatial resolution, even single-molecule resolution in single-molecule FISH. Since they target specific genes, they can only detect genes that are in the probe set. They can also be time-consuming and expensive due to microscopic imaging they require. They are best used for hypotheses targeting specific genes. Sequencing-based methods excel at transcriptome-wide profiling, however, their spatial resolution is lower than imaging-based methods. They can efficiently profile large tissue areas.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="x-genomics-visium" class="slide level2">
 <h2>10X Genomics Visium</h2>
 
@@ -510,7 +560,7 @@ What does the sum of a single column signify?</p>
 </section>
 <section id="data-and-study-design" class="slide level2">
 <h2>Data and study design</h2>
-<p>Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex Maynard et al, Nat Neurosci 24, 425–436 (2021)</p>
+<p>Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex. Maynard et al, Nat Neurosci 24, 425–436 (2021)</p>
 
 <img data-src="../fig/tissue-block-with-layers.png" width="600" class="r-stretch"><aside class="notes">
 <p>We will use data from a study published in Nature Neuroscience by Kristin Maynard and colleagues at the Lieber Institute for Brain Development. These data come from sections of the dorsolateral prefrontal cortex that contain six cortical layers plus white matter. The dorsolateral prefrontal cortex is involved in executive functions like working memory, planning, abstract reasoning, and control of emotions and behavior.</p>
@@ -531,9 +581,30 @@ What does the sum of a single column signify?</p>
 <section id="data-and-study-design-1" class="slide level2">
 <h2>Data and study design</h2>
 
-<img data-src="../fig/experimental-design.png" width="450" class="r-stretch"><p>Challenge: What do you notice? What do you notice about the experimental design that might create issues during data analysis? Why might the authors have done the experiment this way? Is there anything that can be done about this?</p>
+<img data-src="../fig/experimental-design.png" width="450" class="r-stretch"><p>Challenge: What do you notice about the experimental design that might create issues during data analysis? Why might the authors have done the experiment this way? Is there anything that can be done about this?</p>
 <aside class="notes">
 <p>Two pairs of spatially adjacent replicates were taken from the three neurotypical donors. The second pair of replicates was taken from 300 microns posterior to the first pair of replicates. What do you notice about the experimental design?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sometimes-confounding-is-unavoidable" class="slide level2">
+<h2>Sometimes confounding is unavoidable</h2>
+<ul>
+<li>when studies depend on donor availability</li>
+<li>if you can’t predict when samples will be available</li>
+<li>when studies require intact, high-quality RNA</li>
+</ul>
+<aside class="notes">
+<p>Sometimes you might have to confound variables in your study due to sample availability or other factors. The key thing is to know that confounding has occurred.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -567,7 +638,7 @@ What does the sum of a single column signify?</p>
 <h2>Replication</h2>
 
 <img data-src="../fig/replicates.png" width="1500" class="r-stretch"><aside class="notes">
-<p>Replication aims to characterize variability in measurements, also known as random error. This doesn’t mean something was done wrong - it describes variability or noise in measurements. In addition to random error, systematic error or bias enters an experiment when measurements are consistently headed in one direction. For example, a miscalibrated scale might measure the same mouse too low every time. Technical replicates help to characterize systematic error by running the same sample through a machine multiple times. A biological replicate measures different biological samples in parallel to estimate the variation caused by the unique biology of the samples. The sample or group of samples are derived from the same biological source, such as cells, tissues, organisms, or individuals. The greater the number of biological replicates, the greater the precision (the closeness of two or more measurements to each other). Having a large enough sample size to ensure high precision is necessary to ensure reproducible results. Note that increasing the number of technical replicates will not help to characterize biological variability!</p>
+<p>Replication aims to characterize variability in measurements, also known as random error. This doesn’t mean something was done wrong - it describes the variability or noise in measurements. In addition to random error, systematic error or bias enters an experiment when measurements are consistently headed in one direction. For example, a miscalibrated scale might measure the same mouse too low every time. Technical replicates help to characterize systematic error by running the same sample through a machine multiple times. A biological replicate measures different biological samples in parallel to estimate the variation caused by the unique biology of the samples. The sample or group of samples are derived from the same biological source, such as cells, tissues, organisms, or individuals. The greater the number of biological replicates, the greater the precision (the closeness of two or more measurements to each other). Having a large enough sample size to ensure high precision is necessary to ensure reproducible results. Note that increasing the number of technical replicates will not help to characterize biological variability!</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -588,6 +659,13 @@ What does the sum of a single column signify?</p>
 3). A mouse has an unusually high weight compared to its experimental group (i.e., it is an outlier).<br>
 4). Strong atmospheric low pressure and accompanying storms affect instrument readings, animal behavior, and indoor relative humidity.</p>
 </section>
+<section id="solution-which-kind-of-error" class="slide level2">
+<h2>Solution: Which kind of error?</h2>
+<p>1). A scale is broken and provides inconsistent readings. <em>random</em><br>
+2). A scale is calibrated wrongly and consistently measures mice 1 gram heavier. <em>systematic</em><br>
+3). A mouse has an unusually high weight compared to its experimental group (i.e., it is an outlier). <em>biological</em><br>
+4). Strong atmospheric low pressure and accompanying storms affect instrument readings, animal behavior, and indoor relative humidity. <em>random</em> or <em>systematic</em>; you argue which and explain why</p>
+</section>
 <section id="challenge-how-many-technical-and-biological-replicates" class="slide level2">
 <h2>Challenge: How many technical and biological replicates?</h2>
 <p>In each scenario described below, identify how many technical and how many biological replicates are represented. What conclusions can be drawn about error in each scenario?</p>
@@ -596,12 +674,22 @@ What does the sum of a single column signify?</p>
 3). Five people are weighed on a scale three times each.<br>
 4). A cell line is equally divided into four samples. Two samples receive a drug treatment, and the other two samples receive a different treatment. The response of each sample is measured three times to produce twelve total observations.</p>
 </section>
-<section id="randomization" class="slide level2">
-<h2>Randomization</h2>
+<section id="solution-how-many-technical-and-biological-replicates" class="slide level2">
+<h2>Solution: How many technical and biological replicates?</h2>
+<p>1). One person is weighed on a scale five times. <em>1 biological sample (not replicated) with 5 technical replicates.</em><br>
+2). Five people are weighed on a scale one time each. <em>5 biological replicates, 1 technical measurement (not replicated).</em><br>
+3). Five people are weighed on a scale three times each. <em>5 biological replicates, 3 technical replicates each</em><br>
+4). A cell line is equally divided into four samples. Two samples receive a drug treatment, and the other two samples receive a different treatment. The response of each sample is measured three times to produce twelve total observations. <em>4 biological replicates, 3 technical replicates each</em></p>
+</section>
+<section id="challenge-treatment-and-control-samples" class="slide level2">
+<h2>Challenge: Treatment and control samples</h2>
 
-<img data-src="../fig/treated-and-control-slides.png" width="378" class="r-stretch"><p>Challenge: Treatment and control samples. You plan to place samples of treated tissue on one slide and samples of the controls on another slide. What will happen when it is time for data analysis? What could you have done differently?</p>
+<img data-src="../fig/treated-and-control-slides.png" width="378" class="r-stretch"><p>You plan to place samples of treated tissue on one slide and samples of controls on another slide. What will happen when it is time for data analysis? What could you have done differently?</p>
+</section>
+<section id="solution-randomize-treatment-and-control-samples-to-slides" class="slide level2">
+<h2>Solution: Randomize treatment and control samples to slides</h2>
 <aside class="notes">
-<p>Randomization minimizes bias, moderates random error (noise), and ensures that our comparisons between treatment groups are valid. The main purpose for randomization comes later during statistical analysis, where we compare the data we have with the data distribution we might have obtained by random chance. Randomization also accounts for or cancels out effects of “nuisance” variables like the time or day of the experiment, the investigator or technician, equipment calibration, exposure to light or ventilation in animal rooms, or other variables that are not being studied but that do influence the responses.</p>
+<p>Randomization minimizes bias, moderates random error (noise), and ensures that our comparisons between treatment groups are valid. The main purpose for randomization comes later during statistical analysis, where we compare the data we have with the data distribution we might have obtained by random chance. Randomization also accounts for or cancels out effects of “nuisance” variables like the time or day of the experiment, the investigator or technician, equipment calibration, exposure to light or ventilation in animal rooms, <em>the slide</em>, or other variables that are not being studied but that do influence the responses.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -619,6 +707,10 @@ What does the sum of a single column signify?</p>
 <p>Your study requires data collection at three time points: 5, 10, and 15 weeks. At 5 weeks, run samples through Visium. Repeat this for 10- and 15-week samples.</p>
 
 <img data-src="../fig/timepoints.png" width="900" class="r-stretch"></section>
+<section id="solution-time-points" class="slide level2">
+<h2>Solution: Time points</h2>
+
+<img data-src="../fig/timepoints-solution.png" width="1500" class="r-stretch"></section>
 <section id="statistical-power" class="slide level2">
 <h2>Statistical power</h2>
 
