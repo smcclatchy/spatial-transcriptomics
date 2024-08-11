@@ -359,7 +359,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Preprocessing</h1>
-        <p>Last updated on 2024-08-09 |
+        <p>Last updated on 2024-08-11 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -514,7 +514,7 @@ in columns.</td>
 </tr></tbody></table></section><section><h2 class="section-heading" id="set-up-environment">Set up Environment<a class="anchor" aria-label="anchor" href="#set-up-environment"></a>
 <a class="anchor" aria-label="anchor" href="#set-up-environment"></a></h2>
 <hr class="half-width"><p>Go to the <code>File</code> menu and select
-<code>Open Project...</code>. Open the <code>spatialRNA</code> project
+<code>Open Project</code>. Open the <code>spatialRNA</code> project
 which you created in the workshop setup.</p>
 <p>First, we will load in some utility functions to make our lives a bit
 easier. The <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source" class="external-link"><code>source</code></a>
@@ -546,7 +546,7 @@ in R and <a href="https://scanpy.readthedocs.io/en/stable/" class="external-link
 in python, amongst others, are also frequently used in analyzing spatial
 transcriptomics data.</p>
 <p>We will use the <a href="https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial" class="external-link"><code>Load10X_Spatial</code></a>
-function from Seurat to read in the spatial transcription data. These
+function from Seurat to read in the spatial transcriptomics data. These
 are the data which you downloaded in the setup section.</p>
 <p>First, we will read in the raw data for sample 151673.</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -649,9 +649,9 @@ Active assay: Spatial (33538 features, 0 variable features)
  1 layer present: counts
  1 spatial field of view present: slice1</code></pre>
 </div>
-<p>The raw and filtered data both have the same number of genes(33,538).
-But the two objects have different numbers of spots. The raw data has
-4,992 spots and the filtered data has 4,384 spots.</p>
+<p>The raw and filtered data both have the same number of genes
+(33,538). But the two objects have different numbers of spots. The raw
+data has 4,992 spots and the filtered data has 4,384 spots.</p>
 <p>Look at the H&amp;E slide below and notice the grey <em>fiducial</em>
 spots around the border. These are used by the spatial transcriptomics
 software to <em>register</em> the H&amp;E image and the
@@ -1053,7 +1053,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-08-09",
+  "dateModified": "2024-08-11",
   "datePublished": "2024-08-11"
 }
 

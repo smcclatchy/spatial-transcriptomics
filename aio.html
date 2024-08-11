@@ -404,7 +404,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Spatially Resolved Transcriptomics in Life Sciences Research</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-08-11 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -551,8 +551,8 @@ Image created with Biorender.com. Public domain, via Wikimedia Commons
 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license" class="external-link">CC
 BY-SA 4.0 DEED</a></p>
 <p>Messenger RNA (mRNA) is reverse transcribed to complementary DNA
-(cDNA) within tissue sections. A “padlock” probe binds to the cDNA,
-which is then circularized. Following circularization, the cDNA is
+(cDNA) within tissue sections. A <em>padlock</em> probe binds to the
+cDNA, which is then circularized. Following circularization, the cDNA is
 amplified by rolling-circle amplification (RCA), then sequenced by
 ligation for decoding. Probes profile one or two bases at a time using
 different fluorophores, eventually revealing the identity of the cDNA
@@ -595,11 +595,11 @@ and STRP-seq.</p>
 <p>Microfluidics places a chip with multiple barcode-containing channels
 onto a tissue section followed by a second chip with channels
 perpendicular to the first. The barcodes are then ligated to each other
-to create an array of unique barcodes on the tissue. This “deterministic
-barcoding” is employed in DBiT-seq. DBiT-seq can be used with FFPE
-tissues. This approach is helpful to avoid diffusion of mRNA away from
-capture areas, though a disadvantage is that cells often sit astride
-multiple capture areas.</p>
+to create an array of unique barcodes on the tissue. This
+<em>deterministic barcoding</em> is employed in DBiT-seq. DBiT-seq can
+be used with FFPE tissues. This approach is helpful to avoid diffusion
+of mRNA away from capture areas, though a disadvantage is that cells
+often sit astride multiple capture areas.</p>
 <p><img src="fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png" alt="a general schematic showing a microfluidics workflow with DBit-seq on formalin-fixed paraffin embedded (FFPE) tissue" class="figure">
 Adapted from
 <a href="https://www.researchgate.net/publication/346261659_Spatial_transcriptome_sequencing_of_FFPE_tissues_at_cellular_level" class="external-link">Liu
@@ -801,7 +801,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-data-and-study-design"><p>Content from <a href="data-and-study-design.html">Data and Study Design</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-08-11 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-and-study-design.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -853,13 +853,13 @@ partial read for library preparation and sequencing.</p>
 of the spot. Barcodes are generic identifiers that identify different
 things in different technologies. A barcode in single-cell
 transcriptomics, for example, refers to a single cell, not to a spot on
-a slide. When you see barcodes in ST data, think “spot”, not “single
-cell”. In fact, one spot can capture mRNA from many cells. This is a
-feature of ST experiments that is distinct from single-cell
-transcriptomics experiments. As a result, many single-cell methods won’t
-work with ST data. Later we will look at methods to <a href="deconvolve-cell-types-in-a-spot.html">“deconvolve” cell types per
-spot</a> to determine the number and types of cells in each spot. Spots
-can contain zero, one, or many cells.</p>
+a slide. When you see barcodes in ST data, think <em>spot</em>, not
+<em>single cell</em>. In fact, one spot can capture mRNA from many
+cells. This is a feature of ST experiments that is distinct from
+single-cell transcriptomics experiments. As a result, many single-cell
+methods won’t work with ST data. Later we will look at methods to <a href="deconvolve-cell-types-in-a-spot.html"><em>deconvolve</em> cell
+types per spot</a> to determine the number and types of cells in each
+spot. Spots can contain zero, one, or many cells.</p>
 <p>The graphic below shows a Visium workflow for fresh-frozen
 tissues.</p>
 <p><img src="fig/fresh-frozen-workflow.png" alt="A Visium spatial transcriptomics workflow with fresh-frozen tissue" class="figure">
@@ -988,11 +988,11 @@ Sections were then placed on chilled Visium slides, fixed and
 stained.</p>
 <p>This whole process might have depended on donor availability. All
 three donors were neurotypical, and it’s not clear how they died
-(e.g. an accident, a terminal illness, old age) and how that might have
-impacted availability or mRNA quality. Suffice it to say that it might
-not have been possible to predict when samples would be available, so it
-might not have been possible to randomize the samples from each donor to
-different Visium slides.</p>
+(<em>e.g.</em>, an accident, a terminal illness, old age) and how that
+might have impacted availability or mRNA quality. Suffice it to say that
+it might not have been possible to predict when samples would be
+available, so it might not have been possible to randomize the samples
+from each donor to different Visium slides.</p>
 <p>Sometimes you might have to confound variables in your study due to
 sample availability or other factors. The key thing is to know that
 confounding has occurred.</p>
@@ -1022,10 +1022,10 @@ part of every experiment we undertake.</p>
 random, replication applies the same treatment to multiple experimental
 units. The variability of the responses within a set of replicates
 provides a measure against which we can compare differences among
-different treatments. “Experimental error” describes the variability in
-the responses. Random variation (a.k.a random error or noise) reflects
-imprecision, but not inaccuracy. Larger sample sizes reduce this
-imprecision.</p>
+different treatments. <em>Experimental error</em> describes the
+variability in the responses. Random variation (a.k.a random error or
+noise) reflects imprecision, but not inaccuracy. Larger sample sizes
+reduce this imprecision.</p>
 <p>In addition to random (experimental) error, systematic error or bias
 occurs when there are deviations in measurements or observations that
 consistently either overestimate or underestimate the true value. As an
@@ -1064,7 +1064,7 @@ sources as either biological, systematic, or random error.<br>
 2). A scale is calibrated wrongly and consistently measures mice 1 gram
 heavier.<br>
 3). A mouse has an unusually high weight compared to its experimental
-group (i.e., it is an outlier).<br>
+group (<em>e.g.</em>, it is an outlier).<br>
 4). Strong atmospheric low pressure and accompanying storms affect
 instrument readings, animal behavior, and indoor relative humidity.</p>
 </div>
@@ -1332,7 +1332,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-data-preprocessing"><p>Content from <a href="data-preprocessing.html">Data Preprocessing</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-08-11 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1562,7 +1562,7 @@ in columns.</td>
 </h2>
 <hr class="half-width">
 <p>Go to the <code>File</code> menu and select
-<code>Open Project...</code>. Open the <code>spatialRNA</code> project
+<code>Open Project</code>. Open the <code>spatialRNA</code> project
 which you created in the workshop setup.</p>
 <p>First, we will load in some utility functions to make our lives a bit
 easier. The <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/source" class="external-link"><code>source</code></a>
@@ -1596,7 +1596,7 @@ in R and <a href="https://scanpy.readthedocs.io/en/stable/" class="external-link
 in python, amongst others, are also frequently used in analyzing spatial
 transcriptomics data.</p>
 <p>We will use the <a href="https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial" class="external-link"><code>Load10X_Spatial</code></a>
-function from Seurat to read in the spatial transcription data. These
+function from Seurat to read in the spatial transcriptomics data. These
 are the data which you downloaded in the setup section.</p>
 <p>First, we will read in the raw data for sample 151673.</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -1699,9 +1699,9 @@ Active assay: Spatial (33538 features, 0 variable features)
  1 layer present: counts
  1 spatial field of view present: slice1</code></pre>
 </div>
-<p>The raw and filtered data both have the same number of genes(33,538).
-But the two objects have different numbers of spots. The raw data has
-4,992 spots and the filtered data has 4,384 spots.</p>
+<p>The raw and filtered data both have the same number of genes
+(33,538). But the two objects have different numbers of spots. The raw
+data has 4,992 spots and the filtered data has 4,384 spots.</p>
 <p>Look at the H&amp;E slide below and notice the grey <em>fiducial</em>
 spots around the border. These are used by the spatial transcriptomics
 software to <em>register</em> the H&amp;E image and the
@@ -4894,7 +4894,7 @@ did we use? Load those in now.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4930,7 +4930,7 @@ sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4962,7 +4962,7 @@ sample’s metadata to your Seurat object.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5008,7 +5008,7 @@ Data Preprocessing lesson and adapt it to your tissue sample.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5040,7 +5040,7 @@ of at least 10 counts. How many genes did you end up with?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5087,7 +5087,7 @@ select?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5230,7 +5230,7 @@ for by each PC.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5281,7 +5281,7 @@ algorithm?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution8" aria-expanded="false" aria-controls="collapseSolution8">
   <h4 class="accordion-header" id="headingSolution8"> Show me the solution </h4>
 </button>
-<div id="collapseSolution8" class="accordion-collapse collapse" data-bs-parent="#accordionSolution8" aria-labelledby="headingSolution8">
+<div id="collapseSolution8" class="accordion-collapse collapse" aria-labelledby="headingSolution8" data-bs-parent="#accordionSolution8">
 <div class="accordion-body">
 <p>We selected 50 PCs and a cluster resoltion of 1 for this exercise.
 This may not be optimal. You will have a chance to vary these parameters
@@ -5353,7 +5353,7 @@ in Seurat.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution9" aria-expanded="false" aria-controls="collapseSolution9">
   <h4 class="accordion-header" id="headingSolution9"> Show me the solution </h4>
 </button>
-<div id="collapseSolution9" class="accordion-collapse collapse" data-bs-parent="#accordionSolution9" aria-labelledby="headingSolution9">
+<div id="collapseSolution9" class="accordion-collapse collapse" aria-labelledby="headingSolution9" data-bs-parent="#accordionSolution9">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5406,7 +5406,7 @@ et al.</a>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution10" aria-expanded="false" aria-controls="collapseSolution10">
   <h4 class="accordion-header" id="headingSolution10"> Show me the solution </h4>
 </button>
-<div id="collapseSolution10" class="accordion-collapse collapse" data-bs-parent="#accordionSolution10" aria-labelledby="headingSolution10">
+<div id="collapseSolution10" class="accordion-collapse collapse" aria-labelledby="headingSolution10" data-bs-parent="#accordionSolution10">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5441,7 +5441,7 @@ look more like the results in the manuscript?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution11" aria-expanded="false" aria-controls="collapseSolution11">
   <h4 class="accordion-header" id="headingSolution11"> Show me the solution </h4>
 </button>
-<div id="collapseSolution11" class="accordion-collapse collapse" data-bs-parent="#accordionSolution11" aria-labelledby="headingSolution11">
+<div id="collapseSolution11" class="accordion-collapse collapse" aria-labelledby="headingSolution11" data-bs-parent="#accordionSolution11">
 <div class="accordion-body">
 <p>For class discussion.</p>
 </div>
