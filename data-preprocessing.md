@@ -79,7 +79,7 @@ are three "files" within the `HDF5` file:
 
 ## Set up Environment
 
-Go to the `File` menu and select `Open Project...`. Open the `spatialRNA` 
+Go to the `File` menu and select `Open Project`. Open the `spatialRNA` 
 project which you created in the workshop setup. 
 
 First, we will load in some utility functions to make our lives a bit easier. 
@@ -117,7 +117,7 @@ others, are also frequently used in analyzing spatial transcriptomics data.
 
 We will use the 
 [`Load10X_Spatial`](https://www.rdocumentation.org/packages/Seurat/versions/5.0.1/topics/Load10X_Spatial) 
-function from Seurat to read in the spatial transcription data. These are the 
+function from Seurat to read in the spatial transcriptomics data. These are the 
 data which you downloaded in the setup section.
 
 First, we will read in the raw data for sample 151673.
@@ -214,7 +214,7 @@ Active assay: Spatial (33538 features, 0 variable features)
  1 spatial field of view present: slice1
 ```
 
-The raw and filtered data both have the same number of genes(33,538). But the
+The raw and filtered data both have the same number of genes (33,538). But the
 two objects have different numbers of spots. The raw data has 4,992 spots and 
 the filtered data has 4,384 spots.
 
