@@ -276,7 +276,7 @@ selected_samples <- c("151508", "151669","151673")
 
 # Initialize an empty list to store Seurat objects
 st_objects <- list()
-print(getwd())
+
 # Loop over each sample ID to process the corresponding data
 for (sample_id in selected_samples) {
   # Construct the directory and filename for data loading
