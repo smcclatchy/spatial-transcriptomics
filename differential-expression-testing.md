@@ -306,14 +306,7 @@ selected_samples <- c("151508", "151669","151673")
 
 # Initialize an empty list to store Seurat objects
 st_objects <- list()
-print(getwd())
-```
 
-``` output
-[1] "/home/runner/work/spatial-transcriptomics/spatial-transcriptomics/site/built"
-```
-
-``` r
 # Loop over each sample ID to process the corresponding data
 for (sample_id in selected_samples) {
   # Construct the directory and filename for data loading
@@ -354,10 +347,6 @@ for (sample_id in selected_samples) {
   # Store the updated Seurat object in the list, using the sample ID as the key
   st_objects[[sample_id]] <- st_obj
 }
-```
-
-``` error
-Error in Load10X_Spatial(data.dir = data_dir, filename = filename): No such file or directory: './data/151669'
 ```
 Now, st_objects variable contains all the Seurat objects for each selected sample, indexed by their respective sample IDs.
 
@@ -417,20 +406,91 @@ Warning: Not validating Seurat objects
 Centering and scaling data matrix
 ```
 
-``` error
-Error in UseMethod(generic = "PseudobulkExpression", object = object): no applicable method for 'PseudobulkExpression' applied to an object of class "NULL"
+``` warning
+Warning: Removing 25 cells missing data for vars requested
+```
+
+``` output
+Removing cells with NA for 1 or more grouping variables
+```
+
+``` warning
+Warning: Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
+```
+
+``` output
+Centering and scaling data matrix
+```
+
+``` warning
+Warning: Removing 28 cells missing data for vars requested
+```
+
+``` output
+Removing cells with NA for 1 or more grouping variables
+```
+
+``` warning
+Warning: Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating Centroids objects
+```
+
+``` warning
+Warning: Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+Not validating FOV objects
+```
+
+``` warning
+Warning: Not validating Seurat objects
+```
+
+``` output
+Centering and scaling data matrix
 ```
 
 ``` r
 # Merge all pseudobulked Seurat objects into a single Seurat object
 merged_pseudobulk <- Reduce(function(x, y) merge(x, y), pseudobulked_objs)
+```
 
+``` warning
+Warning: Some cell names are duplicated across objects provided. Renaming to
+enforce unique cell names.
+```
+
+``` r
 # Normalize, find variable features, and scale the data
 merged_pseudobulk <- NormalizeData(merged_pseudobulk, normalization.method = "LogNormalize", scale.factor = 1e6)
 ```
 
 ``` output
-Normalizing layer: counts
+Normalizing layer: counts.1.SeuratProject
+Normalizing layer: counts.2.SeuratProject
+Normalizing layer: counts.Aggregate
 ```
 
 ``` r
@@ -438,7 +498,9 @@ merged_pseudobulk <- FindVariableFeatures(merged_pseudobulk)
 ```
 
 ``` output
-Finding variable features for layer counts
+Finding variable features for layer counts.1.SeuratProject
+Finding variable features for layer counts.2.SeuratProject
+Finding variable features for layer counts.Aggregate
 ```
 
 ``` r
@@ -447,11 +509,6 @@ merged_pseudobulk <- ScaleData(merged_pseudobulk)
 
 ``` output
 Centering and scaling data matrix
-```
-
-``` warning
-Warning: Different features in new layer data than already exists for
-scale.data
 ```
 
 ``` r
@@ -466,19 +523,19 @@ nfeatures.print): Only 2 dimensions have been computed.
 
 ``` output
 PC_ 1 
-Positive:  AL645608.1, AL162511.1, CU638689.4, ERAS, AC090136.3, PLA2G2A, AC091563.1, CTSV, NIPAL4, APLNR 
-	   AL161421.1, ATXN2-AS, Z82214.2, SGMS1-AS1, LINC01238, TMTC4, AC005520.5, SLC4A11, ITGA8, C9orf170 
-	   PLEKHG4B, CCDC71, UNK, LPAR4, NUP210, AL133367.1, AC093525.6, KLHL31, AL356489.2, SLC39A4 
-Negative:  SDK1, NOP16, NEK10, RASGEF1A, MLIP, ARNTL, AC016065.1, WNK3, STN1, RGS6 
-	   PDE1B, ACTC1, PRAG1, SLX4IP, ASS1, TAC3, PDE12, LRRTM1, AGBL4, GNG13 
-	   GRM2, TIAM2, KYAT1, RSPH14, LRRC2, CDC42EP3, FAM135B, FAM162B, LRRK1, CCDC120 
+Positive:  MOBP, PPP1R14A, TMEM235, BOK, MOG, HSPA2, GREM1, EVI2A, TMEM125, NKX6-2 
+	   ASPA, PLP1, MYRF, CLDN11, MAL, FAM107B, ERMN, PLPP2, TF, MBP 
+	   ABCA8, GJB1, TTYH2, LPAR1, KLK6, AC018647.1, LMF1-AS1, TMEM63A, HHIP, TMEM144 
+Negative:  LRRC2, LINC00507, CBLN4, AC110491.1, LRRTM4, CTXN3, CITED1, RGS6, FBLN7, CDC42EP3 
+	   RARB, PRAG1, CALB1, DAPK1, PDE7B, LRRTM1, EGR4, ENC1, GPR26, ABCG4 
+	   ASS1, TUNAR, PPP4R4, DGKA, SLC17A6, TAC3, EPHX4, CEMIP, ASB2, KRT5 
 PC_ 2 
-Positive:  SLC36A1, TMEM81, CD83, SIAE, UCN, PDZD7, KLHL3, MARCH1, ASB7, SPINDOC 
-	   PAQR3, ZNF765, KCNK9, DUSP6, SLIT2, CIART, CREB3L1, SZT2, OTOA, MTG1 
-	   DHX37, AC139491.1, CNTN6, TUBB3, CNNM4, DNAH9, CNOT11, AJ009632.2, FLRT3, AC138207.2 
-Negative:  LCAT, G0S2, CD36, CIDEC, RELN, LINC00645, IPO9-AS1, FABP4, LINC02567, AL365434.2 
-	   SIGLEC11, AL136366.1, SCT, AC002451.1, S100A2, AC240274.1, C14orf180, FMO3, EBF3, TNFSF11 
-	   NPR3, MT1H, PPARG, OASL, MSS51, AVPR1A, VGLL3, CASQ2, RASL12, CES1 
+Positive:  PRKCQ, HS3ST2, RXFP1, DUSP10, KCNK2, AC022007.1, SHH, SMYD1, PIEZO2, SH2D1B 
+	   SLCO4C1, MIR4435-2HG, P2RY6, AL137003.2, FEZF2, KLHDC8A, AC004233.3, PCDH11X, UMAD1, THEMIS 
+	   KIAA1024, BRCC3, FOXP2, FLRT3, SNX15, HSPA6, KIF25, SPAG6, FAR2, FASTKD3 
+Negative:  NR2F2, ETS1, MT1H, ATP4A, RELN, FOLR2, FGFR4, KIT, ALB, AC008915.2 
+	   COL17A1, MMP7, RCN1, IGF1, AL031056.1, C1QA, THSD7A, ASIC4, CALB2, DIO3OS 
+	   ARHGAP10, SYNDIG1L, OGN, SHISA8, CPED1, MYH11, TNFSF13B, GPR135, CAV1, PTGES 
 ```
 
 To assess the presence of batch effects, we visualize the PCA results. Ideally, the samples should cluster by layer rather than by sample, indicating that batch effects are not a significant concern.
@@ -500,7 +557,7 @@ than 6 becomes difficult to discriminate
 ```
 
 ``` warning
-Warning: Removed 1 row containing missing values or values outside the scale range
+Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).
 ```
 
@@ -538,13 +595,7 @@ for (sample in selected_samples) {
   new_matrix <- process_sample(sample, pseudobulked_objs)
   all_columns[[sample]] <- new_matrix
 }
-```
 
-``` error
-Error in pseudobulked_objs[[sample_name]]@assays: no applicable method for `@` applied to an object of class "NULL"
-```
-
-``` r
 # Combine all processed matrices into a single matrix
 combined_matrix <- do.call(cbind, all_columns)
 rownames(combined_matrix) <- rownames(pseudobulked_objs[[1]])
@@ -554,13 +605,7 @@ sample <- rep(selected_samples, each = 2)
 layer <- rep(c('WM', 'others'), times = length(selected_samples))
 new_dataframe <- data.frame(sample = sample, layer = layer)
 rownames(new_dataframe) <- colnames(combined_matrix)
-```
 
-``` error
-Error in `.rowNamesDF<-`(x, value = value): invalid 'row.names' length
-```
-
-``` r
 # Perform differential expression analysis using DESeq2
 # Unfortunately, there are still dependency issues between DESeq2 and Seurat,
 # so we recommend not running this part. To prevent execution, we wrap the code in an `if (FALSE)` statement.
@@ -608,13 +653,7 @@ for (sample_id in selected_samples) {
   combined <- p1 + p2 + p3
   plots[[sample_id]] <- combined
 }
-```
 
-``` error
-Error in sample@assays: no applicable method for `@` applied to an object of class "NULL"
-```
-
-``` r
 # Combine and save plots
 combined_plot <- wrap_plots(plots, ncol = 1)
 print(combined_plot)
