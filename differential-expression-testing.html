@@ -798,13 +798,13 @@ sample, indicating that batch effects are not a significant concern.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize PCA grouped by layer with increased point size and different shapes</span></span>
-<span><span class="va">PCAPlot_layer_symbol</span> <span class="op">&lt;-</span> <span class="fu">DimPlot</span><span class="op">(</span><span class="va">merged_pseudobulk</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, shape.by <span class="op">=</span> <span class="st">"layer"</span>, pt.size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="va">PCAPlot_layer_symbol</span> <span class="op">&lt;-</span> <span class="fu">DimPlot</span><span class="op">(</span><span class="va">merged_pseudobulk</span>, reduction <span class="op">=</span> <span class="st">"pca"</span>, shape.by <span class="op">=</span> <span class="st">"sample"</span>, pt.size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"PCA Plot Annotated by Layer (Shapes)"</span><span class="op">)</span></span>
 <span><span class="va">PCAPlot_layer_symbol</span></span></code></pre>
 </div>
-<p><img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" class="figure">
-The PCA plot indeed shows that the dots are clustered by layer rather
+<p><img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" class="figure"><img src="fig/dE_pca.png" alt="" class="figure"></p>
+<p>The PCA plot indeed shows that the dots are clustered by layer rather
 than by sample, validating that the layers are the primary source of
 variation, rather than differences between samples from different
 subjects.</p>
@@ -890,7 +890,7 @@ functions or pathologies</p>
 <span>  <span class="fu">head</span><span class="op">(</span><span class="va">res</span><span class="op">[</span><span class="fu">order</span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">padj</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
-<figure><img src="fig/dE_genes.png" alt="Genes with the lowest adjusted p-values from differential expression analysis with DESeq2" class="figure mx-auto d-block"><div class="figcaption">Visium spatial gene expression slide</div>
+<figure><img src="fig/de_genes.PNG" alt="Genes with the lowest adjusted p-values from differential expression analysis with DESeq2" class="figure mx-auto d-block"><div class="figcaption">Visium spatial gene expression slide</div>
 </figure><p>We have selected to plot spatially the differentially expressed genes
 with the highest mean values, namely “MBP” and “MOBP”</p>
 <div class="codewrapper sourceCode" id="cb16">
@@ -927,8 +927,8 @@ with the highest mean values, namely “MBP” and “MOBP”</p>
 <span><span class="va">combined_plot</span> <span class="op">&lt;-</span> <span class="fu">wrap_plots</span><span class="op">(</span><span class="va">plots</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu">print</span><span class="op">(</span><span class="va">combined_plot</span><span class="op">)</span></span></code></pre>
 </div>
-<p><img src="fig/differential-expression-testing-rendered-print-pseudobulk%20results-1.png" style="display: block; margin: auto;" class="figure">
-As it is evident from the spatila distribution of the genes, they are
+<p><img src="fig/differential-expression-testing-rendered-print-pseudobulk%20results-1.png" style="display: block; margin: auto;" class="figure"><img src="fig/de_genes_plot.png" alt="" class="figure"></p>
+<p>As it is evident from the spatila distribution of the genes, they are
 mostly expressed specifically in the White Matter for all samples.</p>
 </div>
 </section><section><h2 class="section-heading" id="other-considerations">Other Considerations<a class="anchor" aria-label="anchor" href="#other-considerations"></a>
