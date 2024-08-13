@@ -371,171 +371,17 @@ for (i in selected_samples) {
   # Store the pseudobulked Seurat object in the list
   pseudobulked_objs[[i]] <- pseudobulk_seurat
 }
-```
 
-``` warning
-Warning: Removing 3 cells missing data for vars requested
-```
-
-``` output
-Removing cells with NA for 1 or more grouping variables
-```
-
-``` warning
-Warning: Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-```
-
-``` warning
-Warning: Not validating Seurat objects
-```
-
-``` output
-Centering and scaling data matrix
-```
-
-``` warning
-Warning: Removing 25 cells missing data for vars requested
-```
-
-``` output
-Removing cells with NA for 1 or more grouping variables
-```
-
-``` warning
-Warning: Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-```
-
-``` warning
-Warning: Not validating Seurat objects
-```
-
-``` output
-Centering and scaling data matrix
-```
-
-``` warning
-Warning: Removing 28 cells missing data for vars requested
-```
-
-``` output
-Removing cells with NA for 1 or more grouping variables
-```
-
-``` warning
-Warning: Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating Centroids objects
-```
-
-``` warning
-Warning: Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-Not validating FOV objects
-```
-
-``` warning
-Warning: Not validating Seurat objects
-```
-
-``` output
-Centering and scaling data matrix
-```
-
-``` r
 # Merge all pseudobulked Seurat objects into a single Seurat object
 merged_pseudobulk <- Reduce(function(x, y) merge(x, y), pseudobulked_objs)
-```
 
-``` warning
-Warning: Some cell names are duplicated across objects provided. Renaming to
-enforce unique cell names.
-```
-
-``` r
 # Normalize, find variable features, and scale the data
 merged_pseudobulk <- NormalizeData(merged_pseudobulk, normalization.method = "LogNormalize", scale.factor = 1e6)
-```
-
-``` output
-Normalizing layer: counts.1.SeuratProject
-Normalizing layer: counts.2.SeuratProject
-Normalizing layer: counts.Aggregate
-```
-
-``` r
 merged_pseudobulk <- FindVariableFeatures(merged_pseudobulk)
-```
-
-``` output
-Finding variable features for layer counts.1.SeuratProject
-Finding variable features for layer counts.2.SeuratProject
-Finding variable features for layer counts.Aggregate
-```
-
-``` r
 merged_pseudobulk <- ScaleData(merged_pseudobulk)
-```
 
-``` output
-Centering and scaling data matrix
-```
-
-``` r
 # Run PCA on the merged pseudobulked data
 merged_pseudobulk <- RunPCA(merged_pseudobulk, features = VariableFeatures(object = merged_pseudobulk), npcs = 2)
-```
-
-``` warning
-Warning in print.DimReduc(x = reduction.data, dims = ndims.print, nfeatures =
-nfeatures.print): Only 2 dimensions have been computed.
-```
-
-``` output
-PC_ 1 
-Positive:  MOBP, PPP1R14A, TMEM235, BOK, MOG, HSPA2, GREM1, EVI2A, TMEM125, NKX6-2 
-	   ASPA, PLP1, MYRF, CLDN11, MAL, FAM107B, ERMN, PLPP2, TF, MBP 
-	   ABCA8, GJB1, TTYH2, LPAR1, KLK6, AC018647.1, LMF1-AS1, TMEM63A, HHIP, TMEM144 
-Negative:  LRRC2, LINC00507, CBLN4, AC110491.1, LRRTM4, CTXN3, CITED1, RGS6, FBLN7, CDC42EP3 
-	   RARB, PRAG1, CALB1, DAPK1, PDE7B, LRRTM1, EGR4, ENC1, GPR26, ABCG4 
-	   ASS1, TUNAR, PPP4R4, DGKA, SLC17A6, TAC3, EPHX4, CEMIP, ASB2, KRT5 
-PC_ 2 
-Positive:  PRKCQ, HS3ST2, RXFP1, DUSP10, KCNK2, AC022007.1, SHH, SMYD1, PIEZO2, SH2D1B 
-	   SLCO4C1, MIR4435-2HG, P2RY6, AL137003.2, FEZF2, KLHDC8A, AC004233.3, PCDH11X, UMAD1, THEMIS 
-	   KIAA1024, BRCC3, FOXP2, FLRT3, SNX15, HSPA6, KIF25, SPAG6, FAR2, FASTKD3 
-Negative:  NR2F2, ETS1, MT1H, ATP4A, RELN, FOLR2, FGFR4, KIT, ALB, AC008915.2 
-	   COL17A1, MMP7, RCN1, IGF1, AL031056.1, C1QA, THSD7A, ASIC4, CALB2, DIO3OS 
-	   ARHGAP10, SYNDIG1L, OGN, SHISA8, CPED1, MYH11, TNFSF13B, GPR135, CAV1, PTGES 
 ```
 
 To assess the presence of batch effects, we visualize the PCA results. Ideally, the samples should cluster by layer rather than by sample, indicating that batch effects are not a significant concern.
@@ -547,18 +393,6 @@ PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by =
   theme(legend.position = "right") +
   ggtitle("PCA Plot Annotated by Layer (Shapes)")
 PCAPlot_layer_symbol
-```
-
-``` warning
-Warning: The shape palette can deal with a maximum of 6 discrete values because more
-than 6 becomes difficult to discriminate
-ℹ you have requested 7 values. Consider specifying shapes manually if you need
-  that many have them.
-```
-
-``` warning
-Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).
 ```
 
 <img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" />
