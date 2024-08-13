@@ -269,7 +269,7 @@ describing the approach for scRNA-seq should likewise be applicable for spatial 
 
 We selected one sample from each subject (`151508`, `151669`, and `151673`), as detailed in the referenced study ([Maynard et al, Nat Neurosci 24, 425–436 (2021)](https://doi.org/10.1038/s41593-020-00787-0)). This selection allows us to analyze the consistency of differential expression across individuals while accounting for subject-specific batch effects. We start by loading our samples:
 
-```{r multiple-samples loading}
+```{r multiple-samples loading,warning=FALSE,message=FALSE}
 
 # Define the list of selected sample IDs
 selected_samples <- c("151508", "151669","151673")
@@ -325,7 +325,7 @@ Now, st_objects variable contains all the Seurat objects for each selected sampl
 
 When working with multiple samples, batch effects can introduce technical variability that may confound biological signals. Batch correction methods can help mitigate these effects. In this section, we perform pseudobulk analysis and apply PCA to visualize any potential batch effects across layers.
 
-```{r batch-correction-analysis}
+```{r batch-correction-analysis,warning=FALSE,message=FALSE}
 
 # Initialize an empty list to store pseudobulked Seurat objects
 pseudobulked_objs <- list()
@@ -357,7 +357,7 @@ merged_pseudobulk <- RunPCA(merged_pseudobulk, features = VariableFeatures(objec
 
 To assess the presence of batch effects, we visualize the PCA results. Ideally, the samples should cluster by layer rather than by sample, indicating that batch effects are not a significant concern.
 
-```{r pca_results, fig.width=6}
+```{r pca_results, fig.width=10 ,warning=FALSE,message=FALSE}
 # Visualize PCA grouped by layer with increased point size and different shapes
 PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by = "layer", pt.size = 3) +
   theme(legend.position = "right") +
@@ -375,7 +375,7 @@ Pseudobulk analysis allows for the aggregation of single-cell or spot-level data
 
 In this case, we compare White Matter (aggregated expression from spots labeled as White Matter) versus the rest of the tissue (aggregated expression from spots belonging to all other cotrical layers). This binary comparison is straightforward yet powerful, as the White Matter in the brain is distinct from the cortical layers in terms of both structure and function. By comparing the gene expression in White Matter to that in all other layers, we aim to identify genes that are uniquely or predominantly expressed in White Matter and associated with its functions or pathologies
 
-```{r pseudobulk-analysis}
+```{r pseudobulk-analysis, warning=FALSE,message=FALSE}
 all_columns <- list()
 
 # Function to process each sample and create a new matrix with WM vs. others
@@ -427,7 +427,7 @@ if (FALSE) {
 
 We have selected to plot spatially the differentially expressed genes with the highest mean values, namely "MBP" and  "MOBP"
 
-```{r print-pseudobulk results}
+```{r print-pseudobulk results,  warning=FALSE,message=FALSE}
 
 plot_sample_expression <- function(sample, gene, sample_id) {
   sample@meta.data$temp_feat <- sample@assays[["Spatial"]]$counts[gene,]
