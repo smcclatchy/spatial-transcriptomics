@@ -459,7 +459,6 @@ for (sample_id in selected_samples) {
 
 # Combine and save plots
 combined_plot <- wrap_plots(plots, ncol = 1)
-print(combined_plot)
 ```
 ![Spatial distribution of the most DE genes for all samples](fig/de_genes_plot.png){alt=''}
 
