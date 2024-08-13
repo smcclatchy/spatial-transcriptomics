@@ -364,7 +364,7 @@ PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by =
   ggtitle("PCA Plot Annotated by Layer (Shapes)")
 PCAPlot_layer_symbol
 ```
-![PCA of samples per layer](fig/dE_pca.png){}
+![PCA of samples per layer](fig/dE_pca.png){alt=''}
 
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
@@ -461,7 +461,7 @@ for (sample_id in selected_samples) {
 combined_plot <- wrap_plots(plots, ncol = 1)
 print(combined_plot)
 ```
-![Spatial distribution of the most DE genes for all samples](fig/de_genes_plot.png){}
+![Spatial distribution of the most DE genes for all samples](fig/de_genes_plot.png){alt=''}
 
 As it is evident from the spatila distribution of the genes, they are mostly expressed specifically in the White Matter for all samples.
 
