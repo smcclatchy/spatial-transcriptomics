@@ -492,10 +492,7 @@ for (sample_id in selected_samples) {
 
 # Combine and save plots
 combined_plot <- wrap_plots(plots, ncol = 1)
-print(combined_plot)
 ```
-
-<img src="fig/differential-expression-testing-rendered-print-pseudobulk results-1.png" style="display: block; margin: auto;" />
 ![Spatial distribution of the most DE genes for all samples](fig/de_genes_plot.png){alt=''}
 
 As it is evident from the spatila distribution of the genes, they are mostly expressed specifically in the White Matter for all samples.
