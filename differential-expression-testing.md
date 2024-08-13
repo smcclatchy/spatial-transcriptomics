@@ -389,13 +389,15 @@ To assess the presence of batch effects, we visualize the PCA results. Ideally, 
 
 ``` r
 # Visualize PCA grouped by layer with increased point size and different shapes
-PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by = "layer", pt.size = 3) +
+PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by = "sample", pt.size = 3) +
   theme(legend.position = "right") +
   ggtitle("PCA Plot Annotated by Layer (Shapes)")
 PCAPlot_layer_symbol
 ```
 
 <img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" />
+![PCA of samples per layer](fig/dE_pca.png){alt=''}
+
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
 If the dots were instead clustered by sample rather than by layer, it would indicate the presence of batch effects.
@@ -456,7 +458,7 @@ if (FALSE) {
 }
 ```
 
-![Visium spatial gene expression slide](fig/dE_genes.png){alt='Genes with the lowest adjusted p-values from differential expression analysis with DESeq2'}
+![Visium spatial gene expression slide](fig/de_genes.PNG){alt='Genes with the lowest adjusted p-values from differential expression analysis with DESeq2'}
 
 We have selected to plot spatially the differentially expressed genes with the highest mean values, namely "MBP" and  "MOBP"
 
@@ -494,6 +496,8 @@ print(combined_plot)
 ```
 
 <img src="fig/differential-expression-testing-rendered-print-pseudobulk results-1.png" style="display: block; margin: auto;" />
+![Spatial distribution of the most DE genes for all samples](fig/de_genes_plot.png){alt=''}
+
 As it is evident from the spatila distribution of the genes, they are mostly expressed specifically in the White Matter for all samples.
 
 ## Other Considerations
