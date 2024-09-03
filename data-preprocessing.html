@@ -397,8 +397,7 @@ challenge blocks</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>The <a href="https://www.10xgenomics.com/support/software/space-ranger" class="external-link"><code>Space Ranger</code></a>
 software is a popular, though by no means only, set of pipelines for
 preprocessing of Visium data. We focus on it here. It provides the
@@ -511,8 +510,7 @@ row in the data matrix.</td>
 <td>Contains the counts for each gene in each spot. Features
 (<em>e.g.</em> genes) are in rows and barcodes (<em>e.g.</em> spots) are
 in columns.</td>
-</tr></tbody></table></section><section><h2 class="section-heading" id="set-up-environment">Set up Environment<a class="anchor" aria-label="anchor" href="#set-up-environment"></a>
-<a class="anchor" aria-label="anchor" href="#set-up-environment"></a></h2>
+</tr></tbody></table></section><section><h2 class="section-heading" id="set-up-environment">Set up Environment<a class="anchor" aria-label="anchor" href="#set-up-environment"></a></h2>
 <hr class="half-width"><p>Go to the <code>File</code> menu and select
 <code>Open Project</code>. Open the <code>spatialRNA</code> project
 which you created in the workshop setup.</p>
@@ -534,8 +532,7 @@ will load several useful functions.</p>
 <p>Note that the <a href="https://here.r-lib.org/" class="external-link"><code>here</code></a>
 library helps you to find your files by taking care of the absolute
 path.</p>
-</section><section><h2 class="section-heading" id="load-raw-and-filtered-spatial-expression-data">Load Raw and Filtered Spatial Expression Data<a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a>
-<a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a></h2>
+</section><section><h2 class="section-heading" id="load-raw-and-filtered-spatial-expression-data">Load Raw and Filtered Spatial Expression Data<a class="anchor" aria-label="anchor" href="#load-raw-and-filtered-spatial-expression-data"></a></h2>
 <hr class="half-width"><p>In this course, we will use the <a href="https://satijalab.org/seurat/" class="external-link">Seurat</a> R environment, which was
 originally designed for analysis of single-cell RNA-seq data, but has
 been extended for spatial transcriptomics data. The Seurat website
@@ -603,8 +600,7 @@ in a file browser to identify the <code>filtered</code> file for sample
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-1-read-in-filtered-hdf5-file-for-sample-151673." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Read in filtered HDF5 file for sample 151673.<a class="anchor" aria-label="anchor" href="#challenge-1-read-in-filtered-hdf5-file-for-sample-151673."></a>
-</h3>
+<h3 class="callout-title">Challenge 1: Read in filtered HDF5 file for sample 151673.</h3>
 <div class="callout-content">
 <p>Open a file browser and navigate to
 <code>Desktop/spatialRNA/data/151673</code>. Can you find an HDF5 file
@@ -620,7 +616,7 @@ it?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -662,8 +658,7 @@ spatially-barcoded sequences.</p>
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-2-how-does-the-computer-know-how-to-orient-the-image" class="callout-inner">
-<h3 class="callout-title">Challenge 2: How does the computer know how to orient the image?<a class="anchor" aria-label="anchor" href="#challenge-2-how-does-the-computer-know-how-to-orient-the-image"></a>
-</h3>
+<h3 class="callout-title">Challenge 2: How does the computer know how to orient the image?</h3>
 <div class="callout-content">
 <p>Look carefully at the spots in the H&amp;E image above. Are the spots
 symmetric? Is there anything different about the spots that might help a
@@ -676,7 +671,7 @@ computer to assign up/down and left/right to the image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Look at the spots in each corner. In the upper-left, you will see the
 following patterns:</p>
@@ -687,8 +682,7 @@ software to orient the slide.</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="add-spot-metadata">Add Spot Metadata<a class="anchor" aria-label="anchor" href="#add-spot-metadata"></a>
-<a class="anchor" aria-label="anchor" href="#add-spot-metadata"></a></h2>
+</section><section><h2 class="section-heading" id="add-spot-metadata">Add Spot Metadata<a class="anchor" aria-label="anchor" href="#add-spot-metadata"></a></h2>
 <hr class="half-width"><p>Next, we will read a file containing information about whether each
 spot is in the background or the tissue. This file does not contain
 column names, although the next version of <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link"><code>SpaceRanger 2.0</code></a>,
@@ -785,8 +779,7 @@ Number of Genes in Tissue and Background
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="challenge-3-why-might-there-be-umi-counts-outside-of-the-tissue-boundaries" class="callout-inner">
-<h3 class="callout-title">Challenge 3: Why might there be UMI counts outside of the tissue boundaries?<a class="anchor" aria-label="anchor" href="#challenge-3-why-might-there-be-umi-counts-outside-of-the-tissue-boundaries"></a>
-</h3>
+<h3 class="callout-title">Challenge 3: Why might there be UMI counts outside of the tissue boundaries?</h3>
 <div class="callout-content">
 <p>We expect UMI counts in the spots which overlap with the tissue
 section. What reasons can you think of that might lead UMI counts to
@@ -799,7 +792,7 @@ occur in the background spots?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Solution 3 </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>When the tissue section is lysed, some transcripts may leak out of
 the cells and into the background region of the slide.</li>
@@ -823,8 +816,7 @@ that it is only using spots in the tissue.</p>
 <span>           <span class="fu">NoLegend</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">plot1</span> <span class="op">|</span> <span class="va">plot2</span></span></code></pre>
 </div>
-<figure><img src="fig/data-preprocessing-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="plot-umi-and-gene-counts-across-tissue">Plot UMI and Gene Counts across Tissue<a class="anchor" aria-label="anchor" href="#plot-umi-and-gene-counts-across-tissue"></a>
-<a class="anchor" aria-label="anchor" href="#plot-umi-and-gene-counts-across-tissue"></a></h2>
+<figure><img src="fig/data-preprocessing-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="plot-umi-and-gene-counts-across-tissue">Plot UMI and Gene Counts across Tissue<a class="anchor" aria-label="anchor" href="#plot-umi-and-gene-counts-across-tissue"></a></h2>
 <hr class="half-width"><p>Next, we want to look at the distribution of UMI counts and numbers
 of genes in each spot across the tissue. This can be helpful in
 identifying technical issues with the sample processing.</p>
@@ -904,8 +896,7 @@ due to tissue structure. For example, in cancer tissue sections, stromal
 cells tend to have lower counts than tumor cells and this should be
 evident in a UMI count plot. In the brain sample below, we might expect
 some variation in UMI counts in different layers of the brain.</p>
-</section><section><h2 class="section-heading" id="removing-genes-with-low-expression">Removing Genes with Low Expression<a class="anchor" aria-label="anchor" href="#removing-genes-with-low-expression"></a>
-<a class="anchor" aria-label="anchor" href="#removing-genes-with-low-expression"></a></h2>
+</section><section><h2 class="section-heading" id="removing-genes-with-low-expression">Removing Genes with Low Expression<a class="anchor" aria-label="anchor" href="#removing-genes-with-low-expression"></a></h2>
 <hr class="half-width"><p>In order to build this lesson, we needed to reduce the size of the
 data. To do this, we are going to filter out genes that have no
 expression across the cells.</p>
@@ -968,15 +959,13 @@ Not validating FOV objects</code></pre>
 <pre class="output" tabindex="0"><code>[1] "21842 genes."</code></pre>
 </div>
 <p>So we removed about 11,700 genes that had zero counts.</p>
-</section><section><h2 class="section-heading" id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
-<a class="anchor" aria-label="anchor" href="#conclusion"></a></h2>
+</section><section><h2 class="section-heading" id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a></h2>
 <hr class="half-width"><div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
-</h3>
+<h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
 <ul><li>The 10x Space Ranger pipeline provides you with an unfiltered and a
 filtered data file.</li>
@@ -1031,7 +1020,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/ad2542f7f7b9c3f90cc871b355ff81ec14a09ca9" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.4" class="external-link">varnish (1.0.4)</a></p>
+        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.6)</a>, <a href="https://github.com/carpentries/pegboard/tree/ad2542f7f7b9c3f90cc871b355ff81ec14a09ca9" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.4" class="external-link">varnish (1.0.4)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1054,7 +1043,7 @@ any links that you are not going to use.
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/data-preprocessing.html",
   "dateCreated": "2024-03-01",
   "dateModified": "2024-08-11",
-  "datePublished": "2024-08-27"
+  "datePublished": "2024-09-03"
 }
 
   </script><script>

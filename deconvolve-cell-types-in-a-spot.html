@@ -397,8 +397,7 @@ data.</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="deconvolution-in-spatial-transcriptomics">Deconvolution in Spatial Transcriptomics<a class="anchor" aria-label="anchor" href="#deconvolution-in-spatial-transcriptomics"></a>
-<a class="anchor" aria-label="anchor" href="#deconvolution-in-spatial-transcriptomics"></a></h2>
+<section><h2 class="section-heading" id="deconvolution-in-spatial-transcriptomics">Deconvolution in Spatial Transcriptomics<a class="anchor" aria-label="anchor" href="#deconvolution-in-spatial-transcriptomics"></a></h2>
 <hr class="half-width"><p>Each spatial spot in an ST experiment generally contains multiple
 cells. For example, spots in the Visium assay are 55 microns in
 diameter, whereas a typical T cell has a diameter of ~10 microns. As
@@ -414,8 +413,7 @@ expression of the cell types first.</p>
 et al, Comput Struct Biotechnol J 21, 176–184 (2023)</a>
 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" rel="license" class="external-link">CC
 BY-NC-ND 4.0</a></p>
-</section><section><h2 class="section-heading" id="deconvolution-with-robust-cell-type-decomposition-rctd">Deconvolution with Robust Cell Type Decomposition (RCTD)<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a>
-<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a></h2>
+</section><section><h2 class="section-heading" id="deconvolution-with-robust-cell-type-decomposition-rctd">Deconvolution with Robust Cell Type Decomposition (RCTD)<a class="anchor" aria-label="anchor" href="#deconvolution-with-robust-cell-type-decomposition-rctd"></a></h2>
 <hr class="half-width"><p>We will deconvolve spots by applying Robust Cell Type Decomposition
 (RCTD; <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8606190" class="external-link">Cable, D.
 M., et al., Nature Biotechnology, 2021</a>), which is implemented in the
@@ -433,8 +431,7 @@ spot, in <code>full</code> mode it fits potentially all cell types in
 the reference per spot, and in <code>multi</code> mode it again fits
 more than two cell types per spot by extending the <code>doublet</code>
 approach. Here, we will use <code>full</code> mode.</p>
-</section><section><h2 class="section-heading" id="loading-scrna-seq-reference-data">Loading scRNA-seq reference data<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a>
-<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a></h2>
+</section><section><h2 class="section-heading" id="loading-scrna-seq-reference-data">Loading scRNA-seq reference data<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a></h2>
 <hr class="half-width"><p>First, we load the scRNA-seq data that will serve as a reference for
 deconvolution. Individual cells are assumed to be annotated according to
 their type. RCTD will use these cell type-specific expression profiles
@@ -467,8 +464,7 @@ steps.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc_reference</span> <span class="op">&lt;-</span> <span class="fu">Reference</span><span class="op">(</span><span class="va">sc.counts</span>, <span class="va">sc.cell.types</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="applying-rctd-for-spot-deconvolution">Applying RCTD for spot deconvolution<a class="anchor" aria-label="anchor" href="#applying-rctd-for-spot-deconvolution"></a>
-<a class="anchor" aria-label="anchor" href="#applying-rctd-for-spot-deconvolution"></a></h2>
+</section><section><h2 class="section-heading" id="applying-rctd-for-spot-deconvolution">Applying RCTD for spot deconvolution<a class="anchor" aria-label="anchor" href="#applying-rctd-for-spot-deconvolution"></a></h2>
 <hr class="half-width"><p>Let’s write a wrapper function that performs RCTD deconvolution. This
 will facilitate running RCTD on other samples within this dataset. It
 calls <a href="https://rdrr.io/github/dmcable/RCTD/man/SpatialRNA.html" class="external-link"><code>SpatialRNA</code></a>
@@ -502,8 +498,7 @@ and finally performs deconvolution by calling <a href="https://rdrr.io/github/dm
 <span>  <span class="va">myRCTD</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="running-deconvolution-on-brain-samples">Running Deconvolution on Brain Samples<a class="anchor" aria-label="anchor" href="#running-deconvolution-on-brain-samples"></a>
-<a class="anchor" aria-label="anchor" href="#running-deconvolution-on-brain-samples"></a></h2>
+</section><section><h2 class="section-heading" id="running-deconvolution-on-brain-samples">Running Deconvolution on Brain Samples<a class="anchor" aria-label="anchor" href="#running-deconvolution-on-brain-samples"></a></h2>
 <hr class="half-width"><p>We apply the RCTD wrapper to our spatial transcriptomics data to
 deconvolve the spots and quantify the cell types. This may take ~10
 minutes. If you prefer, you can load the precomputed results
@@ -538,8 +533,7 @@ directly.</p>
 <span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="interpreting-deconvolution-results">Interpreting Deconvolution Results<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a>
-<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a></h2>
+</section><section><h2 class="section-heading" id="interpreting-deconvolution-results">Interpreting Deconvolution Results<a class="anchor" aria-label="anchor" href="#interpreting-deconvolution-results"></a></h2>
 <hr class="half-width"><p>RCTD outputs the proportion of different cell types in each spatial
 spot. These are held in the <code>spatialRNA@counts</code> slot. Let’s
 see the proportions it predicts for this sample:</p>
@@ -636,8 +630,7 @@ the layers predicted by RCTD with those annotated by the authors.</p>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that there is a fairly strong correlation between the predicted
 and observed layers, particularly for the pairs Oligodendrocytes and WM
 (White Matter), L4 and Layer 4, and L2-3 and Layer 3.</p>
-</section><section><h2 class="section-heading" id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
-<a class="anchor" aria-label="anchor" href="#summary"></a></h2>
+</section><section><h2 class="section-heading" id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a></h2>
 <hr class="half-width"><p>Deconvolution quantifies the cell type composition of each spot.
 Doing so enables downstream analyses, such as the proportion of various
 cell types across a sample, heterogeneity of cell types across the
@@ -656,8 +649,7 @@ cells.</p>
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <div class="callout-inner">
-<h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
-</h3>
+<h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
 <ul><li>Deconvolution enhances spatial transcriptomics by quantifying the
 different cell types within spatial spots.</li>
@@ -708,7 +700,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.5)</a>, <a href="https://github.com/carpentries/pegboard/tree/ad2542f7f7b9c3f90cc871b355ff81ec14a09ca9" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.4" class="external-link">varnish (1.0.4)</a></p>
+        <p>Built with <a href="https://github.com/epiverse-trace/sandpaper/tree/patch-renv-github-bug" class="external-link">sandpaper (0.16.6)</a>, <a href="https://github.com/carpentries/pegboard/tree/ad2542f7f7b9c3f90cc871b355ff81ec14a09ca9" class="external-link">pegboard (0.7.6)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.4" class="external-link">varnish (1.0.4)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -731,7 +723,7 @@ any links that you are not going to use.
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/deconvolve-cell-types-in-a-spot.html",
   "dateCreated": "2024-03-01",
   "dateModified": "2024-08-09",
-  "datePublished": "2024-08-27"
+  "datePublished": "2024-09-03"
 }
 
   </script><script>
