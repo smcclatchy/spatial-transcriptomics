@@ -231,7 +231,10 @@ orient the slide.
 
 The 10x Space Ranger pipeline automatically segments the tissue to identify it
 within the background of the slide. This information is encoded in the
-"tissue positions" file. This file does not contain column names in earlier
+"tissue positions" file. Each row in the file corresponds to a spot.
+The first column indicates whether the spot was (1) or was not (0) identified
+as being within the tissue region by the segmentation procedure.
+This file does not contain column names in earlier
 versions of Space Ranger, but does starting with version 
 [`SpaceRanger 2.0`](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs).
 
