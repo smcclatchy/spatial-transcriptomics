@@ -229,12 +229,11 @@ orient the slide.
 
 ## Add Spot Metadata
 
-Next, we will read a file containing information about whether each spot is in 
-the background or the tissue. This file does not contain column names, although
-the next version of 
-[`SpaceRanger 2.0`](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs), 
-which is used to process the data at the sequencing core, should add column 
-names to this file.
+The 10x Space Ranger pipeline automatically segments the tissue to identify it
+within the background of the slide. This information is encoded in the
+"tissue positions" file. This file does not contain column names in earlier
+versions of Space Ranger, but does starting with version 
+[`SpaceRanger 2.0`](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs).
 
 ```{r}
 tissue_position <- read_csv("./data/151673/spatial/tissue_positions_list.csv",

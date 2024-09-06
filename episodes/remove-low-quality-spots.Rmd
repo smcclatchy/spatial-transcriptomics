@@ -37,7 +37,7 @@ technical failures. If the processing of the entire slide fails, it should be
 obvious due to a large number of gene appearing in spots outside of the
 tissue or low UMIs across the whole tissue.
 
-However, there may also be variation in spot quality in a slide that has
+However, there can also be variation in spot quality in a slide that has
 largely high-quality spots. These artifacts are much rarer than in single-cell
 transcriptomics because the process of tissue sectioning is less disruptive
 than tissue dissociation. Because of this, we recommend light spot filtering.
@@ -50,11 +50,26 @@ There are three metrics that we will use to identify and remove low-quality spot
 
 During tissue processing, it is possible that some cells will be lysed, 
 spilling out the transcripts, but retaining the mitochondria. These spots will
-appear with much higher mitochondrial gene expression. We will also examine
-the total UMI counts and number of genes detected in each spot because high
-counts may indicate spots with lysed cells whose contents bled into other spots.
+appear with much higher mitochondrial gene expression.
+High UMI counts or number of detected genes might also indicate spots with
+bleed over of lysed content from neighboring cells.
 
-However, these metrics may be tissue-dependent. In some tissues, there may be
+There may be regions of the slide with artifacts introduced
+during slide preparation. These include tearing and folding of the tissue.
+As mentioned above, the 10x Space Ranger pipeline automatically segments the
+tissue boundary. This generally performs well at a large scale. However, at high
+resolution, it may fail to properly assign spots within small tears or along the
+jagged edge to the background. Such spots might be identified by low UMI counts
+or number of detected genes. Conversely, folded tissue may have a higher
+density of cells, which could result in high UMI counts or number of detected genes.
+Pathologist annotation of H&E image can flag artifactual regions that are then
+excluded from downstream analysis. Image processing techniques may also be
+able to automatically identify and exclude artifactual regions, particularly folds.
+Using pathologist annotation or image processing to identify tissue abnormalities
+is less common than using the simple data-driven metrics considered here,
+and we do not discuss them further.
+
+These metrics may be tissue-dependent. In some tissues, there may be
 biological reasons for differential expression across the tissue. For example,
 in a cancer sample, mitochondrial or total gene expression may vary between
 stromal and tumor regions. It will be important for you to familiarize yourself 
