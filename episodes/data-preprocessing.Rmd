@@ -196,7 +196,7 @@ filter_st
 
 The raw and filtered data both have the same number of genes (33,538). But the
 two objects have different numbers of spots. The raw data has 4,992 spots and 
-the filtered data has 4,384 spots.
+the filtered data has 3,639 spots.
 
 Look at the H&E slide below and notice the grey *fiducial* spots around the 
 border. These are used by the spatial transcriptomics software to *register* the 
