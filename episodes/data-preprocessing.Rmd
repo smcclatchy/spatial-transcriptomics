@@ -255,13 +255,8 @@ named for the earlier versions of Seurat, which processed single cell
 transcriptomic data. In this case, we are getting **spot** IDs, even though the 
 function is called `Cells`.
 
-```{r}
-tissue_position <- tissue_position[Cells(raw_st),]
-stopifnot(rownames(tissue_position) == Cells(raw_st))
-```
-
-Now that we have aligned the barcodes between the Seurat object and the tissue
-positions, we can add the tissue positions to the Seurat object's metadata.
+Next, we will add the tissue positions to the Seurat object's metadata. Note
+that Seurat will align the spot barcodes in this process.
 
 ```{r}
 raw_st    <- AddMetaData(object = raw_st,    metadata = tissue_position)

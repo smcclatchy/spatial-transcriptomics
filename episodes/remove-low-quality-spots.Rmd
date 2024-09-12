@@ -263,8 +263,9 @@ filter_st <- filter_st[,keep]
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Change the spot filtering thresholds.
+## Challenge 1: Change the total counts spot filtering threshold.
 
+1. Make a copy of the seurat object.
 1. Change the threshold for the number of UMIs per spot to keep spots with
 **more** than 2000 counts. Note that we are filtering on the lower side of
 the distribution. 
@@ -280,10 +281,11 @@ structure?
 ## Solution 1
  
 ```{r}
-new_counts_thr <- 2000
-keep_counts    <- FetchData(filter_st, "nCount_Spatial")[,1] > new_counts_thr
-filter_st$keep_counts <- keep_counts
-SpatialDimPlot(filter_st, group.by = "keep_counts")
+obj             <- filter_st
+new_counts_thr  <- 2000
+keep_counts     <- FetchData(obj, "nCount_Spatial")[,1] > new_counts_thr
+obj$keep_counts <- keep_counts
+SpatialDimPlot(obj, group.by = "keep_counts")
 ```
 
 Note that the spots that we have flagged seem to correspond to stripes in the
@@ -293,6 +295,51 @@ this exercise shows that it is important to use judgement when filtering spots.
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::
+
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 2: Change the mitochondrial spot filtering thresholds.
+
+1. Make a copy of the seurat object.
+1. Change the threshold for the percent mitochondrial expression per spot to 
+keep spots with **less** than 25% mitochondrial expression. This might happen
+if you decide that too much mitochondrial expression indicates some technical
+error.
+1. Add new variable called "keep_counts" to the Seurat object.
+1. Plot the spot overlaid on the tissue section, colored
+by whether you are keeping them. 
+
+Is there a pattern to the removed spots that seems to correlate with the tissue
+structure?
+
+:::::::::::::::::::::::: solution 
+
+## Solution 2
+ 
+```{r}
+obj          <- filter_st
+new_mito_thr <- 20
+keep_counts  <- FetchData(obj, "percent.mt")[,1] < new_mito_thr
+obj$keep_counts <- keep_counts
+SpatialDimPlot(obj, group.by = "keep_counts")
+```
+
+Note that the spots that we have flagged are largely outside of the lower left.
+Later in the lesson, we will find that this is the "white matter", and this 
+region has different expression from the rest of the tissue section. In fact, 
+mitochondrial expression in general seems to be higher in the upper right area.
+
+```{r}
+SpatialFeaturePlot(obj, features = "percent.mt") +
+  labs(title = "Percentage MitochondrialExpression")
+rm(obj)
+```
+
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::
+
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
