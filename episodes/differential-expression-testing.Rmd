@@ -32,8 +32,8 @@ suppressPackageStartupMessages(library(patchwork))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
-filter_st <- load_seurat_object(file_prefix = 'deconcelltypes')
-DefaultAssay(filter_st) <- "SCT"
+sct_st <- load_seurat_object(file_prefix = 'deconcelltypes')
+DefaultAssay(sct_st) <- "SCT"
 ```
 
 ## Spot-level Differential Expression Across Annotated Regions
@@ -43,7 +43,7 @@ layers. We will use the source publication's spot annotation, which is stored in
 the `layer_guess` column of the metadata. As a reminder, those look like:
 
 ```{r layers,warning=FALSE,message=FALSE}
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], 
+SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$layer_guess)], 
                         "layer_guess") + 
   labs(fill = "Layer") 
 ```
@@ -59,8 +59,8 @@ speedup over the default implementation is substantial, and we highly recommend
 installing `presto` and using Seurat v5, which leverages it.
 
 ```{r layer-de}
-Idents(filter_st)  <- "layer_guess"
-de_genes           <- FindAllMarkers(filter_st, 
+Idents(sct_st)  <- "layer_guess"
+de_genes           <- FindAllMarkers(sct_st, 
                                      assay    = "SCT",
                                      verbose  = FALSE,
                                      only.pos = TRUE, 
@@ -98,7 +98,7 @@ scRNA-seq. Let's try this.
 First, let's remind ourselves what the clusters look like:
 
 ```{r clusters,warning=FALSE,message=FALSE}
-SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + 
+SpatialDimPlotColorSafe(sct_st, "seurat_clusters") + 
   labs(fill = "Cluster") 
 ```
 
@@ -108,8 +108,8 @@ expression analysis. We only change each cell's identity class with the
 function, to associate each cell with its cluster.
 
 ```{r layer-de-cluster}
-Idents(filter_st)  <- "seurat_clusters"
-de_genes_cluster   <- FindAllMarkers(filter_st, 
+Idents(sct_st)  <- "seurat_clusters"
+de_genes_cluster   <- FindAllMarkers(sct_st, 
                                      assay    = "SCT",
                                      verbose  = FALSE,
                                      only.pos = TRUE, 
@@ -179,9 +179,9 @@ brain regions. The following will take several minutes to run.
 
 ```{r moran-i,warning=FALSE,message=FALSE}
 svg <- 
-  FindSpatiallyVariableFeatures(filter_st, 
+  FindSpatiallyVariableFeatures(sct_st, 
                                 assay            = "SCT", 
-                                features         = VariableFeatures(filter_st)[1:1000], 
+                                features         = VariableFeatures(sct_st)[1:1000], 
                                 selection.method = "moransi")
 ```
 
@@ -492,6 +492,6 @@ from the annotated regions.
 :::::::::::::::::::::::::::::::::::::::::::::
 
 ```{r echo=FALSE,include=FALSE}
-save_seurat_object(obj = filter_st, file_prefix = 'detesting')
+save_seurat_object(obj = sct_st, file_prefix = 'detesting')
 ```
 
