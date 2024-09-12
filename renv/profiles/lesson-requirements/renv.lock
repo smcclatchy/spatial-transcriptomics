@@ -2685,7 +2685,7 @@
     },
     "pegboard": {
       "Package": "pegboard",
-      "Version": "0.7.5",
+      "Version": "0.7.6",
       "Source": "Repository",
       "Repository": "https://carpentries.r-universe.dev",
       "Requirements": [
