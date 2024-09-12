@@ -126,7 +126,7 @@ are then used to cluster the spots by similarity.
 
 
 ``` r
-filter_st <- ScaleData(filter_st) %>%
+sct_st <- ScaleData(sct_st) %>%
                RunPCA(npcs = 75, verbose = FALSE)
 ```
 
@@ -144,7 +144,7 @@ indicates that adding more PCs doesn't account for more of the variance.
 
 
 ``` r
-ElbowPlot(filter_st, ndims = 75)
+ElbowPlot(sct_st, ndims = 75)
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
@@ -177,9 +177,9 @@ proceeding with your analysis.
 
 
 ``` r
-filter_st <- FindNeighbors(filter_st, 
-                           reduction = "pca", 
-                           dims      = 1:n_pcs) %>% 
+sct_st <- FindNeighbors(sct_st, 
+                        reduction = "pca", 
+                        dims      = 1:n_pcs) %>% 
                FindClusters(resolution = 1)
 ```
 
@@ -208,7 +208,7 @@ called `seurat_clusters`. Let's look the metadata to see this.
 
 
 ``` r
-head(filter_st[[]])
+head(sct_st[[]])
 ```
 
 ``` output
@@ -248,7 +248,7 @@ them again to compare them to our clusters.
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], "layer_guess") +
+SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$layer_guess)], "layer_guess") +
   labs(fill="Layer") 
 ```
 
@@ -265,7 +265,7 @@ identities by looking for the clarity of the stripes forming each layer.
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + labs(fill="Cluster") 
+SpatialDimPlotColorSafe(sct_st, "seurat_clusters") + labs(fill="Cluster") 
 ```
 
 <img src="fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
@@ -281,15 +281,15 @@ of more than one cell type, so the clustering may not be as clear.
 
 
 ``` r
-num_clusters <- length(unique(filter_st[[]]$seurat_clusters))
+num_clusters <- length(unique(sct_st[[]]$seurat_clusters))
 color_pal    <- setNames(carto_pal(num_clusters, "Safe"), 0:(num_clusters - 1))
 
-filter_st <- RunUMAP(filter_st, 
-                     reduction = 'pca', 
-                     dims      = 1:n_pcs, 
-                     verbose   = FALSE)
+sct_st <- RunUMAP(sct_st, 
+                  reduction = 'pca', 
+                  dims      = 1:n_pcs, 
+                  verbose   = FALSE)
 
-UMAPPlot(filter_st, 
+UMAPPlot(sct_st, 
          label      = TRUE,
          cols       = color_pal,
          pt.size    = 2,
@@ -328,20 +328,20 @@ for(i in seq_along(resol)) {
     index     <- (i-1) * length(npcs) + j
     print(paste('Index =', index))
 
-    filter_st <- FindNeighbors(filter_st, 
-                               reduction = "pca", 
-                               dims      = 1:npcs[j]) %>%
+    sct_st <- FindNeighbors(sct_st, 
+                            reduction = "pca", 
+                            dims      = 1:npcs[j]) %>%
                    FindClusters(resolution = resol[i]) %>%
                    RunUMAP(reduction = 'pca', 
                            dims      = 1:npcs[j],
                            verbose   = FALSE)
 
-    umap_plots[[index]] <- UMAPPlot(filter_st, label = TRUE, cols = color_pal, 
+    umap_plots[[index]] <- UMAPPlot(sct_st, label = TRUE, cols = color_pal, 
                                     pt.size = 2, label.size = 4) +
                              ggtitle(paste("res =", resol[i], ": pc =", npcs[j])) +
                              theme(legend.position = "none")
 
-    plots[[index]]      <- SpatialDimPlot(filter_st, 
+    plots[[index]]      <- SpatialDimPlot(sct_st, 
                                           group.by = "seurat_clusters", 
                                           cols = color_pal) +
                           ggtitle(paste("res =", resol[i], ": pc =", npcs[j])) + 
@@ -406,9 +406,9 @@ We selected a cluster resolution of 0.8 and 50 PCs for the following work.
 
 
 ``` r
-filter_st <- FindNeighbors(filter_st, 
-                           reduction = "pca", 
-                           dims      = 1:50) %>% 
+sct_st <- FindNeighbors(sct_st, 
+                        reduction = "pca", 
+                        dims      = 1:50) %>% 
                FindClusters(resolution = 0.8)
 ```
 
@@ -426,7 +426,7 @@ Elapsed time: 0 seconds
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st, "seurat_clusters") +
+SpatialDimPlotColorSafe(sct_st, "seurat_clusters") +
   ggtitle(label = "Tissue Clusters: 50 PCs, resol = 0.8") +
   labs(fill = "Cluster")
 ```

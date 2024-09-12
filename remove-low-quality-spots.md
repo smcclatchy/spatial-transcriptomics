@@ -28,7 +28,7 @@ technical failures. If the processing of the entire slide fails, it should be
 obvious due to a large number of gene appearing in spots outside of the
 tissue or low UMIs across the whole tissue.
 
-However, there may also be variation in spot quality in a slide that has
+However, there can also be variation in spot quality in a slide that has
 largely high-quality spots. These artifacts are much rarer than in single-cell
 transcriptomics because the process of tissue sectioning is less disruptive
 than tissue dissociation. Because of this, we recommend light spot filtering.
@@ -41,11 +41,26 @@ There are three metrics that we will use to identify and remove low-quality spot
 
 During tissue processing, it is possible that some cells will be lysed, 
 spilling out the transcripts, but retaining the mitochondria. These spots will
-appear with much higher mitochondrial gene expression. We will also examine
-the total UMI counts and number of genes detected in each spot because high
-counts may indicate spots with lysed cells whose contents bled into other spots.
+appear with much higher mitochondrial gene expression.
+High UMI counts or number of detected genes might also indicate spots with
+bleed over of lysed content from neighboring cells.
 
-However, these metrics may be tissue-dependent. In some tissues, there may be
+There may be regions of the slide with artifacts introduced
+during slide preparation. These include tearing and folding of the tissue.
+As mentioned above, the 10x Space Ranger pipeline automatically segments the
+tissue boundary. This generally performs well at a large scale. However, at high
+resolution, it may fail to properly assign spots within small tears or along the
+jagged edge to the background. Such spots might be identified by low UMI counts
+or number of detected genes. Conversely, folded tissue may have a higher
+density of cells, which could result in high UMI counts or number of detected genes.
+Pathologist annotation of H&E image can flag artifactual regions that are then
+excluded from downstream analysis. Image processing techniques may also be
+able to automatically identify and exclude artifactual regions, particularly folds.
+Using pathologist annotation or image processing to identify tissue abnormalities
+is less common than using the simple data-driven metrics considered here,
+and we do not discuss them further.
+
+These metrics may be tissue-dependent. In some tissues, there may be
 biological reasons for differential expression across the tissue. For example,
 in a cancer sample, mitochondrial or total gene expression may vary between
 stromal and tumor regions. It will be important for you to familiarize yourself 
@@ -333,8 +348,9 @@ filter_st <- filter_st[,keep]
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Change the spot filtering thresholds.
+## Challenge 1: Change the total counts spot filtering threshold.
 
+1. Make a copy of the seurat object.
 1. Change the threshold for the number of UMIs per spot to keep spots with
 **more** than 2000 counts. Note that we are filtering on the lower side of
 the distribution. 
@@ -351,10 +367,11 @@ structure?
  
 
 ``` r
-new_counts_thr <- 2000
-keep_counts    <- FetchData(filter_st, "nCount_Spatial")[,1] > new_counts_thr
-filter_st$keep_counts <- keep_counts
-SpatialDimPlot(filter_st, group.by = "keep_counts")
+obj             <- filter_st
+new_counts_thr  <- 2000
+keep_counts     <- FetchData(obj, "nCount_Spatial")[,1] > new_counts_thr
+obj$keep_counts <- keep_counts
+SpatialDimPlot(obj, group.by = "keep_counts")
 ```
 
 <img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
@@ -366,6 +383,60 @@ this exercise shows that it is important to use judgement when filtering spots.
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::
+
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+## Challenge 2: Change the mitochondrial spot filtering thresholds.
+
+1. Make a copy of the seurat object.
+1. Change the threshold for the percent mitochondrial expression per spot to 
+keep spots with **less** than 25% mitochondrial expression. This might happen
+if you decide that too much mitochondrial expression indicates some technical
+error.
+1. Add new variable called "keep_counts" to the Seurat object.
+1. Plot the spot overlaid on the tissue section, colored
+by whether you are keeping them. 
+
+Is there a pattern to the removed spots that seems to correlate with the tissue
+structure?
+
+:::::::::::::::::::::::: solution 
+
+## Solution 2
+ 
+
+``` r
+obj          <- filter_st
+new_mito_thr <- 20
+keep_counts  <- FetchData(obj, "percent.mt")[,1] < new_mito_thr
+obj$keep_counts <- keep_counts
+SpatialDimPlot(obj, group.by = "keep_counts")
+```
+
+<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+
+Note that the spots that we have flagged are largely outside of the lower left.
+Later in the lesson, we will find that this is the "white matter", and this 
+region has different expression from the rest of the tissue section. In fact, 
+mitochondrial expression in general seems to be higher in the upper right area.
+
+
+``` r
+SpatialFeaturePlot(obj, features = "percent.mt") +
+  labs(title = "Percentage MitochondrialExpression")
+```
+
+<img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+
+``` r
+rm(obj)
+```
+
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::
+
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 

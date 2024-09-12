@@ -31,7 +31,7 @@ the `layer_guess` column of the metadata. As a reminder, those look like:
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], 
+SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$layer_guess)], 
                         "layer_guess") + 
   labs(fill = "Layer") 
 ```
@@ -50,8 +50,8 @@ installing `presto` and using Seurat v5, which leverages it.
 
 
 ``` r
-Idents(filter_st)  <- "layer_guess"
-de_genes           <- FindAllMarkers(filter_st, 
+Idents(sct_st)  <- "layer_guess"
+de_genes           <- FindAllMarkers(sct_st, 
                                      assay    = "SCT",
                                      verbose  = FALSE,
                                      only.pos = TRUE, 
@@ -101,7 +101,7 @@ First, let's remind ourselves what the clusters look like:
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st, "seurat_clusters") + 
+SpatialDimPlotColorSafe(sct_st, "seurat_clusters") + 
   labs(fill = "Cluster") 
 ```
 
@@ -114,8 +114,8 @@ function, to associate each cell with its cluster.
 
 
 ``` r
-Idents(filter_st)  <- "seurat_clusters"
-de_genes_cluster   <- FindAllMarkers(filter_st, 
+Idents(sct_st)  <- "seurat_clusters"
+de_genes_cluster   <- FindAllMarkers(sct_st, 
                                      assay    = "SCT",
                                      verbose  = FALSE,
                                      only.pos = TRUE, 
@@ -189,9 +189,9 @@ brain regions. The following will take several minutes to run.
 
 ``` r
 svg <- 
-  FindSpatiallyVariableFeatures(filter_st, 
+  FindSpatiallyVariableFeatures(sct_st, 
                                 assay            = "SCT", 
-                                features         = VariableFeatures(filter_st)[1:1000], 
+                                features         = VariableFeatures(sct_st)[1:1000], 
                                 selection.method = "moransi")
 ```
 

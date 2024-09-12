@@ -216,7 +216,7 @@ Active assay: Spatial (33538 features, 0 variable features)
 
 The raw and filtered data both have the same number of genes (33,538). But the
 two objects have different numbers of spots. The raw data has 4,992 spots and 
-the filtered data has 4,384 spots.
+the filtered data has 3,639 spots.
 
 Look at the H&E slide below and notice the grey *fiducial* spots around the 
 border. These are used by the spatial transcriptomics software to *register* the 
@@ -249,12 +249,14 @@ orient the slide.
 
 ## Add Spot Metadata
 
-Next, we will read a file containing information about whether each spot is in 
-the background or the tissue. This file does not contain column names, although
-the next version of 
-[`SpaceRanger 2.0`](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs), 
-which is used to process the data at the sequencing core, should add column 
-names to this file.
+The 10x Space Ranger pipeline automatically segments the tissue to identify it
+within the background of the slide. This information is encoded in the
+"tissue positions" file. Each row in the file corresponds to a spot.
+The first column indicates whether the spot was (1) or was not (0) identified
+as being within the tissue region by the segmentation procedure.
+This file does not contain column names in earlier
+versions of Space Ranger, but does starting with version 
+[`SpaceRanger 2.0`](https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs).
 
 
 ``` r
@@ -276,14 +278,8 @@ named for the earlier versions of Seurat, which processed single cell
 transcriptomic data. In this case, we are getting **spot** IDs, even though the 
 function is called `Cells`.
 
-
-``` r
-tissue_position <- tissue_position[Cells(raw_st),]
-stopifnot(rownames(tissue_position) == Cells(raw_st))
-```
-
-Now that we have aligned the barcodes between the Seurat object and the tissue
-positions, we can add the tissue positions to the Seurat object's metadata.
+Next, we will add the tissue positions to the Seurat object's metadata. Note
+that Seurat will align the spot barcodes in this process.
 
 
 ``` r
@@ -300,7 +296,7 @@ SpatialPlot(raw_st, group.by = "in_tissue", alpha = 0.3)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/data-preprocessing-rendered-unnamed-chunk-9-1.png" alt="Histology slide with tissue and background spots labelled"  />
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-8-1.png" alt="Histology slide with tissue and background spots labelled"  />
 <p class="caption">Spots identified in Tissue and Background</p>
 </div>
 The 10x platform tags each molecule with a Unique Molecular Identifier (UMI). 
@@ -321,7 +317,7 @@ raw_st@meta.data %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/data-preprocessing-rendered-unnamed-chunk-10-1.png" alt="Boxplot showing lower trancript counts in background area of slide"  />
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-9-1.png" alt="Boxplot showing lower trancript counts in background area of slide"  />
 <p class="caption">UMI Counts in Tissue and Background</p>
 </div>
 
@@ -342,7 +338,7 @@ raw_st@meta.data %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/data-preprocessing-rendered-unnamed-chunk-11-1.png" alt="Boxplot showing lower numbers of genes in background area of slide"  />
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-10-1.png" alt="Boxplot showing lower numbers of genes in background area of slide"  />
 <p class="caption">Number of Genes in Tissue and Background</p>
 </div>
 
@@ -381,7 +377,7 @@ plot2 <- SpatialDimPlot(filter_st) +
 plot1 | plot2
 ```
 
-<img src="fig/data-preprocessing-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ## Plot UMI and Gene Counts across Tissue
 
@@ -439,7 +435,7 @@ plot1 | plot2
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/data-preprocessing-rendered-unnamed-chunk-14-1.png" alt="Figure showing UMI counts in each spot with varying intensity across the tissue"  />
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-13-1.png" alt="Figure showing UMI counts in each spot with varying intensity across the tissue"  />
 <p class="caption">UMI Counts in each Spot</p>
 </div>
 
@@ -460,7 +456,7 @@ plot1 | plot2
 ```
 
 <div class="figure" style="text-align: center">
-<img src="fig/data-preprocessing-rendered-unnamed-chunk-15-1.png" alt="Figure showing number of genes detected in each spot with varying intensity across the tissue"  />
+<img src="fig/data-preprocessing-rendered-unnamed-chunk-14-1.png" alt="Figure showing number of genes detected in each spot with varying intensity across the tissue"  />
 <p class="caption">Number of Genes in each Spot</p>
 </div>
 

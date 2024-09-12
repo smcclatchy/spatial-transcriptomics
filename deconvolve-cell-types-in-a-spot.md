@@ -141,7 +141,7 @@ rds.file <- paste0("data/rctd-sample-1.rds")
 
 if(!load.precomputed.results || !file.exists(rds.file)) {
 
-  result_1 <- run.rctd(sc_reference, filter_st)
+  result_1 <- run.rctd(sc_reference, sct_st)
   
   # The RCTD file is large. To save space, we will remove the reference 
   # counts. This is necessary owing to constraints on sizes of files 
@@ -215,7 +215,7 @@ visualized and analyzed alongside other data organized there.
 
 
 ``` r
-filter_st <- AddMetaData(object = filter_st, metadata =  props)
+sct_st <- AddMetaData(object = sct_st, metadata =  props)
 ```
 
 We can now visualize the predicted layer classifications and compare them 
@@ -223,7 +223,7 @@ alongside the authors' annotations that we saw previously.
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)], 
+SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$classification)], 
                         "classification")
 ```
 
@@ -231,7 +231,7 @@ SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$classification)],
 
 
 ``` r
-SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)], 
+SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$layer_guess)], 
                         "layer_guess")
 ```
 
@@ -243,8 +243,8 @@ predicted by RCTD with those annotated by the authors.
 
 
 ``` r
-df            <- as.data.frame(table(filter_st[[]]$layer_guess, 
-                                     filter_st[[]]$classification))
+df            <- as.data.frame(table(sct_st[[]]$layer_guess, 
+                                     sct_st[[]]$classification))
 colnames(df)  <- c("Annotation", "Prediction", "Freq")
 df$Annotation <- factor(df$Annotation)
 df$Prediction <- factor(df$Prediction)
