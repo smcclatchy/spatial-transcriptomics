@@ -355,7 +355,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Remove Low-quality Spots</h1>
-        <p>Last updated on 2024-08-09 |
+        <p>Last updated on 2024-09-12 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/remove-low-quality-spots.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -397,7 +397,7 @@ analysis?</li>
 some technical failures. If the processing of the entire slide fails, it
 should be obvious due to a large number of gene appearing in spots
 outside of the tissue or low UMIs across the whole tissue.</p>
-<p>However, there may also be variation in spot quality in a slide that
+<p>However, there can also be variation in spot quality in a slide that
 has largely high-quality spots. These artifacts are much rarer than in
 single-cell transcriptomics because the process of tissue sectioning is
 less disruptive than tissue dissociation. Because of this, we recommend
@@ -410,16 +410,29 @@ low-quality spots:</p>
 </ol><p>During tissue processing, it is possible that some cells will be
 lysed, spilling out the transcripts, but retaining the mitochondria.
 These spots will appear with much higher mitochondrial gene expression.
-We will also examine the total UMI counts and number of genes detected
-in each spot because high counts may indicate spots with lysed cells
-whose contents bled into other spots.</p>
-<p>However, these metrics may be tissue-dependent. In some tissues,
-there may be biological reasons for differential expression across the
-tissue. For example, in a cancer sample, mitochondrial or total gene
-expression may vary between stromal and tumor regions. It will be
-important for you to familiarize yourself with the structure of the
-tissue that you are analyzing in order to make rational judgments about
-filtering.</p>
+High UMI counts or number of detected genes might also indicate spots
+with bleed over of lysed content from neighboring cells.</p>
+<p>There may be regions of the slide with artifacts introduced during
+slide preparation. These include tearing and folding of the tissue. As
+mentioned above, the 10x Space Ranger pipeline automatically segments
+the tissue boundary. This generally performs well at a large scale.
+However, at high resolution, it may fail to properly assign spots within
+small tears or along the jagged edge to the background. Such spots might
+be identified by low UMI counts or number of detected genes. Conversely,
+folded tissue may have a higher density of cells, which could result in
+high UMI counts or number of detected genes. Pathologist annotation of
+H&amp;E image can flag artifactual regions that are then excluded from
+downstream analysis. Image processing techniques may also be able to
+automatically identify and exclude artifactual regions, particularly
+folds. Using pathologist annotation or image processing to identify
+tissue abnormalities is less common than using the simple data-driven
+metrics considered here, and we do not discuss them further.</p>
+<p>These metrics may be tissue-dependent. In some tissues, there may be
+biological reasons for differential expression across the tissue. For
+example, in a cancer sample, mitochondrial or total gene expression may
+vary between stromal and tumor regions. It will be important for you to
+familiarize yourself with the structure of the tissue that you are
+analyzing in order to make rational judgments about filtering.</p>
 </section><section><h2 class="section-heading" id="filtering-by-mitochondrial-gene-count">Filtering by Mitochondrial Gene Count<a class="anchor" aria-label="anchor" href="#filtering-by-mitochondrial-gene-count"></a></h2>
 <hr class="half-width"><p>In single-cell RNA sequencing experiments, the tissue is digested and
 the cells are dissociated. This mechanical disruption is stressful to
@@ -675,14 +688,15 @@ case, the “columns” of the Seurat object correspond to the spots.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="va">filter_st</span><span class="op">[</span>,<span class="va">keep</span><span class="op">]</span></span></code></pre>
 </div>
-<div id="challenge-1-change-the-spot-filtering-thresholds." class="callout challenge">
+<div id="challenge-1-change-the-total-counts-spot-filtering-threshold." class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-1-change-the-spot-filtering-thresholds." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Change the spot filtering thresholds.</h3>
+<div id="challenge-1-change-the-total-counts-spot-filtering-threshold." class="callout-inner">
+<h3 class="callout-title">Challenge 1: Change the total counts spot filtering threshold.</h3>
 <div class="callout-content">
-<ol style="list-style-type: decimal"><li>Change the threshold for the number of UMIs per spot to keep spots
+<ol style="list-style-type: decimal"><li>Make a copy of the seurat object.</li>
+<li>Change the threshold for the number of UMIs per spot to keep spots
 with <strong>more</strong> than 2000 counts. Note that we are filtering
 on the lower side of the distribution.</li>
 <li>Add new variable called “keep_counts” to the Seurat object.</li>
@@ -698,22 +712,82 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_counts_thr</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span>
-<span><span class="va">keep_counts</span>    <span class="op">&lt;-</span> <span class="fu">FetchData</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"nCount_Spatial"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="va">new_counts_thr</span></span>
-<span><span class="va">filter_st</span><span class="op">$</span><span class="va">keep_counts</span> <span class="op">&lt;-</span> <span class="va">keep_counts</span></span>
-<span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">filter_st</span>, group.by <span class="op">=</span> <span class="st">"keep_counts"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">obj</span>             <span class="op">&lt;-</span> <span class="va">filter_st</span></span>
+<span><span class="va">new_counts_thr</span>  <span class="op">&lt;-</span> <span class="fl">2000</span></span>
+<span><span class="va">keep_counts</span>     <span class="op">&lt;-</span> <span class="fu">FetchData</span><span class="op">(</span><span class="va">obj</span>, <span class="st">"nCount_Spatial"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="va">new_counts_thr</span></span>
+<span><span class="va">obj</span><span class="op">$</span><span class="va">keep_counts</span> <span class="op">&lt;-</span> <span class="va">keep_counts</span></span>
+<span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">obj</span>, group.by <span class="op">=</span> <span class="st">"keep_counts"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that the spots that we have flagged seem to correspond to
 stripes in the tissue section. These may be regions of the brain which
 have lower levels of gene expression, so we may want to revise or remove
 this threshold. Overall, this exercise shows that it is important to use
 judgement when filtering spots.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge-2-change-the-mitochondrial-spot-filtering-thresholds." class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-2-change-the-mitochondrial-spot-filtering-thresholds." class="callout-inner">
+<h3 class="callout-title">Challenge 2: Change the mitochondrial spot filtering thresholds.</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal"><li>Make a copy of the seurat object.</li>
+<li>Change the threshold for the percent mitochondrial expression per
+spot to keep spots with <strong>less</strong> than 25% mitochondrial
+expression. This might happen if you decide that too much mitochondrial
+expression indicates some technical error.</li>
+<li>Add new variable called “keep_counts” to the Seurat object.</li>
+<li>Plot the spot overlaid on the tissue section, colored by whether you
+are keeping them.</li>
+</ol><p>Is there a pattern to the removed spots that seems to correlate with
+the tissue structure?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb22">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">obj</span>          <span class="op">&lt;-</span> <span class="va">filter_st</span></span>
+<span><span class="va">new_mito_thr</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
+<span><span class="va">keep_counts</span>  <span class="op">&lt;-</span> <span class="fu">FetchData</span><span class="op">(</span><span class="va">obj</span>, <span class="st">"percent.mt"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;</span> <span class="va">new_mito_thr</span></span>
+<span><span class="va">obj</span><span class="op">$</span><span class="va">keep_counts</span> <span class="op">&lt;-</span> <span class="va">keep_counts</span></span>
+<span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">obj</span>, group.by <span class="op">=</span> <span class="st">"keep_counts"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that the spots that we have flagged are largely outside of the
+lower left. Later in the lesson, we will find that this is the “white
+matter”, and this region has different expression from the rest of the
+tissue section. In fact, mitochondrial expression in general seems to be
+higher in the upper right area.</p>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">SpatialFeaturePlot</span><span class="op">(</span><span class="va">obj</span>, features <span class="op">=</span> <span class="st">"percent.mt"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Percentage MitochondrialExpression"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/remove-low-quality-spots-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rm</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -793,8 +867,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/remove-low-quality-spots.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/remove-low-quality-spots.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-08-09",
-  "datePublished": "2024-09-03"
+  "dateModified": "2024-09-12",
+  "datePublished": "2024-09-12"
 }
 
   </script><script>

@@ -720,7 +720,7 @@ suited.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Which technology you use depends on your experimental aim. If you are
 testing hypotheses about specific genes, you can profile those genes at
@@ -1319,7 +1319,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-data-preprocessing"><p>Content from <a href="data-preprocessing.html">Data Preprocessing</a></p>
 <hr>
-<p>Last updated on 2024-08-11 |
+<p>Last updated on 2024-09-12 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/data-preprocessing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 95 minutes</p>
@@ -1600,7 +1600,7 @@ you should see an <code>raw_st</code> object in your
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>If the data does not load in correctly, verify that the students used
 the mode = “wb” argument in download.file() during the Setup. We have
@@ -1667,7 +1667,7 @@ it?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1698,7 +1698,7 @@ Active assay: Spatial (33538 features, 0 variable features)
 </div>
 <p>The raw and filtered data both have the same number of genes
 (33,538). But the two objects have different numbers of spots. The raw
-data has 4,992 spots and the filtered data has 4,384 spots.</p>
+data has 4,992 spots and the filtered data has 3,639 spots.</p>
 <p>Look at the H&amp;E slide below and notice the grey <em>fiducial</em>
 spots around the border. These are used by the spatial transcriptomics
 software to <em>register</em> the H&amp;E image and the
@@ -1722,7 +1722,7 @@ computer to assign up/down and left/right to the image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Look at the spots in each corner. In the upper-left, you will see the
 following patterns:</p>
@@ -1736,11 +1736,13 @@ software to orient the slide.</p>
 </section><section><h2 class="section-heading" id="add-spot-metadata">Add Spot Metadata<a class="anchor" aria-label="anchor" href="#add-spot-metadata"></a>
 </h2>
 <hr class="half-width">
-<p>Next, we will read a file containing information about whether each
-spot is in the background or the tissue. This file does not contain
-column names, although the next version of <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link"><code>SpaceRanger 2.0</code></a>,
-which is used to process the data at the sequencing core, should add
-column names to this file.</p>
+<p>The 10x Space Ranger pipeline automatically segments the tissue to
+identify it within the background of the slide. This information is
+encoded in the “tissue positions” file. Each row in the file corresponds
+to a spot. The first column indicates whether the spot was (1) or was
+not (0) identified as being within the tissue region by the segmentation
+procedure. This file does not contain column names in earlier versions
+of Space Ranger, but does starting with version <a href="https://www.10xgenomics.com/support/software/space-ranger/latest/analysis/outputs/spatial-outputs" class="external-link"><code>SpaceRanger 2.0</code></a>.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1762,17 +1764,10 @@ function. This is named for the earlier versions of Seurat, which
 processed single cell transcriptomic data. In this case, we are getting
 <strong>spot</strong> IDs, even though the function is called
 <code>Cells</code>.</p>
+<p>Next, we will add the tissue positions to the Seurat object’s
+metadata. Note that Seurat will align the spot barcodes in this
+process.</p>
 <div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tissue_position</span> <span class="op">&lt;-</span> <span class="va">tissue_position</span><span class="op">[</span><span class="fu">Cells</span><span class="op">(</span><span class="va">raw_st</span><span class="op">)</span>,<span class="op">]</span></span>
-<span><span class="fu">stopifnot</span><span class="op">(</span><span class="fu">rownames</span><span class="op">(</span><span class="va">tissue_position</span><span class="op">)</span> <span class="op">==</span> <span class="fu">Cells</span><span class="op">(</span><span class="va">raw_st</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-</div>
-<p>Now that we have aligned the barcodes between the Seurat object and
-the tissue positions, we can add the tissue positions to the Seurat
-object’s metadata.</p>
-<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1781,13 +1776,13 @@ object’s metadata.</p>
 </div>
 <p>Next, we will plot the spot annotation, indicating spots that are in
 the tissue in blue and background spots in red.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">SpatialPlot</span><span class="op">(</span><span class="va">raw_st</span>, group.by <span class="op">=</span> <span class="st">"in_tissue"</span>, alpha <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-9-1.png" alt="Histology slide with tissue and background spots labelled" class="figure mx-auto d-block"><figcaption>
+<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-8-1.png" alt="Histology slide with tissue and background spots labelled" class="figure mx-auto d-block"><figcaption>
 Spots identified in Tissue and Background
 </figcaption></figure><p>The 10x platform tags each molecule with a Unique Molecular
 Identifier (UMI). This allows us to keep only one unique sequencing read
@@ -1796,7 +1791,7 @@ expect most of the UMI counts to be in the tissue spots. The Seurat
 object metadata contains the UMI count in each spot in a column called
 <code>nCount_Spatial</code>. Let’s plot the UMI counts in the tissue and
 background spots.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1807,14 +1802,14 @@ background spots.</p>
 <span>         x     <span class="op">=</span> <span class="st">'In Tissue?'</span>,</span>
 <span>         y     <span class="op">=</span> <span class="st">'Counts'</span><span class="op">)</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-10-1.png" alt="Boxplot showing lower trancript counts in background area of slide" class="figure mx-auto d-block"><figcaption>
+<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-9-1.png" alt="Boxplot showing lower trancript counts in background area of slide" class="figure mx-auto d-block"><figcaption>
 UMI Counts in Tissue and Background
 </figcaption></figure><p>As expected, we see most of the counts in the tissue spots.</p>
 <p>We can also plot the number of genes detected in each spot. Seurat
 calls genes <em>features</em>, so we will plot the
 <code>nFeature_Spatial</code> value. This is stored in the metadata of
 the Seurat object.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1825,7 +1820,7 @@ the Seurat object.</p>
 <span>         x     <span class="op">=</span> <span class="st">'In Tissue?'</span>,</span>
 <span>         y     <span class="op">=</span> <span class="st">'Number of Genes'</span><span class="op">)</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-11-1.png" alt="Boxplot showing lower numbers of genes in background area of slide" class="figure mx-auto d-block"><figcaption>
+<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-10-1.png" alt="Boxplot showing lower numbers of genes in background area of slide" class="figure mx-auto d-block"><figcaption>
 Number of Genes in Tissue and Background
 </figcaption></figure><div id="challenge-3-why-might-there-be-umi-counts-outside-of-the-tissue-boundaries" class="callout challenge">
 <div class="callout-square">
@@ -1845,7 +1840,7 @@ occur in the background spots?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Solution 3 </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>When the tissue section is lysed, some transcripts may leak out of
@@ -1861,7 +1856,7 @@ will work directly with the filtered file. From this point forward, we
 will work with the filtered data object.</p>
 <p>Let’s plot the spots in the tissue in the filtered object to verify
 that it is only using spots in the tissue.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1871,7 +1866,7 @@ that it is only using spots in the tissue.</p>
 <span>           <span class="fu">NoLegend</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">plot1</span> <span class="op">|</span> <span class="va">plot2</span></span></code></pre>
 </div>
-<figure><img src="../fig/data-preprocessing-rendered-unnamed-chunk-12-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="plot-umi-and-gene-counts-across-tissue">Plot UMI and Gene Counts across Tissue<a class="anchor" aria-label="anchor" href="#plot-umi-and-gene-counts-across-tissue"></a>
+<figure><img src="../fig/data-preprocessing-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure></section><section><h2 class="section-heading" id="plot-umi-and-gene-counts-across-tissue">Plot UMI and Gene Counts across Tissue<a class="anchor" aria-label="anchor" href="#plot-umi-and-gene-counts-across-tissue"></a>
 </h2>
 <hr class="half-width">
 <p>Next, we want to look at the distribution of UMI counts and numbers
@@ -1891,7 +1886,7 @@ function to look at these values. We can color the spots based on the
 spot metadata stored in the Seurat object. You can find these column
 names by looking at the <code>meta.data</code> slot of the Seurat
 object.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1917,7 +1912,7 @@ AAACAGGGTCTATATT-1        47        13               8064               3665</co
 </div>
 <p>To plot the UMI counts, we will use the <code>nCount_Spatial</code>
 column in the spot metadata.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1926,7 +1921,7 @@ column in the spot metadata.</p>
 <span><span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu">SpatialFeaturePlot</span><span class="op">(</span><span class="va">filter_st</span>, features <span class="op">=</span> <span class="st">"nCount_Spatial"</span><span class="op">)</span></span>
 <span><span class="va">plot1</span> <span class="op">|</span> <span class="va">plot2</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-14-1.png" alt="Figure showing UMI counts in each spot with varying intensity across the tissue" class="figure mx-auto d-block"><figcaption>
+<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-13-1.png" alt="Figure showing UMI counts in each spot with varying intensity across the tissue" class="figure mx-auto d-block"><figcaption>
 UMI Counts in each Spot
 </figcaption></figure><p>In this case, we see a band of higher counts running from upper left
 to lower right. There are also bands of lower counts above and below
@@ -1935,7 +1930,7 @@ in the tissue. It is less clear why the expression is low in the
 lower-left corner.</p>
 <p>We can also look at the number of genes detected in each spot using
 <code>nFeature_Spatial</code>.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1944,7 +1939,7 @@ lower-left corner.</p>
 <span><span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu">SpatialFeaturePlot</span><span class="op">(</span><span class="va">filter_st</span>, features <span class="op">=</span> <span class="st">"nFeature_Spatial"</span><span class="op">)</span></span>
 <span><span class="va">plot1</span> <span class="op">|</span> <span class="va">plot2</span></span></code></pre>
 </div>
-<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-15-1.png" alt="Figure showing number of genes detected in each spot with varying intensity across the tissue" class="figure mx-auto d-block"><figcaption>
+<figure style="text-align: center"><img src="../fig/data-preprocessing-rendered-unnamed-chunk-14-1.png" alt="Figure showing number of genes detected in each spot with varying intensity across the tissue" class="figure mx-auto d-block"><figcaption>
 Number of Genes in each Spot
 </figcaption></figure><p>It is difficult to lay out a broad set of rules that will work for
 all types of tissues and samples. Some tissues may have homogeneous UMI
@@ -1960,7 +1955,7 @@ some variation in UMI counts in different layers of the brain.</p>
 data. To do this, we are going to filter out genes that have no
 expression across the cells.</p>
 <p>How many genes to we have before filtering?</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1974,7 +1969,7 @@ expression across the cells.</p>
 <p>Next, we will get the raw counts, calculate the sum of each gene’s
 exprsssion across all spots, and filter the Seurat object to retain
 genes with summed counts greater than zero.</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -2006,7 +2001,7 @@ Not validating FOV objects</code></pre>
 <pre class="warning" tabindex="0"><code>Warning: Not validating Seurat objects</code></pre>
 </div>
 <p>How many genes to we have after filtering?</p>
-<div class="codewrapper sourceCode" id="cb25">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -2049,7 +2044,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-remove-low-quality-spots"><p>Content from <a href="remove-low-quality-spots.html">Remove Low-quality Spots</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-09-12 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/remove-low-quality-spots.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 75 minutes</p>
@@ -2092,7 +2087,7 @@ analysis?</li>
 some technical failures. If the processing of the entire slide fails, it
 should be obvious due to a large number of gene appearing in spots
 outside of the tissue or low UMIs across the whole tissue.</p>
-<p>However, there may also be variation in spot quality in a slide that
+<p>However, there can also be variation in spot quality in a slide that
 has largely high-quality spots. These artifacts are much rarer than in
 single-cell transcriptomics because the process of tissue sectioning is
 less disruptive than tissue dissociation. Because of this, we recommend
@@ -2107,16 +2102,29 @@ low-quality spots:</p>
 <p>During tissue processing, it is possible that some cells will be
 lysed, spilling out the transcripts, but retaining the mitochondria.
 These spots will appear with much higher mitochondrial gene expression.
-We will also examine the total UMI counts and number of genes detected
-in each spot because high counts may indicate spots with lysed cells
-whose contents bled into other spots.</p>
-<p>However, these metrics may be tissue-dependent. In some tissues,
-there may be biological reasons for differential expression across the
-tissue. For example, in a cancer sample, mitochondrial or total gene
-expression may vary between stromal and tumor regions. It will be
-important for you to familiarize yourself with the structure of the
-tissue that you are analyzing in order to make rational judgments about
-filtering.</p>
+High UMI counts or number of detected genes might also indicate spots
+with bleed over of lysed content from neighboring cells.</p>
+<p>There may be regions of the slide with artifacts introduced during
+slide preparation. These include tearing and folding of the tissue. As
+mentioned above, the 10x Space Ranger pipeline automatically segments
+the tissue boundary. This generally performs well at a large scale.
+However, at high resolution, it may fail to properly assign spots within
+small tears or along the jagged edge to the background. Such spots might
+be identified by low UMI counts or number of detected genes. Conversely,
+folded tissue may have a higher density of cells, which could result in
+high UMI counts or number of detected genes. Pathologist annotation of
+H&amp;E image can flag artifactual regions that are then excluded from
+downstream analysis. Image processing techniques may also be able to
+automatically identify and exclude artifactual regions, particularly
+folds. Using pathologist annotation or image processing to identify
+tissue abnormalities is less common than using the simple data-driven
+metrics considered here, and we do not discuss them further.</p>
+<p>These metrics may be tissue-dependent. In some tissues, there may be
+biological reasons for differential expression across the tissue. For
+example, in a cancer sample, mitochondrial or total gene expression may
+vary between stromal and tumor regions. It will be important for you to
+familiarize yourself with the structure of the tissue that you are
+analyzing in order to make rational judgments about filtering.</p>
 </section><section><h2 class="section-heading" id="filtering-by-mitochondrial-gene-count">Filtering by Mitochondrial Gene Count<a class="anchor" aria-label="anchor" href="#filtering-by-mitochondrial-gene-count"></a>
 </h2>
 <hr class="half-width">
@@ -2200,7 +2208,7 @@ represents a position with zero counts.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>You don’t have to have the students type out the next block. It may
 be better to let them focus on the concept rather than typing.</p>
@@ -2283,7 +2291,7 @@ metadata.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor2" aria-expanded="false" aria-controls="collapseInstructor2">
   <h3 class="accordion-header" id="headingInstructor2">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor2" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor2" aria-labelledby="headingInstructor2">
+<div id="collapseInstructor2" class="accordion-collapse collapse" aria-labelledby="headingInstructor2" data-bs-parent="#accordionInstructor2">
 <div class="accordion-body">
 <p>There is no need to have students type out the figure titles and axis
 labels.</p>
@@ -2329,7 +2337,7 @@ time as a histogram.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor3" aria-expanded="false" aria-controls="collapseInstructor3">
   <h3 class="accordion-header" id="headingInstructor3">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor3" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor3" aria-labelledby="headingInstructor3">
+<div id="collapseInstructor3" class="accordion-collapse collapse" aria-labelledby="headingInstructor3" data-bs-parent="#accordionInstructor3">
 <div class="accordion-body">
 <p>There is no need to have students type out the figure titles and axis
 labels.</p>
@@ -2412,14 +2420,15 @@ case, the “columns” of the Seurat object correspond to the spots.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="va">filter_st</span><span class="op">[</span>,<span class="va">keep</span><span class="op">]</span></span></code></pre>
 </div>
-<div id="challenge-1-change-the-spot-filtering-thresholds." class="callout challenge">
+<div id="challenge-1-change-the-total-counts-spot-filtering-threshold." class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="challenge-1-change-the-spot-filtering-thresholds." class="callout-inner">
-<h3 class="callout-title">Challenge 1: Change the spot filtering thresholds.</h3>
+<div id="challenge-1-change-the-total-counts-spot-filtering-threshold." class="callout-inner">
+<h3 class="callout-title">Challenge 1: Change the total counts spot filtering threshold.</h3>
 <div class="callout-content">
 <ol style="list-style-type: decimal">
+<li>Make a copy of the seurat object.</li>
 <li>Change the threshold for the number of UMIs per spot to keep spots
 with <strong>more</strong> than 2000 counts. Note that we are filtering
 on the lower side of the distribution.</li>
@@ -2437,22 +2446,84 @@ the tissue structure?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">new_counts_thr</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span>
-<span><span class="va">keep_counts</span>    <span class="op">&lt;-</span> <span class="fu">FetchData</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"nCount_Spatial"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="va">new_counts_thr</span></span>
-<span><span class="va">filter_st</span><span class="op">$</span><span class="va">keep_counts</span> <span class="op">&lt;-</span> <span class="va">keep_counts</span></span>
-<span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">filter_st</span>, group.by <span class="op">=</span> <span class="st">"keep_counts"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">obj</span>             <span class="op">&lt;-</span> <span class="va">filter_st</span></span>
+<span><span class="va">new_counts_thr</span>  <span class="op">&lt;-</span> <span class="fl">2000</span></span>
+<span><span class="va">keep_counts</span>     <span class="op">&lt;-</span> <span class="fu">FetchData</span><span class="op">(</span><span class="va">obj</span>, <span class="st">"nCount_Spatial"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="va">new_counts_thr</span></span>
+<span><span class="va">obj</span><span class="op">$</span><span class="va">keep_counts</span> <span class="op">&lt;-</span> <span class="va">keep_counts</span></span>
+<span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">obj</span>, group.by <span class="op">=</span> <span class="st">"keep_counts"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/remove-low-quality-spots-rendered-unnamed-chunk-16-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that the spots that we have flagged seem to correspond to
 stripes in the tissue section. These may be regions of the brain which
 have lower levels of gene expression, so we may want to revise or remove
 this threshold. Overall, this exercise shows that it is important to use
 judgement when filtering spots.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge-2-change-the-mitochondrial-spot-filtering-thresholds." class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-2-change-the-mitochondrial-spot-filtering-thresholds." class="callout-inner">
+<h3 class="callout-title">Challenge 2: Change the mitochondrial spot filtering thresholds.</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal">
+<li>Make a copy of the seurat object.</li>
+<li>Change the threshold for the percent mitochondrial expression per
+spot to keep spots with <strong>less</strong> than 25% mitochondrial
+expression. This might happen if you decide that too much mitochondrial
+expression indicates some technical error.</li>
+<li>Add new variable called “keep_counts” to the Seurat object.</li>
+<li>Plot the spot overlaid on the tissue section, colored by whether you
+are keeping them.</li>
+</ol>
+<p>Is there a pattern to the removed spots that seems to correlate with
+the tissue structure?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Solution 2 </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb22">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">obj</span>          <span class="op">&lt;-</span> <span class="va">filter_st</span></span>
+<span><span class="va">new_mito_thr</span> <span class="op">&lt;-</span> <span class="fl">20</span></span>
+<span><span class="va">keep_counts</span>  <span class="op">&lt;-</span> <span class="fu">FetchData</span><span class="op">(</span><span class="va">obj</span>, <span class="st">"percent.mt"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;</span> <span class="va">new_mito_thr</span></span>
+<span><span class="va">obj</span><span class="op">$</span><span class="va">keep_counts</span> <span class="op">&lt;-</span> <span class="va">keep_counts</span></span>
+<span><span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">obj</span>, group.by <span class="op">=</span> <span class="st">"keep_counts"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/remove-low-quality-spots-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that the spots that we have flagged are largely outside of the
+lower left. Later in the lesson, we will find that this is the “white
+matter”, and this region has different expression from the rest of the
+tissue section. In fact, mitochondrial expression in general seems to be
+higher in the upper right area.</p>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">SpatialFeaturePlot</span><span class="op">(</span><span class="va">obj</span>, features <span class="op">=</span> <span class="st">"percent.mt"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Percentage MitochondrialExpression"</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/remove-low-quality-spots-rendered-unnamed-chunk-18-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rm</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -3122,7 +3193,7 @@ genes better.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Solution 1 </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>We will compare the two plots in the next section.</p>
 </div>
@@ -3139,7 +3210,7 @@ genes better.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Don’t have the students type this. Show the plots and discuss
 them.</p>
@@ -3227,7 +3298,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-feature-selection-dimensionality-reduction-clustering"><p>Content from <a href="feature-selection-dimensionality-reduction-clustering.html">Feature Selection, Dimensionality Reduction, and Spot Clustering</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-09-12 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/feature-selection-dimensionality-reduction-clustering.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 85 minutes</p>
@@ -3357,7 +3428,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3390,7 +3461,7 @@ similarity.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">ScaleData</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<code class="sourceCode R"><span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">ScaleData</span><span class="op">(</span><span class="va">sct_st</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>               <span class="fu">RunPCA</span><span class="op">(</span>npcs <span class="op">=</span> <span class="fl">75</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -3409,7 +3480,7 @@ account for more of the variance.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ElbowPlot</span><span class="op">(</span><span class="va">filter_st</span>, ndims <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">ElbowPlot</span><span class="op">(</span><span class="va">sct_st</span>, ndims <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-3-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>From the plot above, we would normally select somewhere between 10
 and 20 PCs because there seems to be little benefit in adding more PCs.
@@ -3439,9 +3510,9 @@ analysis.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">FindNeighbors</span><span class="op">(</span><span class="va">filter_st</span>, </span>
-<span>                           reduction <span class="op">=</span> <span class="st">"pca"</span>, </span>
-<span>                           dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_pcs</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<code class="sourceCode R"><span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">FindNeighbors</span><span class="op">(</span><span class="va">sct_st</span>, </span>
+<span>                        reduction <span class="op">=</span> <span class="st">"pca"</span>, </span>
+<span>                        dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_pcs</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>               <span class="fu">FindClusters</span><span class="op">(</span>resolution <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -3474,7 +3545,7 @@ metadata to see this.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3515,7 +3586,7 @@ look at them again to compare them to our clusters.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Layer"</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>The authors describe six layers arranged from the upper right to the
@@ -3530,7 +3601,7 @@ stripes forming each layer.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Cluster"</span><span class="op">)</span> </span></code></pre>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"Cluster"</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/feature-selection-dimensionality-reduction-clustering-rendered-unnamed-chunk-8-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>How many layers do we have compared to the publication? What do you
 think about the quality of the layers in this plot? Are there clear
@@ -3545,15 +3616,15 @@ cell type, so the clustering may not be as clear.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">num_clusters</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="fu">unique</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">seurat_clusters</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">num_clusters</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="fu">unique</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">seurat_clusters</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">color_pal</span>    <span class="op">&lt;-</span> <span class="fu">setNames</span><span class="op">(</span><span class="fu">carto_pal</span><span class="op">(</span><span class="va">num_clusters</span>, <span class="st">"Safe"</span><span class="op">)</span>, <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">num_clusters</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">RunUMAP</span><span class="op">(</span><span class="va">filter_st</span>, </span>
-<span>                     reduction <span class="op">=</span> <span class="st">'pca'</span>, </span>
-<span>                     dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_pcs</span>, </span>
-<span>                     verbose   <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">RunUMAP</span><span class="op">(</span><span class="va">sct_st</span>, </span>
+<span>                  reduction <span class="op">=</span> <span class="st">'pca'</span>, </span>
+<span>                  dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_pcs</span>, </span>
+<span>                  verbose   <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">UMAPPlot</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<span><span class="fu">UMAPPlot</span><span class="op">(</span><span class="va">sct_st</span>, </span>
 <span>         label      <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>         cols       <span class="op">=</span> <span class="va">color_pal</span>,</span>
 <span>         pt.size    <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -3591,20 +3662,20 @@ code block.</p>
 <span>    <span class="va">index</span>     <span class="op">&lt;-</span> <span class="op">(</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu">length</span><span class="op">(</span><span class="va">npcs</span><span class="op">)</span> <span class="op">+</span> <span class="va">j</span></span>
 <span>    <span class="fu">print</span><span class="op">(</span><span class="fu">paste</span><span class="op">(</span><span class="st">'Index ='</span>, <span class="va">index</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span>    <span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">FindNeighbors</span><span class="op">(</span><span class="va">filter_st</span>, </span>
-<span>                               reduction <span class="op">=</span> <span class="st">"pca"</span>, </span>
-<span>                               dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">npcs</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">FindNeighbors</span><span class="op">(</span><span class="va">sct_st</span>, </span>
+<span>                            reduction <span class="op">=</span> <span class="st">"pca"</span>, </span>
+<span>                            dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">npcs</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>                   <span class="fu">FindClusters</span><span class="op">(</span>resolution <span class="op">=</span> <span class="va">resol</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>                   <span class="fu">RunUMAP</span><span class="op">(</span>reduction <span class="op">=</span> <span class="st">'pca'</span>, </span>
 <span>                           dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">npcs</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,</span>
 <span>                           verbose   <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span>    <span class="va">umap_plots</span><span class="op">[[</span><span class="va">index</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">UMAPPlot</span><span class="op">(</span><span class="va">filter_st</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, cols <span class="op">=</span> <span class="va">color_pal</span>, </span>
+<span>    <span class="va">umap_plots</span><span class="op">[[</span><span class="va">index</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">UMAPPlot</span><span class="op">(</span><span class="va">sct_st</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, cols <span class="op">=</span> <span class="va">color_pal</span>, </span>
 <span>                                    pt.size <span class="op">=</span> <span class="fl">2</span>, label.size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
 <span>                             <span class="fu">ggtitle</span><span class="op">(</span><span class="fu">paste</span><span class="op">(</span><span class="st">"res ="</span>, <span class="va">resol</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">": pc ="</span>, <span class="va">npcs</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>                             <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span></span>
-<span>    <span class="va">plots</span><span class="op">[[</span><span class="va">index</span><span class="op">]</span><span class="op">]</span>      <span class="op">&lt;-</span> <span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<span>    <span class="va">plots</span><span class="op">[[</span><span class="va">index</span><span class="op">]</span><span class="op">]</span>      <span class="op">&lt;-</span> <span class="fu">SpatialDimPlot</span><span class="op">(</span><span class="va">sct_st</span>, </span>
 <span>                                          group.by <span class="op">=</span> <span class="st">"seurat_clusters"</span>, </span>
 <span>                                          cols <span class="op">=</span> <span class="va">color_pal</span><span class="op">)</span> <span class="op">+</span></span>
 <span>                          <span class="fu">ggtitle</span><span class="op">(</span><span class="fu">paste</span><span class="op">(</span><span class="st">"res ="</span>, <span class="va">resol</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">": pc ="</span>, <span class="va">npcs</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -3655,7 +3726,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 1 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -3679,9 +3750,9 @@ work.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">FindNeighbors</span><span class="op">(</span><span class="va">filter_st</span>, </span>
-<span>                           reduction <span class="op">=</span> <span class="st">"pca"</span>, </span>
-<span>                           dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<code class="sourceCode R"><span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">FindNeighbors</span><span class="op">(</span><span class="va">sct_st</span>, </span>
+<span>                        reduction <span class="op">=</span> <span class="st">"pca"</span>, </span>
+<span>                        dims      <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>               <span class="fu">FindClusters</span><span class="op">(</span>resolution <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -3701,7 +3772,7 @@ Elapsed time: 0 seconds</code></pre>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span>label <span class="op">=</span> <span class="st">"Tissue Clusters: 50 PCs, resol = 0.8"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Cluster"</span><span class="op">)</span></span></code></pre>
 </div>
@@ -3740,7 +3811,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-deconvolve-cell-types-in-a-spot"><p>Content from <a href="deconvolve-cell-types-in-a-spot.html">Deconvolution in Spatial Transcriptomics</a></p>
 <hr>
-<p>Last updated on 2024-08-09 |
+<p>Last updated on 2024-09-12 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/deconvolve-cell-types-in-a-spot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 50 minutes</p>
@@ -3905,7 +3976,7 @@ directly.</p>
 <span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="va">load.precomputed.results</span> <span class="op">||</span> <span class="op">!</span><span class="fu">file.exists</span><span class="op">(</span><span class="va">rds.file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span></span>
-<span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">run.rctd</span><span class="op">(</span><span class="va">sc_reference</span>, <span class="va">filter_st</span><span class="op">)</span></span>
+<span>  <span class="va">result_1</span> <span class="op">&lt;-</span> <span class="fu">run.rctd</span><span class="op">(</span><span class="va">sc_reference</span>, <span class="va">sct_st</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># The RCTD file is large. To save space, we will remove the reference </span></span>
 <span>  <span class="co"># counts. This is necessary owing to constraints on sizes of files </span></span>
@@ -3984,7 +4055,7 @@ there.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">filter_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">filter_st</span>, metadata <span class="op">=</span>  <span class="va">props</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">sct_st</span>, metadata <span class="op">=</span>  <span class="va">props</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We can now visualize the predicted layer classifications and compare
 them alongside the authors’ annotations that we saw previously.</p>
@@ -3992,14 +4063,14 @@ them alongside the authors’ annotations that we saw previously.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, </span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>                        <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>                        <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="../fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To be more quantitative, we can compute a confusion matrix comparing
@@ -4008,8 +4079,8 @@ the layers predicted by RCTD with those annotated by the authors.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, </span>
-<span>                                     <span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, </span>
+<span>                                     <span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">colnames</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Annotation"</span>, <span class="st">"Prediction"</span>, <span class="st">"Freq"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Prediction</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Prediction</span><span class="op">)</span></span>
@@ -4062,7 +4133,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-differential-expression-testing"><p>Content from <a href="differential-expression-testing.html">Differential Expression Testing</a></p>
 <hr>
-<p>Last updated on 2024-08-13 |
+<p>Last updated on 2024-09-12 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 50 minutes</p>
@@ -4114,7 +4185,7 @@ As a reminder, those look like:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">filter_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>                        <span class="st">"layer_guess"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Layer"</span><span class="op">)</span> </span></code></pre>
 </div>
@@ -4131,8 +4202,8 @@ using Seurat v5, which leverages it.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">Idents</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="st">"layer_guess"</span></span>
-<span><span class="va">de_genes</span>           <span class="op">&lt;-</span> <span class="fu">FindAllMarkers</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<code class="sourceCode R"><span><span class="fu">Idents</span><span class="op">(</span><span class="va">sct_st</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="st">"layer_guess"</span></span>
+<span><span class="va">de_genes</span>           <span class="op">&lt;-</span> <span class="fu">FindAllMarkers</span><span class="op">(</span><span class="va">sct_st</span>, </span>
 <span>                                     assay    <span class="op">=</span> <span class="st">"SCT"</span>,</span>
 <span>                                     verbose  <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                                     only.pos <span class="op">=</span> <span class="cn">TRUE</span>, </span>
@@ -4184,7 +4255,7 @@ scRNA-seq. Let’s try this.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">filter_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span> </span>
+<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span>, <span class="st">"seurat_clusters"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">labs</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"Cluster"</span><span class="op">)</span> </span></code></pre>
 </div>
 <figure><img src="../fig/differential-expression-testing-rendered-clusters-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Now, we will use nearly identical code as above to perform the
@@ -4195,8 +4266,8 @@ function, to associate each cell with its cluster.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">Idents</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="st">"seurat_clusters"</span></span>
-<span><span class="va">de_genes_cluster</span>   <span class="op">&lt;-</span> <span class="fu">FindAllMarkers</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<code class="sourceCode R"><span><span class="fu">Idents</span><span class="op">(</span><span class="va">sct_st</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="st">"seurat_clusters"</span></span>
+<span><span class="va">de_genes_cluster</span>   <span class="op">&lt;-</span> <span class="fu">FindAllMarkers</span><span class="op">(</span><span class="va">sct_st</span>, </span>
 <span>                                     assay    <span class="op">=</span> <span class="st">"SCT"</span>,</span>
 <span>                                     verbose  <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                                     only.pos <span class="op">=</span> <span class="cn">TRUE</span>, </span>
@@ -4278,9 +4349,9 @@ run.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">svg</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">FindSpatiallyVariableFeatures</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<span>  <span class="fu">FindSpatiallyVariableFeatures</span><span class="op">(</span><span class="va">sct_st</span>, </span>
 <span>                                assay            <span class="op">=</span> <span class="st">"SCT"</span>, </span>
-<span>                                features         <span class="op">=</span> <span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">filter_st</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span>, </span>
+<span>                                features         <span class="op">=</span> <span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">sct_st</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span>, </span>
 <span>                                selection.method <span class="op">=</span> <span class="st">"moransi"</span><span class="op">)</span></span></code></pre>
 </div>
 <p><code>FindSpatiallyVariableFeatures</code> returns a Seurat object,
@@ -5369,8 +5440,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/aio.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/aio.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-09-03",
-  "datePublished": "2024-09-03"
+  "dateModified": "2024-09-12",
+  "datePublished": "2024-09-12"
 }
 
   </script><script>
