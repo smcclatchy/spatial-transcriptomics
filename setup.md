@@ -37,7 +37,7 @@ for(pkg in pkgs) {
     install.packages(pkg, dependencies = TRUE)
   }
 }
-BiocManager::install(c("glmGamPoi", "rhdf5", "ComplexHeatmap"))
+BiocManager::install(c("glmGamPoi", "rhdf5", "ComplexHeatmap","DESeq2"))
 
 options(timeout = 1e6)
 remotes::install_github("immunogenomics/presto",  build_vignettes = FALSE)
@@ -61,6 +61,8 @@ library(sparseMatrixStats)
 library(Seurat)
 library(tidyverse)
 library(ComplexHeatmap)
+library(DESeq2)
+library(patchwork)
 ```
 
 ## Project Setup
