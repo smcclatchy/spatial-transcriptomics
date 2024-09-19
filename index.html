@@ -395,7 +395,7 @@ Console:</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"BiocManager"</span>, <span class="st">"data.table"</span>,  <span class="st">"ggExtra"</span>, <span class="st">"hdf5r"</span>,</span>
 <span>          <span class="st">"here"</span>,        <span class="st">"igraph"</span>,      <span class="st">"leiden"</span>, <span class="st">"Matrix"</span>, <span class="st">"matrixStats"</span>, </span>
-<span>          <span class="st">"plyr"</span>,        <span class="st">"rcartocolor"</span>, <span class="st">"remotes"</span>,</span>
+<span>          <span class="st">"plyr"</span>,        <span class="st">"rcartocolor"</span>, <span class="st">"remotes"</span>, <span class="st">"DESeq2"</span>,</span>
 <span>          <span class="st">"Rfast2"</span>,      <span class="st">"Seurat"</span>,      <span class="st">"tidyverse"</span>, <span class="st">"R.utils"</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">pkg</span> <span class="kw">in</span> <span class="va">pkgs</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw">require</span><span class="op">(</span><span class="va">pkg</span>, character.only<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -518,26 +518,6 @@ download the data into your <code>data</code> directory.</p>
 <span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/gsbcd00z82q5u8dsxqhyznqfvt2k28t3.csv"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/151669/spatial/tissue_positions_list.csv"</span>,</span>
 <span>              mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span>          <span class="fu">dir.create</span><span class="op">(</span><span class="st">"data/151671/spatial"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>          <span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/v2zbtfghreurusg5jlbqap5qe04g7ybl.h5"</span>,</span>
-<span>                        destfile <span class="op">=</span> <span class="st">"data/151671/151671_raw_feature_bc_matrix.h5"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span>          <span class="fu">download.file</span><span class="op">(</span>url <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/ko7xi2y3bzb31vmwzfzz5epu3drrwmqg.h5"</span>,</span>
-<span>                        destfile <span class="op">=</span> <span class="st">"data/151671/151671_filtered_feature_bc_matrix.h5"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span>          <span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/4ty7muqafwhksy58498ysdj05glmbqoq.json"</span>,</span>
-<span>                        destfile <span class="op">=</span> <span class="st">"data/151671/spatial/scalefactors_json.json"</span>,</span>
-<span>                        mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span>          <span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/j3o031elf913non3t46788fbc7jdocbl.png"</span>,</span>
-<span>                        destfile <span class="op">=</span> <span class="st">"data/151671/spatial/tissue_hires_image.png"</span>,</span>
-<span>                        mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span>          <span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/ywn0ruuio22r21j960zmao4z6o495tcm.png"</span>,</span>
-<span>                        destfile <span class="op">=</span> <span class="st">"data/151671/spatial/tissue_lowres_image.png"</span>,</span>
-<span>                        mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span>          <span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/6x1dzlzmjabbv43ar04x64usqo85jjkr.csv"</span>,</span>
-<span>                        destfile <span class="op">=</span> <span class="st">"data/151671/spatial/tissue_positions_list.csv"</span>,</span>
-<span>                        mode     <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu">download.file</span><span class="op">(</span>url      <span class="op">=</span> <span class="st">"https://thejacksonlaboratory.box.com/shared/static/ny1wokl6sz1xjzz68aftbk209se5nvws.tsv"</span>,</span>
 <span>              destfile <span class="op">=</span> <span class="st">"data/spot-meta.tsv"</span>,</span>
