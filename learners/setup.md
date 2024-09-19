@@ -30,7 +30,7 @@ In RStudio, copy and paste the following commands into the Console:
 ```r
 pkgs <- c("BiocManager", "data.table",  "ggExtra", "hdf5r",
           "here",        "igraph",      "leiden", "Matrix", "matrixStats", 
-          "plyr",        "rcartocolor", "remotes",
+          "plyr",        "rcartocolor", "remotes", "DESeq2",
           "Rfast2",      "Seurat",      "tidyverse", "R.utils")
 for(pkg in pkgs) {
   if(!require(pkg, character.only=TRUE)) {
@@ -151,26 +151,6 @@ download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/fq1
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/gsbcd00z82q5u8dsxqhyznqfvt2k28t3.csv",
               destfile = "data/151669/spatial/tissue_positions_list.csv",
               mode     = "wb")
-
-if (FALSE) {
-          dir.create("data/151671/spatial", recursive = TRUE)
-          download.file(url = "https://thejacksonlaboratory.box.com/shared/static/v2zbtfghreurusg5jlbqap5qe04g7ybl.h5",
-                        destfile = "data/151671/151671_raw_feature_bc_matrix.h5", mode = "wb")
-          download.file(url = "https://thejacksonlaboratory.box.com/shared/static/ko7xi2y3bzb31vmwzfzz5epu3drrwmqg.h5",
-                        destfile = "data/151671/151671_filtered_feature_bc_matrix.h5", mode = "wb")
-          download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/4ty7muqafwhksy58498ysdj05glmbqoq.json",
-                        destfile = "data/151671/spatial/scalefactors_json.json",
-                        mode     = "wb")
-          download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/j3o031elf913non3t46788fbc7jdocbl.png",
-                        destfile = "data/151671/spatial/tissue_hires_image.png",
-                        mode     = "wb")
-          download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ywn0ruuio22r21j960zmao4z6o495tcm.png",
-                        destfile = "data/151671/spatial/tissue_lowres_image.png",
-                        mode     = "wb")
-          download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/6x1dzlzmjabbv43ar04x64usqo85jjkr.csv",
-                        destfile = "data/151671/spatial/tissue_positions_list.csv",
-                        mode     = "wb")
-}
 
 download.file(url      = "https://thejacksonlaboratory.box.com/shared/static/ny1wokl6sz1xjzz68aftbk209se5nvws.tsv",
               destfile = "data/spot-meta.tsv",
