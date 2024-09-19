@@ -29,6 +29,7 @@ suppressPackageStartupMessages(library(ComplexHeatmap))
 suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(patchwork))
+suppressPackageStartupMessages(library(DESeq2))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -412,17 +413,17 @@ rownames(new_dataframe) <- colnames(combined_matrix)
 # Perform differential expression analysis using DESeq2
 # Unfortunately, there are still dependency issues between DESeq2 and Seurat,
 # so we recommend not running this part. To prevent execution, we wrap the code in an `if (FALSE)` statement.
-if (FALSE) {
-  BiocManager::install("DESeq2")
-  library(DESeq2)
-  dds <- DESeqDataSetFromMatrix(countData = combined_matrix,
-                                colData = new_dataframe,
-                                design = ~ layer + sample)
-  dds <- DESeq(dds)
-  resultsNames(dds)
-  res <- results(dds, name = "layer_WM_vs_others")
-  head(res[order(res$padj),])
-}
+#if (FALSE) {
+#  BiocManager::install("DESeq2")
+#  library(DESeq2)
+dds <- DESeqDataSetFromMatrix(countData = combined_matrix,
+                              colData = new_dataframe,
+                              design = ~ layer + sample)
+dds <- DESeq(dds)
+resultsNames(dds)
+res <- results(dds, name = "layer_WM_vs_others")
+head(res[order(res$padj),])
+#}
 ```
 
 ![Visium spatial gene expression slide](fig/de_genes.PNG){alt='Genes with the lowest adjusted p-values from differential expression analysis with DESeq2'}
