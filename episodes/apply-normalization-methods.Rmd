@@ -6,20 +6,17 @@ exercises: 10
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- Why is normalization needed in spatial transcriptomics?
-- What insights do additional modalities like H&E staining provide in assessing 
-normalization needs?
-- How do specific normalization techniques like SCTransform and log scaling work 
-and when should they be applied?
+- What technical and biological factors impact spatial transcriptomics data?
+- How do these factors motivate the need for normalization?
+- What are popular normalization methods?
+- How do we assess the impact of normalization?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Assess the need for normalization using both spatial transcriptomics data and 
-ancillary modalities like H&E staining.
-- Understand how to apply popular normalization 
-techniques such as SCTransform and log scaling.
+- Understand and learn to apply popular normalization 
+techniques, such as CPM normalization, log normalization, and SCTransform.
 - Diagnose the impact of normalization.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
@@ -60,6 +57,12 @@ scales with its expression. If we do not correct for this effect, differentially
 expressed genes will be skewed towards the high end of the expression spectrum.
 Hence, we seek to *stabilize the variance* -- expression variance should be independent 
 of mean expression.
+
+In this lesson we will:
+- Observe that total spots per spot are variable
+- Explore biological factors that contribute to that variability
+- See that gene variance is correlated with gene expression
+- Apply three methods aimed at mitigating one of both of these technical observations: counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
 
 ### Total Counts per Spot are Variable 
 
