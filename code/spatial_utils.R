@@ -409,7 +409,7 @@ apply_qc_threshold <- function(seurat_object, metric_name, threshold, is_greater
 # obj: Seurat object to save.
 # file_prefix: character string to append to files that we have.
 # Returns: Nothing.
-save_seurat_object <- function(obj, file_prefix) {
+save_seurat_object <-function(obj, file_prefix) {
 
   # Save the object metadata.
   saveRDS(obj[[]], file = paste0(file_prefix, "_meta_data.rds"))
@@ -418,14 +418,14 @@ save_seurat_object <- function(obj, file_prefix) {
   obj_assays <- Assays(obj)
 
   # For each Assay, ...
-  for(a in obj_assays) {
+  for(a in names(obj_assays)) {
 
     # Set the default assay and get the Layers.
     DefaultAssay(obj) <- a
-    assay_layers      <- Layers(obj)
+    assay_layers <- Layers(obj)
 
     # For each Layer, write it out and null out the layer.
-    for(c in assay_layers) {
+    for(c in names(assay_layers)) {
 
       # Save the current counts matrix.
       saveRDS(object = LayerData(obj, c),
@@ -440,12 +440,16 @@ save_seurat_object <- function(obj, file_prefix) {
                                                rownames = rownames(obj),
                                                colnames = colnames(obj))
 
-      } else {
+      } else if (is.matrix(LayerData(obj, c))) {
 
         # Normal matrix.
-        LayerData(obj, c) <- matrix()
+        LayerData(obj, c) <- matrix(NA, nrow = nrow(obj), ncol = ncol(obj),
+                                    dimnames = list(rownames(obj), colnames(obj)))
 
-      } # else
+      } else {
+        # Handle other potential matrix-like structures (e.g., data.frames)
+        LayerData(obj, c) <- NULL
+      }
 
     } # for(c)
 
