@@ -353,7 +353,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Normalization in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-08-09 |
+        <p>Last updated on 2024-09-19 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/apply-normalization-methods.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -372,11 +372,11 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>Why is normalization needed in spatial transcriptomics?</li>
-<li>What insights do additional modalities like H&amp;E staining provide
-in assessing normalization needs?</li>
-<li>How do specific normalization techniques like SCTransform and log
-scaling work and when should they be applied?</li>
+<ul><li>What technical and biological factors impact spatial transcriptomics
+data?</li>
+<li>How do these factors motivate the need for normalization?</li>
+<li>What are popular normalization methods?</li>
+<li>How do we assess the impact of normalization?</li>
 </ul></div>
 </div>
 </div>
@@ -384,10 +384,8 @@ scaling work and when should they be applied?</li>
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Assess the need for normalization using both spatial transcriptomics
-data and ancillary modalities like H&amp;E staining.</li>
-<li>Understand how to apply popular normalization techniques such as
-SCTransform and log scaling.</li>
+<ul><li>Understand and learn to apply popular normalization techniques, such
+as CPM normalization, log normalization, and SCTransform.</li>
 <li>Diagnose the impact of normalization.</li>
 </ul></div>
 </div>
@@ -417,6 +415,12 @@ effect, differentially expressed genes will be skewed towards the high
 end of the expression spectrum. Hence, we seek to <em>stabilize the
 variance</em> – expression variance should be independent of mean
 expression.</p>
+<p>In this lesson we will: - Observe that total spots per spot are
+variable - Explore biological factors that contribute to that
+variability - See that gene variance is correlated with gene expression
+- Apply three methods aimed at mitigating one of both of these technical
+observations: counts per million (CPM) normalization, log normalization,
+and Seurat’s SCTransform</p>
 <div class="section level3">
 <h3 id="total-counts-per-spot-are-variable">Total Counts per Spot are Variable<a class="anchor" aria-label="anchor" href="#total-counts-per-spot-are-variable"></a></h3>
 <p>Let’s first assess the variability in the total counts per spot.</p>
@@ -1133,8 +1137,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/apply-normalization-methods.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-08-09",
-  "datePublished": "2024-09-17"
+  "dateModified": "2024-09-19",
+  "datePublished": "2024-09-19"
 }
 
   </script><script>
