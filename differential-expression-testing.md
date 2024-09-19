@@ -445,17 +445,42 @@ rownames(new_dataframe) <- colnames(combined_matrix)
 # Perform differential expression analysis using DESeq2
 # Unfortunately, there are still dependency issues between DESeq2 and Seurat,
 # so we recommend not running this part. To prevent execution, we wrap the code in an `if (FALSE)` statement.
-if (FALSE) {
-  BiocManager::install("DESeq2")
-  library(DESeq2)
-  dds <- DESeqDataSetFromMatrix(countData = combined_matrix,
-                                colData = new_dataframe,
-                                design = ~ layer + sample)
-  dds <- DESeq(dds)
-  resultsNames(dds)
-  res <- results(dds, name = "layer_WM_vs_others")
-  head(res[order(res$padj),])
-}
+#if (FALSE) {
+#  BiocManager::install("DESeq2")
+#  library(DESeq2)
+dds <- DESeqDataSetFromMatrix(countData = combined_matrix,
+                              colData = new_dataframe,
+                              design = ~ layer + sample)
+dds <- DESeq(dds)
+resultsNames(dds)
+```
+
+``` output
+[1] "Intercept"               "layer_WM_vs_others"     
+[3] "sample_151669_vs_151508" "sample_151673_vs_151508"
+```
+
+``` r
+res <- results(dds, name = "layer_WM_vs_others")
+head(res[order(res$padj),])
+```
+
+``` output
+log2 fold change (MLE): layer WM vs others 
+Wald test p-value: layer WM vs others 
+DataFrame with 6 rows and 6 columns
+        baseMean log2FoldChange     lfcSE      stat      pvalue        padj
+       <numeric>      <numeric> <numeric> <numeric>   <numeric>   <numeric>
+MOBP    1364.273        3.04042  0.334509   9.08921 9.97603e-20 1.26825e-15
+AQP1     160.269        3.22379  0.359589   8.96523 3.09639e-19 1.31215e-15
+MBP    16027.210        2.72729  0.303229   8.99418 2.37995e-19 1.31215e-15
+MOG      422.622        2.94064  0.357036   8.23624 1.77704e-16 5.64789e-13
+MYRF     318.623        2.72961  0.338574   8.06208 7.50046e-16 1.90707e-12
+NKX6-2   325.542        2.91717  0.368060   7.92579 2.26698e-15 4.80335e-12
+```
+
+``` r
+#}
 ```
 
 ![Visium spatial gene expression slide](fig/de_genes.PNG){alt='Genes with the lowest adjusted p-values from differential expression analysis with DESeq2'}
