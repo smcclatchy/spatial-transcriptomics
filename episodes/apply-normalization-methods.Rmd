@@ -62,7 +62,7 @@ In this lesson we will:
 
 - Observe that total spots per spot are variable
 - Explore biological factors that contribute to that variability
-- See that gene variance is correlated with gene expression
+- See that gene expression variance is correlated with mean expression
 - Apply three methods aimed at mitigating one of both of these technical observations: counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
 
 ### Total Counts per Spot are Variable 
@@ -101,13 +101,21 @@ Let's load that layer annotation and cell count metadata and add it to our
 Seurat object.
 
 ```{r message=FALSE,warning=FALSE}
+# Load the metadata provided by Maynard et al.
 spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
-# Subset to our sample
+
+# Subset the metadata (across all samples) to our sample
 spot_metadata <- subset(spot_metadata, sample_name == 151673)
+
+# Format the metadata by setting rowname to the barcode (id) of each spot,
+# by ensuring that each spot in our data is represented in the metadata,
+# and by ordering the spots within the metadata consistently with the data.
 rownames(spot_metadata) <- spot_metadata$barcode
 stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
 spot_metadata <- spot_metadata[Cells(filter_st),]
 
+# Add the layer annotation (layer_guess) and cell count as 
+# metadata to the Seurat object using AddMetaData.
 filter_st <- AddMetaData(object = filter_st,
                          metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
 ```
