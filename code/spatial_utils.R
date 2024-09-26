@@ -418,37 +418,31 @@ save_seurat_object <-function(obj, file_prefix) {
   obj_assays <- Assays(obj)
 
   # For each Assay, ...
-  for(a in names(obj_assays)) {
+  for(a in obj_assays) {
 
     # Set the default assay and get the Layers.
     DefaultAssay(obj) <- a
     assay_layers <- Layers(obj)
 
     # For each Layer, write it out and null out the layer.
-    for(c in names(assay_layers)) {
+    for(temp_c in assay_layers) {
 
       # Save the current counts matrix.
-      saveRDS(object = LayerData(obj, c),
-              file   = paste0(file_prefix, "_", a, "_", c, ".rds"))
+      saveRDS(object = LayerData(obj, temp_c),
+              file   = paste0(file_prefix, "_", a, "_", temp_c, ".rds"))
 
       # Null out the current counts matrix.
-      if(class(LayerData(obj, c))[1] == "dgCMatrix") {
+      if(class(LayerData(obj, temp_c))[1] == "dgCMatrix") {
 
         # Sparse matrix.
-        LayerData(obj, c) <- SparseEmptyMatrix(nrow     = nrow(obj),
+        LayerData(obj, temp_c) <- SparseEmptyMatrix(nrow     = nrow(obj),
                                                ncol     = ncol(obj),
                                                rownames = rownames(obj),
                                                colnames = colnames(obj))
 
-      } else if (is.matrix(LayerData(obj, c))) {
-
-        # Normal matrix.
-        LayerData(obj, c) <- matrix(NA, nrow = nrow(obj), ncol = ncol(obj),
-                                    dimnames = list(rownames(obj), colnames(obj)))
-
       } else {
         # Handle other potential matrix-like structures (e.g., data.frames)
-        LayerData(obj, c) <- NULL
+        LayerData(obj, temp_c) <- matrix()
       }
 
     } # for(c)
@@ -486,26 +480,26 @@ load_seurat_object <- function(file_prefix) {
   obj[[]] <- readRDS(files[wh])
   
   ## Remove the metadata filename for the next part.
-  #files <- files[-wh]
+  files <- files[-wh]
 
-  ## Create a data.frame with the filenames, assay, and layer.
-  #file_parts <- strsplit(sub("\\.rds$", "", files), split = '_')
-  #file_info  <- data.frame(files = files,
-  #                         assay = sapply(file_parts, '[', 2),
-  #                         layer = sapply(file_parts, '[', 3))
+  # Create a data.frame with the filenames, assay, and layer.
+  file_parts <- strsplit(sub("\\.rds$", "", files), split = '_')
+  file_info  <- data.frame(files = files,
+                           assay = sapply(file_parts, '[', 2),
+                           layer = sapply(file_parts, '[', 3))
 
-  ## Go through each row in the file data.frame, read in the file, and place
-  ## it's contents in the correct Assay and Layer.
-  #for(i in 1:nrow(file_info)) {
-  #
-  #  current_assay <- file_info$assay[i]
-  #  current_layer <- file_info$layer[i]
-  #
-  #  #DefaultAssay(obj) <- current_assay
-  #
-  #  LayerData(obj, layer = current_layer, assay = current_assay) <- readRDS(file_info$files[i])
-  #
-  #} # for(i)
+  # Go through each row in the file data.frame, read in the file, and place
+  # it's contents in the correct Assay and Layer.
+  for(i in 1:nrow(file_info)) {
+  
+    current_assay <- file_info$assay[i]
+    current_layer <- file_info$layer[i]
+  
+    #DefaultAssay(obj) <- current_assay
+  
+    LayerData(obj, layer = current_layer, assay = current_assay) <- readRDS(file_info$files[i])
+  
+  } # for(i)
   return(obj)
 
 } # load_seurat_object()
