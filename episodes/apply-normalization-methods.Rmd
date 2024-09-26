@@ -63,7 +63,8 @@ In this lesson we will:
 - Observe that total spots per spot are variable
 - Explore biological factors that contribute to that variability
 - See that gene expression variance is correlated with mean expression
-- Apply three methods aimed at mitigating one of both of these technical observations: counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
+- Apply three methods aimed at mitigating one of both of these technical observations: 
+counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
 
 ### Total Counts per Spot are Variable 
 
@@ -74,7 +75,12 @@ distribution of total counts per spot by summing the counts in each column and
 making a histogram.
 
 ```{r}
+# Extract the raw counts (gene by spot matrix) from the Seurat object
 counts <- LayerData(filter_st, layer = 'counts')
+
+# Plot a histogram of the total counts (library size or sum across genes)
+# Note that this column sum is also encoded in the nCount_Spatial metadata
+# variable. We could have simply made a histogram of that variable.
 hist(colSums2(counts), breaks = 100, 
      main = "Histogram of Counts per Spot")
 ```
@@ -126,6 +132,8 @@ Seurat function `SpatialDimPlot`. This is defined in `code/spatial_utils.R` and
 uses a color-blind safe palette.
 
 ```{r message=FALSE, warning=FALSE}
+# Plot the layer annotations on the tissue, omitting any spots
+# that do not have annotations (i.e., having NA values)
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)],
                         "layer_guess") + labs(fill="Layer")
 ```
@@ -134,6 +142,8 @@ We noted that the authors used cellular density to aid in discerning layers.
 Let's see how those H&E-derived cell counts vary across layers.
 
 ```{r message=FALSE, warning=FALSE}
+# Make a boxplot of spot-level cell counts, faceted by layer annotation.
+# As above, remove any spots without annotations (i.e., having NA values).
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), 
             aes(x = layer_guess, y = cell_count))
 g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
@@ -155,6 +165,8 @@ As a potential surrogate for cell count, let's plot the number of UMIs per spot
 as a function of layer.
 
 ```{r message=FALSE, warning=FALSE}
+# Make a boxplot of spot-level total read counts (library size), faceted by layer annotation.
+# Remove any spots without annotations (i.e., having NA values).
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), 
             aes(x = layer_guess, y = nCount_Spatial))
 g <- g + geom_boxplot()
