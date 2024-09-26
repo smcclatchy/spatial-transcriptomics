@@ -557,13 +557,14 @@ of diagnosing the impact of normalization methods and of comparing them.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Normalization is essential but must be selectively applied based on the unique 
-characteristics of each dataset and the specific biological questions at hand.
-- Techniques like SCTransform and log scaling attempt to remove technical
-artifacts while preserving biologically relevant signals.
-- Examining both raw and normalized data can provide comprehensive insights into
-the absolute and relative characteristics of cellular components in spatial 
-transcriptomics.
+- Normalization is necessary to deal with technical artifacts, in particular,
+1) varying total counts (library size) across spots and 2) the dependence of
+a gene's variance on its mean expression.
+- Popular methods aim to address these artifacts and include, but are not
+limited to, CPM normalization, log normalization, and SCTransform.
+- Nevertheless, raw (unnormalized) data can provide biologically meaningful
+insights such as region-specific differences in cell type or density that
+impact total reads.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
