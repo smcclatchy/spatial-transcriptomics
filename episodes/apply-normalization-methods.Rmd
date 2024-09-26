@@ -41,8 +41,8 @@ As with scRNA-seq data, normalization is necessary to overcome two technical art
 1. the difference in total counts across spots, and
 2. the dependence of a gene's expression variance on its expression level.
 
-For the first goal, each spot may have a different number of total counts. This 
-is termed the *library size*. Since each spot has a different number of counts,
+The number of total counts in a spot is termed its *library size*. 
+Since library sizes differ across spots,
 it will be difficult to compare gene expression values between them in a
 meaningful way because the denominator (total spot counts) is different in each
 spot. On the other hand, different spots may contain different types of cells, 
@@ -52,13 +52,14 @@ variation in total counts which may be due to the biology of the tissue.
 In general, we want to be cautious that removing the above technical artifacts
 may also obscure true biological differences.
 
-For the second goal, we will see below that the variance in a gene's expression
+Regarding the second artifact, we will see below that the variance in a gene's expression
 scales with its expression. If we do not correct for this effect, differentially
 expressed genes will be skewed towards the high end of the expression spectrum.
-Hence, we seek to *stabilize the variance* -- expression variance should be independent 
-of mean expression.
+Hence, we seek to *stabilize the variance* -- i.e., transform the data such that
+expression variance is independent of mean expression.
 
 In this lesson we will:
+
 - Observe that total spots per spot are variable
 - Explore biological factors that contribute to that variability
 - See that gene variance is correlated with gene expression
