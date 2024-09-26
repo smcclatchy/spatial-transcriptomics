@@ -161,8 +161,8 @@ SpatialFeaturePlot(filter_st, "cell_count")
 
 The cell counts partially reflect the banding of the layers.
 
-As a potential surrogate for cell count, let's plot the number of UMIs per spot 
-as a function of layer.
+As a potential surrogate for cell count, let's plot the total counts
+(number of UMIs or library size) per spot as a function of layer.
 
 ```{r message=FALSE, warning=FALSE}
 # Make a boxplot of spot-level total read counts (library size), faceted by layer annotation.
@@ -173,13 +173,14 @@ g <- g + geom_boxplot()
 g
 ```
 
-Layer 1 has fewer UMIs, consistent with its lower cell count. An increase in 
-UMIs consistent with that in cell count is not observed for the white matter, 
-however. Despite this imperfect correlation between UMI and cell counts, we wish 
-to emphasize that UMI (*i.e.*, read) counts, as well as feature (*i.e.*, gene) 
-counts, can encode biological information. That certainly occurs here. As such,
-we strongly recommend visualizing raw UMI and features counts prior to 
-normalization.
+Layer 1 has fewer total read counts, consistent with its lower cell count. An increase in 
+total read counts consistent with that in cell count is not observed for the white matter, 
+however. Regardless, there are clear differences in total read counts across brain layers.
+
+In summary, we have observed that both total read counts (library size) and
+feature counts (number of detected genes) can encode biological information. 
+As such, we strongly recommend visualizing raw gene and features counts prior to 
+normalization, which would remove differences in library size across spots.
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
