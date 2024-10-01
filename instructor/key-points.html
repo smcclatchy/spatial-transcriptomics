@@ -449,14 +449,23 @@ discarding important tissue structures.</li>
 </ul></section><section id="apply-normalization-methods"><h2 class="section-heading"><a href="apply-normalization-methods.html">Normalization in Spatial Transcriptomics</a></h2>
 <hr class="half-width">
 <ul>
-<li>Normalization is essential but must be selectively applied based on
-the unique characteristics of each dataset and the specific biological
-questions at hand.</li>
-<li>Techniques like SCTransform and log scaling attempt to remove
-technical artifacts while preserving biologically relevant signals.</li>
-<li>Examining both raw and normalized data can provide comprehensive
-insights into the absolute and relative characteristics of cellular
-components in spatial transcriptomics.</li>
+<li>Normalization is necessary to deal with technical artifacts, in
+particular,</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>varying total counts (library size) across spots and 2) the
+dependence of a gene’s variance on its mean expression.</li>
+</ol>
+<ul>
+<li>Nevertheless, raw (unnormalized) data can provide biologically
+meaningful insights such as region-specific differences in cell type or
+density that impact total reads.</li>
+<li>Popular methods aim to address these artifacts and include, but are
+not limited to, CPM normalization, log normalization, and
+SCTransform.</li>
+<li>The ability of a normalization method to stabilize expression
+variance across its mean (i.e., to remove the dependence of the former
+on the latter) can be assessed visually with a mean-variance plot.</li>
 </ul></section><section id="feature-selection-dimensionality-reduction-clustering"><h2 class="section-heading"><a href="feature-selection-dimensionality-reduction-clustering.html">Feature Selection, Dimensionality Reduction, and Spot Clustering</a></h2>
 <hr class="half-width">
 <ul>
@@ -551,8 +560,8 @@ before proceeding with a spatial transcriptomics analysis.</li>
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/key-points.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/key-points.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-09-19",
-  "datePublished": "2024-09-19"
+  "dateModified": "2024-10-01",
+  "datePublished": "2024-10-01"
 }
 
   </script><script>

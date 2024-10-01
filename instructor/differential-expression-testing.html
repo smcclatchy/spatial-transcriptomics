@@ -359,7 +359,7 @@ Spatially Variable Genes</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Differential Expression Testing</h1>
-        <p>Last updated on 2024-09-19 |
+        <p>Last updated on 2024-10-01 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/differential-expression-testing.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -579,9 +579,10 @@ run.</p>
 <p><code>FindSpatiallyVariableFeatures</code> returns a Seurat object,
 populated with Moran’s I-derived results. Normally, we would use the <a href="https://satijalab.github.io/seurat-object/reference/VariableFeatures.html" class="external-link"><code>SpatiallyVariableFeatures</code></a>
 function to query those results. But, there is a bug in that function as
-described <a href="https://github.com/satijalab/seurat/issues/7422" class="external-link">here</a>. So,
-instead we will manually extract the top 100 ranked spatially variable
-genes, along with their Moran’s I values and associated p-values:</p>
+described <a href="https://github.com/satijalab/seurat/issues/7422" class="external-link">in
+Seurat’s issue pages</a>. So, instead we will manually extract the top
+100 ranked spatially variable genes, along with their Moran’s I values
+and associated p-values:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -800,7 +801,7 @@ sample, indicating that batch effects are not a significant concern.</p>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"PCA Plot Annotated by Layer (Shapes)"</span><span class="op">)</span></span>
 <span><span class="va">PCAPlot_layer_symbol</span></span></code></pre>
 </div>
-<p><img src="../fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" class="figure"><img src="../fig/dE_pca.png" alt="" class="figure"></p>
+<p><img src="../fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" class="figure"><img src="../fig/de_pca.png" alt="" class="figure"></p>
 <p>The PCA plot indeed shows that the dots are clustered by layer rather
 than by sample, validating that the layers are the primary source of
 variation, rather than differences between samples from different
@@ -993,6 +994,7 @@ analysis with the DE genes from the annotated regions.</li>
 </ul></div>
 </div>
 </div>
+<p>#<code>{r echo=FALSE,include=FALSE} #save_seurat_object(obj = sct_st, file_prefix = 'detesting') #</code></p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -1055,8 +1057,8 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/instructor/differential-expression-testing.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-09-19",
-  "datePublished": "2024-09-19"
+  "dateModified": "2024-10-01",
+  "datePublished": "2024-10-01"
 }
 
   </script><script>
