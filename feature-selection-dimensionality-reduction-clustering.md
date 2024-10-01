@@ -226,20 +226,20 @@ AAACACCAATAACTGC-1        59        19               9505               4068
 AAACAGAGCGACTCCT-1        14        94               4151               9271
 AAACAGCTTTCAGAAG-1        43         9               7583               3393
 AAACAGGGTCTATATT-1        47        13               8064               3665
-                   percent.mt keep keep_counts layer_guess cell_count
-AAACAAGTATCTCCCA-1   16.63514 TRUE        TRUE      Layer3          6
-AAACAATCTACTAGCA-1   12.23755 TRUE       FALSE      Layer1         16
-AAACACCAATAACTGC-1   11.40886 TRUE        TRUE          WM          5
-AAACAGAGCGACTCCT-1   24.22234 TRUE        TRUE      Layer3          2
-AAACAGCTTTCAGAAG-1   15.21739 TRUE        TRUE      Layer5          4
-AAACAGGGTCTATATT-1   15.50949 TRUE        TRUE      Layer6          6
-                   nCount_SCT nFeature_SCT SCT_snn_res.1 seurat_clusters
-AAACAAGTATCTCCCA-1       5159         3183             1               1
-AAACAATCTACTAGCA-1       3400         1264             4               4
-AAACACCAATAACTGC-1       3828         1941             6               6
-AAACAGAGCGACTCCT-1       4682         2393             5               5
-AAACAGCTTTCAGAAG-1       4228         2239             0               0
-AAACAGGGTCTATATT-1       3991         2148             3               3
+                   percent.mt keep layer_guess cell_count nCount_SCT
+AAACAAGTATCTCCCA-1   16.63514 TRUE      Layer3          6       5159
+AAACAATCTACTAGCA-1   12.23755 TRUE      Layer1         16       3400
+AAACACCAATAACTGC-1   11.40886 TRUE          WM          5       3828
+AAACAGAGCGACTCCT-1   24.22234 TRUE      Layer3          2       4682
+AAACAGCTTTCAGAAG-1   15.21739 TRUE      Layer5          4       4228
+AAACAGGGTCTATATT-1   15.50949 TRUE      Layer6          6       3991
+                   nFeature_SCT SCT_snn_res.1 seurat_clusters
+AAACAAGTATCTCCCA-1         3183             1               1
+AAACAATCTACTAGCA-1         1264             4               4
+AAACACCAATAACTGC-1         1941             6               6
+AAACAGAGCGACTCCT-1         2393             5               5
+AAACAGCTTTCAGAAG-1         2239             0               0
+AAACAGGGTCTATATT-1         2148             3               3
 ```
 
 We previously discussed the layer annotations provided by Maynard and 

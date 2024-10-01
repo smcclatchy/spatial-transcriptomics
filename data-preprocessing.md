@@ -99,9 +99,6 @@ suppressPackageStartupMessages(library(Seurat))
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 ```
 
-Note that the [`here`](https://here.r-lib.org/) library helps you to find your 
-files by taking care of the absolute path.
-
 ## Load Raw and Filtered Spatial Expression Data
 
 In this course, we will use the [Seurat](https://satijalab.org/seurat/) R 

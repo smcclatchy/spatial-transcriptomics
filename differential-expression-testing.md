@@ -199,7 +199,7 @@ svg <-
 I-derived results. Normally, we would use the 
 [`SpatiallyVariableFeatures`](https://satijalab.github.io/seurat-object/reference/VariableFeatures.html) 
 function to query those results. But, there is a bug in that function as 
-described [here](https://github.com/satijalab/seurat/issues/7422). So, instead
+described [in Seurat's issue pages ](https://github.com/satijalab/seurat/issues/7422). So, instead
 we will manually extract the top 100 ranked spatially variable genes, along with 
 their Moran's I values and associated p-values:
 
@@ -396,7 +396,7 @@ PCAPlot_layer_symbol
 ```
 
 <img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" />
-![PCA of samples per layer](fig/dE_pca.png){alt=''}
+![PCA of samples per layer](fig/de_pca.png){alt=''}
 
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
@@ -549,5 +549,7 @@ from the annotated regions.
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
-
+#```{r echo=FALSE,include=FALSE}
+#save_seurat_object(obj = sct_st, file_prefix = 'detesting')
+#```
 

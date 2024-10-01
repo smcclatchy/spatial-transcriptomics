@@ -30,8 +30,8 @@ As with scRNA-seq data, normalization is necessary to overcome two technical art
 1. the difference in total counts across spots, and
 2. the dependence of a gene's expression variance on its expression level.
 
-For the first goal, each spot may have a different number of total counts. This 
-is termed the *library size*. Since each spot has a different number of counts,
+The number of total counts in a spot is termed its *library size*. 
+Since library sizes differ across spots,
 it will be difficult to compare gene expression values between them in a
 meaningful way because the denominator (total spot counts) is different in each
 spot. On the other hand, different spots may contain different types of cells, 
@@ -41,17 +41,19 @@ variation in total counts which may be due to the biology of the tissue.
 In general, we want to be cautious that removing the above technical artifacts
 may also obscure true biological differences.
 
-For the second goal, we will see below that the variance in a gene's expression
+Regarding the second artifact, we will see below that the variance in a gene's expression
 scales with its expression. If we do not correct for this effect, differentially
 expressed genes will be skewed towards the high end of the expression spectrum.
-Hence, we seek to *stabilize the variance* -- expression variance should be independent 
-of mean expression.
+Hence, we seek to *stabilize the variance* -- i.e., transform the data such that
+expression variance is independent of mean expression.
 
 In this lesson we will:
+
 - Observe that total spots per spot are variable
 - Explore biological factors that contribute to that variability
-- See that gene variance is correlated with gene expression
-- Apply three methods aimed at mitigating one of both of these technical observations: counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
+- See that gene expression variance is correlated with mean expression
+- Apply three methods aimed at mitigating one of both of these technical observations: 
+counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
 
 ### Total Counts per Spot are Variable 
 
@@ -63,7 +65,12 @@ making a histogram.
 
 
 ``` r
+# Extract the raw counts (gene by spot matrix) from the Seurat object
 counts <- LayerData(filter_st, layer = 'counts')
+
+# Plot a histogram of the total counts (library size or sum across genes)
+# Note that this column sum is also encoded in the nCount_Spatial metadata
+# variable. We could have simply made a histogram of that variable.
 hist(colSums2(counts), breaks = 100, 
      main = "Histogram of Counts per Spot")
 ```
@@ -93,13 +100,21 @@ Seurat object.
 
 
 ``` r
+# Load the metadata provided by Maynard et al.
 spot_metadata <- read.table("./data/spot-meta.tsv", sep="\t")
-# Subset to our sample
+
+# Subset the metadata (across all samples) to our sample
 spot_metadata <- subset(spot_metadata, sample_name == 151673)
+
+# Format the metadata by setting rowname to the barcode (id) of each spot,
+# by ensuring that each spot in our data is represented in the metadata,
+# and by ordering the spots within the metadata consistently with the data.
 rownames(spot_metadata) <- spot_metadata$barcode
 stopifnot(all(Cells(filter_st) %in% rownames(spot_metadata)))
 spot_metadata <- spot_metadata[Cells(filter_st),]
 
+# Add the layer annotation (layer_guess) and cell count as 
+# metadata to the Seurat object using AddMetaData.
 filter_st <- AddMetaData(object = filter_st,
                          metadata = spot_metadata[, c("layer_guess", "cell_count"), drop=FALSE])
 ```
@@ -111,6 +126,8 @@ uses a color-blind safe palette.
 
 
 ``` r
+# Plot the layer annotations on the tissue, omitting any spots
+# that do not have annotations (i.e., having NA values)
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)],
                         "layer_guess") + labs(fill="Layer")
 ```
@@ -122,6 +139,8 @@ Let's see how those H&E-derived cell counts vary across layers.
 
 
 ``` r
+# Make a boxplot of spot-level cell counts, faceted by layer annotation.
+# As above, remove any spots without annotations (i.e., having NA values).
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), 
             aes(x = layer_guess, y = cell_count))
 g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
@@ -144,11 +163,13 @@ SpatialFeaturePlot(filter_st, "cell_count")
 
 The cell counts partially reflect the banding of the layers.
 
-As a potential surrogate for cell count, let's plot the number of UMIs per spot 
-as a function of layer.
+As a potential surrogate for cell count, let's plot the total counts
+(number of UMIs or library size) per spot as a function of layer.
 
 
 ``` r
+# Make a boxplot of spot-level total read counts (library size), faceted by layer annotation.
+# Remove any spots without annotations (i.e., having NA values).
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), 
             aes(x = layer_guess, y = nCount_Spatial))
 g <- g + geom_boxplot()
@@ -157,13 +178,14 @@ g
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
-Layer 1 has fewer UMIs, consistent with its lower cell count. An increase in 
-UMIs consistent with that in cell count is not observed for the white matter, 
-however. Despite this imperfect correlation between UMI and cell counts, we wish 
-to emphasize that UMI (*i.e.*, read) counts, as well as feature (*i.e.*, gene) 
-counts, can encode biological information. That certainly occurs here. As such,
-we strongly recommend visualizing raw UMI and features counts prior to 
-normalization.
+Layer 1 has fewer total read counts, consistent with its lower cell count. An increase in 
+total read counts consistent with that in cell count is not observed for the white matter, 
+however. Regardless, there are clear differences in total read counts across brain layers.
+
+In summary, we have observed that both total read counts (library size) and
+feature counts (number of detected genes) can encode biological information. 
+As such, we strongly recommend visualizing raw gene and features counts prior to 
+normalization, which would remove differences in library size across spots.
 
 ### Normalization Techniques to Mitigate Sources of Technical Variation in Total Counts
 
@@ -689,13 +711,17 @@ of diagnosing the impact of normalization methods and of comparing them.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Normalization is essential but must be selectively applied based on the unique 
-characteristics of each dataset and the specific biological questions at hand.
-- Techniques like SCTransform and log scaling attempt to remove technical
-artifacts while preserving biologically relevant signals.
-- Examining both raw and normalized data can provide comprehensive insights into
-the absolute and relative characteristics of cellular components in spatial 
-transcriptomics.
+- Normalization is necessary to deal with technical artifacts, in particular,
+1) varying total counts (library size) across spots and 2) the dependence of
+a gene's variance on its mean expression.
+- Nevertheless, raw (unnormalized) data can provide biologically meaningful
+insights such as region-specific differences in cell type or density that
+impact total reads.
+- Popular methods aim to address these artifacts and include, but are not
+limited to, CPM normalization, log normalization, and SCTransform.
+- The ability of a normalization method to stabilize expression variance across
+its mean (i.e., to remove the dependence of the former on the latter)
+can be assessed visually with a mean-variance plot.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
