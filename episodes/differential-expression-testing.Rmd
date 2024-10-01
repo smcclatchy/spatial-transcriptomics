@@ -492,7 +492,7 @@ from the annotated regions.
 
 :::::::::::::::::::::::::::::::::::::::::::::
 
-```{r echo=FALSE,include=FALSE}
-save_seurat_object(obj = sct_st, file_prefix = 'detesting')
-```
+#```{r echo=FALSE,include=FALSE}
+#save_seurat_object(obj = sct_st, file_prefix = 'detesting')
+#```
 
