@@ -507,14 +507,14 @@ are likely to exhibit biological variation.
 # As above, use the vst method for computing variable genes.
 lognorm_st <- FindVariableFeatures(lognorm_st, layer="data", selection.method = "vst")
 
-# Extract the top 15 most variable genes.
+# Extract the top 15 most variable genes
 top15        <- head(VariableFeatures(lognorm_st, layer="data", method="vst"), 15)
 
-# Make a mean-variance plot of the log-transformed data.
+# Make a mean-variance plot of the log-transformed data
 plot_lognorm <- VariableFeaturePlot(lognorm_st) +
                   ggtitle("Variable Features - Log normalization")
 
-# Add the names of the top 15 most variable genes.
+# Add the names of the top 15 most variable genes
 plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
 plot_lognorm
 ```
@@ -569,13 +569,16 @@ expression levels
 
 
 ``` r
+# Apply SCTransform to the raw count data in the Spatial assay
 sct_st <- SCTransform(filter_st, assay = "Spatial")
 ```
 
-The `SCTransform` method added a new assay called `SCT`.
+The `SCTransform` method added a new assay called `SCT`, as we can see below by assessing
+the assays of the Seurat object:
 
 
 ``` r
+# Access assays of the Seurat object
 Assays(sct_st)
 ```
 
@@ -588,6 +591,7 @@ on the `DefaultAssay`.
 
 
 ``` r
+# Access the default assay of the Seurat object
 DefaultAssay(sct_st)
 ```
 
@@ -600,6 +604,7 @@ data, not to be confused with the neocortical layers of the brain.
 
 
 ``` r
+# Assess the layers of the default assay of the Seurat object
 Layers(sct_st)
 ```
 
@@ -628,31 +633,45 @@ total counts per cell is much more uniform in the latter case.
 
 
 ``` r
+# Create a one-column plot with two panels
 layout(matrix(1:2, ncol = 1))
+
+# Extract the raw count data from the counts layer of the Spatial assay
 raw_counts_spatial <- LayerData(sct_st, layer = "counts", assay = "Spatial")
+# Plot a histogram of the total counts (column sum) of the raw counts
 hist(colSums2(raw_counts_spatial), main = "Raw counts (Spatial)")
 
+# Extract the corrected counts from the data layer of the SCT assay
 corrected_counts_sct <- LayerData(sct_st, layer = "data", assay = "SCT")
+# Plot a histogram of the total corrected counts (column sum)
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
-Let's plot the mean-variance relationship.
+Let's plot the mean-variance relationship. Notice that SCTransform
+implicitly computes variable features, so we do not need to explicitly
+call FindVariableFeatures, as we did above.
 
 
 ``` r
+# Extract the top 15 most variable genes, as computed from the SCTransformed data.
 top15SCT    <- head(VariableFeatures(sct_st), 15)
+
+# Make a mean-variance plot of the SCTransformed data.
 plot_sct    <- VariableFeaturePlot(sct_st) + 
                  ggtitle("Variable Features - SCT")
+
+# Add the names of the top 15 most variable genes.
 plot_sct    <- LabelPoints(plot = plot_sct, points = top15SCT, repel = TRUE)
 plot_sct
 ```
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
-The geometric mean (mean of the log counts) is shown on the X-axis and the
-"residual variance" is on the Y-axis. "Residual variance" is a confusing term;
+Notice that VariableFeaturePlot outputs slightly different axes, depending on the transformed
+data to display. In this case, for SCTransformed data, it plots the geometric mean (mean of the log counts) 
+on the x axis and the "residual variance" on the y axis. "Residual variance" is a confusing term;
 it refers to the variance in the Pearson residuals, similar to the standardized
 variance we encountered above.
 
@@ -662,6 +681,8 @@ following SCTransform. One of these, <i>PLP1</i>, we have already seen above.
 
 
 ``` r
+# Plot the SCTransformed values (specifically, the log-transformed correct counts)
+# of the genes MBP and PLP1 spatially, by accessing the "data" slot (or layer). 
 SpatialFeaturePlot(sct_st, slot="data", c("MBP", "PLP1"))
 ```
 
@@ -674,6 +695,8 @@ layer-restricted expression following normalization with SCTransform.
 
 
 ``` r
+# Plot the SCTransformed values (specifically, the log-transformed correct counts)
+# of the known marker genes MOBP and PCP4 spatially, by accessing the "data" slot (or layer). 
 SpatialFeaturePlot(sct_st, slot="data", c("MOBP", "PCP4"))
 ```
 
@@ -716,11 +739,16 @@ object.
 
 
 ``` r
+# Create a one-column plot with two panels
 layout(matrix(1:2, ncol = 1))
+# Extract the log-normalized data from the data layer of the lognorm_st Seurat object
 sum_log <- LayerData(lognorm_st, layer = "data")
+# Plot a histogram of the column sum of the log-normalized data
 hist(colSums2(sum_log), main = "Log-norm", xlab = "Summed, Normalized Expression Values")
 
+# Extract the SCTransformed (log-transformed corrected count) data from the data layer of the sct_st Seurat object
 sum_sct <- LayerData(sct_st, layer = "data")
+# Plot a histogram of the column sum of the SCTransformed (log-transformed corrected count) data 
 hist(colSums2(sum_sct), main = "SCT", xlab = "Summed, Normalized Expression Values")
 ```
 
