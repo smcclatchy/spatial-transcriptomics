@@ -576,7 +576,8 @@ cells through the <code>scale.factor</code> parameter.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Apply CPM normalization</span></span>
+<code class="sourceCode R"><span><span class="co"># Apply CPM normalization using NormalizeData, by specifying the relative</span></span>
+<span><span class="co"># counts (RC) normalization.method and a scale factor of one million.</span></span>
 <span><span class="va">cpm_st</span> <span class="op">&lt;-</span> <span class="fu">NormalizeData</span><span class="op">(</span><span class="va">filter_st</span>, </span>
 <span>                        assay                <span class="op">=</span> <span class="st">"Spatial"</span>, </span>
 <span>                        normalization.method <span class="op">=</span> <span class="st">"RC"</span>, </span>
@@ -588,7 +589,7 @@ Seurat object.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Access the layers of a Seurat object</span></span>
+<code class="sourceCode R"><span><span class="co"># Access the layers of the Seurat object</span></span>
 <span><span class="fu">Layers</span><span class="op">(</span><span class="va">cpm_st</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -835,11 +836,12 @@ variance – is log-transformation of normalized counts. The resulting
 values are often ambiguously referred to as log-normalized counts, which
 elides stating that the raw counts are first normalized or scaled and
 then log transformed. Scaling accounts for the differences in
-spot-specific RNA counts, as above. The log transformation reduces
-skewness caused by highly expressed genes and stabilizes the variance,
-at least for certain mean-variance relationships. In practice, the log
-transformation is applied to <i>1+x</i>, where <i>x</i> is the scaled
-expression value – the so-called <em>log1p</em> transformation.</p>
+spot-specific RNA counts, as with CPMs above. The log transformation
+reduces skewness caused by highly expressed genes and stabilizes the
+variance, at least for certain mean-variance relationships. In practice,
+the log transformation is applied to <i>1+x</i>, where <i>x</i> is the
+scaled expression value – the so-called <em>log1p</em>
+transformation.</p>
 <p>In Seurat, we can apply this transformation by specifying
 <code>LogNormalize</code> as the <code>normalization.method</code>
 parameter to the same <code>NormalizeData</code> function we applied
@@ -848,7 +850,9 @@ above to compute CPMs.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">NormalizeData</span><span class="op">(</span><span class="va">filter_st</span>, </span>
+<code class="sourceCode R"><span><span class="co"># Apply log normalization using NormalizeData, by specifying the</span></span>
+<span><span class="co"># LogNormalize normalization.method and a scale factor of one million.</span></span>
+<span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">NormalizeData</span><span class="op">(</span><span class="va">filter_st</span>, </span>
 <span>                           assay                <span class="op">=</span> <span class="st">"Spatial"</span>, </span>
 <span>                           normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>, </span>
 <span>                           scale.factor         <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span></code></pre>
@@ -863,7 +867,8 @@ Seurat object.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">Layers</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Access the layers of the Seurat object</span></span>
+<span><span class="fu">Layers</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -878,10 +883,19 @@ likely to exhibit biological variation.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">FindVariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span>, layer<span class="op">=</span><span class="st">"data"</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Compute highly variable genes and their expression means and variances using FindVariableFeatures.</span></span>
+<span><span class="co"># Apply this to the log-transformed data, by specifying the "data" layer of the active assay.</span></span>
+<span><span class="co"># As above, use the vst method for computing variable genes.</span></span>
+<span><span class="va">lognorm_st</span> <span class="op">&lt;-</span> <span class="fu">FindVariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span>, layer<span class="op">=</span><span class="st">"data"</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract the top 15 most variable genes.</span></span>
 <span><span class="va">top15</span>        <span class="op">&lt;-</span> <span class="fu">head</span><span class="op">(</span><span class="fu">VariableFeatures</span><span class="op">(</span><span class="va">lognorm_st</span>, layer<span class="op">=</span><span class="st">"data"</span>, method<span class="op">=</span><span class="st">"vst"</span><span class="op">)</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Make a mean-variance plot of the log-transformed data.</span></span>
 <span><span class="va">plot_lognorm</span> <span class="op">&lt;-</span> <span class="fu">VariableFeaturePlot</span><span class="op">(</span><span class="va">lognorm_st</span><span class="op">)</span> <span class="op">+</span></span>
 <span>                  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Variable Features - Log normalization"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add the names of the top 15 most variable genes.</span></span>
 <span><span class="va">plot_lognorm</span> <span class="op">&lt;-</span> <span class="fu">LabelPoints</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot_lognorm</span>, points <span class="op">=</span> <span class="va">top15</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">plot_lognorm</span></span></code></pre>
 </div>
