@@ -359,7 +359,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Deconvolution in Spatial Transcriptomics</h1>
-        <p>Last updated on 2024-10-01 |
+        <p>Last updated on 2024-10-03 |
 
         <a href="https://github.com/smcclatchy/spatial-transcriptomics/edit/main/episodes/deconvolve-cell-types-in-a-spot.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -541,7 +541,9 @@ see the proportions it predicts for this sample:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">props</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">result_1</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">weights</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Defining propotion of each cell type per spot. </span></span>
+<span><span class="co"># Each row is a spot and each column is propotion of each cell type in that spot</span></span>
+<span><span class="va">props</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">result_1</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">weights</span><span class="op">)</span></span>
 <span><span class="fu">head</span><span class="op">(</span><span class="va">props</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -567,7 +569,8 @@ AAACAGGGTCTATATT-1       0.46602478</code></pre>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">head</span><span class="op">(</span><span class="fu">rowSums</span><span class="op">(</span><span class="va">props</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Print sum of cell type propotions in each spot</span></span>
+<span><span class="fu">head</span><span class="op">(</span><span class="fu">rowSums</span><span class="op">(</span><span class="va">props</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -583,7 +586,8 @@ proportion:</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">colnames</span><span class="op">(</span><span class="va">props</span><span class="op">)</span><span class="op">[</span><span class="fu">apply</span><span class="op">(</span><span class="va">props</span>, <span class="fl">1</span>, <span class="va">which.max</span><span class="op">)</span><span class="op">]</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Classifying each spot based on the maximum propotion of a cell type in that spot.</span></span>
+<span><span class="va">props</span><span class="op">$</span><span class="va">classification</span> <span class="op">&lt;-</span> <span class="fu">colnames</span><span class="op">(</span><span class="va">props</span><span class="op">)</span><span class="op">[</span><span class="fu">apply</span><span class="op">(</span><span class="va">props</span>, <span class="fl">1</span>, <span class="va">which.max</span><span class="op">)</span><span class="op">]</span></span></code></pre>
 </div>
 <p>Let’s add the deconvolution results to our Seurat object, so that
 they can be visualized and analyzed alongside other data organized
@@ -592,7 +596,8 @@ there.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">sct_st</span>, metadata <span class="op">=</span>  <span class="va">props</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># Adding cell type propotions to seurat object.</span></span>
+<span><span class="va">sct_st</span> <span class="op">&lt;-</span> <span class="fu">AddMetaData</span><span class="op">(</span>object <span class="op">=</span> <span class="va">sct_st</span>, metadata <span class="op">=</span>  <span class="va">props</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We can now visualize the predicted layer classifications and compare
 them alongside the authors’ annotations that we saw previously.</p>
@@ -600,14 +605,16 @@ them alongside the authors’ annotations that we saw previously.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, </span>
+<code class="sourceCode R"><span><span class="co"># Plot classification of each spot based on RCTD results.</span></span>
+<span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>                        <span class="st">"classification"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-10-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
+<code class="sourceCode R"><span><span class="co"># Plot classification of each spot based on annotation of a biologist.</span></span>
+<span><span class="fu">SpatialDimPlotColorSafe</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[</span>, <span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span><span class="op">]</span>, </span>
 <span>                        <span class="st">"layer_guess"</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/deconvolve-cell-types-in-a-spot-rendered-unnamed-chunk-11-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>To be more quantitative, we can compute a confusion matrix comparing
@@ -616,7 +623,8 @@ the layers predicted by RCTD with those annotated by the authors.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, </span>
+<code class="sourceCode R"><span><span class="co"># Compare predictions from RCTD with annotation done by biologist. </span></span>
+<span><span class="va">df</span>            <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="fu">table</span><span class="op">(</span><span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">layer_guess</span>, </span>
 <span>                                     <span class="va">sct_st</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">classification</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">colnames</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>  <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"Annotation"</span>, <span class="st">"Prediction"</span>, <span class="st">"Freq"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span> <span class="op">&lt;-</span> <span class="fu">factor</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Annotation</span><span class="op">)</span></span>
@@ -722,7 +730,7 @@ any links that you are not going to use.
   "url": "https://smcclatchy.github.io/spatial-transcriptomics/deconvolve-cell-types-in-a-spot.html",
   "identifier": "https://smcclatchy.github.io/spatial-transcriptomics/deconvolve-cell-types-in-a-spot.html",
   "dateCreated": "2024-03-01",
-  "dateModified": "2024-10-01",
+  "dateModified": "2024-10-03",
   "datePublished": "2024-10-03"
 }
 
