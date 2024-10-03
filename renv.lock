@@ -2451,7 +2451,6 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "presto",
       "RemoteUsername": "immunogenomics",
-      "RemoteRef": "HEAD",
       "RemoteSha": "7636b3d0465c468c35853f82f1717d3a64b3c8f6",
       "Requirements": [
         "Matrix",
@@ -2984,7 +2983,6 @@
       "RemoteHost": "api.github.com",
       "RemoteRepo": "spacexr",
       "RemoteUsername": "dmcable",
-      "RemoteRef": "HEAD",
       "RemoteSha": "0a0861e3d1e16014a20e9b743d0e19d3b42231f3",
       "Requirements": [
         "CompQuadForm",
