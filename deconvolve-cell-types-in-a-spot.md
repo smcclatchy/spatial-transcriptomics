@@ -168,6 +168,8 @@ for this sample:
 
 
 ``` r
+# Defining propotion of each cell type per spot. 
+# Each row is a spot and each column is propotion of each cell type in that spot
 props <- as.data.frame(result_1@results$weights)
 head(props)
 ```
@@ -193,6 +195,7 @@ Notice that the proportions don't sum exactly to one:
 
 
 ``` r
+# Print sum of cell type propotions in each spot
 head(rowSums(props))
 ```
 
@@ -207,6 +210,7 @@ Let's classify each spot according to the layer type with highest proportion:
 
 
 ``` r
+# Classifying each spot based on the maximum propotion of a cell type in that spot.
 props$classification <- colnames(props)[apply(props, 1, which.max)]
 ```
 
@@ -215,6 +219,7 @@ visualized and analyzed alongside other data organized there.
 
 
 ``` r
+# Adding cell type propotions to seurat object.
 sct_st <- AddMetaData(object = sct_st, metadata =  props)
 ```
 
@@ -223,6 +228,7 @@ alongside the authors' annotations that we saw previously.
 
 
 ``` r
+# Plot classification of each spot based on RCTD results.
 SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$classification)], 
                         "classification")
 ```
@@ -231,6 +237,7 @@ SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$classification)],
 
 
 ``` r
+# Plot classification of each spot based on annotation of a biologist.
 SpatialDimPlotColorSafe(sct_st[, !is.na(sct_st[[]]$layer_guess)], 
                         "layer_guess")
 ```
@@ -243,6 +250,7 @@ predicted by RCTD with those annotated by the authors.
 
 
 ``` r
+# Compare predictions from RCTD with annotation done by biologist. 
 df            <- as.data.frame(table(sct_st[[]]$layer_guess, 
                                      sct_st[[]]$classification))
 colnames(df)  <- c("Annotation", "Prediction", "Freq")
