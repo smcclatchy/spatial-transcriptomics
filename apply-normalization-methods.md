@@ -195,7 +195,9 @@ The first technical issue we noted above was a difference in total counts
 or library size across spots. A straightfoward means of addressing this
 is simply to divide all gene counts within the spot by the total counts in that
 spot. Conventionally, we then multiply by a million, which yields 
-"counts per million" (CPM). This approach is susceptible to "compositional
+"counts per million" (CPM). Adopting this particular factor across
+studies establishes a standard scale, one that provides a convenient 
+floor for lowly expressed genes. The CPM approach is susceptible to "compositional
 bias" -- if a small number of genes make a large contribution to the total
 count, any significant fluctuation in their expression across samples will
 impact the quantification of all other genes. To overcome this, more robust
@@ -209,6 +211,7 @@ scale the results to a million cells through the `scale.factor` parameter.
 
 
 ``` r
+# Apply CPM normalization
 cpm_st <- NormalizeData(filter_st, 
                         assay                = "Spatial", 
                         normalization.method = "RC", 
@@ -219,6 +222,7 @@ cpm_st <- NormalizeData(filter_st,
 
 
 ``` r
+# Access the layers of a Seurat object
 Layers(cpm_st)
 ```
 
@@ -231,6 +235,8 @@ counts -- all spots now having one million reads:
 
 
 ``` r
+# Examine the total counts in each spot, as the sum of the columns.
+# As above, we could have also used nCount_Spatial in the metadata.
 head(colSums(LayerData(cpm_st, "data")))
 ```
 
@@ -242,18 +248,27 @@ AAACAGCTTTCAGAAG-1 AAACAGGGTCTATATT-1
 ```
 
 Our second concern was that variance might differ across genes in an
-expression dependent manner. To diagnose this, we will make a mean-variance plot
-showing any potential trends between each gene's mean expression across spots
-and its mean variance across spots.
+expression dependent manner. To diagnose this, we will make a so-called 
+mean-variance plot, with each gene's mean expression across spots on the x axis 
+and its variance across spots on the y axis. This shows any potential trends 
+between each gene's mean expression and the variance of that expression.
 
 
 ``` r
+# Extract the CPM data computed above
 cpms      <- LayerData(cpm_st, "data")
+
+# Calculate the mean and variance of the CPMs
 means     <- apply(cpms, 1, mean)
 vars      <- apply(cpms, 1, var)
+
+# Assemble the mean and variance into a data.frame
 gene.info <- data.frame(mean = means, variance = vars)
 
+# Plot the mean expression on the x axis and the variance in expression on 
+# the y axis
 g <- ggplot() + geom_point(data = gene.info, aes(x = mean, y = variance))
+# Log transform both axes
 g <- g + scale_x_continuous(trans='log2') + scale_y_continuous(trans='log2')
 g <- g + xlab("Log Mean Expression") + ylab("Log Mean Variance")
 g
@@ -283,19 +298,27 @@ line to the data.
 
 
 ``` r
+# This is the default LOESS span used by Seurat in FindVariableFeatures
 loess.span <- 0.3
-# Let's exclude genes with constant variance from our fit.
+# Exclude genes with constant variance from our fit.
 not.const  <- gene.info$variance > 0
+# Fit a LOESS trend line relating the (log10) gene expression variance
+# to the (log10) gene expression mean, but only for the non-constant
+# variance genes.
 fit <- loess(formula = log10(x = variance) ~ log10(x = mean),
              data = gene.info[not.const, ], span = loess.span)
 ```
 
-Let's now plot the fitted variances as a function of the observed means.
+Let's now plot the fitted/expected variances as a function of the observed means.
 
 
 ``` r
+# The expected variance computed from the model are in fit$fitted.
+# Exponentiate because the original model was fit to log10-transformed means and variances.
 gene.info$variance.expected               <- NA
 gene.info[not.const, "variance.expected"] <- 10^fit$fitted
+# Plot the expected variance as a function of the observed means for only
+# the non-constant variance genes.
 g <- g + geom_line(data = na.omit(gene.info[not.const,]),
                    aes(x = mean, y = variance.expected), linewidth = 3, color = "blue")				    
 g				     
@@ -321,20 +344,27 @@ We now follow the logic applied in Seurat, as described by
 We define the
 "standardized variance" as the variance in the expression values after those expression values have
 been standardized by the trend line (i.e., they have been mean centered and divided by the predicted variance).
-Since we expect most genes to have only technical (and not also biological) variance, the trend line should
-be dominated by those genes and will capture the technical variance. As such, the standardized variance
-should be near one for most genes -- those with only technical variance. Genes with additional biological
-variance will deviate from the trend line and also from the near-one standardized variance. Is this what we observe?
 
+As we did above, we can use a mean-variance plot to diagnose whether our transformation, here the
+standardized variance, has indeed stabilized the variance across different mean expression ranges.
+In particular, since we expect *most* genes to have only technical (and not also biological) variance, 
+the trend line should be dominated by those genes and will capture the technical variance. As such, 
+the standardized variance should be near one for most genes -- those with only technical variance. 
+Genes with additional biological variance will deviate from the trend line and also from the 
+near-one standardized variance. Is this what we observe?
 
 
 ``` r
 gene.info$variance.standardized <- NA
+# Compute standardized CPM = ( CPM - mean_CPM ) / sqrt(expected_variance)
 standardized.cpms               <- (cpms[not.const,] - means[not.const]) / sqrt(gene.info[not.const, "variance.expected"])
+# Calculate the "standardized variance" -- i.e., the variance of the standardized CPMs
 gene.info[not.const, "variance.standardized"] <- apply(standardized.cpms, 1, var)
 
+# Plot the standardized variance for the non-constant variance genes
 g <- ggplot() + geom_point(data = gene.info[not.const,], aes(x = mean, y = variance.standardized))
 g <- g + geom_hline(yintercept = 1, colour = "yellow")
+# Log10-transform the x axis
 g <- g + scale_x_log10()
 g <- g + xlab("Log Mean CPM") + ylab("Variance of\nTrend-Standardized CPMs")
 g
@@ -350,7 +380,7 @@ the trend, and the variance of means standardized by the predicted variances, na
 can then be formatted into a data frame using [`HVFInfo`](https://satijalab.org/seurat/reference/hvfinfo.sctassay).
 Be advised that these functions can calculate expected variances using models that are dependent on input parameters and,
 sometimes implicitly, based on different data formats (e.g., raw counts or normalized expression values).
-In this case, the values we computed manually:
+In this case, the values we computed above manually:
 
 
 ``` r
@@ -371,6 +401,13 @@ are the same, with few exceptions, to those computed by the equivalent Seurat fu
 
 
 ``` r
+# Compute expression means and variances using FindVariableFeatures.
+# By passing the total number of genes as nfeatures, we force FindVariableFeatures to
+# compute these metrics for all genes, not just the most variable ones.
+# The metrics will be computed on the specified layer ("data") of the active assay -- here, the
+# CPMs we computed above.
+# Finally, we will use the "vst" (variance-stabilizing transformation) method for selecting highly
+# variable genes.
 cpm_st <- FindVariableFeatures(cpm_st, nfeatures = dim(cpm_st)[1], layer="data", selection.method = "vst")
 cinfo <- HVFInfo(cpm_st)
 head(cinfo)
@@ -386,7 +423,11 @@ LINC00115   0.81579878  188.767639        245.068894             0.7702636
 FAM41C      1.36714334  338.634811        418.031204             0.8100707
 ```
 
-We can verify that by using the Seurat function
+The above code applies the "vst" or variance-stabilizing transformation to detect highly variable
+genes. This is essentially the loess fitting and standardized variance computation that we 
+performed above. More details are available in the FindVariableFeatures documentation.
+We can verify that this FindVariableFeatures functions gives us similar results to those we manually computed 
+above by using 
 [`VariableFeaturePlot`](https://satijalab.org/seurat/reference/variablefeatureplot) 
 to plot the relationship between the mean expression and the
 variance of the trend-standardized expression.
@@ -402,11 +443,13 @@ Warning in scale_x_log10(): log-10 transformation introduced infinite values.
 
 <img src="fig/apply-normalization-methods-rendered-unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
-Notice that this plot is similar to that we created manually. In both, the "standardized" variance of most genes
-is near one. We aim for a flat line, indicating no trend between mean and variance. 
+Notice that this plot is similar to that we created manually. 
+
+In both our manual plot and the one created by FindVariableFeatures/VariableFeaturePlot, the 
+"standardized" variance of most genes is near one. Achieving such a flat trend line is our 
+objective and a good indication that we have stabilized the variance across a wide range of expression values.
 Yet, in both, there remains an evident, if subtle, trend in the plot between mean and variance. Let's next look at
-two common approaches for "stabilizing" the variance across genes -- i.e., for further mitigating the relationship
-between gene expression and variance -- log-normalization and SCTransform.
+two common transformations aimed at further stabilizing the variance across genes -- i.e., for further mitigating the relationship between gene expression and variance -- log-normalization and SCTransform.
 
 #### LogNormalize
 
