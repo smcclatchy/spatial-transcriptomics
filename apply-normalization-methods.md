@@ -211,7 +211,8 @@ scale the results to a million cells through the `scale.factor` parameter.
 
 
 ``` r
-# Apply CPM normalization
+# Apply CPM normalization using NormalizeData, by specifying the relative
+# counts (RC) normalization.method and a scale factor of one million.
 cpm_st <- NormalizeData(filter_st, 
                         assay                = "Spatial", 
                         normalization.method = "RC", 
@@ -222,7 +223,7 @@ cpm_st <- NormalizeData(filter_st,
 
 
 ``` r
-# Access the layers of a Seurat object
+# Access the layers of the Seurat object
 Layers(cpm_st)
 ```
 
@@ -458,7 +459,7 @@ different total spot counts and for expression-dependent variance -- is
 log-transformation of normalized counts. The resulting values are often 
 ambiguously referred to as log-normalized counts, which elides stating that the 
 raw counts are first normalized or scaled and then log transformed. Scaling 
-accounts for the differences in spot-specific RNA counts, as above. The log transformation
+accounts for the differences in spot-specific RNA counts, as with CPMs above. The log transformation
 reduces skewness caused by highly expressed genes and stabilizes the variance, 
 at least for certain mean-variance relationships. In practice, the log 
 transformation is applied to <i>1+x</i>, where <i>x</i> is the scaled expression 
@@ -470,6 +471,8 @@ we applied above to compute CPMs.
 
 
 ``` r
+# Apply log normalization using NormalizeData, by specifying the
+# LogNormalize normalization.method and a scale factor of one million.
 lognorm_st <- NormalizeData(filter_st, 
                            assay                = "Spatial", 
                            normalization.method = "LogNormalize", 
@@ -484,6 +487,7 @@ As above, log normalization adds a `data` object to the Seurat object.
 
 
 ``` r
+# Access the layers of the Seurat object
 Layers(lognorm_st)
 ```
 
@@ -498,10 +502,19 @@ are likely to exhibit biological variation.
 
 
 ``` r
+# Compute highly variable genes and their expression means and variances using FindVariableFeatures.
+# Apply this to the log-transformed data, by specifying the "data" layer of the active assay.
+# As above, use the vst method for computing variable genes.
 lognorm_st <- FindVariableFeatures(lognorm_st, layer="data", selection.method = "vst")
+
+# Extract the top 15 most variable genes.
 top15        <- head(VariableFeatures(lognorm_st, layer="data", method="vst"), 15)
+
+# Make a mean-variance plot of the log-transformed data.
 plot_lognorm <- VariableFeaturePlot(lognorm_st) +
                   ggtitle("Variable Features - Log normalization")
+
+# Add the names of the top 15 most variable genes.
 plot_lognorm <- LabelPoints(plot = plot_lognorm, points = top15, repel = TRUE)
 plot_lognorm
 ```
