@@ -1166,9 +1166,9 @@ expression spectrum.</p>
 <h3 id="no-one-size-fits-all-approach">No One-Size-Fits-All Approach<a class="anchor" aria-label="anchor" href="#no-one-size-fits-all-approach"></a></h3>
 <p>Raw read counts provide essential insights into absolute cell
 densities within a sample. In some cases, this may reflect
-morphologically distinct regions and / or regions enriched for
-particular cell types. We advise assessing raw gene and count spatial
-distributions prior to normalization for this reason.</p>
+morphologically distinct regions and/or regions enriched for particular
+cell types. We advise assessing raw gene and count spatial distributions
+prior to normalization for this reason.</p>
 <p>In this particular example, we found that SCTransform better
 ameliorated the mean-variance trend than log-normalization. We make no
 claim that this will hold universally across samples. Indeed, rather
@@ -1183,10 +1183,9 @@ methods and of comparing them.</p>
 <h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
 <ul><li>Normalization is necessary to deal with technical artifacts, in
-particular,</li>
-</ul><ol style="list-style-type: decimal"><li>varying total counts (library size) across spots and 2) the
+particular, varying total counts (library size) across spots and the
 dependence of a gene’s variance on its mean expression.</li>
-</ol><ul><li>Nevertheless, raw (unnormalized) data can provide biologically
+<li>Nevertheless, raw (unnormalized) data can provide biologically
 meaningful insights such as region-specific differences in cell type or
 density that impact total reads.</li>
 <li>Popular methods aim to address these artifacts and include, but are
