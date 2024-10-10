@@ -3490,7 +3490,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3788,7 +3788,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 1 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -3921,7 +3921,8 @@ the approach for unmixing this combined expression signal. Most often,
 deconvolution methods predict the fraction of each spot’s expression
 derived from each particular cell type. Supervised methods deconvolve
 spot expression using cell type expression profiles (<em>e.g.</em>, from
-scRNA-seq) or marker genes. Unsupervised approaches instead infer the
+scRNA-seq) or marker genes. Therefore, we will need a prior knowledge or
+data for these methods. Unsupervised approaches instead infer the
 expression of the cell types first.</p>
 <p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg" alt="alt text for accessibility purposes" class="figure"><a href="https://www.sciencedirect.com/science/article/pii/S200103702200558X#f0015" class="external-link">Zhang
 et al, Comput Struct Biotechnol J 21, 176–184 (2023)</a>
@@ -3936,17 +3937,19 @@ M., et al., Nature Biotechnology, 2021</a>), which is implemented in the
 <a href="https://github.com/dmcable/spacexr" class="external-link"><code>spacexr</code></a>
 package. The algorithm uses scRNA-seq data as a reference to deconvolve
 the spatial transcriptomics data, estimating the proportions of
-different cell types in each spatial spot. RCTD models the observed gene
-expression in each spatial spot as a mixture of the gene expression
-profiles of different cell types, where the estimated proportions are
-the coefficients of the expression profiles in a linear model. Its
-procedure guarantees the <em>estimated</em> proportions are
-non-negative, but not that they sum to one. RCTD can operate in several
-modes: in <code>doublet</code> mode it fits at most two cell types per
-spot, in <code>full</code> mode it fits potentially all cell types in
-the reference per spot, and in <code>multi</code> mode it again fits
-more than two cell types per spot by extending the <code>doublet</code>
-approach. Here, we will use <code>full</code> mode.</p>
+different cell types in each spatial spot. This method is considered
+supervised method since we are using a prior knowledge about this
+dataset. RCTD models the observed gene expression in each spatial spot
+as a mixture of the gene expression profiles of different cell types,
+where the estimated proportions are the coefficients of the expression
+profiles in a linear model. Its procedure guarantees the
+<em>estimated</em> proportions are non-negative, but note that they sum
+to one. RCTD can operate in several modes: in <code>doublet</code> mode
+it fits at most two cell types per spot, in <code>full</code> mode it
+fits potentially all cell types in the reference per spot, and in
+<code>multi</code> mode it again fits more than two cell types per spot
+by extending the <code>doublet</code> approach. Here, we will use
+<code>full</code> mode.</p>
 </section><section><h2 class="section-heading" id="loading-scrna-seq-reference-data">Loading scRNA-seq reference data<a class="anchor" aria-label="anchor" href="#loading-scrna-seq-reference-data"></a>
 </h2>
 <hr class="half-width">
