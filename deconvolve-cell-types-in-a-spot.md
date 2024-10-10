@@ -32,7 +32,7 @@ the individual cells encompassed by it. Deconvolution is the approach for
 unmixing this combined expression signal. Most often, deconvolution methods 
 predict the fraction of each spot's expression derived from each particular cell 
 type. Supervised methods deconvolve spot expression using cell type expression 
-profiles (*e.g.*, from scRNA-seq) or marker genes. Unsupervised approaches instead 
+profiles (*e.g.*, from scRNA-seq) or marker genes. Therefore, we will need a prior knowledge or data for these methods. Unsupervised approaches instead 
 infer the expression of the cell types first.
 
 ![Deconvolving spatial transcriptomics spots into their constituent cell types.](https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg){alt='alt text for accessibility purposes'}
@@ -46,11 +46,12 @@ We will deconvolve spots by applying Robust Cell Type Decomposition (RCTD;
 which is implemented in the [`spacexr`](https://github.com/dmcable/spacexr) 
 package. The algorithm uses scRNA-seq data as a reference to deconvolve the 
 spatial transcriptomics data, estimating the proportions of different cell types
-in each spatial spot. RCTD models the observed gene expression in each spatial 
+in each spatial spot. This method is considered supervised method since we are using a prior knowledge about this dataset. 
+RCTD models the observed gene expression in each spatial 
 spot as a mixture of the gene expression profiles of different cell types, where 
 the estimated proportions are the coefficients of the expression profiles in a 
 linear model. Its procedure guarantees the <em>estimated</em> proportions are 
-non-negative, but not that they sum to one. RCTD can operate in several modes: 
+non-negative, but note that they sum to one. RCTD can operate in several modes: 
 in `doublet` mode it fits at most two cell types per spot, in `full` mode it 
 fits potentially all cell types in the reference per spot, and in `multi` mode 
 it again fits more than two cell types per spot by extending the `doublet` 
@@ -170,7 +171,6 @@ for this sample:
 
 ``` r
 # Defining propotion of each cell type per spot. 
-
 props <- as.data.frame(result_1@results$weights)
 
 # Print the first few lines of the deconvolution results
