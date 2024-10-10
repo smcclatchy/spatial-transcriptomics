@@ -717,7 +717,7 @@ suited.</p></li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Which technology you use depends on your experimental aim. If you are
 testing hypotheses about specific genes, you can profile those genes at
@@ -3490,7 +3490,7 @@ genes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Too few variable genes may underestimate the variance between spots
 and tissue sections and would reduce our ability to discern tissue
@@ -3788,7 +3788,7 @@ opinions about which settings to use.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Solution 1 </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>All of the plots in the tissue clustering show layers which broadly
 conform to the publication’s “ground truth.” In the top row at a
@@ -4070,7 +4070,6 @@ see the proportions it predicts for this sample:</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Defining propotion of each cell type per spot. </span></span>
-<span></span>
 <span><span class="va">props</span> <span class="op">&lt;-</span> <span class="fu">as.data.frame</span><span class="op">(</span><span class="va">result_1</span><span class="op">@</span><span class="va">results</span><span class="op">$</span><span class="va">weights</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the first few lines of the deconvolution results</span></span>
