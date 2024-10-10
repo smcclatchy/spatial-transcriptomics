@@ -102,6 +102,7 @@ and finally performs deconvolution by calling [`run.RCTD`](https://rdrr.io/githu
 
 
 ``` r
+# Write the wrapper function which takes the "reference" built above and calculates cell type propotions for current dataset, st.obj
 run.rctd <- function(reference, st.obj) {
   
   # Get raw ST counts
@@ -169,8 +170,11 @@ for this sample:
 
 ``` r
 # Defining propotion of each cell type per spot. 
-# Each row is a spot and each column is propotion of each cell type in that spot
+
 props <- as.data.frame(result_1@results$weights)
+
+# Print the first few lines of the deconvolution results
+# Each row is a spot and each column is propotion of each cell type in that spot
 head(props)
 ```
 
