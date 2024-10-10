@@ -180,7 +180,6 @@ for this sample:
 
 ```{r}
 # Defining propotion of each cell type per spot. 
-
 props <- as.data.frame(result_1@results$weights)
 
 # Print the first few lines of the deconvolution results
