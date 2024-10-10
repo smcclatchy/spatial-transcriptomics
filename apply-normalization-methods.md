@@ -196,8 +196,7 @@ or library size across spots. A straightfoward means of addressing this
 is simply to divide all gene counts within the spot by the total counts in that
 spot. Conventionally, we then multiply by a million, which yields 
 "counts per million" (CPM). Adopting this particular factor across
-studies establishes a standard scale, one that provides a convenient 
-floor for lowly expressed genes. The CPM approach is susceptible to "compositional
+studies establishes a standard scale across studies. The CPM approach is susceptible to "compositional
 bias" -- if a small number of genes make a large contribution to the total
 count, any significant fluctuation in their expression across samples will
 impact the quantification of all other genes. To overcome this, more robust
@@ -232,7 +231,7 @@ Layers(cpm_st)
 ```
 
 We can confirm that we have indeed normalized away differences in total 
-counts -- all spots now having one million reads:
+counts -- all spots now have one million reads:
 
 
 ``` r
@@ -293,8 +292,9 @@ mean. One way of achieving this is to *detrend* the data by fitting a smooth cur
 to the mean-variance plot. This fit will capture the general behavior of most genes.
 And, since we expect most genes to exhibit technical variability only and not biological
 variability additionally, this trend will reflect technical variance.
-Let's start by fitting the trend using a LOESS (locally estimated scatterplot smoothing) regression
-line to the data.
+Let's start by characterizing the trend in the data by fitting them with a smooth line.
+We will use LOESS (locally estimated scatterplot smoothing) regression, 
+an approach originally developed to fit a smooth line through data points in a scatterplot.
 
 
 
@@ -530,10 +530,11 @@ Note that all of the highly variable genes are peaked
 in a narrow range of high expression values, though. We would not expect this *a priori*,
 and it signals inadequate normalization.
 
-Putting this concern aside for a moment, let's look at the spatial expression of the two most variable genes.
+Putting this concern aside for a moment, let's look at the spatial, normalized expression of the two most variable genes.
 
 
 ``` r
+# Seurat's nomenclature is inconsistent. Here slot is the same as layer.
 SpatialFeaturePlot(lognorm_st, slot="data", c("SCGB2A2", "PLP1"))
 ```
 
@@ -642,7 +643,7 @@ raw_counts_spatial <- LayerData(sct_st, layer = "counts", assay = "Spatial")
 hist(colSums2(raw_counts_spatial), main = "Raw counts (Spatial)")
 
 # Extract the corrected counts from the data layer of the SCT assay
-corrected_counts_sct <- LayerData(sct_st, layer = "data", assay = "SCT")
+corrected_counts_sct <- LayerData(sct_st, layer = "counts", assay = "SCT")
 # Plot a histogram of the total corrected counts (column sum)
 hist(colSums2(corrected_counts_sct), main = "Corrected counts (SCT)")
 ```
@@ -733,9 +734,10 @@ Don't have the students type this. Show the plots and discuss them.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-First, let's look at the total counts per spot after normalization by each
-method. The normalized counts are stored in the "data" slot of the Seurat 
-object.
+First, let's look at the sum of the normalized expression values per spot for each
+method. Recall from above that `NormalizeData` put the log-transformed values in the
+`data` layer. Similarly, `SCTransform` puts the log1p transformed values of the corrected
+coiunts in the `data` layer. So, we access that layer below.
 
 
 ``` r
