@@ -652,7 +652,7 @@ the high end of the expression spectrum.
 
 Raw read counts provide essential insights into absolute cell densities
 within a sample. In some cases,
-this may reflect morphologically distinct regions and / or regions enriched for
+this may reflect morphologically distinct regions and/or regions enriched for
 particular cell types. We advise assessing raw gene and count spatial distributions
 prior to normalization for this reason.
 
@@ -665,7 +665,7 @@ of diagnosing the impact of normalization methods and of comparing them.
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - Normalization is necessary to deal with technical artifacts, in particular,
-1) varying total counts (library size) across spots and 2) the dependence of
+varying total counts (library size) across spots and the dependence of
 a gene's variance on its mean expression.
 - Nevertheless, raw (unnormalized) data can provide biologically meaningful
 insights such as region-specific differences in cell type or density that
