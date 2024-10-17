@@ -840,4 +840,11 @@ can be assessed visually with a mean-variance plot.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+### Where We Are Headed
+
+Now that we have normalized away technical differences across spots, we
+are poised for downstream analyses that will implicitly make comparisons 
+across them. These include dimensionality reduction and clustering,
+which we will investigate next.
+
 
