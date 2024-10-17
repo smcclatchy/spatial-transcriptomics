@@ -55,7 +55,7 @@ may also obscure true biological differences.
 Regarding the second artifact, we will see below that the variance in a gene's expression
 scales with its expression. If we do not correct for this effect, differentially
 expressed genes will be skewed towards the high end of the expression spectrum.
-Hence, we seek to *stabilize the variance* -- i.e., transform the data such that
+Hence, we seek to *stabilize the variance* -- *i.e.*, transform the data such that
 expression variance is independent of mean expression.
 
 In this lesson we will:
@@ -63,7 +63,7 @@ In this lesson we will:
 - Observe that total spots per spot are variable
 - Explore biological factors that contribute to that variability
 - See that gene expression variance is correlated with mean expression
-- Apply three methods aimed at mitigating one of both of these technical observations: 
+- Apply three methods aimed at mitigating one or both of these technical observations: 
 counts per million (CPM) normalization, log normalization, and Seurat's SCTransform
 
 ### Total Counts per Spot are Variable 
@@ -78,7 +78,7 @@ making a histogram.
 # Extract the raw counts (gene by spot matrix) from the Seurat object
 counts <- LayerData(filter_st, layer = 'counts')
 
-# Plot a histogram of the total counts (library size or sum across genes)
+# Plot a histogram of the total counts (library size or sum across genes).
 # Note that this column sum is also encoded in the nCount_Spatial metadata
 # variable. We could have simply made a histogram of that variable.
 hist(colSums2(counts), breaks = 100, 
@@ -92,11 +92,13 @@ issues. Let's explore each of these two considerations further.
 
 ### Sources of Biological Variation in Total Counts
 
-Hematoxylin and Eosin (H&E) staining is critical for preliminary assessments of
-tissue sections. It highlights structural and pathologic features, guiding the
+Hematoxylin and Eosin (H&E) staining is
+routinely performed on tissue sections in the clinic for diagnosis. Hematoxylin
+stains nuclei purple or blue and eosin stains cytoplasm and extracellular matrix pink. 
+Collectively, they elucidate tissue and cellular morphology, which can guide
 interpretation of transcriptomic data. For example, observing high RNA counts in a 
-necrotic region, typically characterized by reduced cellular material, might 
-suggest technical artifacts, indicating a need for normalization.
+necrotic region, which should instead have fewer cells, might 
+suggest technical artifacts and, thus, indicate a need for normalization.
 
 Maynard and colleagues used the information encoded in the H&E, in particular
 cellular organization, morphology, and density, in conjunction with expression 
@@ -133,7 +135,7 @@ uses a color-blind safe palette.
 
 ```{r message=FALSE, warning=FALSE}
 # Plot the layer annotations on the tissue, omitting any spots
-# that do not have annotations (i.e., having NA values)
+# that do not have annotations (*i.e.*, having NA values)
 SpatialDimPlotColorSafe(filter_st[, !is.na(filter_st[[]]$layer_guess)],
                         "layer_guess") + labs(fill="Layer")
 ```
@@ -143,7 +145,7 @@ Let's see how those H&E-derived cell counts vary across layers.
 
 ```{r message=FALSE, warning=FALSE}
 # Make a boxplot of spot-level cell counts, faceted by layer annotation.
-# As above, remove any spots without annotations (i.e., having NA values).
+# As above, remove any spots without annotations (*i.e.*, having NA values).
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "cell_count")]), 
             aes(x = layer_guess, y = cell_count))
 g <- g + geom_boxplot() + xlab("Layer") + ylab("Cell Count")
@@ -166,7 +168,7 @@ As a potential surrogate for cell count, let's plot the total counts
 
 ```{r message=FALSE, warning=FALSE}
 # Make a boxplot of spot-level total read counts (library size), faceted by layer annotation.
-# Remove any spots without annotations (i.e., having NA values).
+# Remove any spots without annotations (*i.e.*, having NA values).
 g <- ggplot(na.omit(filter_st[[]][, c("layer_guess", "nCount_Spatial")]), 
             aes(x = layer_guess, y = nCount_Spatial))
 g <- g + geom_boxplot()
@@ -190,11 +192,13 @@ The first technical issue we noted above was a difference in total counts
 or library size across spots. A straightfoward means of addressing this
 is simply to divide all gene counts within the spot by the total counts in that
 spot. Conventionally, we then multiply by a million, which yields 
-"counts per million" (CPM). Adopting this particular factor across
-studies establishes a standard scale across studies. The CPM approach is susceptible to "compositional
+"counts per million" (CPM). Adopting this particular factor consistently
+establishes a standard scale across studies. 
+
+You should be aware, however, that the CPM approach is susceptible to "compositional
 bias" -- if a small number of genes make a large contribution to the total
 count, any significant fluctuation in their expression across samples will
-impact the quantification of all other genes. To overcome this, more robust
+impact the quantification of *all other* genes. To overcome this, more robust
 measures of library size that are more resilient to compositional bias
 are sometimes used, including the 75th percentile of counts within a sample 
 (or here, spot). For simplicity, here we will use CPM.
@@ -268,8 +272,10 @@ an approach originally developed to fit a smooth line through data points in a s
 ```{r message=FALSE}
 # This is the default LOESS span used by Seurat in FindVariableFeatures
 loess.span <- 0.3
+
 # Exclude genes with constant variance from our fit.
 not.const  <- gene.info$variance > 0
+
 # Fit a LOESS trend line relating the (log10) gene expression variance
 # to the (log10) gene expression mean, but only for the non-constant
 # variance genes.
@@ -284,6 +290,7 @@ Let's now plot the fitted/expected variances as a function of the observed means
 # Exponentiate because the original model was fit to log10-transformed means and variances.
 gene.info$variance.expected               <- NA
 gene.info[not.const, "variance.expected"] <- 10^fit$fitted
+
 # Plot the expected variance as a function of the observed means for only
 # the non-constant variance genes.
 g <- g + geom_line(data = na.omit(gene.info[not.const,]),
@@ -298,7 +305,7 @@ We now follow the logic applied in Seurat, as described by
 [Hafemeister and Satija](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1874-1).
 We define the
 "standardized variance" as the variance in the expression values after those expression values have
-been standardized by the trend line (i.e., they have been mean centered and divided by the predicted variance).
+been standardized by the trend line (*i.e.*, they have been mean centered and divided by the predicted variance).
 
 As we did above, we can use a mean-variance plot to diagnose whether our transformation, here the
 standardized variance, has indeed stabilized the variance across different mean expression ranges.
@@ -310,9 +317,12 @@ near-one standardized variance. Is this what we observe?
 
 ```{r message=FALSE}
 gene.info$variance.standardized <- NA
+
 # Compute standardized CPM = ( CPM - mean_CPM ) / sqrt(expected_variance)
-standardized.cpms               <- (cpms[not.const,] - means[not.const]) / sqrt(gene.info[not.const, "variance.expected"])
-# Calculate the "standardized variance" -- i.e., the variance of the standardized CPMs
+standardized.cpms <- 
+   (cpms[not.const,] - means[not.const]) / sqrt(gene.info[not.const, "variance.expected"])
+
+# Calculate the "standardized variance" -- *i.e.*, the variance of the standardized CPMs
 gene.info[not.const, "variance.standardized"] <- apply(standardized.cpms, 1, var)
 
 # Plot the standardized variance for the non-constant variance genes
@@ -368,11 +378,11 @@ VariableFeaturePlot(cpm_st) + NoLegend()
 
 Notice that this plot is similar to that we created manually. 
 
-In both our manual plot and the one created by FindVariableFeatures/VariableFeaturePlot, the 
+In both our manual plot and the one created by FindVariableFeatures/VariableFeaturePlot the 
 "standardized" variance of most genes is near one. Achieving such a flat trend line is our 
 objective and a good indication that we have stabilized the variance across a wide range of expression values.
 Yet, in both, there remains an evident, if subtle, trend in the plot between mean and variance. Let's next look at
-two common transformations aimed at further stabilizing the variance across genes -- i.e., for further mitigating the relationship between gene expression and variance -- log-normalization and SCTransform.
+two common transformations aimed at further stabilizing the variance across genes -- *i.e.*, for further mitigating the relationship between gene expression and variance -- log-normalization and SCTransform.
 
 #### LogNormalize
 
@@ -385,7 +395,7 @@ accounts for the differences in spot-specific RNA counts, as with CPMs above. Th
 reduces skewness caused by highly expressed genes and stabilizes the variance, 
 at least for certain mean-variance relationships. In practice, the log 
 transformation is applied to <i>1+x</i>, where <i>x</i> is the scaled expression 
-value -- the so-called *log1p* transformation.
+value -- the so-called *log1p* transformation. This avoids taking the log of zero.
 
 In Seurat, we can apply this transformation by specifying `LogNormalize` as
 the `normalization.method` parameter to the same `NormalizeData` function
@@ -438,9 +448,10 @@ As with the standardized CPM values above, we have significantly reduced the
 dependence of variance in gene expression on its mean -- at least at all but the
 highest end of the expression.
 By default, 
-Seurat selects a set of 3,000 variable genes which are colored in red.
-Note that all of the highly variable genes are peaked
-in a narrow range of high expression values, though. We would not expect this *a priori*,
+Seurat selects a set of 2,000 variable genes which are colored in red.
+Note that a majority of the highly variable genes, and all of the top 15
+most variable that we labeled, are peaked
+in a narrow range of high expression values. We would not expect this *a priori*,
 and it signals inadequate normalization.
 
 Putting this concern aside for a moment, let's look at the spatial, normalized expression of the two most variable genes.
@@ -454,6 +465,10 @@ Both clearly show significant spatial variability -- despite the fact that we
 did not explicitly query for genes whose expression varied spatially. We will look at approaches
 for doing that later, such as the Moran's I statistic. <i>PLP1</i> shows coherent
 spatial variability closely linked to brain morphology -- this is a marker for the white matter.
+<i>SCGB2A2</i> also shows strong spatial variability, though it does not appear to reflect 
+the underlying neocortical layers. It should not surprise us that there is spatially variable
+gene expression beyond that caused by the (known) layered architecture of the brain. This is
+one such example.
 
 As a further sanity check that the normalization is doing something sensible, let's look 
 at the expression of two, known layer-restricted marker genes -- <i>MOBP</i> and <i>PCP4</i>.
@@ -570,7 +585,12 @@ following SCTransform. One of these, <i>PLP1</i>, we have already seen above.
 SpatialFeaturePlot(sct_st, slot="data", c("MBP", "PLP1"))
 ```
 
-Both genes have stunning spatially variable expresion.
+Both genes have stunning spatially variable expresion. And, here, that variability
+happens to reflect the underlying layered architecture of the brain. As we noted above,
+it needn't have been the case that spatially variable genes are also layer restricted.
+That the top variable genes following SCTransform are layer restricted, whereas only one
+but not the other is following log normalization, should not in and of itself imply that the
+former transformation is "better" than the latter.
 
 Let's again check that the two marker genes show the appropriate 
 layer-restricted expression following normalization with SCTransform.
@@ -581,7 +601,7 @@ layer-restricted expression following normalization with SCTransform.
 SpatialFeaturePlot(sct_st, slot="data", c("MOBP", "PCP4"))
 ```
 
-Indeed, they do. 
+Indeed, they do. We conclude that SCTransform normalization looks reasonable.
 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
@@ -615,11 +635,12 @@ Don't have the students type this. Show the plots and discuss them.
 First, let's look at the sum of the normalized expression values per spot for each
 method. Recall from above that `NormalizeData` put the log-transformed values in the
 `data` layer. Similarly, `SCTransform` puts the log1p transformed values of the corrected
-coiunts in the `data` layer. So, we access that layer below.
+counts in the `data` layer. So, we access that layer below.
 
 ```{r}
 # Create a one-column plot with two panels
 layout(matrix(1:2, ncol = 1))
+
 # Extract the log-normalized data from the data layer of the lognorm_st Seurat object
 sum_log <- LayerData(lognorm_st, layer = "data")
 # Plot a histogram of the column sum of the log-normalized data
@@ -648,11 +669,19 @@ high expression end that we saw with log-normalization. Secondly, the highly
 variable genes are spread across a larger region and not overly biased towards
 the high end of the expression spectrum.
 
+We conclude that SCTransform is more appropriate for these data than log normalization for those
+two reasons:
+
+- The variance is stable throughout the entire range of mean expression values, *i.e.*, the
+standardized variance is near one throughout this range.
+- The highly variable genes, *i.e.*, those whose standardized variance deviates from one, are
+spread throughout the expression spectrum and not localized to highly expressed genes.
+
 ### No One-Size-Fits-All Approach
 
 Raw read counts provide essential insights into absolute cell densities
 within a sample. In some cases,
-this may reflect morphologically distinct regions and/or regions enriched for
+this may reflect morphologically distinct regions and / or regions enriched for
 particular cell types. We advise assessing raw gene and count spatial distributions
 prior to normalization for this reason.
 
@@ -673,7 +702,7 @@ impact total reads.
 - Popular methods aim to address these artifacts and include, but are not
 limited to, CPM normalization, log normalization, and SCTransform.
 - The ability of a normalization method to stabilize expression variance across
-its mean (i.e., to remove the dependence of the former on the latter)
+its mean (*i.e.*, to remove the dependence of the former on the latter)
 can be assessed visually with a mean-variance plot.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
