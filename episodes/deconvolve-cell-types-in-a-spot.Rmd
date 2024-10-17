@@ -47,7 +47,7 @@ unmixing this combined expression signal. Most often, deconvolution methods
 predict the fraction of each spot's expression derived from each particular cell 
 type. Supervised methods deconvolve spot expression using cell type expression 
 profiles (*e.g.*, from scRNA-seq) or marker genes. Therefore, we will need a prior knowledge or data for these methods. Unsupervised approaches instead 
-infer the expression of the cell types first.
+infer the expression of the cell types without using priori information about cell types.
 
 ![Deconvolving spatial transcriptomics spots into their constituent cell types.](https://ars.els-cdn.com/content/image/1-s2.0-S200103702200558X-ga1_lrg.jpg){alt='alt text for accessibility purposes'}
 <a href="https://www.sciencedirect.com/science/article/pii/S200103702200558X#f0015">Zhang et al,  Comput Struct Biotechnol J 21, 176–184 (2023)</a>
