@@ -89,27 +89,37 @@ sum('data[ , 1]')
 :::::::::::::::::::::::::::::::::::::
 
 
-## Study design
-We will use data from [Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex by Maynard et al, Nat Neurosci 24, 425–436 (2021).](https://doi.org/10.1038/s41593-020-00787-0)
-These data come from sections of the dorsolateral prefrontal cortex that contain
-six cortical layers plus white matter. The prefrontal cortex functions in
-higher-order cognition, managing thoughts and actions in conformance with 
-internal goals. 
+## Design and Motivation of Prefrontal Cortext Study
+We will use data from a study of the human prefrontal cortex published in [Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex by Maynard et al, Nat Neurosci 24, 425–436 (2021).](https://doi.org/10.1038/s41593-020-00787-0) 
+This region of the brain, involved in higher-order cognition and managing thoughts and actions in conformance with 
+internal goals, is particularly amenable to spatial analyses because its structure is intimately tied to its function. Specifically, the six
+cortical layers and the white matter shown below are comprised of cells with distinct gene expression profiles and differing patterns of morphology,
+physiology, and connectivity.
 
 ![Tissue blocks were excised from human dorsolateral prefrontal cortex. Tissue blocks include six cortical layers and underlying white matter (wm).](fig/tissue-block-with-layers.png){alt='A human brain showing a section of dorsolateral prefrontal cortex extracted. A block of tissue containing six cortical layers and an underlying layer of white matter is excised from the section.'}
 
 Adapted from 
 <a href="https://doi.org/10.1038/s41593-020-00787-0">Maynard et al,  Nat Neurosci 24, 425–436 (2021)</a>. <a href="https://www.biorender.com">Created with BioRender.com</a>.
 
-The authors aimed to define gene expression within the spatial organization of 
-the six cortical layers. The dorsolateral prefrontal cortex is implicated in 
-some neuropsychiatric disorders such as autism and schizophrenia, and 
+The dorsolateral prefrontal cortex is implicated in 
+some neuropsychiatric disorders such as autism spectrum disorder (ASD) and schizophrenia disorder (SCZD), and 
 differences in gene expression and pathology are located in specific cortical 
 layers. Localizing gene expression at cellular resolution within the six layers 
-can illuminate disease mechanisms.
+can illuminate disease mechanisms and brain development. As such, the authors aimed to map gene expression to the spatial organization of 
+the six cortical layers. This course will largely follow their analyses in
+defining the gene expression markers of the cortical layers.
 
-Two pairs of spatially adjacent replicates were taken from three neurotypical 
-donors. The second pair of replicates was taken from 300 microns posterior to 
+Spatial transcriptomics has several advantages relative to other technologies in meeting the authors' objective.
+Owing to their large size and fragility, human neurons are difficult to isolate with scRNA-seq. This has motivated
+the use of single-nucleus(sn)RNA-seq in most studies. Unfortunately, this modality fails to capture cytoplasmic 
+compartments of the cell, as well as axons and dendrites, and the genes within these regions have been associated
+with SCZD and ASD. Laser capture microdissection followed by sequencing does capture all cellular compartments,
+but can not be use to detect spatial gradients of gene expression since it removes tissues from their
+spatial context. Spatial transcriptomics offers the ability both to capture the entire repertoire of cells resident
+in the brain and to establish the expression gradient across them within the spatial context of the intact tissue.
+
+The authors proceeded in their spatial transcriptomics study by selecting wwo pairs of spatially adjacent replicates
+from three neurotypical donors. The second pair of replicates was taken from 300 microns posterior to 
 the first pair of replicates.
 
 ![Slides contain tissue samples from three neurotypical adult subjects. Each slide contains two pairs of replicates containing directly adjacent tissue sections 10 microns in size. The second pair of replicates is located 300 microns posterior to the first pair. A total of 12 samples were assayed with Visium.](fig/experimental-design.png){alt='Three Visium slides showing four spatial capture areas each. Each slide contains directly adjacent serial tissue sections for one subject. The second pair of samples contains tissue sections that are 300 microns posterior to the first pair of samples.'}
