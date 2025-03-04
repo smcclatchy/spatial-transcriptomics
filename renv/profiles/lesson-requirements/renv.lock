@@ -3,6 +3,26 @@
     "Version": "4.4.2",
     "Repositories": [
       {
+        "Name": "BioCsoft",
+        "URL": "https://bioconductor.org/packages/3.20/bioc"
+      },
+      {
+        "Name": "BioCann",
+        "URL": "https://bioconductor.org/packages/3.20/data/annotation"
+      },
+      {
+        "Name": "BioCexp",
+        "URL": "https://bioconductor.org/packages/3.20/data/experiment"
+      },
+      {
+        "Name": "BioCworkflows",
+        "URL": "https://bioconductor.org/packages/3.20/workflows"
+      },
+      {
+        "Name": "BioCbooks",
+        "URL": "https://bioconductor.org/packages/3.20/books"
+      },
+      {
         "Name": "CRAN",
         "URL": "https://cran.rstudio.com"
       }
@@ -27,7 +47,8 @@
       "NeedsCompilation": "no",
       "Author": "Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), John W. Emerson [aut], Michael J. Kane [aut] (<https://orcid.org/0000-0003-1899-6662>)",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "Biobase": {
       "Package": "Biobase",
@@ -254,7 +275,8 @@
       "License": "GPL (>= 2)",
       "LazyLoad": "yes",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "ComplexHeatmap": {
       "Package": "ComplexHeatmap",
@@ -508,9 +530,10 @@
       "Description": "Cover-tree and kd-tree fast k-nearest neighbor search algorithms and related applications including KNN classification, regression and information measures are implemented.",
       "License": "GPL (>= 2)",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Author": "Alina Beygelzimer [aut] (cover tree library), Sham Kakadet [aut] (cover tree library), John Langford [aut] (cover tree library), Sunil Arya [aut] (ANN library 1.1.2 for the kd-tree approach), David Mount [aut] (ANN library 1.1.2 for the kd-tree approach), Shengqiao Li [aut, cre]",
-      "Maintainer": "Shengqiao Li <lishengqiao@yahoo.com>"
+      "Maintainer": "Shengqiao Li <lishengqiao@yahoo.com>",
+      "Encoding": "UTF-8"
     },
     "GenomeInfoDb": {
       "Package": "GenomeInfoDb",
@@ -690,7 +713,8 @@
       "SystemRequirements": "Perl, Getopt::Long",
       "License": "MIT + file LICENSE",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "GlobalOptions": {
       "Package": "GlobalOptions",
@@ -718,8 +742,9 @@
       "Description": "It provides more configurations on the option values such as validation and filtering on the values, making options invisible or private.",
       "URL": "https://github.com/jokergoo/GlobalOptions",
       "License": "MIT + file LICENSE",
-      "Repository": "CRAN",
-      "NeedsCompilation": "no"
+      "Repository": "RSPM",
+      "NeedsCompilation": "no",
+      "Encoding": "UTF-8"
     },
     "IRanges": {
       "Package": "IRanges",
@@ -827,7 +852,8 @@
       "NeedsCompilation": "yes",
       "Author": "Brian Ripley [aut, cre, cph], Bill Venables [aut, cph], Douglas M. Bates [ctb], Kurt Hornik [trl] (partial port ca 1998), Albrecht Gebhardt [trl] (partial port ca 1998), David Firth [ctb] (support functions for polr)",
       "Maintainer": "Brian Ripley <Brian.Ripley@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "Matrix": {
       "Package": "Matrix",
@@ -936,7 +962,8 @@
       "URL": "https://github.com/HenrikBengtsson/R.methodsS3",
       "BugReports": "https://github.com/HenrikBengtsson/R.methodsS3/issues",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "R.oo": {
       "Package": "R.oo",
@@ -963,7 +990,8 @@
       "URL": "https://github.com/HenrikBengtsson/R.oo",
       "BugReports": "https://github.com/HenrikBengtsson/R.oo/issues",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "R.utils": {
       "Package": "R.utils",
@@ -993,7 +1021,8 @@
       "URL": "https://henrikbengtsson.github.io/R.utils/, https://github.com/HenrikBengtsson/R.utils",
       "BugReports": "https://github.com/HenrikBengtsson/R.utils/issues",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "R6": {
       "Package": "R6",
@@ -1056,7 +1085,8 @@
       "Description": "Provides color schemes for maps (and other graphics) designed by Cynthia Brewer as described at http://colorbrewer2.org.",
       "License": "Apache License 2.0",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "ROCR": {
       "Package": "ROCR",
@@ -1125,7 +1155,8 @@
       "NeedsCompilation": "yes",
       "Author": "Yixuan Qiu [aut, cre], Jiali Mei [aut] (Function interface of matrix operation), Gael Guennebaud [ctb] (Eigenvalue solvers from the 'Eigen' library), Jitse Niesen [ctb] (Eigenvalue solvers from the 'Eigen' library)",
       "Maintainer": "Yixuan Qiu <yixuan.qiu@cos.name>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -1184,7 +1215,8 @@
       "BugReports": "https://github.com/eddelbuettel/rcppannoy/issues",
       "NeedsCompilation": "yes",
       "RoxygenNote": "7.1.1",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "RcppArmadillo": {
       "Package": "RcppArmadillo",
@@ -1222,7 +1254,8 @@
       "NeedsCompilation": "yes",
       "Author": "Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), Romain Francois [aut] (<https://orcid.org/0000-0002-2444-4226>), Doug Bates [aut] (<https://orcid.org/0000-0001-8316-9503>), Binxiang Ni [aut], Conrad Sanderson [aut] (<https://orcid.org/0000-0002-0049-4501>)",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "RcppEigen": {
       "Package": "RcppEigen",
@@ -1259,7 +1292,8 @@
       "NeedsCompilation": "yes",
       "Author": "Doug Bates [aut] (<https://orcid.org/0000-0001-8316-9503>), Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), Romain Francois [aut] (<https://orcid.org/0000-0002-2444-4226>), Yixuan Qiu [aut] (<https://orcid.org/0000-0003-0109-6692>), Authors of Eigen [cph] (Authorship and copyright in included Eigen library as detailed in inst/COPYRIGHTS)",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "RcppHNSW": {
       "Package": "RcppHNSW",
@@ -1370,7 +1404,8 @@
       ],
       "License": "GPL (>= 2)",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "Rfast": {
       "Package": "Rfast",
@@ -1403,7 +1438,8 @@
       "License": "GPL (>= 2.0)",
       "NeedsCompilation": "yes",
       "Author": "Manos Papadakis [aut, cre, cph], Michail Tsagris [aut], Marios Dimitriadis [aut], Stefanos Fafalios [aut], Matteo Fasiolo [aut], Morgan Jacob [ctb], Giorgos Borboudakis [aut], John Burkardt [aut], Changliang Zou [aut]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "Rtsne": {
       "Package": "Rtsne",
@@ -1922,7 +1958,8 @@
       "License": "MIT + file LICENSE",
       "NeedsCompilation": "no",
       "Author": "Tony Plate [aut, cre], Richard Heiberger [aut]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "askpass": {
       "Package": "askpass",
@@ -1988,7 +2025,8 @@
       "License": "GPL-2 | GPL-3",
       "URL": "http://www.rforge.net/base64enc",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "bit": {
       "Package": "bit",
@@ -2072,7 +2110,8 @@
       "NeedsCompilation": "yes",
       "Author": "Steve Dutky [aut] (S original; then (after MM's port) revised and modified), Martin Maechler [cre, aut] (Initial R port; tweaks, <https://orcid.org/0000-0002-8685-9910>)",
       "Maintainer": "Martin Maechler <maechler@stat.math.ethz.ch>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "blob": {
       "Package": "blob",
@@ -2306,8 +2345,9 @@
       "Description": "Contains several basic utility functions including: moving (rolling, running) window statistic functions, read/write for GIF and ENVI binary files, fast calculation of AUC, LogitBoost classifier, base64 encoder/decoder, round-off-error-free sum and cumsum, etc.",
       "License": "GPL-3",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN",
-      "Author": "Jarek Tuszynski [aut], Michael Dietze [cre]"
+      "Repository": "RSPM",
+      "Author": "Jarek Tuszynski [aut], Michael Dietze [cre]",
+      "Encoding": "UTF-8"
     },
     "cachem": {
       "Package": "cachem",
@@ -2402,7 +2442,8 @@
       "NeedsCompilation": "no",
       "Author": "Jennifer Bryan [cre, aut], Hadley Wickham [ctb]",
       "Maintainer": "Jennifer Bryan <jenny@stat.ubc.ca>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "circlize": {
       "Package": "circlize",
@@ -2444,7 +2485,8 @@
       "NeedsCompilation": "no",
       "Author": "Zuguang Gu [aut, cre] (<https://orcid.org/0000-0002-7395-8709>)",
       "Maintainer": "Zuguang Gu <z.gu@dkfz.de>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "cli": {
       "Package": "cli",
@@ -2622,7 +2664,8 @@
       "URL": "https://gitlab.com/luke-tierney/codetools",
       "License": "GPL",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "colorspace": {
       "Package": "colorspace",
@@ -3049,7 +3092,8 @@
       "ByteCompile": "true",
       "License": "GPL (>= 2)",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "dichromat": {
       "Package": "dichromat",
@@ -3067,8 +3111,9 @@
       "LazyLoad": "Yes",
       "Author": "Thomas Lumley [aut, cre], Ken Knoblauch [ctb], Scott Waichler [ctb], Achim Zeileis [ctb]",
       "Maintainer": "Thomas Lumley <tlumley@u.washington.edu>",
-      "Repository": "CRAN",
-      "NeedsCompilation": "no"
+      "Repository": "RSPM",
+      "NeedsCompilation": "no",
+      "Encoding": "UTF-8"
     },
     "digest": {
       "Package": "digest",
@@ -3128,7 +3173,8 @@
       "NeedsCompilation": "no",
       "Author": "Folashade Daniel [cre], Microsoft Corporation [aut, cph], Steve Weston [aut], Dan Tenenbaum [ctb]",
       "Maintainer": "Folashade Daniel <fdaniel@microsoft.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "dotCall64": {
       "Package": "dotCall64",
@@ -3158,7 +3204,8 @@
       "NeedsCompilation": "yes",
       "Author": "Kaspar Moesinger [aut], Florian Gerber [aut] (<https://orcid.org/0000-0001-8545-5263>), Reinhard Furrer [cre, ctb] (<https://orcid.org/0000-0002-6319-2332>)",
       "Maintainer": "Reinhard Furrer <reinhard.furrer@uzh.ch>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "dplyr": {
       "Package": "dplyr",
@@ -3470,8 +3517,9 @@
         "maps"
       ],
       "NeedsCompilation": "yes",
-      "Repository": "CRAN",
-      "Author": "Douglas Nychka [aut, cre], Reinhard Furrer [aut], John Paige [aut], Stephan Sain [aut], Florian Gerber [aut], Matthew Iverson [aut], Rider Johnson [aut]"
+      "Repository": "RSPM",
+      "Author": "Douglas Nychka [aut, cre], Reinhard Furrer [aut], John Paige [aut], Stephan Sain [aut], Florian Gerber [aut], Matthew Iverson [aut], Rider Johnson [aut]",
+      "Encoding": "UTF-8"
     },
     "fitdistrplus": {
       "Package": "fitdistrplus",
@@ -3625,7 +3673,8 @@
       "NeedsCompilation": "no",
       "Author": "Folashade Daniel [cre], Hong Ooi [ctb], Rich Calaway [ctb], Microsoft [aut, cph], Steve Weston [aut]",
       "Maintainer": "Folashade Daniel <fdaniel@microsoft.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "formatR": {
       "Package": "formatR",
@@ -3726,7 +3775,8 @@
       "ByteCompile": "yes",
       "Collate": "'options.R' 'appender.R' 'constants.R' 'layout.R' 'logger.R' 'scat.R' 'futile.logger-package.R'",
       "RoxygenNote": "5.0.1",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "futile.options": {
       "Package": "futile.options",
@@ -3744,7 +3794,8 @@
       "License": "LGPL-3",
       "LazyLoad": "yes",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "future": {
       "Package": "future",
@@ -3813,7 +3864,8 @@
       "NeedsCompilation": "no",
       "Author": "Henrik Bengtsson [aut, cre, cph] (<https://orcid.org/0000-0002-7579-5165>), R Core Team [cph, ctb]",
       "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "gargle": {
       "Package": "gargle",
@@ -4077,7 +4129,8 @@
       "NeedsCompilation": "no",
       "Author": "Henrik Bengtsson [aut, cre, cph], Davis Vaughan [ctb]",
       "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "glue": {
       "Package": "glue",
@@ -4141,7 +4194,8 @@
       "NeedsCompilation": "yes",
       "Author": "Julian Faraway [aut], George Marsaglia [aut], John Marsaglia [aut], Adrian Baddeley [aut, cre]",
       "Maintainer": "Adrian Baddeley <Adrian.Baddeley@curtin.edu.au>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "googledrive": {
       "Package": "googledrive",
@@ -4277,7 +4331,8 @@
       "NeedsCompilation": "no",
       "Author": "Gregory R. Warnes [aut], Ben Bolker [aut], Lodewijk Bonebakker [aut], Robert Gentleman [aut], Wolfgang Huber [aut], Andy Liaw [aut], Thomas Lumley [aut], Martin Maechler [aut], Arni Magnusson [aut], Steffen Moeller [aut], Marc Schwartz [aut], Bill Venables [aut], Tal Galili [aut, cre]",
       "Maintainer": "Tal Galili <tal.galili@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "gridExtra": {
       "Package": "gridExtra",
@@ -4307,7 +4362,8 @@
       "NeedsCompilation": "no",
       "Author": "Baptiste Auguie [aut, cre], Anton Antonov [ctb]",
       "Maintainer": "Baptiste Auguie <baptiste.auguie@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "gtable": {
       "Package": "gtable",
@@ -4466,7 +4522,8 @@
       "Collate": "'Common_functions.R' 'Compound.R' 'H5constants.R' 'Helper_functions.R' 'Misc.R' 'R6Classes.R' 'R6Classes_H5A.R' 'R6Classes_H5D.R' 'R6Classes_H5File.R' 'R6Classes_H5Group.R' 'R6Classes_H5P.R' 'R6Classes_H5R.R' 'R6Classes_H5S.R' 'R6Classes_H5T.R' 'adapt_during_onLoad.R' 'convert.R' 'factor_ext.R' 'globalVariables.R' 'h5errorHandling.R' 'h5wrapper.R' 'hdf5r.R' 'high_level_UI.R' 'open_objs.R' 'zzz.R'",
       "Author": "Holger Hoefling [aut, cre], Mario Annau [aut], Novartis Institute for BioMedical Research (NIBR) [cph]",
       "Maintainer": "Holger Hoefling <hhoeflin@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "here": {
       "Package": "here",
@@ -4685,12 +4742,13 @@
       "Collate": "'RcppExports.R' 'httpuv.R' 'random_port.R' 'server.R' 'staticServer.R' 'static_paths.R' 'utils.R'",
       "Config/pak/sysreqs": "make zlib1g-dev",
       "Repository": "https://carpentries.r-universe.dev",
-      "RemoteUrl": "https://github.com/rstudio/httpuv",
-      "RemoteRef": "v1.6.15",
-      "RemoteSha": "19631930c178ee7ffb5e712eefc9b08d94db23f4",
       "NeedsCompilation": "yes",
       "Author": "Joe Cheng [aut], Winston Chang [aut, cre], Posit, PBC fnd [cph], Hector Corrada Bravo [ctb], Jeroen Ooms [ctb], Andrzej Krzemienski [cph] (optional.hpp), libuv project contributors [cph] (libuv library, see src/libuv/AUTHORS file), Joyent, Inc. and other Node contributors [cph] (libuv library, see src/libuv/AUTHORS file; and http-parser library, see src/http-parser/AUTHORS file), Niels Provos [cph] (libuv subcomponent: tree.h), Internet Systems Consortium, Inc. [cph] (libuv subcomponent: inet_pton and inet_ntop, contained in src/libuv/src/inet.c), Alexander Chemeris [cph] (libuv subcomponent: stdint-msvc2008.h (from msinttypes)), Google, Inc. [cph] (libuv subcomponent: pthread-fixes.c), Sony Mobile Communcations AB [cph] (libuv subcomponent: pthread-fixes.c), Berkeley Software Design Inc. [cph] (libuv subcomponent: android-ifaddrs.h, android-ifaddrs.c), Kenneth MacKay [cph] (libuv subcomponent: android-ifaddrs.h, android-ifaddrs.c), Emergya (Cloud4all, FP7/2007-2013, grant agreement no 289016) [cph] (libuv subcomponent: android-ifaddrs.h, android-ifaddrs.c), Steve Reid [aut] (SHA-1 implementation), James Brown [aut] (SHA-1 implementation), Bob Trower [aut] (base64 implementation), Alexander Peslyak [aut] (MD5 implementation), Trantor Standard Systems [cph] (base64 implementation), Igor Sysoev [cph] (http-parser)",
-      "Maintainer": "Winston Chang <winston@posit.co>"
+      "Maintainer": "Winston Chang <winston@posit.co>",
+      "RemoteType": "repository",
+      "RemoteUrl": "https://github.com/rstudio/httpuv",
+      "RemoteRef": "v1.6.15",
+      "RemoteSha": "19631930c178ee7ffb5e712eefc9b08d94db23f4"
     },
     "httr": {
       "Package": "httr",
@@ -4744,7 +4802,8 @@
       "Description": "Independent Component Analysis (ICA) using various algorithms: FastICA, Information-Maximization (Infomax), and Joint Approximate Diagonalization of Eigenmatrices (JADE).",
       "License": "GPL (>= 2)",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "ids": {
       "Package": "ids",
@@ -4771,7 +4830,8 @@
       "NeedsCompilation": "no",
       "Author": "Rich FitzJohn [aut, cre]",
       "Maintainer": "Rich FitzJohn <rich.fitzjohn@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "igraph": {
       "Package": "igraph",
@@ -4863,7 +4923,8 @@
       "NeedsCompilation": "yes",
       "Author": "Jim Baglama [aut, cph], Lothar Reichel [aut, cph], B. W. Lewis [aut, cre, cph]",
       "Maintainer": "B. W. Lewis <blewis@illposed.net>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "isoband": {
       "Package": "isoband",
@@ -4922,7 +4983,8 @@
       "NeedsCompilation": "no",
       "Author": "Folashade Daniel [cre], Revolution Analytics [aut, cph], Steve Weston [aut]",
       "Maintainer": "Folashade Daniel <fdaniel@microsoft.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -5057,7 +5119,8 @@
         "stats",
         "graphics"
       ],
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "lambda.r": {
       "Package": "lambda.r",
@@ -5081,7 +5144,8 @@
       "License": "LGPL-3",
       "LazyLoad": "yes",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "later": {
       "Package": "later",
@@ -5153,7 +5217,8 @@
       "NeedsCompilation": "yes",
       "Author": "Deepayan Sarkar [aut, cre] (<https://orcid.org/0000-0003-4107-1553>), Felix Andrews [ctb], Kevin Wright [ctb] (documentation), Neil Klepeis [ctb], Johan Larsson [ctb] (miscellaneous improvements), Zhijian (Jason) Wen [cph] (filled contour code), Paul Murrell [ctb], Stefan Eng [ctb] (violin plot improvements), Achim Zeileis [ctb] (modern colors), Alexandre Courtiol [ctb] (generics for larrows, lpolygon, lrect and lsegments)",
       "Maintainer": "Deepayan Sarkar <deepayan.sarkar@r-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "lazyeval": {
       "Package": "lazyeval",
@@ -5178,7 +5243,8 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut, cre], RStudio [cph]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "leidenbase": {
       "Package": "leidenbase",
@@ -5276,7 +5342,8 @@
       "NeedsCompilation": "no",
       "Author": "Henrik Bengtsson [aut, cre, cph]",
       "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "lmtest": {
       "Package": "lmtest",
@@ -5308,7 +5375,8 @@
       "NeedsCompilation": "yes",
       "Author": "Torsten Hothorn [aut] (<https://orcid.org/0000-0001-8301-0471>), Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Richard W. Farebrother [aut] (pan.f), Clint Cummins [aut] (pan.f), Giovanni Millo [ctb], David Mitchell [ctb]",
       "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "locfdr": {
       "Package": "locfdr",
@@ -5326,7 +5394,8 @@
       "Description": "Computation of local false discovery rates.",
       "NeedsCompilation": "no",
       "Author": "Bradley Efron [aut], Brit Turnbull [aut], Balasubramanian Narasimhan [aut, cre], Korbinian Strimmer [ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "locfit": {
       "Package": "locfit",
@@ -5351,7 +5420,8 @@
       "License": "GPL (>= 2)",
       "SystemRequirements": "USE_C17",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "lubridate": {
       "Package": "lubridate",
@@ -5449,7 +5519,8 @@
       "License": "Lucent Public License",
       "Maintainer": "Alex Deckmyn <alex.deckmyn@meteo.be>",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "maps": {
       "Package": "maps",
@@ -5476,7 +5547,8 @@
       "License": "GPL-2",
       "Maintainer": "Alex Deckmyn <alex.deckmyn@meteo.be>",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "mathjaxr": {
       "Package": "mathjaxr",
@@ -5528,7 +5600,8 @@
       "URL": "https://github.com/HenrikBengtsson/matrixStats",
       "BugReports": "https://github.com/HenrikBengtsson/matrixStats/issues",
       "RoxygenNote": "7.3.2",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "memoise": {
       "Package": "memoise",
@@ -5761,7 +5834,8 @@
       "NeedsCompilation": "no",
       "Author": "Joe Cheng [cre, aut], RStudio [cph]",
       "Maintainer": "Joe Cheng <joe@rstudio.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "modelr": {
       "Package": "modelr",
@@ -5878,7 +5952,8 @@
       "Maintainer": "Paul Gilbert <pgilbert.ttv9z@ncf.ca>",
       "URL": "http://optimizer.r-forge.r-project.org/",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "openssl": {
       "Package": "openssl",
@@ -6054,7 +6129,8 @@
       "BugReports": "https://github.com/psolymos/pbapply/issues",
       "NeedsCompilation": "no",
       "Author": "Peter Solymos [aut, cre] (<https://orcid.org/0000-0001-7337-1740>), Zygmunt Zawadzki [aut], Henrik Bengtsson [ctb], R Core Team [cph, ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "pillar": {
       "Package": "pillar",
@@ -6265,7 +6341,8 @@
       "SystemRequirements": "libpng",
       "URL": "http://www.rforge.net/png/",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "polyclip": {
       "Package": "polyclip",
@@ -6286,7 +6363,8 @@
       "Note": "built from Clipper C++ version 6.4.0",
       "NeedsCompilation": "yes",
       "Author": "Angus Johnson [aut] (C++ original, http://www.angusj.com/delphi/clipper.php), Adrian Baddeley [aut, trl, cre], Kurt Hornik [ctb], Brian D. Ripley [ctb], Elliott Sales de Andrade [ctb], Paul Murrell [ctb], Ege Rubak [ctb], Mark Padgham [ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "presto": {
       "Package": "presto",
@@ -6333,14 +6411,14 @@
       ],
       "NeedsCompilation": "yes",
       "VignetteBuilder": "knitr",
+      "Author": "Ilya Korsunsky [aut] (<https://orcid.org/0000-0003-4848-3948>), Aparna Nathan [aut], Nghia Millard [aut] (<https://orcid.org/0000-0002-0518-7674>), Soumya Raychaudhuri [aut] (<https://orcid.org/0000-0002-1901-8265>), Kamil Slowikowski [cre, ctb] (<https://orcid.org/0000-0002-2843-6370>), Austin Hartman [ctb] (<https://orcid.org/0000-0001-7278-1852>)",
+      "Maintainer": "Kamil Slowikowski <kslowikowski@gmail.com>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "presto",
       "RemoteUsername": "immunogenomics",
       "RemoteRef": "HEAD",
-      "RemoteSha": "7636b3d0465c468c35853f82f1717d3a64b3c8f6",
-      "Author": "Ilya Korsunsky [aut] (<https://orcid.org/0000-0003-4848-3948>), Aparna Nathan [aut], Nghia Millard [aut] (<https://orcid.org/0000-0002-0518-7674>), Soumya Raychaudhuri [aut] (<https://orcid.org/0000-0002-1901-8265>), Kamil Slowikowski [cre, ctb] (<https://orcid.org/0000-0002-2843-6370>), Austin Hartman [ctb] (<https://orcid.org/0000-0001-7278-1852>)",
-      "Maintainer": "Kamil Slowikowski <kslowikowski@gmail.com>"
+      "RemoteSha": "7636b3d0465c468c35853f82f1717d3a64b3c8f6"
     },
     "prettyunits": {
       "Package": "prettyunits",
@@ -6485,7 +6563,8 @@
       "NeedsCompilation": "no",
       "Author": "Henrik Bengtsson [aut, cre, cph] (<https://orcid.org/0000-0002-7579-5165>)",
       "Maintainer": "Henrik Bengtsson <henrikb@braju.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "promises": {
       "Package": "promises",
@@ -6631,7 +6710,8 @@
       ],
       "License": "GPL (>= 2)",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "ragg": {
       "Package": "ragg",
@@ -7073,8 +7153,9 @@
       "Description": "Converts R object into JSON objects and vice-versa.",
       "URL": "https://github.com/alexcb/rjson",
       "License": "GPL-2",
-      "Repository": "CRAN",
-      "NeedsCompilation": "yes"
+      "Repository": "RSPM",
+      "NeedsCompilation": "yes",
+      "Encoding": "UTF-8"
     },
     "rlang": {
       "Package": "rlang",
@@ -7473,7 +7554,8 @@
       "NeedsCompilation": "no",
       "Author": "Simon Potter [aut, trl, cre], Simon Sapin [aut], Ian Bicking [aut]",
       "Maintainer": "Simon Potter <simon@sjp.co.nz>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "shape": {
       "Package": "shape",
@@ -7493,7 +7575,8 @@
       "Description": "Functions for plotting graphical shapes such as ellipses, circles, cylinders, arrows, ...",
       "License": "GPL (>= 3)",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "shiny": {
       "Package": "shiny",
@@ -7616,7 +7699,8 @@
         "utils"
       ],
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "sourcetools": {
       "Package": "sourcetools",
@@ -7679,7 +7763,8 @@
       "NeedsCompilation": "yes",
       "Author": "Edzer Pebesma [aut, cre], Roger Bivand [aut], Barry Rowlingson [ctb], Virgilio Gomez-Rubio [ctb], Robert Hijmans [ctb], Michael Sumner [ctb], Don MacQueen [ctb], Jim Lemon [ctb], Finn Lindgren [ctb], Josh O'Brien [ctb], Joseph O'Rourke [ctb], Patrick Hausmann [ctb]",
       "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spacexr": {
       "Package": "spacexr",
@@ -7695,6 +7780,7 @@
       ],
       "License": "GNU General Public License v3.0.",
       "Encoding": "UTF-8",
+      "LazyData": "true",
       "Imports": [
         "readr",
         "ggplot2",
@@ -7724,8 +7810,7 @@
       "RemoteRepo": "spacexr",
       "RemoteUsername": "dmcable",
       "RemoteRef": "HEAD",
-      "RemoteSha": "0a0861e3d1e16014a20e9b743d0e19d3b42231f3",
-      "NeedsCompilation": "no"
+      "RemoteSha": "0a0861e3d1e16014a20e9b743d0e19d3b42231f3"
     },
     "spam": {
       "Package": "spam",
@@ -7766,7 +7851,8 @@
       "NeedsCompilation": "yes",
       "Author": "Reinhard Furrer [aut, cre] (<https://orcid.org/0000-0002-6319-2332>), Florian Gerber [aut] (<https://orcid.org/0000-0001-8545-5263>), Roman Flury [aut] (<https://orcid.org/0000-0002-0349-8698>), Daniel Gerber [ctb], Kaspar Moesinger [ctb], Annina Cincera [ctb], Youcef Saad [ctb] (SPARSEKIT http://www-users.cs.umn.edu/~saad/software/SPARSKIT/), Esmond G. Ng [ctb] (Fortran Cholesky routines), Barry W. Peyton [ctb] (Fortran Cholesky routines), Joseph W.H. Liu [ctb] (Fortran Cholesky routines), Alan D. George [ctb] (Fortran Cholesky routines), Lehoucq B. Rich [ctb] (ARPACK), Maschhoff Kristi [ctb] (ARPACK), Sorensen C. Danny [ctb] (ARPACK), Yang Chao [ctb] (ARPACK)",
       "Maintainer": "Reinhard Furrer <reinhard.furrer@math.uzh.ch>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "sparseMatrixStats": {
       "Package": "sparseMatrixStats",
@@ -7842,7 +7928,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.data/issues",
       "Author": "Adrian Baddeley [aut, cre] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut] (<https://orcid.org/0000-0002-6675-533X>), W Aherne [ctb], Freda Alexander [ctb], Qi Wei Ang [ctb], Sourav Banerjee [ctb], Mark Berman [ctb], R Bernhardt [ctb], Thomas Berndtsen [ctb], Andrew Bevan [ctb], Jeffrey Betts [ctb], Ray Cartwright [ctb], Lucia Cobo Sanchez [ctb], Richard Condit [ctb], Francis Crick [ctb], Marcelino de la Cruz Rot [ctb], Jack Cuzick [ctb], Tilman Davies [ctb], Peter Diggle [ctb], Michael Drinkwater [ctb], Stephen Eglen [ctb], Robert Edwards [ctb], AE Esler [ctb], Gregory Evans [ctb], Bernard Fingleton [ctb], Olivier Flores [ctb], David Ford [ctb], Robin Foster [ctb], Janet Franklin [ctb], Neba Funwi-Gabga [ctb], DJ Gerrard [ctb], Andy Green [ctb], Tim Griffin [ctb], Ute Hahn [ctb], RD Harkness [ctb], Arthur Hickman [ctb], Stephen Hubbell [ctb], Austin Hughes [ctb], Jonathan Huntington [ctb], MJ Hutchings [ctb], Jackie Inwald [ctb], Valerie Isham [ctb], Aruna Jammalamadaka [ctb], Carl Knox-Robinson [ctb], Mahdieh Khanmohammadi [ctb], Tero Kokkila [ctb], Bas Kooijman [ctb], Kenneth Kosik [ctb], Peter Kovesi [ctb], Lily Kozmian-Ledward [ctb], Robert Lamb [ctb], NA Laskurain [ctb], George Leser [ctb], Marie-Colette van Lieshout [ctb], AF Mark [ctb], Jorge Mateu [ctb], Annikki Makela [ctb], Enrique Miranda [ctb], Nicoletta Nava [ctb], M Numata [ctb], Matti Nummelin [ctb], Jens Randel Nyengaard [ctb], Yosihiko Ogata [ctb], Si Palmer [ctb], Antti Penttinen [ctb], Sandra Pereira [ctb], Nicolas Picard [ctb], William Platt [ctb], Stephen Rathbun [ctb], Brian Ripley [ctb], Roger Sainsbury [ctb], Dietrich Stoyan [ctb], David Strauss [ctb], L Strand [ctb], Masaharu Tanemura [ctb], Graham Upton [ctb], Bill Venables [ctb], Sasha Voss [ctb], Rasmus Waagepetersen [ctb], Keith Watkins [ctb], H Wendrock [ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spatstat.explore": {
       "Package": "spatstat.explore",
@@ -7889,7 +7976,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.explore/issues",
       "Author": "Adrian Baddeley [aut, cre, cph] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (<https://orcid.org/0000-0002-6675-533X>), Kasper Klitgaard Berthelsen [ctb], Warick Brown [cph], Achmad Choiruddin [ctb], Jean-Francois Coeurjolly [ctb], Ottmar Cronie [ctb], Tilman Davies [ctb, cph], Julian Gilbey [ctb], Jonatan Gonzalez [ctb], Yongtao Guan [ctb], Ute Hahn [ctb], Kassel Hingee [ctb, cph], Abdollah Jalilian [ctb], Frederic Lavancier [ctb], Marie-Colette van Lieshout [ctb, cph], Greg McSwiggan [ctb], Robin K Milne [cph], Tuomas Rajala [ctb], Suman Rakshit [ctb, cph], Dominic Schuhmacher [ctb], Rasmus Plenge Waagepetersen [ctb], Hangsheng Wang [ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spatstat.geom": {
       "Package": "spatstat.geom",
@@ -7930,7 +8018,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.geom/issues",
       "Author": "Adrian Baddeley [aut, cre, cph] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (<https://orcid.org/0000-0002-6675-533X>), Tilman Davies [ctb], Ute Hahn [ctb], Abdollah Jalilian [ctb], Greg McSwiggan [ctb, cph], Sebastian Meyer [ctb, cph], Jens Oehlschlaegel [ctb, cph], Suman Rakshit [ctb], Dominic Schuhmacher [ctb], Rasmus Waagepetersen [ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spatstat.random": {
       "Package": "spatstat.random",
@@ -7968,7 +8057,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.random/issues",
       "Author": "Adrian Baddeley [aut, cre, cph] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (<https://orcid.org/0000-0002-6675-533X>), Tilman Davies [aut, cph] (<https://orcid.org/0000-0003-0565-1825>), Kasper Klitgaard Berthelsen [ctb, cph], David Bryant [ctb, cph], Ya-Mei Chang [ctb, cph], Ute Hahn [ctb], Abdollah Jalilian [ctb], Dominic Schuhmacher [ctb, cph], Rasmus Plenge Waagepetersen [ctb, cph]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spatstat.sparse": {
       "Package": "spatstat.sparse",
@@ -7997,7 +8087,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.sparse/issues",
       "Author": "Adrian Baddeley [aut, cre, cph] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut, cph] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut, cph] (<https://orcid.org/0000-0002-6675-533X>)",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spatstat.univar": {
       "Package": "spatstat.univar",
@@ -8021,7 +8112,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.univar/issues",
       "Author": "Adrian Baddeley [aut, cre, cph] (<https://orcid.org/0000-0001-9499-8382>), Tilman M. Davies [aut, ctb, cph] (<https://orcid.org/0000-0003-0565-1825>), Martin L. Hazelton [aut, ctb, cph] (<https://orcid.org/0000-0001-7831-725X>), Ege Rubak [aut, cph] (<https://orcid.org/0000-0002-6675-533X>), Rolf Turner [aut, cph] (<https://orcid.org/0000-0001-5521-5218>), Greg McSwiggan [ctb, cph]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "spatstat.utils": {
       "Package": "spatstat.utils",
@@ -8049,7 +8141,8 @@
       "ByteCompile": "true",
       "BugReports": "https://github.com/spatstat/spatstat.utils/issues",
       "Author": "Adrian Baddeley [aut, cre] (<https://orcid.org/0000-0001-9499-8382>), Rolf Turner [aut] (<https://orcid.org/0000-0001-5521-5218>), Ege Rubak [aut] (<https://orcid.org/0000-0002-6675-533X>)",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "stringi": {
       "Package": "stringi",
@@ -8231,7 +8324,8 @@
       "Maintainer": "Jonathan Rougier <j.c.rougier@bristol.ac.uk>",
       "Description": "The tensor product of two arrays is notionally an outer product of the arrays collapsed in specific extents by summing along the appropriate diagonals.",
       "License": "GPL (>= 2)",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "textshaping": {
       "Package": "textshaping",
@@ -8632,7 +8726,8 @@
       "URL": "https://www.rforge.net/uuid",
       "BugReports": "https://github.com/s-u/uuid/issues",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "uwot": {
       "Package": "uwot",
@@ -8978,9 +9073,10 @@
         "R (>= 2.10.0)"
       ],
       "License": "GPL (>= 2)",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "NeedsCompilation": "no",
-      "Author": "David B. Dahl [aut], David Scott [aut, cre], Charles Roosen [aut], Arni Magnusson [aut], Jonathan Swinton [aut], Ajay Shah [ctb], Arne Henningsen [ctb], Benno Puetz [ctb], Bernhard Pfaff [ctb], Claudio Agostinelli [ctb], Claudius Loehnert [ctb], David Mitchell [ctb], David Whiting [ctb], Fernando da Rosa [ctb], Guido Gay [ctb], Guido Schulz [ctb], Ian Fellows [ctb], Jeff Laake [ctb], John Walker [ctb], Jun Yan [ctb], Liviu Andronic [ctb], Markus Loecher [ctb], Martin Gubri [ctb], Matthieu Stigler [ctb], Robert Castelo [ctb], Seth Falcon [ctb], Stefan Edwards [ctb], Sven Garbade [ctb], Uwe Ligges [ctb]"
+      "Author": "David B. Dahl [aut], David Scott [aut, cre], Charles Roosen [aut], Arni Magnusson [aut], Jonathan Swinton [aut], Ajay Shah [ctb], Arne Henningsen [ctb], Benno Puetz [ctb], Bernhard Pfaff [ctb], Claudio Agostinelli [ctb], Claudius Loehnert [ctb], David Mitchell [ctb], David Whiting [ctb], Fernando da Rosa [ctb], Guido Gay [ctb], Guido Schulz [ctb], Ian Fellows [ctb], Jeff Laake [ctb], John Walker [ctb], Jun Yan [ctb], Liviu Andronic [ctb], Markus Loecher [ctb], Martin Gubri [ctb], Matthieu Stigler [ctb], Robert Castelo [ctb], Seth Falcon [ctb], Stefan Edwards [ctb], Sven Garbade [ctb], Uwe Ligges [ctb]",
+      "Encoding": "UTF-8"
     },
     "yaml": {
       "Package": "yaml",
@@ -8999,7 +9095,8 @@
       "URL": "https://github.com/vubiostat/r-yaml/",
       "BugReports": "https://github.com/vubiostat/r-yaml/issues",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "zigg": {
       "Package": "zigg",
@@ -9086,7 +9183,8 @@
       "NeedsCompilation": "yes",
       "Author": "Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Gabor Grothendieck [aut], Jeffrey A. Ryan [aut], Joshua M. Ulrich [ctb], Felix Andrews [ctb]",
       "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     }
   }
 }
