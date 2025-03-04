@@ -195,10 +195,10 @@ Computing SNN
 Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
 
 Number of nodes: 3633
-Number of edges: 187716
+Number of edges: 198594
 
 Running Louvain algorithm...
-Maximum modularity in 10 random starts: 0.7178
+Maximum modularity in 10 random starts: 0.7227
 Number of communities: 9
 Elapsed time: 0 seconds
 ```
@@ -227,18 +227,18 @@ AAACAGAGCGACTCCT-1        14        94               4151               9271
 AAACAGCTTTCAGAAG-1        43         9               7583               3393
 AAACAGGGTCTATATT-1        47        13               8064               3665
                    percent.mt keep layer_guess cell_count nCount_SCT
-AAACAAGTATCTCCCA-1   16.63514 TRUE      Layer3          6       5159
-AAACAATCTACTAGCA-1   12.23755 TRUE      Layer1         16       3400
+AAACAAGTATCTCCCA-1   16.63514 TRUE      Layer3          6       5167
+AAACAATCTACTAGCA-1   12.23755 TRUE      Layer1         16       3404
 AAACACCAATAACTGC-1   11.40886 TRUE          WM          5       3828
-AAACAGAGCGACTCCT-1   24.22234 TRUE      Layer3          2       4682
+AAACAGAGCGACTCCT-1   24.22234 TRUE      Layer3          2       4683
 AAACAGCTTTCAGAAG-1   15.21739 TRUE      Layer5          4       4228
 AAACAGGGTCTATATT-1   15.50949 TRUE      Layer6          6       3991
                    nFeature_SCT SCT_snn_res.1 seurat_clusters
-AAACAAGTATCTCCCA-1         3183             1               1
-AAACAATCTACTAGCA-1         1264             4               4
-AAACACCAATAACTGC-1         1941             6               6
-AAACAGAGCGACTCCT-1         2393             5               5
-AAACAGCTTTCAGAAG-1         2239             0               0
+AAACAAGTATCTCCCA-1         3192             0               0
+AAACAATCTACTAGCA-1         1264             2               2
+AAACACCAATAACTGC-1         1941             7               7
+AAACAGAGCGACTCCT-1         2393             6               6
+AAACAGCTTTCAGAAG-1         2239             5               5
 AAACAGGGTCTATATT-1         2148             3               3
 ```
 
@@ -416,11 +416,11 @@ sct_st <- FindNeighbors(sct_st,
 Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
 
 Number of nodes: 3633
-Number of edges: 171945
+Number of edges: 175530
 
 Running Louvain algorithm...
-Maximum modularity in 10 random starts: 0.7408
-Number of communities: 9
+Maximum modularity in 10 random starts: 0.7508
+Number of communities: 8
 Elapsed time: 0 seconds
 ```
 

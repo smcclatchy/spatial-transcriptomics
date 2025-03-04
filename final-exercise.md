@@ -190,9 +190,14 @@ Running SCTransform on layer: counts
 vst.flavor='v2' set. Using model with fixed slope and excluding poisson genes.
 ```
 
-``` warning
-Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
-'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
+``` output
+`vst.flavor` is set to 'v2' but could not find glmGamPoi installed.
+Please install the glmGamPoi package for much faster estimation.
+--------------------------------------------
+install.packages('BiocManager')
+BiocManager::install('glmGamPoi')
+--------------------------------------------
+Falling back to native (slower) implementation.
 ```
 
 ``` output
@@ -211,8 +216,1237 @@ Get Negative Binomial regression parameters per gene
 Using 2000 genes, 4992 cells
 ```
 
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
+``` warning
+Warning in glm.nb(formula = as.formula(new_formula), data = data): alternation
+limit reached
+```
+
+``` warning
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
+control$trace > : iteration limit reached
+```
+
 ``` output
-Found 91 outliers - those will be ignored in fitting/regularization step
+Found 11 outliers - those will be ignored in fitting/regularization step
 ```
 
 ``` output
@@ -228,7 +1462,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 24.90132 secs
+Wall clock passed: Time difference of 5.160943 mins
 ```
 
 ``` output
@@ -356,11 +1590,11 @@ Computing SNN
 Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
 
 Number of nodes: 4992
-Number of edges: 226317
+Number of edges: 227931
 
 Running Louvain algorithm...
-Maximum modularity in 10 random starts: 0.7726
-Number of communities: 10
+Maximum modularity in 10 random starts: 0.7701
+Number of communities: 9
 Elapsed time: 0 seconds
 ```
 

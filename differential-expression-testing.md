@@ -71,12 +71,12 @@ head(de_genes)
 
 ``` output
                 p_val avg_log2FC pct.1 pct.2     p_val_adj cluster    gene
-MT-CO1  7.105768e-163  0.3732786 1.000 1.000 1.278754e-158  Layer3  MT-CO1
-ENC1    1.654660e-142  0.8693181 0.998 0.929 2.977725e-138  Layer3    ENC1
-MT-ATP6 6.825005e-127  0.3333658 1.000 1.000 1.228228e-122  Layer3 MT-ATP6
-MT-CYB  8.895560e-118  0.3290618 1.000 1.000 1.600845e-113  Layer3  MT-CYB
-MT-CO2  3.349139e-116  0.2869993 1.000 1.000 6.027110e-112  Layer3  MT-CO2
-MT-CO3  5.357942e-105  0.2766345 1.000 1.000 9.642152e-101  Layer3  MT-CO3
+MT-CO1  7.490920e-163  0.3732349 1.000  1.00 1.348066e-158  Layer3  MT-CO1
+ENC1    1.306480e-142  0.8693104 0.998  0.93 2.351142e-138  Layer3    ENC1
+MT-ATP6 7.395810e-127  0.3333148 1.000  1.00 1.330950e-122  Layer3 MT-ATP6
+MT-CYB  1.306736e-117  0.3288096 1.000  1.00 2.351602e-113  Layer3  MT-CYB
+MT-CO2  3.611734e-116  0.2869348 1.000  1.00 6.499677e-112  Layer3  MT-CO2
+MT-CO3  6.536277e-105  0.2765344 1.000  1.00 1.176268e-100  Layer3  MT-CO3
 ```
 
 It is not uncommon to have pathologist annotations of regions. The Visium assay 
@@ -195,6 +195,10 @@ svg <-
                                 selection.method = "moransi")
 ```
 
+``` error
+Error: 'RunMoransI' requires either Rfast2 or ape to be installed
+```
+
 `FindSpatiallyVariableFeatures` returns a Seurat object, populated with Moran's 
 I-derived results. Normally, we would use the 
 [`SpatiallyVariableFeatures`](https://satijalab.github.io/seurat-object/reference/VariableFeatures.html) 
@@ -210,24 +214,18 @@ morans_i_genes <- svg@assays[["SCT"]]@meta.features %>%
                     rownames_to_column("gene") %>%
                     arrange(desc(MoransI_observed)) %>%
                     slice_head(n = 100)
+```
+
+``` error
+Error in svg@assays: no applicable method for `@` applied to an object of class "function"
+```
+
+``` r
 head(morans_i_genes)
 ```
 
-``` output
-    gene MoransI_observed MoransI_p.value moransi.spatially.variable
-1    MBP        0.6824006    0.0009756098                       TRUE
-2   PLP1        0.6075391    0.0009756098                       TRUE
-3 MT-CO1        0.5627272    0.0009756098                       TRUE
-4   MOBP        0.5447334    0.0009756098                       TRUE
-5   GFAP        0.5407996    0.0009756098                       TRUE
-6    CNP        0.5249332    0.0009756098                       TRUE
-  moransi.spatially.variable.rank
-1                               1
-2                               2
-3                               3
-4                               4
-5                               5
-6                               6
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'morans_i_genes' not found
 ```
 
 ## Correlation of Region-specific Differentially Expressed Genes and Spatially Variable Genes
@@ -244,14 +242,45 @@ for the top 100 spatially variable genes, organized by brain region.
 ``` r
 # Merge the Moran's I values with the DE genes
 df <- merge(morans_i_genes, de_genes, all.x = TRUE, by = "gene")
-df <- subset(df, !is.na(cluster))
+```
 
+``` error
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'merge': object 'morans_i_genes' not found
+```
+
+``` r
+df <- subset(df, !is.na(cluster))
+```
+
+``` error
+Error in eval(e, x, parent.frame()): object 'cluster' not found
+```
+
+``` r
 # We will plot the -log2 pvalues. Compute this and adjust for taking 
 # log of 0.
 df$log_p_val_adj <- -log2(df$p_val_adj)
+```
+
+``` error
+Error in log2(df$p_val_adj): non-numeric argument to mathematical function
+```
+
+``` r
 df$log_p_val_adj[is.infinite(df$log_p_val_adj)] <- 
   max(df$log_p_val_adj[!is.infinite(df$log_p_val_adj)])
+```
 
+``` warning
+Warning in max(df$log_p_val_adj[!is.infinite(df$log_p_val_adj)]): no
+non-missing arguments to max; returning -Inf
+```
+
+``` error
+Error in `$<-.data.frame`(`*tmp*`, log_p_val_adj, value = numeric(0)): replacement has 0 rows, data has 56
+```
+
+``` r
 # Create a matrix whose rows are the spatially variable genes 
 # (indicated by Moran's I), whose columns are the clusters, and whose 
 # entries are the adjusted DE pvalue for the corresponding gene and cluster.
@@ -262,11 +291,24 @@ p_val_adj_matrix <- df %>%
                                    values_fill = 0) %>%
                        column_to_rownames("gene") %>%
                        as.matrix()
+```
 
+``` error
+Error in (function (cond) : error in evaluating the argument 'x' in selecting a method for function 'as.matrix': Can't select columns that don't exist.
+✖ Column `gene` doesn't exist.
+```
+
+``` r
 # Order the regions according to their spatial organization from 
 # inner to outer layers
 p_val_adj_matrix <- p_val_adj_matrix[, layer.order]
+```
 
+``` error
+Error: object 'p_val_adj_matrix' not found
+```
+
+``` r
 # Create a heatmap of the DE p-values of spatially variable genes
 Heatmap(p_val_adj_matrix,
         column_title      = "Heatmap of DE p-values of spatially variable genes",
@@ -280,7 +322,9 @@ Heatmap(p_val_adj_matrix,
         show_column_dend  = TRUE)
 ```
 
-<img src="fig/differential-expression-testing-rendered-heatmap-de-1.png" style="display: block; margin: auto;" />
+``` error
+Error: object 'p_val_adj_matrix' not found
+```
 
 The heatmap visualization reveals a key finding of our analysis: genes 
 displaying the highest Moran's I values show distinct expression patterns that 
