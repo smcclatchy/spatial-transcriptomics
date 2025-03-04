@@ -1,0 +1,323 @@
+---
+title: "Spatially Resolved Transcriptomics in Life Sciences Research"
+format: revealjs
+editor: visual
+---
+
+## Spatial transcriptomics addresses key biological questions
+
+-   Which cells are in a tissue, and how are they organized?
+-   How do cells interact within the tissue?
+-   How do different tissue structures interact molecularly?
+
+```{r nerve-muscle, fig.align='left', fig.cap='Courtesy: Dept of Histology, Jagiellonian Univ Med College, CC BY-SA 3.0 DEED'}
+library(knitr)
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/c/c3/Skeletal_muscle_-_cross_section%2C_nerve_bundle.jpg")
+```
+
+::: notes
+Spatial transcriptomics can answer important questions about tissue cell type architecture, cell-to-cell interactions, and molecular interactions between tissue components. For example, spatial transcriptomics can shed light on physical and molecular interactions between muscle and nerve fibers in skeletal muscle. Locating the positions of each of these cell types while simultaneously measuring their gene expression can answer fundamental questions of tissue biology in normal or disease states.
+:::
+
+## Spatial transcriptomics addresses a key obstacle in bulk and single-cell studies: loss of spatial information
+
+```{r delta-notch, fig.align='left', fig.cap='Fred the Oyster, CC BY-SA 3.0 DEED Public domain via Wikimedia Commons'}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/0/04/Notchccr.svg")
+```
+
+::: notes
+Knowing where a cell is located and what is in its neighborhood can tell us about signals a cell gives and receives, whether those are chemical or mechanical. Spatial transcriptomics provides information about cell location, which bulk and single-cell sequencing don't provide. This spatial knowledge then illuminates tissue function.
+:::
+
+## Two main approaches
+
+-   imaging
+-   next-generation sequencing
+
+```{r image-vs-sequence}
+knitr::include_graphics("../fig/imaging-vs-sequence-based.png")
+```
+
+::: notes
+There are bewildering number of spatial transcriptomics technologies. Essentially they fall into two main categories: those that use microscopic imaging and those that use next-generation sequencing.\
+Imaging-based methods use a pre-defined probe set and are good for hypotheses targeting specific genes. Sequencing-based methods are good for hypothesis generation and broad, unbiased measurements of all expression in a tissue sample.\
+Both receive tissue samples as input and deliver gene expression and spatial coordinates as output.
+:::
+
+## Imaging-based technologies
+
+using fluorescence in-situ hybridization (FISH)
+
+```{r fish, fig.cap='SlifertheRyeDragon, CC BY-SA 4.0 via Wikimedia Commons'}
+knitr::include_graphics("../fig/FISH_Overview.png")
+```
+
+::: notes
+Fluorescence in-situ hybridization (FISH) visualizes mRNA molecules in place in the original tissue environment. FISH uses imaging of mRNA hybridized to fluorescent probes. Probes are gene-specific, targeting mRNAs and reading them out with high specificity using microscopy.
+:::
+
+## Imaging-based technologies {visibility="hidden"}
+
+using in-situ sequencing
+
+```{r iss, fig.cap='Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon. Image created with Biorender.com. Public domain, via Wikimedia Commons CC BY-SA 4.0 DEED'}
+knitr::include_graphics("../fig/ISS_Overview.png")
+```
+
+::: notes
+In situ sequencing reverse transcribes mRNA to cDNA using rolling circle amplification within tissue sections. Probes profile one or two bases at a time using different fluorophores and the identity of the cDNA molecules revealed through fluorescence microscopy.
+:::
+
+## Strengths and weaknesses of imaging-based technologies {visibility="hidden"}
+
+| Technology         | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution | Tissue area |
+|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
+| FISH               |            \+             |              \-              |         \+         |     \-      |
+| In situ sequencing |            \-             |              \-              |         \+         |     \+      |
+
+::: notes
+Both FISH and in-situ sequencing can deliver high spatial resolution, even single-molecule resolution in single-molecule FISH. Since they target specific genes, they can only detect genes that are in the probe set. They can also be time-consuming and expensive due to microscopic imaging they require. They are best used for hypotheses targeting specific genes.
+:::
+
+## Sequencing-based technologies {visibility="hidden"}
+
+Laser capture microdissection (LCM)
+
+```{r lcm, fig.cap='Adapted from Spatial Transcriptomics Overview by SlifertheRyeDragon. Image created with Biorender.com. Public domain, via Wikimedia Commons CC BY-SA 4.0 DEED'}
+knitr::include_graphics("../fig/LCM_Overview.png")
+```
+
+::: notes
+Sequencing-based methods capture, sequence, and count mRNA using next-generation sequencing while retaining positional information. LCM-based methods employ lasers to cut a tissue slice followed by sequencing. They are useful for profiling transcriptomes as a first pass and for identifying RNA isoforms, but their blunt approach to capturing spatial expression data limits spatial resolution and requires many samples for sequencing. Since they focus on regions of interest, it is often not possible to obtain a picture of spatial expression across a whole tissue.
+:::
+
+## Sequencing-based technologies {visibility="hidden"}
+
+Microfluidics
+
+```{r dbit-seq, fig.cap='Adapted from Liu Y, Enninful A, Deng Y, & Fan R (2020). Spatial transcriptome sequencing of FFPE tissues at cellular level. Preprint. CC BY-SA 4.0 DEED'}
+knitr::include_graphics("../fig/Workflow-of-DBiT-seq-on-FFPE-samples-a-Scheme-of-DBiT-seq-on-FFPE-samples.png")
+```
+
+::: notes
+Microfluidics uses chips with multiple barcode-containing channels. The first chip is placed onto a tissue section followed by a second chip with barcoded channels perpendicular to the first. The barcodes are then ligated to each other to create an array of unique barcodes on the tissue. This “deterministic barcoding” approach is helpful to avoid diffusion of mRNA away from capture areas, though a disadvantage is that cells often sit astride multiple capture areas.
+:::
+
+## Sequencing-based tech: arrays
+
+```{r ST, fig.cap='James Chell, CC BY-SA 4.0, via Wikimedia Commons'}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/1/14/Spatial_transcriptomics_ii.png")
+```
+
+::: notes
+Array-based methods are one example of sequencing-based technologies. Arrays capture mRNAs with arrays of barcoded probes that record position. The barcode indicates the spot on the array, not the cell as in single-cell RNA. Each spot captures mRNA from adjacent cells. Once sequenced, gene expression can be mapped back onto a tissue image.
+:::
+
+## Strengths and weaknesses of sequencing-based methods {visibility="hidden"}
+
+| Technology    | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution | Tissue area |
+|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
+| LCM-based     |            \+             |              \+              |         \-         |     \-      |
+| Microfluidics |            \-             |              \+              |         \-         |     \+      |
+| Array-based   |            \-             |              \+              |         \-         |     \+      |
+
+::: notes
+Sequencing-based methods excel at transcriptome-wide profiling, however, their spatial resolution is lower than imaging-based methods.
+:::
+
+## Strengths and weaknesses of imaging- vs sequencing-based technologies
+
+| Technology       | Gene detection efficiency | Transcriptome-wide profiling | Spatial resolution | Tissue area |
+|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
+| imaging-based    |            \+             |              \-              |         \+         |     \-      |
+| sequencing-based |            \-             |              \+              |         \-         |     \+      |
+
+::: notes
+FISH and other imaging-based methods can deliver high spatial resolution, even single-molecule resolution in single-molecule FISH. They are very efficient at targeting specific genes, but can only detect genes that are in the probe set. They can also be time-consuming and expensive due to microscopic imaging they require. They are best used for hypotheses targeting specific genes. Sequencing-based methods excel at transcriptome-wide profiling, however, their spatial resolution is lower than imaging-based methods. They can efficiently profile large tissue areas.
+:::
+
+## 10X Genomics Visium
+
+```{r workflow}
+knitr::include_graphics("../fig/fresh-frozen-workflow.png")
+```
+
+::: notes
+We will use data from an array-based method, the 10X Genomics Visium platform. Tissue sections are fixed and placed on a slide with an array of spots containing capture probes. After staining, libraries are prepared and sequenced.
+:::
+
+## 10X Genomics Visium
+
+```{r slide}
+knitr::include_graphics("../fig/visium-slide.png")
+```
+
+::: notes
+Each slide has four capture areas. Captured mRNA binds to spatial barcodes indicating the spot. A unique molecular identifier (UMI) is also attached to the captured mRNA to identify duplicate molecules.
+:::
+
+## Mapping expression data back to histological image
+
+```{r comparison, fig.cap="James Chell, CC BY-SA 4.0, via Wikimedia Commons"}
+knitr::include_graphics("../fig/Spatial_transcriptomics_ii_lower_third.png")
+```
+
+::: notes
+Spatial transcriptomics combines two key modes: histological imaging and gene expression profiling. Histological imaging captures tissue morphology with standard staining protocols while expression profiling is captured by sequencing spatially barcoded cDNA. Gene expression can be mapped back onto the array of spots, and the array onto the tissue image.
+:::
+
+## Spatial data
+
+```{r data}
+knitr::include_graphics("../fig/spatial-data.png")
+```
+
+Challenge: Row and column sums
+
+What does the sum of a single row signify?\
+What does the sum of a single column signify?
+
+::: notes
+Spatial data includes a gene expression matrix like the one shown along with the x-y coordinates for each barcode or spot. For the gene expression data, what does the row sum provide? The column sum?
+:::
+
+## Solution
+
+The row sum is the total expression of one gene across all spots on the slide.
+
+```{r rowSum, eval=FALSE}
+sum('data[1, ]')
+```
+
+The column sum is the total expression of all genes for one spot on the slide.
+
+```{r colSum, eval=FALSE}
+sum('data[ , 1]')
+```
+
+## Data and study design
+
+Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex. Maynard et al, Nat Neurosci 24, 425–436 (2021)
+
+```{r brain}
+knitr::include_graphics("../fig/tissue-block-with-layers.png")
+```
+
+::: notes
+We will use data from a study published in Nature Neuroscience by Kristin Maynard and colleagues at the Lieber Institute for Brain Development. These data come from sections of the dorsolateral prefrontal cortex that contain six cortical layers plus white matter. The dorsolateral prefrontal cortex is involved in executive functions like working memory, planning, abstract reasoning, and control of emotions and behavior.
+
+The dorsolateral prefrontal cortex is implicated in some neuropsychiatric disorders such as autism and schizophrenia. The authors aimed to define gene expression within the spatial organization of the six cortical layers in neurotypical adult subjects.
+
+It is important to reflect on the fact that to access tissue from a whole human brain, someone must have died and donated their brain for scientific research. The only thing we know about the three brain donors is that they were neurotypical. We might also assume that they valued science and made sure that upon death their brains would be donated. They were supporters of science.
+:::
+
+## Data and study design
+
+```{r samples}
+knitr::include_graphics("../fig/experimental-design.png")
+```
+
+Challenge: What do you notice about the experimental design that might create issues during data analysis? Why might the authors have done the experiment this way? Is there anything that can be done about this?
+
+::: notes
+Two pairs of spatially adjacent replicates were taken from the three neurotypical donors. The second pair of replicates was taken from 300 microns posterior to the first pair of replicates. What do you notice about the experimental design?
+:::
+
+## Sometimes confounding is unavoidable
+
+-   when studies depend on donor availability
+-   if you can't predict when samples will be available
+-   when studies require intact, high-quality RNA
+
+::: notes
+Sometimes you might have to confound variables in your study due to sample availability or other factors. The key thing is to know that confounding has occurred.
+:::
+
+## Important considerations for rigorous, reproducible experiments
+
+```{r kilo}
+knitr::include_graphics("../fig/International_prototype_of_the_kilogram_aka_Le_Grand_K.png")
+```
+
+::: notes
+Good experimental design plays a critical role in obtaining reliable and meaningful results and is an essential feature of rigorous, reproducible experiments. Designed experiments aim to describe and explain the variability that is a feature of natural systems and also a natural part of every experiment we undertake. Ideally if something is measured many times, each measurement will give exactly the same result and will represent the true value. This ideal doesn’t exist in the real world, even with the international prototype kilogram shown here which served as the reference kilogram and the basis of many other standard measurement units. Official copies were provided to nations to serve as their national standard kilogram, and their prototype copies compared to the reference every 40 years. They never were equal though, even when kept under tight environmental controls. This means that a kilo of rice in Brazil is not the same as kilo in Canada, or Thailand, or Australia. No one knows why the prototype copies varied. Random error or noise in measurements is a feature of natural systems and is important for us to take into account during experiments even if we can't explain it.
+:::
+
+## Replication
+
+```{r replicates}
+knitr::include_graphics("../fig/replicates.png")
+```
+
+::: notes
+Replication aims to characterize variability in measurements, also known as random error. This doesn't mean something was done wrong - it describes the variability or noise in measurements. In addition to random error, systematic error or bias enters an experiment when measurements are consistently headed in one direction. For example, a miscalibrated scale might measure the same mouse too low every time. Technical replicates help to characterize systematic error by running the same sample through a machine multiple times. A biological replicate measures different biological samples in parallel to estimate the variation caused by the unique biology of the samples. The sample or group of samples are derived from the same biological source, such as cells, tissues, organisms, or individuals. The greater the number of biological replicates, the greater the precision (the closeness of two or more measurements to each other). Having a large enough sample size to ensure high precision is necessary to ensure reproducible results. Note that increasing the number of technical replicates will not help to characterize biological variability!
+:::
+
+## Challenge: Which kind of error?
+
+A study used to determine the effect of a drug on weight loss could have the following sources of error. Classify the following sources as either biological, systematic, or random error.\
+1). A scale is broken and provides inconsistent readings.\
+2). A scale is calibrated wrongly and consistently measures mice 1 gram heavier.\
+3). A mouse has an unusually high weight compared to its experimental group (i.e., it is an outlier).\
+4). Strong atmospheric low pressure and accompanying storms affect instrument readings, animal behavior, and indoor relative humidity.
+
+## Solution: Which kind of error?
+
+1). A scale is broken and provides inconsistent readings. *random*\
+2). A scale is calibrated wrongly and consistently measures mice 1 gram heavier. *systematic*\
+3). A mouse has an unusually high weight compared to its experimental group (i.e., it is an outlier). *biological*\
+4). Strong atmospheric low pressure and accompanying storms affect instrument readings, animal behavior, and indoor relative humidity. *random* or *systematic*; you argue which and explain why
+
+## Challenge: How many technical and biological replicates?
+
+In each scenario described below, identify how many technical and how many biological replicates are represented. What conclusions can be drawn about error in each scenario?
+
+1). One person is weighed on a scale five times.\
+2). Five people are weighed on a scale one time each.\
+3). Five people are weighed on a scale three times each.\
+4). A cell line is equally divided into four samples. Two samples receive a drug treatment, and the other two samples receive a different treatment. The response of each sample is measured three times to produce twelve total observations.
+
+## Solution: How many technical and biological replicates?
+
+1). One person is weighed on a scale five times. *1 biological sample (not replicated) with 5 technical replicates.*\
+2). Five people are weighed on a scale one time each. *5 biological replicates, 1 technical measurement (not replicated).*\
+3). Five people are weighed on a scale three times each. *5 biological replicates, 3 technical replicates each*\
+4). A cell line is equally divided into four samples. Two samples receive a drug treatment, and the other two samples receive a different treatment. The response of each sample is measured three times to produce twelve total observations. *4 biological replicates, 3 technical replicates each*
+
+## Challenge: Treatment and control samples
+
+```{r treated-and-control}
+knitr::include_graphics("../fig/treated-and-control-slides.png")
+```
+
+You plan to place samples of treated tissue on one slide and samples of controls on another slide. What will happen when it is time for data analysis? What could you have done differently?
+
+## Solution: Randomize treatment and control samples to slides
+
+::: notes
+Randomization minimizes bias, moderates random error (noise), and ensures that our comparisons between treatment groups are valid. The main purpose for randomization comes later during statistical analysis, where we compare the data we have with the data distribution we might have obtained by random chance. Randomization also accounts for or cancels out effects of “nuisance” variables like the time or day of the experiment, the investigator or technician, equipment calibration, exposure to light or ventilation in animal rooms, *the slide*, or other variables that are not being studied but that do influence the responses.
+:::
+
+## Challenge: Time points
+
+Your study requires data collection at three time points: 5, 10, and 15 weeks. At 5 weeks, run samples through Visium. Repeat this for 10- and 15-week samples.
+
+```{r timepoints}
+knitr::include_graphics("../fig/timepoints.png")
+```
+
+## Solution: Time points
+
+```{r timepoints-solution}
+knitr::include_graphics("../fig/timepoints-solution.png")
+```
+
+## Statistical power
+
+```{r power-curve}
+knitr::include_graphics("../fig/power-sample-size-plot.png")
+```
+
+::: notes
+Statistical power represents the probability of detecting a real treatment effect. Review the figure to explore the relationships between effect size, sample size, and power. What is the relationship between effect size and sample size? Between sample size and power? Notice that to detect a standardized effect size of 0.5 at 80% power, you would need a sample size of approximately 70. Larger effect sizes require much smaller sample sizes. Very small effects such as .01 never reach the 80% power threshold without enormous samples sizes in the hundreds of thousands.
+:::
