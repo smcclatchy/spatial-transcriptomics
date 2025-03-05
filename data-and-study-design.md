@@ -89,7 +89,7 @@ sum('data[ , 1]')
 :::::::::::::::::::::::::::::::::::::
 
 
-## Design and Motivation of Prefrontal Cortext Study
+## Design and Motivation of Prefrontal Cortex Study
 We will use data from a study of the human prefrontal cortex published in [Transcriptome-scale spatial gene expression in the human dorsolateral prefrontal cortex by Maynard et al, Nat Neurosci 24, 425–436 (2021).](https://doi.org/10.1038/s41593-020-00787-0) 
 This region of the brain, involved in higher-order cognition and managing thoughts and actions in conformance with 
 internal goals, is particularly amenable to spatial analyses because its structure is intimately tied to its function. Specifically, the six
