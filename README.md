@@ -4,7 +4,7 @@ Visium platform.
 
 Lesson website: https://smcclatchy.github.io/spatial-transcriptomics/ <br />
 Lesson maintainers: <br />
-Credits / acknowledgments: 
+Credits / acknowledgments: Sue McClatchy, Dan Gatti, Antonios Somarakis, Brian White, Elaheh Alizadeh, Gary Churchill 
 
 [citation]: https://smcclatchy.github.io/spatial-transcriptomics/CITATION.cff
 [workbench]: https://carpentries.github.io/sandpaper-docs/
