@@ -182,8 +182,14 @@ st_obj <- SCTransform(st_obj,
 Running SCTransform on assay: Spatial
 ```
 
-``` output
-Running SCTransform on layer: counts
+``` warning
+Warning: The `slot` argument of `GetAssayData()` is deprecated as of SeuratObject 5.0.0.
+ℹ Please use the `layer` argument instead.
+ℹ The deprecated feature was likely used in the Seurat package.
+  Please report the issue at <https://github.com/satijalab/seurat/issues>.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.
 ```
 
 ``` output
@@ -198,6 +204,10 @@ install.packages('BiocManager')
 BiocManager::install('glmGamPoi')
 --------------------------------------------
 Falling back to native (slower) implementation.
+```
+
+``` output
+Calculating cell attributes from input UMI matrix: log_umi
 ```
 
 ``` output
@@ -219,6 +229,9 @@ Using 2000 genes, 4992 cells
 ``` warning
 Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
 control$trace > : iteration limit reached
+```
+
+``` warning
 Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
 control$trace > : iteration limit reached
 Warning in theta.ml(Y, mu, sum(w), w, limit = control$maxit, trace =
@@ -1462,7 +1475,7 @@ Calculating gene attributes
 ```
 
 ``` output
-Wall clock passed: Time difference of 5.125141 mins
+Wall clock passed: Time difference of 5.125769 mins
 ```
 
 ``` output
@@ -1471,6 +1484,20 @@ Determine variable features
 
 ``` output
 Centering data matrix
+```
+
+``` output
+Place corrected count matrix in counts slot
+```
+
+``` warning
+Warning: The `slot` argument of `SetAssayData()` is deprecated as of SeuratObject 5.0.0.
+ℹ Please use the `layer` argument instead.
+ℹ The deprecated feature was likely used in the Seurat package.
+  Please report the issue at <https://github.com/satijalab/seurat/issues>.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.
 ```
 
 ``` output
