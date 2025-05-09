@@ -893,7 +893,8 @@ sample, indicating that batch effects are not a significant concern.</p>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"PCA Plot Annotated by Layer (Shapes)"</span><span class="op">)</span></span>
 <span><span class="va">PCAPlot_layer_symbol</span></span></code></pre>
 </div>
-<p><img src="../fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" class="figure"><img src="../fig/de_pca.png" alt="" class="figure"></p>
+<p><img src="../fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" class="figure">
+#<img src="../fig/de_pca.png" alt="" class="figure"></p>
 <p>The PCA plot indeed shows that the dots are clustered by layer rather
 than by sample, validating that the layers are the primary source of
 variation, rather than differences between samples from different
@@ -929,7 +930,6 @@ structure.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># Approach 1:  SCT merging</span></span>
-<span></span>
 <span><span class="co"># Each sample is normalised with SCTransform separately, then merged. This serves as a baseline without explicit batch correction.</span></span>
 <span></span>
 <span><span class="va">st_objects_sct</span> <span class="op">&lt;-</span> <span class="fu">lapply</span><span class="op">(</span><span class="va">st_objects</span>, <span class="kw">function</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1039,22 +1039,6 @@ and visualized the results using a boxplot.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compare ARI Scores Across Approaches</span></span>
-<span><span class="fu">list</span><span class="op">(</span></span>
-<span>  <span class="st">"1_SCTMerge"</span>       <span class="op">=</span> <span class="va">ari_value_1</span>,</span>
-<span>  <span class="st">"2_SCTIntegration"</span> <span class="op">=</span> <span class="va">ari_value_2</span>,</span>
-<span>  <span class="st">"3_SCTHarmony"</span>     <span class="op">=</span> <span class="va">ari_value_3</span></span>
-<span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error: object 'ari_value_1' not found</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb41">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resolutions</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.15</span>,<span class="fl">0.2</span>,<span class="fl">0.25</span>,<span class="fl">0.3</span>,<span class="fl">0.35</span>,<span class="fl">0.4</span><span class="op">)</span></span>
 <span><span class="va">ari1</span> <span class="op">&lt;-</span> <span class="fu">numeric</span><span class="op">(</span><span class="fu">length</span><span class="op">(</span><span class="va">resolutions</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ari2</span> <span class="op">&lt;-</span> <span class="fu">numeric</span><span class="op">(</span><span class="fu">length</span><span class="op">(</span><span class="va">resolutions</span><span class="op">)</span><span class="op">)</span></span>
@@ -1070,18 +1054,9 @@ and visualized the results using a boxplot.</p>
 <span>    <span class="va">merged_obj3</span> <span class="op">&lt;-</span> <span class="fu">FindClusters</span><span class="op">(</span><span class="va">merged_obj3</span>, resolution <span class="op">=</span> <span class="va">i</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="va">ari3</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">adjustedRandIndex</span><span class="op">(</span><span class="va">merged_obj3</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">seurat_clusters</span>, </span>
 <span>                                     <span class="va">merged_obj3</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">layer_guess</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in adjustedRandIndex(merged_obj1@meta.data$seurat_clusters, y = merged_obj1@meta.data$layer_guess): could not find function "adjustedRandIndex"</code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb43">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Save box plot</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Save box plot</span></span>
 <span><span class="fu">png</span><span class="op">(</span><span class="fu">file.path</span><span class="op">(</span><span class="fu">getwd</span><span class="op">(</span><span class="op">)</span>, <span class="st">"ARI_boxplot.png"</span><span class="op">)</span>, </span>
 <span>    width <span class="op">=</span> <span class="fl">2000</span>, height <span class="op">=</span> <span class="fl">1600</span>, res <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
 <span><span class="fu">par</span><span class="op">(</span>mar <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">4.5</span>, <span class="fl">4.5</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Adjust margins</span></span>
@@ -1094,8 +1069,8 @@ and visualized the results using a boxplot.</p>
 <span>              cex.axis <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>              las <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
-<figure><img src="../fig/boxplot_ari.png" class="figure mx-auto d-block"><div class="figcaption">ARI per integration method</div>
-</figure><p>The boxplot shows minimal differences in ARI across the three
+<p>#<img src="../fig/boxplot_ari.png" alt="" class="figure"></p>
+<p>The boxplot shows minimal differences in ARI across the three
 integration methods, suggesting that batch effects were negligible. This
 aligns with the earlier PCA plot, where clustering was driven by layer
 annotations rather than sample identity.</p>
@@ -1124,7 +1099,7 @@ structure and function. By comparing the gene expression in White Matter
 to that in all other layers, we aim to identify genes that are uniquely
 or predominantly expressed in White Matter and associated with its
 functions or pathologies</p>
-<div class="codewrapper sourceCode" id="cb44">
+<div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1177,7 +1152,7 @@ functions or pathologies</p>
 <pre class="output" tabindex="0"><code>[1] "Intercept"               "layer_WM_vs_others"
 [3] "sample_151669_vs_151508" "sample_151673_vs_151508"</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb46">
+<div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1199,7 +1174,7 @@ MOG      422.622        2.94064  0.357036   8.23624 1.77704e-16 5.64789e-13
 MYRF     318.623        2.72961  0.338574   8.06208 7.50046e-16 1.90707e-12
 NKX6-2   325.542        2.91717  0.368060   7.92579 2.26698e-15 4.80335e-12</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb48">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1208,7 +1183,7 @@ NKX6-2   325.542        2.91717  0.368060   7.92579 2.26698e-15 4.80335e-12</cod
 <figure><img src="../fig/de_genes.PNG" alt="Genes with the lowest adjusted p-values from differential expression analysis with DESeq2" class="figure mx-auto d-block"><div class="figcaption">Visium spatial gene expression slide</div>
 </figure><p>We have selected to plot spatially the differentially expressed genes
 with the highest mean values, namely “MBP” and “MOBP”</p>
-<div class="codewrapper sourceCode" id="cb49">
+<div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
