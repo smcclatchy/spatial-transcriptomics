@@ -464,8 +464,171 @@ PCAPlot_layer_symbol
 
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
-If the dots were instead clustered by sample rather than by layer, it would indicate the presence of batch effects.
-In bulk or single-cell RNA-seq studies, batch effects would typically be mitigated by applying regression-based tools such as [`Harmony`](https://portals.broadinstitute.org/harmony/articles/quickstart.html) or by incorporating a batch factor in a linear modeling framework (*e.g.*, of DESeq2). Those approaches could be applied to spatial transcriptomics data, as well.
+To examine potential batch effects more rigorously, we extended our analysis beyond PCA visualization and conducted a second-level assessment by comparing a simple merge approach with two widely used batch correction algorithms: anchor-based integration and Hamrony. 
+The anchor-based strategy merges datasets at the expression level, effectively aligning similar cell populations across batches.
+In contrast, Harmony performs batch correction on low-dimensional embeddings (e.g., PCA), which can be computationally efficient while maintaining the global structure of the data.
+
+This comparative analysis will allow us to evaluate how well each method mitigates sample-specific variation while preserving biological structure.
+
+
+``` r
+# Set analysis parameters
+n_features   <- 3000
+s_resolution1 <- 0.3
+s_resolution2 <- 0.2
+s_resolution3 <- 0.1
+n_pcs        <- 100
+
+# First, we annotate each dataset with a specific sample id
+for (nm in names(st_objects)) {
+  obj <- st_objects[[nm]]
+  sample_tag <- rep(nm, ncol(obj))
+  st_objects[[nm]] <- AddMetaData(obj, metadata = sample_tag, col.name = "sample_id")
+}
+
+# Approach 1:  SCT merging
+
+# Each sample is normalised with SCTransform separately, then merged. This serves as a baseline without explicit batch correction.
+
+st_objects_sct <- lapply(st_objects, function(obj) {
+  SCTransform(
+    obj,
+    assay               = "Spatial",
+    new.assay.name      = "SCT",
+    method              = "glmGamPoi",
+    return.only.var.genes = FALSE,
+    verbose             = FALSE
+  )
+})
+
+# Merge individually normalised objects
+merged_obj1 <- merge(st_objects_sct[[1]],st_objects_sct[-1])
+names(merged_obj1@images) <- names(st_objects_sct)
+
+DefaultAssay(merged_obj1) <- "SCT"
+
+# Use union of variable features
+var_feats_union <- unique(unlist(lapply(st_objects_sct, VariableFeatures)))
+VariableFeatures(merged_obj1) <- var_feats_union
+
+# Perform PCA and neighbors calculation
+merged_obj1 <- RunPCA(merged_obj1, npcs = n_pcs, verbose = FALSE)
+merged_obj1 <- FindNeighbors(merged_obj1, dims = 1:n_pcs, verbose = FALSE)
+
+# Approach 2: SCT Anchor Integration
+# Seurat's anchor-based integration aligns gene expression across datasets.
+
+# Ensure SCT is the default assay
+for (i in seq_along(st_objects_sct)) {
+  DefaultAssay(st_objects_sct[[i]]) <- "SCT"
+}
+
+# Select integration features
+features_2 <- SelectIntegrationFeatures(st_objects_sct, nfeatures = n_features)
+processed_seurat_list <- PrepSCTIntegration(st_objects_sct, anchor.features = features_2)
+
+# Identify integration anchors
+anchors2 <- FindIntegrationAnchors(
+  object.list          = processed_seurat_list,
+  normalization.method = "SCT",
+  anchor.features      = features_2
+)
+
+# Create the integrated object
+integrated_obj2 <- IntegrateData(anchorset = anchors2, normalization.method = "SCT")
+```
+
+``` output
+[1] 1
+```
+
+``` output
+[1] 2
+```
+
+``` output
+[1] 3
+```
+
+``` r
+DefaultAssay(integrated_obj2) <- "integrated"
+
+# Perform PCA and neighbors calculation
+integrated_obj2 <- RunPCA(integrated_obj2, npcs = n_pcs, verbose = FALSE)
+integrated_obj2 <- FindNeighbors(integrated_obj2, dims = 1:n_pcs, verbose = FALSE)
+
+# Approach 3: SCT Harmony Integration
+# Harmony corrects batch effects in PCA space, making it computationally efficient.
+
+# Use PCA embeddings from merged SCTransformed object for creating hamrony object
+merged_obj3 <- RunHarmony(
+  object         = merged_obj1,
+  group.by.vars  = "sample_id",  # Correct for sample-specific effects
+  reduction.use  = "pca",
+  reduction.save = "harmony"
+)
+
+# Calculate neighbors, in this approach PCA is not needed as harmony is an "modified" version of PCA to mitigate batch effects
+merged_obj3 <- FindNeighbors(merged_obj3, reduction = "harmony", dims = 1:n_pcs, verbose = FALSE)
+```
+After computing the three different integration strategies—simple SCT merge, anchor-based integration, and Harmony-based integration—we aimed to evaluate their effectiveness in preserving biological structure while mitigating batch effects. In our case, this evaluation was performed by comparing the clustering results from each approach to the expert-provided layer annotations using the Adjusted Rand Index (ARI). ARI quantifies the similarity between computed clusters and expert-defined brain layers, with higher values indicating better alignment.
+
+Since the clustering of Visium spots depends on the selected resolution parameter, the ARI values can vary across different resolutions. Some methods may perform better at lower resolutions, capturing broad anatomical patterns, while others excel at higher resolutions by resolving finer substructures. To compare the consistency and overall effectiveness of each integration approach, we computed ARI scores across a range of clustering resolutions for all three approaches and visualized the results using a boxplot.
+
+
+``` r
+# Compare ARI Scores Across Approaches
+list(
+  "1_SCTMerge"       = ari_value_1,
+  "2_SCTIntegration" = ari_value_2,
+  "3_SCTHarmony"     = ari_value_3
+)
+```
+
+``` error
+Error: object 'ari_value_1' not found
+```
+
+``` r
+resolutions <- c(0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4)
+ari1 <- numeric(length(resolutions))
+ari2 <- numeric(length(resolutions))
+ari3 <- numeric(length(resolutions))
+
+# Run analysis per unique resolution
+for(i in seq_along(resolutions)){
+      merged_obj1 <- FindClusters(merged_obj1, resolution = i, verbose = FALSE)
+    ari1[i] <- adjustedRandIndex(merged_obj1@meta.data$seurat_clusters, y =                 merged_obj1@meta.data$layer_guess)
+    integrated_obj2 <- FindClusters(integrated_obj2, resolution = i, verbose = FALSE)
+    ari2[i] <- adjustedRandIndex(integrated_obj2@meta.data$seurat_clusters, 
+                                     integrated_obj2@meta.data$layer_guess)
+    merged_obj3 <- FindClusters(merged_obj3, resolution = i, verbose = FALSE)
+    ari3[i] <- adjustedRandIndex(merged_obj3@meta.data$seurat_clusters, 
+                                     merged_obj3@meta.data$layer_guess)
+}
+```
+
+``` error
+Error in adjustedRandIndex(merged_obj1@meta.data$seurat_clusters, y = merged_obj1@meta.data$layer_guess): could not find function "adjustedRandIndex"
+```
+
+``` r
+# Save box plot
+png(file.path(getwd(), "ARI_boxplot.png"), 
+    width = 2000, height = 1600, res = 300)
+par(mar = c(4.5, 4.5, 2, 1))  # Adjust margins
+
+bp <- boxplot(list(Merge=ari1, Integrate=ari2, Harmony=ari3),
+              col = viridis::viridis(3),
+              main = "ARI Distribution Across Resolutions",
+              ylab = "Adjusted Rand Index",
+              xlab = "Clustering Method",
+              cex.axis = 0.8,
+              las = 1)
+```
+![ARI per integration method](fig/boxplot_ari.png){alt=''}
+
+The boxplot shows minimal differences in ARI across the three integration methods, suggesting that batch effects were negligible. This aligns with the earlier PCA plot, where clustering was driven by layer annotations rather than sample identity.
 
 ### Pseudobulk Analysis with DESeq2
 
