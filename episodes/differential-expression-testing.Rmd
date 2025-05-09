@@ -31,6 +31,7 @@ suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(patchwork))
 suppressPackageStartupMessages(library(DESeq2))
 suppressPackageStartupMessages(library(harmony))
+suppressPackageStartupMessages(library(mclust))
 
 source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
@@ -366,7 +367,7 @@ PCAPlot_layer_symbol <- DimPlot(merged_pseudobulk, reduction = "pca", shape.by =
   ggtitle("PCA Plot Annotated by Layer (Shapes)")
 PCAPlot_layer_symbol
 ```
-![PCA of samples per layer](fig/de_pca.png){alt=''}
+#![PCA of samples per layer](fig/de_pca.png){alt=''}
 
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
@@ -376,7 +377,7 @@ In contrast, Harmony performs batch correction on low-dimensional embeddings (e.
 
 This comparative analysis will allow us to evaluate how well each method mitigates sample-specific variation while preserving biological structure.
 
-```{r batch-correction-analysis_second_step,warning=FALSE,message=FALSE}
+```{r batch-correction-analysis-second-step,warning=FALSE,message=FALSE}
 # Set analysis parameters
 n_features   <- 3000
 s_resolution1 <- 0.3
@@ -392,7 +393,6 @@ for (nm in names(st_objects)) {
 }
 
 # Approach 1:  SCT merging
-
 # Each sample is normalised with SCTransform separately, then merged. This serves as a baseline without explicit batch correction.
 
 st_objects_sct <- lapply(st_objects, function(obj) {
@@ -466,13 +466,6 @@ After computing the three different integration strategies—simple SCT merge, a
 Since the clustering of Visium spots depends on the selected resolution parameter, the ARI values can vary across different resolutions. Some methods may perform better at lower resolutions, capturing broad anatomical patterns, while others excel at higher resolutions by resolving finer substructures. To compare the consistency and overall effectiveness of each integration approach, we computed ARI scores across a range of clustering resolutions for all three approaches and visualized the results using a boxplot.
 
 ```{r ari-index calculation,warning=FALSE,message=FALSE}
-# Compare ARI Scores Across Approaches
-list(
-  "1_SCTMerge"       = ari_value_1,
-  "2_SCTIntegration" = ari_value_2,
-  "3_SCTHarmony"     = ari_value_3
-)
-
 resolutions <- c(0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4)
 ari1 <- numeric(length(resolutions))
 ari2 <- numeric(length(resolutions))
@@ -503,7 +496,7 @@ bp <- boxplot(list(Merge=ari1, Integrate=ari2, Harmony=ari3),
               cex.axis = 0.8,
               las = 1)
 ```
-![ARI per integration method](fig/boxplot_ari.png){alt=''}
+#![ARI per integration method](fig/boxplot_ari.png){alt=''}
 
 The boxplot shows minimal differences in ARI across the three integration methods, suggesting that batch effects were negligible. This aligns with the earlier PCA plot, where clustering was driven by layer annotations rather than sample identity.
 
