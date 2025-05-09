@@ -460,7 +460,7 @@ PCAPlot_layer_symbol
 ```
 
 <img src="fig/differential-expression-testing-rendered-pca_results-1.png" style="display: block; margin: auto;" />
-![PCA of samples per layer](fig/de_pca.png){alt=''}
+#![PCA of samples per layer](fig/de_pca.png){alt=''}
 
 The PCA plot indeed shows that the dots are clustered by layer rather than by sample, validating that the layers are the primary source of variation, rather than differences between samples from different subjects.
 
@@ -487,7 +487,6 @@ for (nm in names(st_objects)) {
 }
 
 # Approach 1:  SCT merging
-
 # Each sample is normalised with SCTransform separately, then merged. This serves as a baseline without explicit batch correction.
 
 st_objects_sct <- lapply(st_objects, function(obj) {
@@ -577,19 +576,6 @@ Since the clustering of Visium spots depends on the selected resolution paramete
 
 
 ``` r
-# Compare ARI Scores Across Approaches
-list(
-  "1_SCTMerge"       = ari_value_1,
-  "2_SCTIntegration" = ari_value_2,
-  "3_SCTHarmony"     = ari_value_3
-)
-```
-
-``` error
-Error: object 'ari_value_1' not found
-```
-
-``` r
 resolutions <- c(0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4)
 ari1 <- numeric(length(resolutions))
 ari2 <- numeric(length(resolutions))
@@ -606,13 +592,7 @@ for(i in seq_along(resolutions)){
     ari3[i] <- adjustedRandIndex(merged_obj3@meta.data$seurat_clusters, 
                                      merged_obj3@meta.data$layer_guess)
 }
-```
 
-``` error
-Error in adjustedRandIndex(merged_obj1@meta.data$seurat_clusters, y = merged_obj1@meta.data$layer_guess): could not find function "adjustedRandIndex"
-```
-
-``` r
 # Save box plot
 png(file.path(getwd(), "ARI_boxplot.png"), 
     width = 2000, height = 1600, res = 300)
@@ -626,7 +606,7 @@ bp <- boxplot(list(Merge=ari1, Integrate=ari2, Harmony=ari3),
               cex.axis = 0.8,
               las = 1)
 ```
-![ARI per integration method](fig/boxplot_ari.png){alt=''}
+#![ARI per integration method](fig/boxplot_ari.png){alt=''}
 
 The boxplot shows minimal differences in ARI across the three integration methods, suggesting that batch effects were negligible. This aligns with the earlier PCA plot, where clustering was driven by layer annotations rather than sample identity.
 
