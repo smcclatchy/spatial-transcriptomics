@@ -2,22 +2,17 @@
 title: Setup
 ---
 For this lesson, you will be working in the R programming language and the 
-RStudio development environment. You will be installing this software on your 
-laptop and downloading the data set. Installing software and downloading data 
-may take 2-3 hours. Please take care of this before the workshop so that you are 
-able to participate at the start of the course.
+RStudio development environment.
 
 ## Software Setup
 
 ### R
 
-Please download and install [R version 4.4.0 (Puppy Cup)](https://cran.r-project.org/).
+Please download and install [the latest R version](https://cran.r-project.org/).
 To interact with R, we use [RStudio](https://posit.co/download/rstudio-desktop/).
 You can also download the latest stable version of RStudio, although this is not 
-as critical as the latest R version is. If you don't have administrative rights 
-to your laptop, please ask the IT help desk to install software for you. Once 
-you have installed R and RStudio, open RStudio to verify that the installation 
-was successful.
+as critical as the latest R version is. Once you have installed R and RStudio, 
+open RStudio to verify that the installation was successful.
 
 ### R Package Installation
 
