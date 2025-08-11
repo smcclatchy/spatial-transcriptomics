@@ -28,7 +28,7 @@ suppressPackageStartupMessages(library(sparseMatrixStats))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(rcartocolor))
 
-source("../code/spatial_utils.R")
+source("/code/spatial_utils.R")
 
 filter_st <- load_seurat_object(file_prefix = 'removelqspots')
 
