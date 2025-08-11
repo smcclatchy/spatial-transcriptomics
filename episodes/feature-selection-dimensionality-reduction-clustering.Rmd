@@ -43,7 +43,7 @@ suppressPackageStartupMessages(library(rcartocolor))
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 
-source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
+source("../code/spatial_utils.R")
 
 sct_st <- load_seurat_object(file_prefix = 'applynorm')
 DefaultAssay(sct_st) <- "SCT"
