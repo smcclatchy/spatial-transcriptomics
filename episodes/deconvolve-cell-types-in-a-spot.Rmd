@@ -29,7 +29,7 @@ suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(data.table))
 suppressPackageStartupMessages(library(rcartocolor))
 
-source("../code/spatial_utils.R")
+source("https://raw.githubusercontent.com/smcclatchy/spatial-transcriptomics/main/code/spatial_utils.R")
 
 sct_st <- load_seurat_object(file_prefix = 'featselclust')
 DefaultAssay(sct_st) <- "SCT"
